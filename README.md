@@ -36,7 +36,7 @@
 
 3. Verify CA Bundle: 
   
-  $ openssl verify -CAfile gdroot-g2.cer gdig2.crt MVS_OLV_TEST_2026.cer
+  $ openssl verify -CAfile gdroot-g2.cer -untrusted gdig2.crt MVS_OLV_TEST_2026.cer
    
  -> Output: 
    
