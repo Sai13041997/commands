@@ -1,0 +1,23 @@
+
+Content-Type
+application/json
+Connection
+keep-alive
+Date
+Thu, 04 Jun 2026 19:14:02 GMT
+x-amz-apigw-id
+ec0zKFmXIAMEWxA=
+x-amzn-RequestId
+d66d961a-1b6d-46b3-aa09-6dafa9a6bf3d
+x-amzn-ErrorType
+ForbiddenException
+X-Cache
+Error from cloudfront
+Via
+1.1 dfbe3a6f5b354f9a5f95a5a6814ce14e.cloudfront.net (CloudFront)
+X-Amz-Cf-Pop
+IAD89-P2
+X-Amz-Cf-Id
+nQGVxHbySbm1DlEoYlSrXHUPumuZo0cRjDYgNJ3mos0l584MsRr0Vw==
+Content-Length
+23
