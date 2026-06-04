@@ -731,4 +731,123 @@ Connection: Keep-Alive
 User-Agent: Apache-HttpClient/4.1.1 (java 1.5)
  
 "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <soapenv:Body>\n    <CoverageRequest xmlns=\"http://www.iicmva.com/CoverageVerification/\" PublicationVersion=\"00200809\" PublicationDate=\"2008-11-05\">\n      <RequestorInformation>\n        <Organization>\n          <Name>KentuckyIVS</Name>\n        </Organization>\n        <ReasonDetails>\n          <ReasonCode>BIVER</ReasonCode>\n          <TrackingNumber>CTTRK-150219-144041-4-31-101-85-1</TrackingNumber>\n        </ReasonDetails>\n      </RequestorInformation>\n      <Detail>\n        <PolicyInformation>\n          <OrganizationDetails>\n            <NAIC>12345</NAIC>\n          </OrganizationDetails>\n          <PolicyDetails>\n            <VerificationDate>2025-02-19T00:00:00.000</VerificationDate>\n            <PolicyKey>UNKNOWN</PolicyKey>\n            <PolicyState>KY</PolicyState>\n          </PolicyDetails>\n        </PolicyInformation>\n        <VehicleInformation>\n          <VehicleDetails>\n            <VIN>VINTEST123</VIN>\n          </VehicleDetails>\n        </VehicleInformation>\n      </Detail>\n    </CoverageRequest>\n  </soapenv:Body>\n</soapenv:Envelope>"
- 
+
+
+
+
+ Console output:
+ /soap - POST method test results
+Request
+/soap
+Latency ms
+9191
+Status
+200
+Response body
+<?xml version="1.0" encoding="utf-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Body><CoverageResponse xmlns="http://www.iicmva.com/CoverageVerification/"><Detail><PolicyInformation><CoverageStatus><ResponseDetails><ResponseCode>UNCONFIRMED</ResponseCode><UnconfirmedReasonCode></UnconfirmedReasonCode></ResponseDetails></CoverageStatus><OrganizationDetails><NAIC>12345</NAIC></OrganizationDetails><PolicyDetails><VerificationDate>2026-06-01</VerificationDate><PolicyKey>UNKNOWN</PolicyKey><PolicyState>KY</PolicyState></PolicyDetails></PolicyInformation></Detail></CoverageResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+Response headers
+{
+  "Content-Type": "text/xml",
+  "X-Amzn-Trace-Id": "Root=1-6a21ca8f-2f6aa60ef9e13ef2c028fd80;Parent=77a7ecb736e595b0;Sampled=0;Lineage=1:81523d6a:0"
+}
+Logs
+Execution log for request f4d28693-2484-4ac7-9f2d-24547e1ea2f3
+Thu Jun 04 18:57:19 UTC 2026 : Starting execution for request: f4d28693-2484-4ac7-9f2d-24547e1ea2f3
+Thu Jun 04 18:57:19 UTC 2026 : HTTP Method: POST, Resource Path: /soap
+Thu Jun 04 18:57:19 UTC 2026 : Method request path: {}
+Thu Jun 04 18:57:19 UTC 2026 : Method request query string: {}
+Thu Jun 04 18:57:19 UTC 2026 : Method request headers: {}
+Thu Jun 04 18:57:19 UTC 2026 : Method request body before transformations: <Envelope>
+  <Body>
+    <CoverageRequest>
+      <Detail>
+        <VehicleInformation>
+          <VehicleDetails>
+            <VIN>123456</VIN>
+          </VehicleDetails>
+        </VehicleInformation>
+        <PolicyInformation>
+          <PolicyDetails>
+            <VerificationDate>2026-06-01</VerificationDate>
+            <PolicyKey>ABC123</PolicyKey>
+          </PolicyDetails>
+        </PolicyInformation>
+      </Detail>
+      <RequestorInformation>
+        <ReasonDetails>
+          <TrackingNumber>track123</TrackingNumber>
+        </ReasonDetails>
+      </RequestorInformation>
+    </CoverageRequest>
+  </Body>
+</Envelope>
+Thu Jun 04 18:57:19 UTC 2026 : Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
+Thu Jun 04 18:57:19 UTC 2026 : Endpoint request headers: {X-Amz-Date=20260604T185719Z, x-amzn-apigateway-api-id=q51dqcsrw5, Accept=application/json, User-Agent=AmazonAPIGateway_q51dqcsrw5, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=f3fb4b26f88cb09bb1863aeadc0ef17537a97982e15590aae17ff185619ea318, X-Amzn-Trace-Id=Root=1-6a21ca8f-2f6aa60ef9e13ef2c028fd80, x-amzn-lambda-integration-tag=f4d28693-2484-4ac7-9f2d-24547e1ea2f3, Authorization=*********************************************************************************************************************************************************************************************************************************************************************************************************************************************33df74, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:058264370150:q51dqcsrw5/test-invoke-stage/POST/soap, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJP//////////wEaCXVzLWVhc3QtMSJGMEQCICuPKhy+nPbMmXTCBadMxHH6B8Vd1cgdaW6CpTVdOHenAiA9lIkEikG/SgfHSFZelwkwdfSiDGiBzLMBfbwJ1jHM [TRUNCATED]
+Thu Jun 04 18:57:19 UTC 2026 : Endpoint request body after transformations: {"resource":"/soap","path":"/soap","httpMethod":"POST","headers":null,"multiValueHeaders":null,"queryStringParameters":null,"multiValueQueryStringParameters":null,"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"lknkms","resourcePath":"/soap","httpMethod":"POST","extendedRequestId":"ecyWgGOgoAMFtVA=","requestTime":"04/Jun/2026:18:57:19 +0000","path":"/soap","accountId":"058264370150","protocol":"HTTP/1.1","stage":"test-invoke-stage","domainPrefix":"testPrefix","requestTimeEpoch":1780599439679,"requestId":"f4d28693-2484-4ac7-9f2d-24547e1ea2f3","identity":{"cognitoIdentityPoolId":null,"cognitoIdentityId":null,"apiKey":"test-invoke-api-key","principalOrgId":null,"cognitoAuthenticationType":null,"userArn":"arn:aws:sts::058264370150:assumed-role/AWSReservedSSO_Cloud-Ops-Admin_715e8133d1c66ed2/T012SP@kyfb.com","apiKeyId":"test-invoke-api-key-id","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome [TRUNCATED]
+Thu Jun 04 18:57:19 UTC 2026 : Sending request to https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
+Thu Jun 04 18:57:28 UTC 2026 : Received response. Status: 200, Integration latency: 9188 ms
+Thu Jun 04 18:57:28 UTC 2026 : Endpoint response headers: {Date=Thu, 04 Jun 2026 18:57:28 GMT, Content-Type=application/json, Content-Length=850, Connection=keep-alive, x-amzn-RequestId=8dd529ed-2a2f-4399-b660-4f4505c053be, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=Root=1-6a21ca8f-2f6aa60ef9e13ef2c028fd80;Parent=77a7ecb736e595b0;Sampled=0;Lineage=1:81523d6a:0}
+Thu Jun 04 18:57:28 UTC 2026 : Endpoint response body before transformations: {"statusCode": 200, "headers": {"Content-Type": "text/xml"}, "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><SOAP-ENV:Body><CoverageResponse xmlns=\"http://www.iicmva.com/CoverageVerification/\"><Detail><PolicyInformation><CoverageStatus><ResponseDetails><ResponseCode>UNCONFIRMED</ResponseCode><UnconfirmedReasonCode></UnconfirmedReasonCode></ResponseDetails></CoverageStatus><OrganizationDetails><NAIC>12345</NAIC></OrganizationDetails><PolicyDetails><VerificationDate>2026-06-01</VerificationDate><PolicyKey>UNKNOWN</PolicyKey><PolicyState>KY</PolicyState></PolicyDetails></PolicyInformation></Detail></CoverageResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>"}
+Thu Jun 04 18:57:28 UTC 2026 : Method response body after transformations: <?xml version="1.0" encoding="utf-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Body><CoverageResponse xmlns="http://www.iicmva.com/CoverageVerification/"><Detail><PolicyInformation><CoverageStatus><ResponseDetails><ResponseCode>UNCONFIRMED</ResponseCode><UnconfirmedReasonCode></UnconfirmedReasonCode></ResponseDetails></CoverageStatus><OrganizationDetails><NAIC>12345</NAIC></OrganizationDetails><PolicyDetails><VerificationDate>2026-06-01</VerificationDate><PolicyKey>UNKNOWN</PolicyKey><PolicyState>KY</PolicyState></PolicyDetails></PolicyInformation></Detail></CoverageResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+Thu Jun 04 18:57:28 UTC 2026 : Method response headers: {Content-Type=text/xml, X-Amzn-Trace-Id=Root=1-6a21ca8f-2f6aa60ef9e13ef2c028fd80;Parent=77a7ecb736e595b0;Sampled=0;Lineage=1:81523d6a:0}
+Thu Jun 04 18:57:28 UTC 2026 : Successfully completed execution
+Thu Jun 04 18:57:28 UTC 2026 : Method completed with status: 200/soap - POST method test results
+Request
+/soap
+Latency ms
+9191
+Status
+200
+Response body
+<?xml version="1.0" encoding="utf-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Body><CoverageResponse xmlns="http://www.iicmva.com/CoverageVerification/"><Detail><PolicyInformation><CoverageStatus><ResponseDetails><ResponseCode>UNCONFIRMED</ResponseCode><UnconfirmedReasonCode></UnconfirmedReasonCode></ResponseDetails></CoverageStatus><OrganizationDetails><NAIC>12345</NAIC></OrganizationDetails><PolicyDetails><VerificationDate>2026-06-01</VerificationDate><PolicyKey>UNKNOWN</PolicyKey><PolicyState>KY</PolicyState></PolicyDetails></PolicyInformation></Detail></CoverageResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+Response headers
+{
+  "Content-Type": "text/xml",
+  "X-Amzn-Trace-Id": "Root=1-6a21ca8f-2f6aa60ef9e13ef2c028fd80;Parent=77a7ecb736e595b0;Sampled=0;Lineage=1:81523d6a:0"
+}
+Logs
+Execution log for request f4d28693-2484-4ac7-9f2d-24547e1ea2f3
+Thu Jun 04 18:57:19 UTC 2026 : Starting execution for request: f4d28693-2484-4ac7-9f2d-24547e1ea2f3
+Thu Jun 04 18:57:19 UTC 2026 : HTTP Method: POST, Resource Path: /soap
+Thu Jun 04 18:57:19 UTC 2026 : Method request path: {}
+Thu Jun 04 18:57:19 UTC 2026 : Method request query string: {}
+Thu Jun 04 18:57:19 UTC 2026 : Method request headers: {}
+Thu Jun 04 18:57:19 UTC 2026 : Method request body before transformations: <Envelope>
+  <Body>
+    <CoverageRequest>
+      <Detail>
+        <VehicleInformation>
+          <VehicleDetails>
+            <VIN>123456</VIN>
+          </VehicleDetails>
+        </VehicleInformation>
+        <PolicyInformation>
+          <PolicyDetails>
+            <VerificationDate>2026-06-01</VerificationDate>
+            <PolicyKey>ABC123</PolicyKey>
+          </PolicyDetails>
+        </PolicyInformation>
+      </Detail>
+      <RequestorInformation>
+        <ReasonDetails>
+          <TrackingNumber>track123</TrackingNumber>
+        </ReasonDetails>
+      </RequestorInformation>
+    </CoverageRequest>
+  </Body>
+</Envelope>
+Thu Jun 04 18:57:19 UTC 2026 : Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
+Thu Jun 04 18:57:19 UTC 2026 : Endpoint request headers: {X-Amz-Date=20260604T185719Z, x-amzn-apigateway-api-id=q51dqcsrw5, Accept=application/json, User-Agent=AmazonAPIGateway_q51dqcsrw5, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=f3fb4b26f88cb09bb1863aeadc0ef17537a97982e15590aae17ff185619ea318, X-Amzn-Trace-Id=Root=1-6a21ca8f-2f6aa60ef9e13ef2c028fd80, x-amzn-lambda-integration-tag=f4d28693-2484-4ac7-9f2d-24547e1ea2f3, Authorization=*********************************************************************************************************************************************************************************************************************************************************************************************************************************************33df74, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:058264370150:q51dqcsrw5/test-invoke-stage/POST/soap, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJP//////////wEaCXVzLWVhc3QtMSJGMEQCICuPKhy+nPbMmXTCBadMxHH6B8Vd1cgdaW6CpTVdOHenAiA9lIkEikG/SgfHSFZelwkwdfSiDGiBzLMBfbwJ1jHM [TRUNCATED]
+Thu Jun 04 18:57:19 UTC 2026 : Endpoint request body after transformations: {"resource":"/soap","path":"/soap","httpMethod":"POST","headers":null,"multiValueHeaders":null,"queryStringParameters":null,"multiValueQueryStringParameters":null,"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"lknkms","resourcePath":"/soap","httpMethod":"POST","extendedRequestId":"ecyWgGOgoAMFtVA=","requestTime":"04/Jun/2026:18:57:19 +0000","path":"/soap","accountId":"058264370150","protocol":"HTTP/1.1","stage":"test-invoke-stage","domainPrefix":"testPrefix","requestTimeEpoch":1780599439679,"requestId":"f4d28693-2484-4ac7-9f2d-24547e1ea2f3","identity":{"cognitoIdentityPoolId":null,"cognitoIdentityId":null,"apiKey":"test-invoke-api-key","principalOrgId":null,"cognitoAuthenticationType":null,"userArn":"arn:aws:sts::058264370150:assumed-role/AWSReservedSSO_Cloud-Ops-Admin_715e8133d1c66ed2/T012SP@kyfb.com","apiKeyId":"test-invoke-api-key-id","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome [TRUNCATED]
+Thu Jun 04 18:57:19 UTC 2026 : Sending request to https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
+Thu Jun 04 18:57:28 UTC 2026 : Received response. Status: 200, Integration latency: 9188 ms
+Thu Jun 04 18:57:28 UTC 2026 : Endpoint response headers: {Date=Thu, 04 Jun 2026 18:57:28 GMT, Content-Type=application/json, Content-Length=850, Connection=keep-alive, x-amzn-RequestId=8dd529ed-2a2f-4399-b660-4f4505c053be, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=Root=1-6a21ca8f-2f6aa60ef9e13ef2c028fd80;Parent=77a7ecb736e595b0;Sampled=0;Lineage=1:81523d6a:0}
+Thu Jun 04 18:57:28 UTC 2026 : Endpoint response body before transformations: {"statusCode": 200, "headers": {"Content-Type": "text/xml"}, "body": "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><SOAP-ENV:Body><CoverageResponse xmlns=\"http://www.iicmva.com/CoverageVerification/\"><Detail><PolicyInformation><CoverageStatus><ResponseDetails><ResponseCode>UNCONFIRMED</ResponseCode><UnconfirmedReasonCode></UnconfirmedReasonCode></ResponseDetails></CoverageStatus><OrganizationDetails><NAIC>12345</NAIC></OrganizationDetails><PolicyDetails><VerificationDate>2026-06-01</VerificationDate><PolicyKey>UNKNOWN</PolicyKey><PolicyState>KY</PolicyState></PolicyDetails></PolicyInformation></Detail></CoverageResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>"}
+Thu Jun 04 18:57:28 UTC 2026 : Method response body after transformations: <?xml version="1.0" encoding="utf-8"?>
+<SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><SOAP-ENV:Body><CoverageResponse xmlns="http://www.iicmva.com/CoverageVerification/"><Detail><PolicyInformation><CoverageStatus><ResponseDetails><ResponseCode>UNCONFIRMED</ResponseCode><UnconfirmedReasonCode></UnconfirmedReasonCode></ResponseDetails></CoverageStatus><OrganizationDetails><NAIC>12345</NAIC></OrganizationDetails><PolicyDetails><VerificationDate>2026-06-01</VerificationDate><PolicyKey>UNKNOWN</PolicyKey><PolicyState>KY</PolicyState></PolicyDetails></PolicyInformation></Detail></CoverageResponse></SOAP-ENV:Body></SOAP-ENV:Envelope>
+Thu Jun 04 18:57:28 UTC 2026 : Method response headers: {Content-Type=text/xml, X-Amzn-Trace-Id=Root=1-6a21ca8f-2f6aa60ef9e13ef2c028fd80;Parent=77a7ecb736e595b0;Sampled=0;Lineage=1:81523d6a:0}
+Thu Jun 04 18:57:28 UTC 2026 : Successfully completed execution
+Thu Jun 04 18:57:28 UTC 2026 : Method completed with status: 200
