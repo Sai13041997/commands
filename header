@@ -25,18 +25,4 @@ Content-Length
 
 
 
-C:\Users\T012sp>curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" \ -d "<test/>"
-Note: Unnecessary use of -X or --request, POST is already inferred.
-* Host q51dqcsrw5.execute-api.us-east-1.amazonaws.com:443 was resolved.
-* IPv6: (none)
-* IPv4: 108.139.47.36, 108.139.47.119, 108.139.47.107, 108.139.47.115
-*   Trying 108.139.47.36:443...
-* schannel: disabled automatic use of client certificate
-* ALPN: curl offers http/1.1
-* schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
-* closing connection #0
-curl: (35) schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
-Note: Unnecessary use of -X or --request, POST is already inferred.
-* URL rejected: Bad hostname
-* closing connection #-1
-curl: (3) URL rejected: Bad hostname
+curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
