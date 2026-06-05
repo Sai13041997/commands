@@ -111,38 +111,28 @@ Successfully created deployment for realtimeinsurance-dev-soap-api-gateway. This
 curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
 
 
-C:\Users\T012sp>curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
-Note: Unnecessary use of -X or --request, POST is already inferred.
-* Host q51dqcsrw5.execute-api.us-east-1.amazonaws.com:443 was resolved.
-* IPv6: (none)
-* IPv4: 34.196.51.134, 98.85.52.121, 18.235.214.61, 23.21.173.26, 35.172.177.78, 23.20.160.34, 34.205.120.162, 34.228.48.227
-*   Trying 34.196.51.134:443...
-* schannel: disabled automatic use of client certificate
-* ALPN: curl offers http/1.1
-* ALPN: server did not agree on a protocol. Uses default.
-* Established connection to q51dqcsrw5.execute-api.us-east-1.amazonaws.com (34.196.51.134 port 443) from 10.214.100.171 port 64680
-* using HTTP/1.x
-> POST /default/soap HTTP/1.1
-> Host: q51dqcsrw5.execute-api.us-east-1.amazonaws.com
-> User-Agent: curl/8.18.0
-> Accept: */*
-> Content-Type: application/soap+xml
-> Content-Length: 7
->
-* upload completely sent off: 7 bytes
-* schannel: remote party requests renegotiation
-* schannel: renegotiating SSL/TLS connection
-* schannel: SSL/TLS connection renegotiated
-* schannel: remote party requests renegotiation
-* schannel: renegotiating SSL/TLS connection
-* schannel: SSL/TLS connection renegotiated
-< HTTP/1.1 403 Forbidden
-< Date: Fri, 05 Jun 2026 00:25:20 GMT
-< Content-Type: application/json
-< Connection: keep-alive
-< x-amzn-RequestId: 889bfe6d-0a04-4fc6-8760-ebc831a8cc06
-< x-amzn-ErrorType: ForbiddenException
-< x-amz-apigw-id: ediZmFHBoAMEnSA=
-< Content-Length: 23
-<
-{"message":"Forbidden"}* Connection #0 to host q51dqcsrw5.execute-api.us-east-1.amazonaws.com:443 left intact
+Domain details
+Domain name
+realtimeinsurance-soap-api-dev.devkyfb.com
+Status
+Available
+Routing selection Info
+API mappings only
+Endpoint configuration Info
+Edit
+Domain name ARN
+arn:aws:apigateway:us-east-1::/domainnames/realtimeinsurance-soap-api-dev.devkyfb.com
+API Gateway domain name
+d-txqyeb3zoc.execute-api.us-east-1.amazonaws.com
+ACM certificate ARN
+arn:aws:acm:us-east-1:058264370150:certificate/23e1a0c5-3f4b-4838-a089-d530e8ae0127
+API endpoint type
+Regional
+Hosted zone ID
+Z1UJRXOUMOOFQ8
+IP address type
+-
+Security policy - new
+TLS 1.2
+Mutual TLS Info
+Inactive
