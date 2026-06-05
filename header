@@ -100,5 +100,8 @@ Note: Unnecessary use of -X or --request, POST is already inferred.
       "Action": "execute-api:Invoke",
       "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*"
     }
+
+
+Successfully created deployment for realtimeinsurance-dev-soap-api-gateway. This deployment is active for default.
   ]
 }
