@@ -105,3 +105,14 @@ Note: Unnecessary use of -X or --request, POST is already inferred.
 Successfully created deployment for realtimeinsurance-dev-soap-api-gateway. This deployment is active for default.
   ]
 }
+
+
+
+Authorization
+NONE
+API key required
+False
+Request validator
+None
+SDK operation name
+Generated based on method and path
