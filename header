@@ -26,3 +26,44 @@ Content-Length
 
 
 curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
+
+
+C:\Users\T012sp>curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Host q51dqcsrw5.execute-api.us-east-1.amazonaws.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 108.139.47.36, 108.139.47.119, 108.139.47.107, 108.139.47.115
+*   Trying 108.139.47.36:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server did not agree on a protocol. Uses default.
+* Established connection to q51dqcsrw5.execute-api.us-east-1.amazonaws.com (108.139.47.36 port 443) from 10.214.100.171 port 60049
+* using HTTP/1.x
+> POST /default/soap HTTP/1.1
+> Host: q51dqcsrw5.execute-api.us-east-1.amazonaws.com
+> User-Agent: curl/8.18.0
+> Accept: */*
+> Content-Type: application/soap+xml
+> Content-Length: 7
+>
+* upload completely sent off: 7 bytes
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 403 Forbidden
+< Content-Type: application/json
+< Connection: keep-alive
+< Date: Fri, 05 Jun 2026 00:03:39 GMT
+< x-amz-apigw-id: edfOUGaNIAMEmMg=
+< x-amzn-RequestId: 5f4bd330-6287-49fa-ad12-9587fb860cae
+< x-amzn-ErrorType: ForbiddenException
+< X-Cache: Error from cloudfront
+< Via: 1.1 4b0dd366e44414a4e7e6ed6970080d58.cloudfront.net (CloudFront)
+< X-Amz-Cf-Pop: IAD89-P2
+< X-Amz-Cf-Id: EV35mxd5oxL7wKD08gtRIuUIEQJ6q09SYomNJTWAK_N0xVUd1khlNA==
+< Content-Length: 23
+<
+{"message":"Forbidden"}* Connection #0 to host q51dqcsrw5.execute-api.us-east-1.amazonaws.com:443 left intact
