@@ -111,33 +111,29 @@ Successfully created deployment for realtimeinsurance-dev-soap-api-gateway. This
 curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
 
 
-/soap - POST method test results
-Request
-/soap
-Latency ms
-1420
-Status
-502
-Response body
-{"message": "Internal server error"}
-Response headers
-{
-  "x-amzn-ErrorType": "InternalServerErrorException"
-}
-Logs
-Execution log for request 1456b64b-3f88-4a82-ac85-566e5124e5c7
-Fri Jun 05 00:33:55 UTC 2026 : Starting execution for request: 1456b64b-3f88-4a82-ac85-566e5124e5c7
-Fri Jun 05 00:33:55 UTC 2026 : HTTP Method: POST, Resource Path: /soap
-Fri Jun 05 00:33:55 UTC 2026 : Method request path: {}
-Fri Jun 05 00:33:55 UTC 2026 : Method request query string: {}
-Fri Jun 05 00:33:55 UTC 2026 : Method request headers: {}
-Fri Jun 05 00:33:55 UTC 2026 : Method request body before transformations: </test>
-Fri Jun 05 00:33:55 UTC 2026 : Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
-Fri Jun 05 00:33:55 UTC 2026 : Endpoint request headers: {X-Amz-Date=20260605T003355Z, x-amzn-apigateway-api-id=q51dqcsrw5, Accept=application/json, User-Agent=AmazonAPIGateway_q51dqcsrw5, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=5647bbe8e046baf4f455e4cbe7dda28c13e1d3737260f754ae721070f0e2293e, X-Amzn-Trace-Id=Root=1-6a221973-9ccdaf13dacec6e314f22765, x-amzn-lambda-integration-tag=1456b64b-3f88-4a82-ac85-566e5124e5c7, Authorization=*********************************************************************************************************************************************************************************************************************************************************************************************************************************************6887b6, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:058264370150:q51dqcsrw5/test-invoke-stage/POST/soap, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEJj//////////wEaCXVzLWVhc3QtMSJGMEQCIGNm41BkJIpbbvWj1iNOcpB3/Tk/G+aMnP2tMmKJXpxQAiACtwVpGISaCcr15/vYj2/t79bRZu0ME9Nl3Sg6BEmV [TRUNCATED]
-Fri Jun 05 00:33:55 UTC 2026 : Endpoint request body after transformations: {"resource":"/soap","path":"/soap","httpMethod":"POST","headers":null,"multiValueHeaders":null,"queryStringParameters":null,"multiValueQueryStringParameters":null,"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"lknkms","resourcePath":"/soap","httpMethod":"POST","extendedRequestId":"edjqCEB8oAMFZ4Q=","requestTime":"05/Jun/2026:00:33:55 +0000","path":"/soap","accountId":"058264370150","protocol":"HTTP/1.1","stage":"test-invoke-stage","domainPrefix":"testPrefix","requestTimeEpoch":1780619635027,"requestId":"1456b64b-3f88-4a82-ac85-566e5124e5c7","identity":{"cognitoIdentityPoolId":null,"cognitoIdentityId":null,"apiKey":"test-invoke-api-key","principalOrgId":null,"cognitoAuthenticationType":null,"userArn":"arn:aws:sts::058264370150:assumed-role/AWSReservedSSO_Cloud-Ops-Admin_715e8133d1c66ed2/T012SP@kyfb.com","apiKeyId":"test-invoke-api-key-id","userAgent":"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome [TRUNCATED]
-Fri Jun 05 00:33:55 UTC 2026 : Sending request to https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
-Fri Jun 05 00:33:56 UTC 2026 : Received response. Status: 200, Integration latency: 1415 ms
-Fri Jun 05 00:33:56 UTC 2026 : Endpoint response headers: {Date=Fri, 05 Jun 2026 00:33:56 GMT, Content-Type=application/json, Content-Length=538, Connection=keep-alive, x-amzn-RequestId=d5e43827-5e1f-4e39-80fa-2767437c3746, X-Amz-Function-Error=Unhandled, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=Root=1-6a221973-9ccdaf13dacec6e314f22765;Parent=2765aa5e81640756;Sampled=0;Lineage=1:81523d6a:0}
-Fri Jun 05 00:33:56 UTC 2026 : Endpoint response body before transformations: {"errorMessage": "not well-formed (invalid token): line 1, column 1", "errorType": "ExpatError", "requestId": "d5e43827-5e1f-4e39-80fa-2767437c3746", "stackTrace": ["  File \"/var/task/main.py\", line 10, in lambda_handler\n    vin, verification_date, tracking_number, policy_key = request_handler.handle_request(event)\n", "  File \"/var/task/request_handler.py\", line 10, in handle_request\n    soap_dict = xmltodict.parse(soap_request)\n", "  File \"/var/task/xmltodict.py\", line 369, in parse\n    parser.Parse(xml_input, True)\n"]}
-Fri Jun 05 00:33:56 UTC 2026 : Lambda execution failed with status 200 due to customer function error: not well-formed (invalid token): line 1, column 1. Lambda request id: d5e43827-5e1f-4e39-80fa-2767437c3746
-Fri Jun 05 00:33:56 UTC 2026 : Method completed with status: 502
+POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap
+403
+124 ms
+Warning: Self signed certificate in certificate chain
+Network
+Request Headers
+Content-Type: text/xml;charset=UTF-8
+SOAPAction: "http://www.iicmva.com/VerifyInsurance"
+User-Agent: PostmanRuntime/7.53.0
+Accept: */*
+Cache-Control: no-cache
+Postman-Token: 555f944d-e818-4237-b89d-dd6c5f1e41bd
+Host: q51dqcsrw5.execute-api.us-east-1.amazonaws.com
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 1390
+Request Body
+Response Headers
+Date: Fri, 05 Jun 2026 00:46:20 GMT
+Content-Type: application/json
+Connection: keep-alive
+x-amzn-RequestId: d26f5c76-eaa7-4acd-8ca6-c614ffe2af98
+x-amzn-ErrorType: ForbiddenException
+x-amz-apigw-id: edlekElKIAMERTA=
+Content-Length: 23
+Response Body
