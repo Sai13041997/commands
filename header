@@ -86,3 +86,19 @@ Note: Unnecessary use of -X or --request, POST is already inferred.
     }
   ]
 }
+
+
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AllowInvoke",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "execute-api:Invoke",
+      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*"
+    }
+  ]
+}
