@@ -177,3 +177,43 @@ x-amz-apigw-id: edlekElKIAMERTA=
 Content-Length: 23
 Response Body
 {"message":"Forbidden"}
+
+
+
+Network
+addresses: {…}
+local: {…}
+address: "10.214.100.171"
+family: "IPv4"
+port: 56644
+remote: {…}
+address: "35.169.170.135"
+family: "IPv4"
+port: 443
+tls: {…}
+reused: false
+authorized: false
+authorizationError: "SELF_SIGNED_CERT_IN_CHAIN"
+cipher: {…}
+protocol: "TLSv1.3"
+ephemeralKeyInfo: {}
+peerCertificate: {…}
+subject: {…}
+country: null
+stateOrProvince: null
+locality: null
+organization: null
+organizationalUnit: null
+commonName: "*.execute-api.us-east-1.amazonaws.com"
+alternativeNames: "DNS:*.execute-api.us-east-1.amazonaws.com, DNS:execute-api.us-east-1.amazonaws.com"
+issuer: {…}
+country: "US"
+stateOrProvince: "KY"
+locality: "Louisville"
+organization: "Kentucky Farm Bureau Mutual Insurance Company"
+organizationalUnit: "1e2d9e535ee0f09e25481d7629194dcf"
+commonName: "ns-swg.ca.kyfb.goskope.com"
+validFrom: "May  5 16:16:12 2026 GMT"
+validTo: "Jun  4 16:16:12 2027 GMT"
+fingerprint: "2F:A1:27:94:30:20:6C:F9:F9:6D:28:B4:E5:AC:0A:12:0A:AF:07:5F"
+serialNumber: "df4044e3e9e84161b8432bab51a10368"
