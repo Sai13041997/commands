@@ -59,3 +59,30 @@ Note: Unnecessary use of -X or --request, POST is already inferred.
 < Content-Length: 23
 <
 {"message":"Forbidden"}* Connection #0 to host q51dqcsrw5.execute-api.us-east-1.amazonaws.com:443 left intact
+
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyNotWhitelisted",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "execute-api:Invoke",
+      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*",
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": "0.0.0.0/0"
+        }
+      }
+    },
+    {
+      "Sid": "AllowInvoke",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "execute-api:Invoke",
+      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*"
+    }
+  ]
+}
