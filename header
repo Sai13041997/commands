@@ -108,11 +108,15 @@ Successfully created deployment for realtimeinsurance-dev-soap-api-gateway. This
 
 
 
-Authorization
-NONE
-API key required
-False
-Request validator
-None
-SDK operation name
-Generated based on method and path
+Integration type Info
+Lambda
+Region
+us-east-1
+Lambda proxy integration Info
+True
+Response transfer mode Info
+Buffered
+Lambda function
+realtimeinsurance-dev-soap-verification-lambda
+Timeout
+Default (29 seconds)
