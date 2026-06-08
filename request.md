@@ -1,0 +1,44 @@
+https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap
+
+Content-Type  text/xml;charset=UTF-8
+
+SOAPAction   "http://www.iicmva.com/VerifyInsurance"
+
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/"
+                     PublicationVersion="00200809"
+                     PublicationDate="2008-11-05">
+      <RequestorInformation>
+        <Organization>
+          <Name>KentuckyIVS</Name>
+        </Organization>
+        <ReasonDetails>
+          <ReasonCode>BIVER</ReasonCode>
+          <TrackingNumber>CTTRK-150219-144041-4-31-101-85-1</TrackingNumber>
+        </ReasonDetails>
+      </RequestorInformation>
+      <Detail>
+        <PolicyInformation>
+          <OrganizationDetails>
+            <NAIC>12345</NAIC>
+          </OrganizationDetails>
+          <PolicyDetails>
+            <VerificationDate>2025-02-19T00:00:00.000</VerificationDate>
+            <PolicyKey>UNKNOWN</PolicyKey>
+            <PolicyState>KY</PolicyState>
+          </PolicyDetails>
+        </PolicyInformation>
+        <VehicleInformation>
+          <VehicleDetails>
+            <VIN>VINTEST123</VIN>
+          </VehicleDetails>
+        </VehicleInformation>
+      </Detail>
+    </CoverageRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+
