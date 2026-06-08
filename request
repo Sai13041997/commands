@@ -42,3 +42,13 @@ SOAPAction   "http://www.iicmva.com/VerifyInsurance"
   </soapenv:Body>
 </soapenv:Envelope>
 
+
+
+
+
+
+C:\Users\Administrator>nslookup /q51dqcsrw5.execute-api.us-east-2.amazonaws.com
+Server:  ip-172-31-0-2.us-east-2.compute.internal
+Address:  172.31.0.2
+
+*** ip-172-31-0-2.us-east-2.compute.internal can't find /q51dqcsrw5.execute-api.us-east-2.amazonaws.com: Non-existent domain
