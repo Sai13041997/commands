@@ -8,3 +8,21 @@ variable "manage_policy_separately" {
   description = "Use a dedicated aws_api_gateway_rest_api_policy resource for reliable policy diffing instead of the inline policy. Defaults to false to keep existing callers unchanged."
   default     = false
 }
+
+
+
+
+resource "aws_api_gateway_rest_api" "this" {
+  name = var.name
+
+  # Legacy inline policy — used only when NOT managing the policy separately.
+  # Preserves existing behavior for callers that don't set manage_policy_separately.
+  policy = var.manage_policy_separately ? null : data.aws_iam_policy_document.rest_api_policy.json
+}
+
+# New, reliably-diffing policy resource — only created when the flag is on.
+resource "aws_api_gateway_rest_api_policy" "this" {
+  count       = var.manage_policy_separately ? 1 : 0
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  policy      = data.aws_iam_policy_document.rest_api_policy.json
+}
