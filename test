@@ -83,6 +83,7 @@ except Exception as e:
 
 
 
+PS C:\Users\T012sp\Downloads\Testing> edit .\mtls_test.py
 PS C:\Users\T012sp\Downloads\Testing> python .\mtls_test.py
 ==================================================
 TEST 1: WITHOUT client cert (expect rejection)
@@ -93,7 +94,7 @@ Connection failed: ConnectionError
 ==================================================
 TEST 2: WITH client cert (expect HTTP response)
 ==================================================
-Got HTTP response: 404
+Got HTTP response: 403
 -> Cert passed mTLS and reached the backend. mTLS ALLOWS valid clients. EXPECTED.
 Response (first 300 chars):
-{"message":"Domain not found"}
+{"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********0150:q51dqcsrw5/default/POST/soap with an explicit deny in a resource-based policy"}
