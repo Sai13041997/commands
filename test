@@ -42,3 +42,56 @@ Features: alt-svc AsynchDNS brotli HSTS HTTP2 HTTP3 HTTPS-proxy HTTPSRR IDN IPv6
 Set-Alias ocurl C:\Users\T012sp\Downloads\curl-ossl\curl-8.20.0_5-win64-mingw\bin\curl.exe
 
 ocurl -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+
+PS C:\Users\T012sp\Downloads\Testing> ocurl -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+* Added realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 to DNS cache
+* Hostname realtimeinsurance-soap-api-dev.devkyfb.com was found in DNS cache
+* Host realtimeinsurance-soap-api-dev.devkyfb.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 54.225.164.69
+* HTTPS-RR: -
+*   Trying 54.225.164.69:443...
+* ALPN: curl offers h2,http/1.1
+* TLSv1.3 (OUT), TLS handshake, Client hello (1):
+* SSL Trust Anchors:
+*   Native: Windows System Stores ROOT+CA
+* TLSv1.3 (IN), TLS handshake, Server hello (2):
+* TLSv1.3 (IN), TLS handshake, Unknown (8):
+* TLSv1.3 (IN), TLS handshake, Request CERT (13):
+* TLSv1.3 (IN), TLS handshake, Certificate (11):
+* TLSv1.3 (IN), TLS handshake, CERT verify (15):
+* TLSv1.3 (IN), TLS handshake, Finished (20):
+* TLSv1.3 (OUT), TLS handshake, Certificate (11):
+* TLSv1.3 (OUT), TLS handshake, Finished (20):
+* SSL connection using TLSv1.3 / TLS_AES_128_GCM_SHA256 / [blank] / UNDEF
+* ALPN: server accepted h2
+* Server certificate:
+*   subject: CN=realtimeinsurance-soap-api-dev.devkyfb.com
+*   start date: May 20 00:00:00 2026 GMT
+*   expire date: Dec  3 23:59:59 2026 GMT
+*   issuer: C=US; O=Amazon; CN=Amazon RSA 2048 M01
+*   Certificate level 0: Public key type ? (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 1: Public key type ? (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 2: Public key type ? (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   Certificate level 3: Public key type ? (2048/112 Bits/secBits), signed using sha256WithRSAEncryption
+*   subjectAltName: "realtimeinsurance-soap-api-dev.devkyfb.com" matches cert's "realtimeinsurance-soap-api-dev.devkyfb.com"
+* OpenSSL verify result: 0
+* SSL certificate verified via OpenSSL.
+* Established connection to realtimeinsurance-soap-api-dev.devkyfb.com (54.225.164.69 port 443) from 10.214.100.171 port 51684
+* using HTTP/2
+* [HTTP/2] [1] OPENED stream for https://realtimeinsurance-soap-api-dev.devkyfb.com/soap
+* [HTTP/2] [1] [:method: POST]
+* [HTTP/2] [1] [:scheme: https]
+* [HTTP/2] [1] [:authority: realtimeinsurance-soap-api-dev.devkyfb.com]
+* [HTTP/2] [1] [:path: /soap]
+* [HTTP/2] [1] [user-agent: curl/8.20.0]
+* [HTTP/2] [1] [accept: */*]
+* [HTTP/2] [1] [content-type: text/xml]
+* [HTTP/2] [1] [content-length: 1425]
+* Send failure: Connection was reset
+* SSL_write() error: error:14FFF3E7:SSL routines:(UNKNOWN)SSL_internal:unknown failure occurred
+* Send failure: Connection was reset
+* SSL_write() error: error:14FFF3E7:SSL routines:(UNKNOWN)SSL_internal:unknown failure occurred
+* Connection #0 to host realtimeinsurance-soap-api-dev.devkyfb.com:443 left intact
+curl: (55) Send failure: Connection was reset
