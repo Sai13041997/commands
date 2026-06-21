@@ -20,3 +20,6 @@ When I tested with the cert, I hit a Windows limitation — curl uses Schannel, 
 With the cert, my request passed mTLS and reached API Gateway, then returned a 403 — blocked by the IP allowlist because my IP wasn't on it. That confirmed the second security layer works too.
 I then added my IP to the whitelist, re-ran, and got a 502 — meaning the request passed every gate (mTLS → routing → IP allowlist) and reached the Lambda. The 502 is a separate Lambda code issue, not an mTLS problem.
 So overall, I verified all three layers end to end — mTLS, routing, and the IP allowlist. The only thing left is the Lambda logic, which is being handled separately.
+
+
+https://curl.se/windows/dl-8.20.0_5/curl-8.20.0_5-win64-mingw.zip
