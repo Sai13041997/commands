@@ -118,3 +118,13 @@ curl: (56) Recv failure: Connection was reset
 
 
 curl.exe -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+
+PS C:\Users\T012sp\Downloads\Testing> curl.exe -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+* Added realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 to DNS cache
+* Hostname realtimeinsurance-soap-api-dev.devkyfb.com was found in DNS cache
+*   Trying 54.225.164.69:443...
+* schannel: disabled automatic use of client certificate
+* schannel: Failed to import cert file client.crt, last error is 0x80092002
+* closing connection #0
+curl: (58) schannel: Failed to import cert file client.crt, last error is 0x80092002
