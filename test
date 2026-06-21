@@ -79,3 +79,13 @@ Address:  8.8.8.8
 
 Non-authoritative answer:
 realtimeinsurance-soap-api-dev.devkyfb.com      canonical name = d-txqyeb3zoc.execute-api.us-east-1.amazonaws.com
+
+
+PS C:\Users\T012sp\Downloads> nslookup realtimeinsurance-soap-api-dev.devkyfb.com 8.8.8.8
+Server:  dns.google
+Address:  8.8.8.8
+
+Non-authoritative answer:
+Name:    d-txqyeb3zoc.execute-api.us-east-1.amazonaws.com
+Address:  54.225.164.69
+Aliases:  realtimeinsurance-soap-api-dev.devkyfb.com
