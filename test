@@ -128,3 +128,10 @@ PS C:\Users\T012sp\Downloads\Testing> curl.exe -v --resolve realtimeinsurance-so
 * schannel: Failed to import cert file client.crt, last error is 0x80092002
 * closing connection #0
 curl: (58) schannel: Failed to import cert file client.crt, last error is 0x80092002
+
+
+PS C:\Users\T012sp\Downloads\Testing> where.exe git
+C:\Users\T012sp\AppData\Local\Programs\Git\cmd\git.exe
+PS C:\Users\T012sp\Downloads\Testing> where.exe python
+C:\Users\T012sp\AppData\Local\Programs\Python\Python313\python.exe
+C:\Users\T012sp\AppData\Local\Microsoft\WindowsApps\python.exe
