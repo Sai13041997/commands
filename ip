@@ -14,3 +14,37 @@ OpenTofu will perform the following actions:
     }
 
 Plan: 1 to add, 0 to change, 0 to destroy.
+
+
+
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DenyNotWhitelisted",
+      "Effect": "Deny",
+      "Principal": "*",
+      "Action": "execute-api:Invoke",
+      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*",
+      "Condition": {
+        "NotIpAddress": {
+          "aws:SourceIp": [
+            "163.116.146.118/32",
+            "147.0.31.195/32",
+            "163.116.145.43/32",
+            "163.116.145.127/32",
+            "147.0.31.196/32",
+            "147.0.31.197/32"
+          ]
+        }
+      }
+    },
+    {
+      "Sid": "AllowInvoke",
+      "Effect": "Allow",
+      "Principal": "*",
+      "Action": "execute-api:Invoke",
+      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*"
+    }
+  ]
+}
