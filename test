@@ -71,3 +71,11 @@ devkyfb.com
         retry   = 900 (15 mins)
         expire  = 1209600 (14 days)
         default TTL = 86400 (1 day)
+
+
+PS C:\Users\T012sp\Downloads> nslookup -type=CNAME realtimeinsurance-soap-api-dev.devkyfb.com 8.8.8.8
+Server:  dns.google
+Address:  8.8.8.8
+
+Non-authoritative answer:
+realtimeinsurance-soap-api-dev.devkyfb.com      canonical name = d-txqyeb3zoc.execute-api.us-east-1.amazonaws.com
