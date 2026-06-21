@@ -12,89 +12,11 @@ since it doesn't affect external callers but does block anyone testing from insi
 
 
 
-
-
-python -c "import requests; print('ok')"
-
-PS C:\Users\T012sp\Downloads\Testing> python -c "import requests; print('ok')"
-Traceback (most recent call last):
-  File "<string>", line 1, in <module>
-    import requests; print('ok')
-    ^^^^^^^^^^^^^^^
-ModuleNotFoundError: No module named 'requests'
-
-
-python -m pip install requests
-
-
-
-import requests
-from requests.adapters import HTTPAdapter
-from urllib3.poolmanager import PoolManager
-import urllib3
-urllib3.disable_warnings()  # silence the self-signed server-cert warning
-
-HOST = "realtimeinsurance-soap-api-dev.devkyfb.com"
-IP   = "54.225.164.69"
-
-# Force the connection to the correct IP while keeping the real hostname for SNI
-class IPAdapter(HTTPAdapter):
-    def init_poolmanager(self, connections, maxsize, block=False):
-        self.poolmanager = PoolManager(
-            num_pools=connections, maxsize=maxsize, block=block,
-            server_hostname=HOST  # correct SNI
-        )
-
-def make_session():
-    s = requests.Session()
-    s.mount("https://", IPAdapter())
-    return s
-
-body = open("request.xml", "rb").read()
-headers = {"Content-Type": "text/xml", "Host": HOST}  # Host header so API GW routes correctly
-url_via_ip = f"https://{IP}/soap"
-
-print("=" * 50)
-print("TEST 1: WITHOUT client cert (expect rejection)")
-print("=" * 50)
-try:
-    r = make_session().post(url_via_ip, data=body, headers=headers,
-                            verify=False, timeout=15)
-    print(f"Got HTTP response: {r.status_code}")
-    print("-> Handshake completed WITHOUT a cert. mTLS may NOT be enforcing.")
-except Exception as e:
-    print(f"Connection failed: {type(e).__name__}")
-    print("-> Rejected before HTTP. This is mTLS blocking the certless request. EXPECTED.")
-
-print()
-print("=" * 50)
-print("TEST 2: WITH client cert (expect HTTP response)")
-print("=" * 50)
-try:
-    r = make_session().post(url_via_ip, data=body, headers=headers,
-                            cert=("client.crt", "client.key"),
-                            verify=False, timeout=15)
-    print(f"Got HTTP response: {r.status_code}")
-    print("-> Cert passed mTLS and reached the backend. mTLS ALLOWS valid clients. EXPECTED.")
-    print("Response (first 300 chars):")
-    print(r.text[:300])
-except Exception as e:
-    print(f"Failed: {type(e).__name__}: {e}")
-
-
-
-PS C:\Users\T012sp\Downloads\Testing> edit .\mtls_test.py
-PS C:\Users\T012sp\Downloads\Testing> python .\mtls_test.py
-==================================================
-TEST 1: WITHOUT client cert (expect rejection)
-==================================================
-Connection failed: ConnectionError
--> Rejected before HTTP. This is mTLS blocking the certless request. EXPECTED.
-
-==================================================
-TEST 2: WITH client cert (expect HTTP response)
-==================================================
-Got HTTP response: 403
--> Cert passed mTLS and reached the backend. mTLS ALLOWS valid clients. EXPECTED.
-Response (first 300 chars):
-{"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********0150:q51dqcsrw5/default/POST/soap with an explicit deny in a resource-based policy"}
+I set out to verify mTLS on the SOAP API — to confirm that requests without a valid client cert get blocked, and requests with one get through.
+When I first hit the domain in the browser/Postman, I got an HTML page instead of the API. I dug into it and found that our corporate DNS resolves the domain to CloudFront (which redirects to the website), while public DNS correctly points to API Gateway. So the API was fine — I was just being routed to the wrong place from inside the network.
+To get around that, I forced my request to the correct API Gateway IP while keeping the real hostname for SNI, so I bypassed corporate DNS.
+I tested without a cert first — the connection was rejected at the TLS layer before reaching the backend, which confirmed mTLS is blocking certless requests.
+When I tested with the cert, I hit a Windows limitation — curl uses Schannel, which won't load PEM certificates. So I switched to a short Python script, since it reads PEM certs natively and didn't need admin rights.
+With the cert, my request passed mTLS and reached API Gateway, then returned a 403 — blocked by the IP allowlist because my IP wasn't on it. That confirmed the second security layer works too.
+I then added my IP to the whitelist, re-ran, and got a 502 — meaning the request passed every gate (mTLS → routing → IP allowlist) and reached the Lambda. The 502 is a separate Lambda code issue, not an mTLS problem.
+So overall, I verified all three layers end to end — mTLS, routing, and the IP allowlist. The only thing left is the Lambda logic, which is being handled separately.
