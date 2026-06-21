@@ -15,3 +15,10 @@ since it doesn't affect external callers but does block anyone testing from insi
 
 
 python -c "import requests; print('ok')"
+
+PS C:\Users\T012sp\Downloads\Testing> python -c "import requests; print('ok')"
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import requests; print('ok')
+    ^^^^^^^^^^^^^^^
+ModuleNotFoundError: No module named 'requests'
