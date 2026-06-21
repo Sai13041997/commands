@@ -22,3 +22,6 @@ Traceback (most recent call last):
     import requests; print('ok')
     ^^^^^^^^^^^^^^^
 ModuleNotFoundError: No module named 'requests'
+
+
+python -m pip install requests
