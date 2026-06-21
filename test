@@ -81,3 +81,20 @@ try:
     print(r.text[:300])
 except Exception as e:
     print(f"Failed: {type(e).__name__}: {e}")
+
+
+
+PS C:\Users\T012sp\Downloads\Testing> python .\mtls_test.py
+==================================================
+TEST 1: WITHOUT client cert (expect rejection)
+==================================================
+Connection failed: ConnectionError
+-> Rejected before HTTP. This is mTLS blocking the certless request. EXPECTED.
+
+==================================================
+TEST 2: WITH client cert (expect HTTP response)
+==================================================
+Got HTTP response: 404
+-> Cert passed mTLS and reached the backend. mTLS ALLOWS valid clients. EXPECTED.
+Response (first 300 chars):
+{"message":"Domain not found"}
