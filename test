@@ -9,3 +9,9 @@ the API Gateway IP allowlist, so only whitelisted clients presenting a valid cer
 the actual client can run nslookup realtimeinsurance-soap-api-dev.devkyfb.com from their own network and confirm they get the API Gateway 
 address rather than CloudFront — and separately, the internal-DNS-to-CloudFront quirk is worth flagging to whoever owns the devkyfb.com zone, 
 since it doesn't affect external callers but does block anyone testing from inside the corporate network.
+
+
+
+
+
+python -c "import requests; print('ok')"
