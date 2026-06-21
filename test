@@ -115,3 +115,6 @@ PS C:\Users\T012sp\Downloads> curl.exe -v --resolve realtimeinsurance-soap-api-d
 * schannel: recv returned error 56
 * closing connection #0
 curl: (56) Recv failure: Connection was reset
+
+
+curl.exe -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
