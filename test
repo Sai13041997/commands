@@ -160,4 +160,8 @@ curl: (35) schannel: next InitializeSecurityContext failed: SEC_E_INTERNAL_ERROR
 
 
 
-& "C:\Users\T012sp\AppData\Local\Programs\Git\mingw64\bin\curl.exe" --version
+PS C:\Users\T012sp\Downloads\Testing> & "C:\Users\T012sp\AppData\Local\Programs\Git\mingw64\bin\curl.exe" --version
+curl 8.15.0 (x86_64-w64-mingw32) libcurl/8.15.0 Schannel zlib/1.3.1 brotli/1.1.0 zstd/1.5.7 libidn2/2.3.8 libpsl/0.21.5 libssh2/1.11.1
+Release-Date: 2025-07-16
+Protocols: dict file ftp ftps gopher gophers http https imap imaps ipfs ipns ldap ldaps mqtt pop3 pop3s rtsp scp sftp smb smbs smtp smtps telnet tftp ws wss
+Features: alt-svc AsynchDNS brotli HSTS HTTPS-proxy IDN IPv6 Kerberos Largefile libz NTLM PSL SPNEGO SSL SSPI threadsafe UnixSockets zstd
