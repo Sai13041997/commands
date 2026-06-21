@@ -57,3 +57,17 @@ Addresses:  2600:9000:201d:3a00:2:49fb:5a80:93a1
           13.226.209.114
           13.226.209.76
           13.226.209.26
+
+
+PS C:\Users\T012sp\Downloads> nslookup -type=CNAME realtimeinsurance-soap-api-dev.devkyfb.com
+Server:  sdrt240.kyfb.pri
+Address:  10.217.3.100
+
+devkyfb.com
+        primary name server = ns-1536.awsdns-00.co.uk
+        responsible mail addr = awsdns-hostmaster.amazon.com
+        serial  = 1
+        refresh = 7200 (2 hours)
+        retry   = 900 (15 mins)
+        expire  = 1209600 (14 days)
+        default TTL = 86400 (1 day)
