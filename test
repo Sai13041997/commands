@@ -138,3 +138,7 @@ C:\Users\T012sp\AppData\Local\Microsoft\WindowsApps\python.exe
 
 
 python -c "import cryptography; print(cryptography.__version__)"
+
+
+
+python -c "from cryptography.hazmat.primitives.serialization import pkcs12, load_pem_private_key, Encoding, PrivateFormat, BestAvailableEncryption, NoEncryption; from cryptography.x509 import load_pem_x509_certificate; key=load_pem_private_key(open('client.key','rb').read(), None); cert=load_pem_x509_certificate(open('client.crt','rb').read()); data=pkcs12.serialize_key_and_certificates(b'client', key, cert, None, NoEncryption()); open('client.p12','wb').write(data); print('Done: client.p12 created')"
