@@ -1,5 +1,10 @@
+# Manage the REST API resource policy via a dedicated
+# aws_api_gateway_rest_api_policy resource instead of the inline `policy`
+# attribute, which the AWS provider doesn't reliably diff (IP allowlist edits
+# silently fail to apply). Defaults to false to preserve existing behavior —
+# only callers that opt in migrate to the reliable method.
 variable "manage_policy_separately" {
   type        = bool
-  description = "When true, manage the REST API resource policy via a dedicated aws_api_gateway_rest_api_policy resource (reliable diffing). When false (default), use the legacy inline policy. Existing callers leave this off to preserve current behavior."
+  description = "Use a dedicated aws_api_gateway_rest_api_policy resource for reliable policy diffing instead of the inline policy. Defaults to false to keep existing callers unchanged."
   default     = false
 }
