@@ -27,3 +27,6 @@ PS C:\Users\T012sp\Downloads> curl.exe -L -o curl-ossl.zip https://curl.se/windo
                                  Dload  Upload  Total   Spent   Left   Speed
   0      0   0      0   0      0      0      0                              0
 curl: (35) schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
+
+
+curl.exe --ssl-no-revoke -L -o curl-ossl.zip https://curl.se/windows/dl-8.20.0_5/curl-8.20.0_5-win64-mingw.zip
