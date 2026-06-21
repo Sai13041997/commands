@@ -92,3 +92,26 @@ Aliases:  realtimeinsurance-soap-api-dev.devkyfb.com
 
 
 curl.exe -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+
+PS C:\Users\T012sp\Downloads> curl.exe -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+* Added realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 to DNS cache
+* Hostname realtimeinsurance-soap-api-dev.devkyfb.com was found in DNS cache
+*   Trying 54.225.164.69:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to realtimeinsurance-soap-api-dev.devkyfb.com (54.225.164.69 port 443) from 10.214.100.171 port 52023
+* using HTTP/1.x
+> POST /soap HTTP/1.1
+> Host: realtimeinsurance-soap-api-dev.devkyfb.com
+> User-Agent: curl/8.19.0
+> Accept: */*
+> Content-Type: text/xml
+> Content-Length: 1425
+>
+* upload completely sent off: 1425 bytes
+* Recv failure: Connection was reset
+* schannel: recv returned error 56
+* closing connection #0
+curl: (56) Recv failure: Connection was reset
