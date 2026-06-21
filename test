@@ -33,3 +33,7 @@ PS C:\Users\T012sp\Downloads> curl.exe -v https://realtimeinsurance-soap-api-dev
 < X-Amz-Cf-Id: ngqjWnvEjU3Z1a4pyy75wg2zaJUqenYATWa4wWFVmtio1DEo7Gx_UQ==
 <
 * Connection #0 to host realtimeinsurance-soap-api-dev.devkyfb.com:443 left intact
+
+
+
+nslookup realtimeinsurance-soap-api-dev.devkyfb.com
