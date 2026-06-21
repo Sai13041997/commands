@@ -1,0 +1,16 @@
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+
+OpenTofu will perform the following actions:
+
+  # module.soap_api_gateway.aws_api_gateway_base_path_mapping.this[0] will be created
+  + resource "aws_api_gateway_base_path_mapping" "this" {
+      + api_id      = "q51dqcsrw5"
+      + domain_name = "realtimeinsurance-soap-api-dev.devkyfb.com"
+      + id          = (known after apply)
+      + region      = "us-east-1"
+      + stage_name  = "default"
+    }
+
+Plan: 1 to add, 0 to change, 0 to destroy.
