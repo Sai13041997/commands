@@ -25,3 +25,59 @@ ModuleNotFoundError: No module named 'requests'
 
 
 python -m pip install requests
+
+
+
+import requests
+from requests.adapters import HTTPAdapter
+from urllib3.poolmanager import PoolManager
+import urllib3
+urllib3.disable_warnings()  # silence the self-signed server-cert warning
+
+HOST = "realtimeinsurance-soap-api-dev.devkyfb.com"
+IP   = "54.225.164.69"
+URL  = f"https://{HOST}/soap"
+
+# Force the connection to the correct IP while keeping the real hostname for SNI
+class IPAdapter(HTTPAdapter):
+    def init_poolmanager(self, connections, maxsize, block=False):
+        self.poolmanager = PoolManager(
+            num_pools=connections, maxsize=maxsize, block=block,
+            server_hostname=HOST  # correct SNI
+        )
+
+def make_session():
+    s = requests.Session()
+    s.mount("https://", IPAdapter())
+    return s
+
+body = open("request.xml", "rb").read()
+headers = {"Content-Type": "text/xml"}
+url_via_ip = f"https://{IP}/soap"
+
+print("=" * 50)
+print("TEST 1: WITHOUT client cert (expect rejection)")
+print("=" * 50)
+try:
+    r = make_session().post(url_via_ip, data=body, headers=headers,
+                            verify=False, timeout=15)
+    print(f"Got HTTP response: {r.status_code}")
+    print("-> Handshake completed WITHOUT a cert. mTLS may NOT be enforcing.")
+except Exception as e:
+    print(f"Connection failed: {type(e).__name__}")
+    print("-> Rejected before HTTP. This is mTLS blocking the certless request. EXPECTED.")
+
+print()
+print("=" * 50)
+print("TEST 2: WITH client cert (expect HTTP response)")
+print("=" * 50)
+try:
+    r = make_session().post(url_via_ip, data=body, headers=headers,
+                            cert=("client.crt", "client.key"),
+                            verify=False, timeout=15)
+    print(f"Got HTTP response: {r.status_code}")
+    print("-> Cert passed mTLS and reached the backend. mTLS ALLOWS valid clients. EXPECTED.")
+    print("Response (first 300 chars):")
+    print(r.text[:300])
+except Exception as e:
+    print(f"Failed: {type(e).__name__}: {e}")
