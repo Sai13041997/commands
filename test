@@ -160,15 +160,4 @@ curl: (35) schannel: next InitializeSecurityContext failed: SEC_E_INTERNAL_ERROR
 
 
 
-POST https://54.225.164.69/soap
-Error: read ECONNRESET
-Request Headers
-Content-Type: text/xml; charset=UTF-8
-SOAPAction: "CoverageRequest"
-Host: realtimeinsurance-soap-api-dev.devkyfb.com
-User-Agent: PostmanRuntime/7.54.0
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: b7767ad3-24db-489f-8ca3-dea216876ea2
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
+& "C:\Users\T012sp\AppData\Local\Programs\Git\mingw64\bin\curl.exe" --version
