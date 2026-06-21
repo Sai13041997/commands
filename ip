@@ -1,50 +1,27 @@
-OpenTofu used the selected providers to generate the following execution
-plan. Resource actions are indicated with the following symbols:
-  + create
+module "soap_api_gateway" {
+  source        = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178"  #v1.1.1
+  name          = "${var.application_name}-${var.env_tier}-soap-api-gateway"
+  is_production = false
+  jwt_audience  = null
+  
+  #["${var.entra_audience}"]
 
-OpenTofu will perform the following actions:
+  custom_ip_whitelist = [
+    #Non-Producation IPs
+    "3.217.110.156/32"   #KentuckyIVS Testing Ip
+  ]
 
-  # module.soap_api_gateway.aws_api_gateway_base_path_mapping.this[0] will be created
-  + resource "aws_api_gateway_base_path_mapping" "this" {
-      + api_id      = "q51dqcsrw5"
-      + domain_name = "realtimeinsurance-soap-api-dev.devkyfb.com"
-      + id          = (known after apply)
-      + region      = "us-east-1"
-      + stage_name  = "default"
-    }
-
-Plan: 1 to add, 0 to change, 0 to destroy.
-
-
-
-{
-  "Version": "2012-10-17",
-  "Statement": [
+  domain_name              = var.soap_api_domain_name
+  regional_certificate_arn = aws_acm_certificate.soap_api.arn
+  mtls_truststore_uri = "s3://${aws_s3_bucket.soap_api_truststore.bucket}/soap-truststore/truststore.pem"
+  
+  routes = [
     {
-      "Sid": "DenyNotWhitelisted",
-      "Effect": "Deny",
-      "Principal": "*",
-      "Action": "execute-api:Invoke",
-      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*",
-      "Condition": {
-        "NotIpAddress": {
-          "aws:SourceIp": [
-            "163.116.146.118/32",
-            "147.0.31.195/32",
-            "163.116.145.43/32",
-            "163.116.145.127/32",
-            "147.0.31.196/32",
-            "147.0.31.197/32"
-          ]
-        }
-      }
-    },
-    {
-      "Sid": "AllowInvoke",
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": "execute-api:Invoke",
-      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*"
+      path       = "/soap"
+      method     = "POST"
+      lambda_arn = module.soap_verification_lambda.lambda_function_arn
     }
+  ]
+}
   ]
 }
