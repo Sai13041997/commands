@@ -95,3 +95,6 @@ PS C:\Users\T012sp\Downloads\Testing> ocurl -v --resolve realtimeinsurance-soap-
 * SSL_write() error: error:14FFF3E7:SSL routines:(UNKNOWN)SSL_internal:unknown failure occurred
 * Connection #0 to host realtimeinsurance-soap-api-dev.devkyfb.com:443 left intact
 curl: (55) Send failure: Connection was reset
+
+
+ocurl -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
