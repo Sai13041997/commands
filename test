@@ -145,3 +145,14 @@ python -c "from cryptography.hazmat.primitives.serialization import pkcs12, load
 
 
 curl.exe -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert-type P12 --cert client.p12 https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+
+PS C:\Users\T012sp\Downloads\Testing> curl.exe -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert-type P12 --cert client.p12 https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+* Added realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 to DNS cache
+* Hostname realtimeinsurance-soap-api-dev.devkyfb.com was found in DNS cache
+*   Trying 54.225.164.69:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* schannel: next InitializeSecurityContext failed: SEC_E_INTERNAL_ERROR (0x80090304) - The Local Security Authority cannot be contacted
+* closing connection #0
+curl: (35) schannel: next InitializeSecurityContext failed: SEC_E_INTERNAL_ERROR (0x80090304) - The Local Security Authority cannot be contacted
