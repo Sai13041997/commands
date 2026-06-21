@@ -1,5 +1,4 @@
-curl -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d @request.xml
-
+curl.exe -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 
 PS C:\Users\T012sp\Downloads> curl -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d @request.xml
 At line:1 char:96
