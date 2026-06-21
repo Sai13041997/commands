@@ -22,4 +22,8 @@ I then added my IP to the whitelist, re-ran, and got a 502 — meaning the reque
 So overall, I verified all three layers end to end — mTLS, routing, and the IP allowlist. The only thing left is the Lambda logic, which is being handled separately.
 
 
-curl.exe -L -o curl-ossl.zip https://curl.se/windows/dl-8.20.0_5/curl-8.20.0_5-win64-mingw.zip
+PS C:\Users\T012sp\Downloads> curl.exe -L -o curl-ossl.zip https://curl.se/windows/dl-8.20.0_5/curl-8.20.0_5-win64-mingw.zip
+  % Total    % Received % Xferd  Average Speed  Time    Time    Time   Current
+                                 Dload  Upload  Total   Spent   Left   Speed
+  0      0   0      0   0      0      0      0                              0
+curl: (35) schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
