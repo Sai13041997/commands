@@ -30,178 +30,28 @@ resource "aws_api_gateway_rest_api_policy" "this" {
 
 
 
-module.hello_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=3736812d-1926-6839-b13a-032908a1cc11]
-module.soap_verification_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d4e60f49-2b04-3487-e1df-f43069235eaf]
-data.aws_route53_zone.kyfb: Reading...
-data.aws_route53_zone.kyfb: Read complete after 0s [id=Z07550863D5AYI2X1ZLBW]
-module.hello_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-06676e21db4ca95d6]
-module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
-module.soap_verification_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role]
-module.api_gateway.data.aws_region.current: Reading...
-module.hello_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-hello-lambda-role]
-module.api_gateway.data.aws_caller_identity.current: Reading...
-module.aurora_security_group.aws_security_group.this: Refreshing state... [id=sg-08b96e7fab8870702]
-module.soap_verification_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-04d42cff2e98a040b]
-aws_db_subnet_group.aurora: Refreshing state... [id=realtimeinsurance-dev-db-subnet-group]
-module.api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
-module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
-module.soap_api_gateway.data.aws_caller_identity.current: Reading...
-aws_acm_certificate.soap_api: Refreshing state... [id=arn:aws:acm:us-east-1:058264370150:certificate/23e1a0c5-3f4b-4838-a089-d530e8ae0127]
-module.api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
-aws_s3_bucket.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
-module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
-module.soap_api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
-module.soap_api_gateway.data.aws_region.current: Reading...
-module.soap_api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
-module.api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role]
-module.hello_lambda.data.archive_file.placeholder_zip[0]: Reading...
-module.hello_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
-module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Reading...
-module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
-module.soap_api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role]
-module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
-module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
-module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=3426581130]
-module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=3546588587]
-module.api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=6h5fz78wz0]
-module.soap_api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=q51dqcsrw5]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.225.0.0/16-all"]: Refreshing state... [id=sgr-0c5a98ba93df81392]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.236.1.0/24-all"]: Refreshing state... [id=sgr-0e90a69acbe60898a]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.217.3.0/24-all"]: Refreshing state... [id=sgr-0298e431494635c6a]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.215.0.0/16-all"]: Refreshing state... [id=sgr-063117f9a1eaa4448]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.238.1.0/24-all"]: Refreshing state... [id=sgr-0ef9285af291f4818]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.212.0.0/16-all"]: Refreshing state... [id=sgr-00c169d9d2ac4ed69]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.12.0/24-all"]: Refreshing state... [id=sgr-01791234adcb62b60]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.17.0/24-all"]: Refreshing state... [id=sgr-00492af04c1754773]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.214.0.0/16-all"]: Refreshing state... [id=sgr-0a678fd4644fb0669]
-module.aurora_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-aurora-sg-egress-0.0.0.0/0-all"]: Refreshing state... [id=sgr-0e6b9aafc7c3b5a97]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.235.1.0/24-all"]: Refreshing state... [id=sgr-0a9e446de90a4c505]
-module.api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.api_gateway.aws_lambda_function.jwt_authorizer[0]: Refreshing state... [id=realtimeinsurance-dev-api-gateway-entra-jwt-authorizer]
-module.soap_api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-aws_route53_record.cert_validation["realtimeinsurance-soap-api-dev.devkyfb.com"]: Refreshing state... [id=Z07550863D5AYI2X1ZLBW__18b0dbad95674ebd940a1b0394b92c22.realtimeinsurance-soap-api-dev.devkyfb.com._CNAME]
-module.hello_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-hello-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.hello_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-hello-lambda-role:realtimeinsurance-dev-hello-lambda-vpc-networking]
-module.soap_verification_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-vpc-networking]
-aws_s3_bucket_public_access_block.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-module.soap_verification_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.hello_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-hello-lambda]
-aws_rds_cluster.aurora: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster]
-aws_s3_bucket_versioning.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-module.soap_api_gateway.aws_api_gateway_domain_name.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com]
-aws_acm_certificate_validation.cert: Refreshing state... [id=2026-05-20 16:05:01.989 +0000 UTC]
-aws_route53_record.soap_api_dns: Refreshing state... [id=Z07550863D5AYI2X1ZLBW_realtimeinsurance-soap-api-dev.devkyfb.com_CNAME]
-module.api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["GET /hello"]: Refreshing state... [id=AllowAPIGatewayInvoke-GET__hello]
-module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"]: Refreshing state... [id=vnthl0]
-module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
-aws_rds_cluster_instance.reader[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-reader-1]
-aws_rds_cluster_instance.writer: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-writer]
-module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda]
-module.api_gateway.aws_lambda_permission.allow_apigw_invoke_authorizer[0]: Refreshing state... [id=AllowAPIGatewayInvokeAuthorizer]
-module.api_gateway.aws_api_gateway_authorizer.jwt[0]: Refreshing state... [id=h8jtyg]
-module.api_gateway.aws_api_gateway_method.this["GET /hello"]: Refreshing state... [id=agm-6h5fz78wz0-vnthl0-GET]
-module.api_gateway.aws_api_gateway_integration.this["GET /hello"]: Refreshing state... [id=agi-6h5fz78wz0-vnthl0-GET]
-module.api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=qmu6wk]
-module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__soap]
-module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"]: Refreshing state... [id=lknkms]
-module.api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-6h5fz78wz0-default]
-module.soap_api_gateway.aws_api_gateway_method.this["POST /soap"]: Refreshing state... [id=agm-q51dqcsrw5-lknkms-POST]
-module.soap_api_gateway.aws_api_gateway_integration.this["POST /soap"]: Refreshing state... [id=agi-q51dqcsrw5-lknkms-POST]
-module.soap_api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=v8y6xb]
-module.soap_api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-q51dqcsrw5-default]
-module.soap_api_gateway.aws_api_gateway_base_path_mapping.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com/]
+module "soap_api_gateway" {
+  source        = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178"  #v1.1.1
+  name          = "${var.application_name}-${var.env_tier}-soap-api-gateway"
+  is_production = false
+  jwt_audience  = null
+  
+  #["${var.entra_audience}"]
 
-OpenTofu used the selected providers to generate the following execution
-plan. Resource actions are indicated with the following symbols:
-  ~ update in-place (current -> planned)
+  custom_ip_whitelist = [
+    #Non-Producation IPs
+    "3.217.110.156/32"   #KentuckyIVS Testing Ip
+  ]
 
-OpenTofu will perform the following actions:
-
-  # module.soap_api_gateway.aws_api_gateway_stage.this will be updated in-place
-  ~ resource "aws_api_gateway_stage" "this" {
-      ~ deployment_id         = "jhzxi7" -> "v8y6xb"
-        id                    = "ags-q51dqcsrw5-default"
-        tags                  = {}
-        # (10 unchanged attributes hidden)
+  domain_name              = var.soap_api_domain_name
+  regional_certificate_arn = aws_acm_certificate.soap_api.arn
+  mtls_truststore_uri = "s3://${aws_s3_bucket.soap_api_truststore.bucket}/soap-truststore/truststore.pem"
+  
+  routes = [
+    {
+      path       = "/soap"
+      method     = "POST"
+      lambda_arn = module.soap_verification_lambda.lambda_function_arn
     }
-
-Plan: 0 to add, 1 to change, 0 to destroy.
-
-Warning: Value derived from a deprecated source
-
-  with module.api_gateway.aws_api_gateway_authorizer.jwt,
-  on .terraform/modules/api_gateway/main.tf line 177, in resource "aws_api_gateway_authorizer" "jwt":
- 177:   type            = "TOKEN"
-
-This value is derived from data.aws_region.current.name, which is deprecated
-with the following message:
-
-name is deprecated. Use region instead.
-
-Warning: Redundant ignore_changes element
-
-  on .terraform/modules/hello_lambda/main.tf line 152, in resource "aws_lambda_function" "placeholder":
- 152: resource "aws_lambda_function" "placeholder" {
-
-Adding an attribute name to ignore_changes tells OpenTofu to ignore future
-changes to the argument in configuration after the object has been created,
-retaining the value originally configured.
-
-The attribute last_modified is decided by the provider alone and therefore
-there can be no configured value to compare with. Including this attribute in
-ignore_changes has no effect. Remove the attribute from ignore_changes to
-quiet this warning.
-
-(and 5 more similar warnings elsewhere)
-
-─────────────────────────────────────────────────────────────────────────────
-
-Note: You didn't use the -out option to save this plan, so OpenTofu can't
-guarantee to take exactly these actions if you run "tofu apply" now.
-
-
-
-Initializing the backend...
-
-Successfully configured the backend "s3"! OpenTofu will automatically
-use this backend unless the backend configuration changes.
-Upgrading modules...
-Downloading git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.1.0 for api_gateway...
-- api_gateway in .terraform/modules/api_gateway
-Downloading git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0 for aurora_security_group...
-- aurora_security_group in .terraform/modules/aurora_security_group
-Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0 for hello_lambda...
-- hello_lambda in .terraform/modules/hello_lambda
-Downloading git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178 for soap_api_gateway...
-- soap_api_gateway in .terraform/modules/soap_api_gateway
-Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0 for soap_verification_lambda...
-- soap_verification_lambda in .terraform/modules/soap_verification_lambda
-
-Initializing provider plugins...
-- terraform.io/builtin/terraform is built in to OpenTofu
-- Finding latest version of hashicorp/archive...
-- Finding hashicorp/aws versions matching ">= 5.0.0, >= 5.40.0"...
-- Installing hashicorp/aws v6.51.0...
-- Installing hashicorp/archive v2.8.0...
-- Installed hashicorp/archive v2.8.0 (signed, key ID 0C0AF313E5FD9F80)
-- Installed hashicorp/aws v6.51.0 (signed, key ID 0C0AF313E5FD9F80)
-
-Providers are signed by their developers.
-If you'd like to know more about provider signing, you can read about it here:
-https://opentofu.org/docs/cli/plugins/signing/
-
-OpenTofu has created a lock file .terraform.lock.hcl to record the provider
-selections it made above. Include this file in your version control repository
-so that OpenTofu can guarantee to make the same selections by default when
-you run "tofu init" in the future.
-
-OpenTofu has been successfully initialized!
-
-You may now begin working with OpenTofu. Try running "tofu plan" to see
-any changes that are required for your infrastructure. All OpenTofu commands
-should now work.
-
-If you ever set or change modules or backend configuration for OpenTofu,
-rerun this command to reinitialize your working directory. If you forget, other
-commands will detect it and remind you to do so if necessary.
+  ]
+}
