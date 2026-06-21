@@ -97,7 +97,6 @@ PS C:\Users\T012sp\Downloads\Testing> ocurl -v --resolve realtimeinsurance-soap-
 curl: (55) Send failure: Connection was reset
 
 
-ocurl -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 PS C:\Users\T012sp\Downloads\Testing> ocurl -v --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 * Added realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 to DNS cache
 * Hostname realtimeinsurance-soap-api-dev.devkyfb.com was found in DNS cache
@@ -133,7 +132,7 @@ PS C:\Users\T012sp\Downloads\Testing> ocurl -v --resolve realtimeinsurance-soap-
 *   subjectAltName: "realtimeinsurance-soap-api-dev.devkyfb.com" matches cert's "realtimeinsurance-soap-api-dev.devkyfb.com"
 * OpenSSL verify result: 0
 * SSL certificate verified via OpenSSL.
-* Established connection to realtimeinsurance-soap-api-dev.devkyfb.com (54.225.164.69 port 443) from 10.214.100.171 port 63622
+* Established connection to realtimeinsurance-soap-api-dev.devkyfb.com (54.225.164.69 port 443) from 10.214.100.171 port 55560
 * using HTTP/2
 * [HTTP/2] [1] OPENED stream for https://realtimeinsurance-soap-api-dev.devkyfb.com/soap
 * [HTTP/2] [1] [:method: POST]
@@ -152,12 +151,12 @@ PS C:\Users\T012sp\Downloads\Testing> ocurl -v --resolve realtimeinsurance-soap-
 > Content-Length: 1425
 >
 * upload completely sent off: 1425 bytes
-< HTTP/2 403
-< x-amzn-requestid: 95ed392b-58d7-4b2c-8248-0094871f1eb2
-< x-amzn-errortype: AccessDeniedException
-< x-amz-apigw-id: fUzdUF4roAMF-RQ=
+< HTTP/2 502
+< x-amzn-requestid: e6022ea1-3e0a-43b5-adba-c48ba79bfa71
+< x-amzn-errortype: InternalServerErrorException
+< x-amz-apigw-id: fU0gXEXBIAMF_Sw=
 < content-type: application/json
-< content-length: 212
-< date: Sun, 21 Jun 2026 18:51:38 GMT
+< content-length: 36
+< date: Sun, 21 Jun 2026 18:58:57 GMT
 <
-{"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********0150:q51dqcsrw5/default/POST/soap with an explicit deny in a resource-based policy"}* Connection #0 to host realtimeinsurance-soap-api-dev.devkyfb.com:443 left intact
+{"message": "Internal server error"}* Connection #0 to host realtimeinsurance-soap-api-dev.devkyfb.com:443 left intact
