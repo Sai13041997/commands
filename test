@@ -36,7 +36,6 @@ urllib3.disable_warnings()  # silence the self-signed server-cert warning
 
 HOST = "realtimeinsurance-soap-api-dev.devkyfb.com"
 IP   = "54.225.164.69"
-URL  = f"https://{HOST}/soap"
 
 # Force the connection to the correct IP while keeping the real hostname for SNI
 class IPAdapter(HTTPAdapter):
@@ -52,7 +51,7 @@ def make_session():
     return s
 
 body = open("request.xml", "rb").read()
-headers = {"Content-Type": "text/xml"}
+headers = {"Content-Type": "text/xml", "Host": HOST}  # Host header so API GW routes correctly
 url_via_ip = f"https://{IP}/soap"
 
 print("=" * 50)
