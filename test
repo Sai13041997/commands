@@ -1,10 +1,35 @@
 curl.exe -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 
-PS C:\Users\T012sp\Downloads> curl -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d @request.xml
-At line:1 char:96
-+ ... -api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d @request.xml
-+                                                              ~~~~~~~~
-The splatting operator '@' cannot be used to reference variables in an expression. '@request' can be used only as an
-argument to a command. To reference variables in an expression use '$request'.
-    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
-    + FullyQualifiedErrorId : SplattingNotPermitted
+PS C:\Users\T012sp\Downloads> curl.exe -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+* Host realtimeinsurance-soap-api-dev.devkyfb.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 13.226.209.26, 13.226.209.114, 13.226.209.15, 13.226.209.76
+*   Trying 13.226.209.26:443...
+* schannel: disabled automatic use of client certificate
+* ALPN: curl offers http/1.1
+* ALPN: server accepted http/1.1
+* Established connection to realtimeinsurance-soap-api-dev.devkyfb.com (13.226.209.26 port 443) from 10.214.100.171 port 64375
+* using HTTP/1.x
+> POST /soap HTTP/1.1
+> Host: realtimeinsurance-soap-api-dev.devkyfb.com
+> User-Agent: curl/8.19.0
+> Accept: */*
+> Content-Type: text/xml
+> Content-Length: 1425
+>
+* upload completely sent off: 1425 bytes
+* schannel: remote party requests renegotiation
+* schannel: renegotiating SSL/TLS connection
+* schannel: SSL/TLS connection renegotiated
+< HTTP/1.1 301 Moved Permanently
+< Server: CloudFront
+< Date: Sun, 21 Jun 2026 14:56:05 GMT
+< Content-Length: 0
+< Connection: keep-alive
+< Location: https://www.devkyfb.com/realtimeinsurance-soap-api-dev/
+< X-Cache: FunctionGeneratedResponse from cloudfront
+< Via: 1.1 27a4997d1b1129dbb965ca80a491e18e.cloudfront.net (CloudFront)
+< X-Amz-Cf-Pop: IAD61-P12
+< X-Amz-Cf-Id: ngqjWnvEjU3Z1a4pyy75wg2zaJUqenYATWa4wWFVmtio1DEo7Gx_UQ==
+<
+* Connection #0 to host realtimeinsurance-soap-api-dev.devkyfb.com:443 left intact
