@@ -135,3 +135,6 @@ C:\Users\T012sp\AppData\Local\Programs\Git\cmd\git.exe
 PS C:\Users\T012sp\Downloads\Testing> where.exe python
 C:\Users\T012sp\AppData\Local\Programs\Python\Python313\python.exe
 C:\Users\T012sp\AppData\Local\Microsoft\WindowsApps\python.exe
+
+
+python -c "import cryptography; print(cryptography.__version__)"
