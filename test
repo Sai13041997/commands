@@ -1,1 +1,11 @@
 curl -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d @request.xml
+
+
+PS C:\Users\T012sp\Downloads> curl -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d @request.xml
+At line:1 char:96
++ ... -api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d @request.xml
++                                                              ~~~~~~~~
+The splatting operator '@' cannot be used to reference variables in an expression. '@request' can be used only as an
+argument to a command. To reference variables in an expression use '$request'.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : SplattingNotPermitted
