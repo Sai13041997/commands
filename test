@@ -37,3 +37,23 @@ PS C:\Users\T012sp\Downloads> curl.exe -v https://realtimeinsurance-soap-api-dev
 
 
 nslookup realtimeinsurance-soap-api-dev.devkyfb.com
+
+
+PS C:\Users\T012sp\Downloads> nslookup realtimeinsurance-soap-api-dev.devkyfb.com
+Server:  sdrt240.kyfb.pri
+Address:  10.217.3.100
+
+Non-authoritative answer:
+Name:    realtimeinsurance-soap-api-dev.devkyfb.com
+Addresses:  2600:9000:201d:3a00:2:49fb:5a80:93a1
+          2600:9000:201d:ec00:2:49fb:5a80:93a1
+          2600:9000:201d:3800:2:49fb:5a80:93a1
+          2600:9000:201d:d400:2:49fb:5a80:93a1
+          2600:9000:201d:8200:2:49fb:5a80:93a1
+          2600:9000:201d:a400:2:49fb:5a80:93a1
+          2600:9000:201d:8000:2:49fb:5a80:93a1
+          2600:9000:201d:ce00:2:49fb:5a80:93a1
+          13.226.209.15
+          13.226.209.114
+          13.226.209.76
+          13.226.209.26
