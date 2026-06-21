@@ -1,0 +1,1 @@
+curl -v https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d @request.xml
