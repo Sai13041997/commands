@@ -160,86 +160,15 @@ curl: (35) schannel: next InitializeSecurityContext failed: SEC_E_INTERNAL_ERROR
 
 
 
-General
-Request
-HTTP version
-NEW
-Select the HTTP version to use for sending the request.
-Auto
-Request timeout
-Set how long a request should wait for a response before timing out. To never time out, set to 0.
-0
-ms
-Max response size
-Set the maximum size of a response to download. To download a response of any size, set to 0.
-50
-MB
-SSL certificate verification
-
-SSL/TLS key log
-Enable SSL/TLS session key logging for debugging encrypted connections
-
-Disable cookies
-Disable cookie jar for all requests.
-
-Response format detection
-Working directory
-Collaborate on files used in requests by sharing your working directory. Learn how to 
-setup your working directory
-
-Location
-C:\Users\T012sp\Postman\files
-The selected working directory does not exist
-Read files outside working directory
-Enabling this will allow any 3rd party collections to potentially read any file on your system.
-
-Headers
-Send no-cache header
-
-Send Postman Token header
-
-Retain headers when clicking on links
-
-Automatically follow redirects
-
-User interface
-Always open sidebar item in new tab
-
-Always ask when closing unsaved tabs
-
-Show icons with tab names
-
-Two-pane view
-
-Show middle workbench (Ctrl+Alt+M)
-
-Swap left and right sidebars (Ctrl+Alt+S)
-
-Variable autocomplete
-
-Default documentation editor
-Editor settings
-Font Family
-IBMPlexMono, 'Courier New', monospace
-Font Size (px)
-12
-px
-Indentation count
-Set number of indentations to add per code level.
-4
-Indentation type
-Indent lines of code with either Space or Tab.
-Auto close brackets
-
-Auto close quotes
-
-Application
-Open in desktop app
-Automatically open links in desktop app when possible. You can update your preference in the Settings of Postman in your browser.
-Language
-Choose the language for the Postman app and email notifications.
-Autosave
-BETA
-Autosave changes to your requests.
-
-Send anonymous usage data to Postman
+POST https://54.225.164.69/soap
+Error: read ECONNRESET
+Request Headers
+Content-Type: text/xml; charset=UTF-8
+SOAPAction: "CoverageRequest"
+Host: realtimeinsurance-soap-api-dev.devkyfb.com
+User-Agent: PostmanRuntime/7.54.0
+Accept: */*
+Cache-Control: no-cache
+Postman-Token: b7767ad3-24db-489f-8ca3-dea216876ea2
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
