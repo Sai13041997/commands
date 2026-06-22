@@ -160,3 +160,17 @@ PS C:\Users\T012sp\Downloads\Testing> ocurl -v --resolve realtimeinsurance-soap-
 < date: Sun, 21 Jun 2026 18:58:57 GMT
 <
 {"message": "Internal server error"}* Connection #0 to host realtimeinsurance-soap-api-dev.devkyfb.com:443 left intact
+
+
+INIT_START Runtime Version: python:3.13.mainlinev2.v11	Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:b80aa8cfc4306316d8164ccc5e4a7effaf5d6038865946d200964f23367ef28b
+START RequestId: 981b9052-f6ef-4144-9a11-1bfe53b39411 Version: $LATEST
+[ERROR] ProgrammingError: {'S': 'ERROR', 'V': 'ERROR', 'C': '42P01', 'M': 'relation "public.auto_unit" does not exist', 'P': '175', 'F': 'parse_relation.c', 'L': '1472', 'R': 'parserOpenTable'}
+Traceback (most recent call last):
+  File "/var/task/main.py", line 13, in lambda_handler
+    unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
+  File "/var/task/database_handler.py", line 34, in query_policy_info_by_vin
+    cursor.execute(query, (vin_number,verification_date))
+  File "/var/task/pg8000/legacy.py", line 283, in execute
+    raise cls(msg)
+END RequestId: 981b9052-f6ef-4144-9a11-1bfe53b39411
+REPORT RequestId: 981b9052-f6ef-4144-9a11-1bfe53b39411	Duration: 7955.03 ms	Billed Duration: 8837 ms	Memory Size: 128 MB	Max Memory Used: 91 MB	Init Duration: 881.40 ms
