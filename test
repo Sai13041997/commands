@@ -174,3 +174,6 @@ Traceback (most recent call last):
     raise cls(msg)
 END RequestId: 981b9052-f6ef-4144-9a11-1bfe53b39411
 REPORT RequestId: 981b9052-f6ef-4144-9a11-1bfe53b39411	Duration: 7955.03 ms	Billed Duration: 8837 ms	Memory Size: 128 MB	Max Memory Used: 91 MB	Init Duration: 881.40 ms
+
+
+The 502 is coming from the Lambda, not the API or mTLS. The request actually reaches the Lambda fine and it connects to the database — but the query fails because the table it's looking for (public.auto_unit) doesn't exist in the database yet. So the Lambda errors out, and that comes back as a 502.
