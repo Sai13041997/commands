@@ -101,3 +101,15 @@ Please let us know if there is additional Authentication that we may have missed
 
 Thanks
 KentuckyIVS Helpdesk
+
+
+email 5:
+Hi KentuckyIVS Team,
+Thanks for the details and the sample request and response, that's helpful.
+The MissingAuthenticationToken error is typically returned by our API Gateway when a request reaches it but doesn't match a configured method/path, so we'd like to confirm exactly how the request is being sent before we dig further on our side.
+Could you please confirm the following and share the complete raw HTTP request (the full request URL, the HTTP method, and all request headers — not just the SOAP body)?
+
+The full URL should be exactly: https://realtimeinsurance-soap-api-dev.devkyfb.com/soap (with the /soap path, no trailing slash or stage name appended)
+The method should be POST
+
+Once we have the raw request, we can quickly confirm whether it's reaching the correct route and pinpoint anything on our end.
