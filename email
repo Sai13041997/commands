@@ -1,0 +1,103 @@
+email 1: 
+Hi KentuckyIVS Team,
+
+Hope you're doing well. We have completed the setup on our end and would like to do some end-to-end testing. 
+
+For the testing, please use the following details:
+- URL: https://realtimeinsurance-soap-api-dev.devkyfb.com
+- VIN Number: 56KDMABH4N3000596
+
+Once you've made the request, if you could please send the response you receive, I will verify that it matches the expected outcome on our side. 
+
+Let us know if you encounter any issues or need anything from our side during the testing. 
+
+Thanks
+Zach
+
+email 2:
+Hello,
+
+We are receiving 403 Forbidden error. Please make sure you are allowing ‘KentuckyIVS’ as the organization name. 
+
+If your OLV Web Service uses IP address restrictions, the IP address of the test KentuckyIVS client is:
+3.217.110.156
+
+Thanks
+KentuckyIVS Helpdesk
+
+
+email 3:
+Hello KentuckyIVS Team, 
+
+Hope you're doing well, we’ve completed our investigation and made the necessary configuration updates on our API Gateway. 
+
+Could you please retry the SOAP request and let us know the result? If you still see the 403, please share the timestamp and any error details so we can investigate further. 
+
+The endpoint and IP allowlist remain unchanged: - 
+•	URL: https://realtimeinsurance-soap-api-dev.devkyfb.com/soap 
+•	Your test IP (3.217.110.156) is allowlisted 
+
+Thank you
+sai
+
+
+email 4:
+Hello,
+
+We are continuing to receive 403 error with the message ‘Missing Authentication Token’.
+
+Here is the corresponding Request and Response,
+
+Time: 2026-07-01 09:52:28.857
+
+Request:
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/" PublicationVersion="00200809" PublicationDate="2008-11-05">
+      <RequestorInformation>
+        <Organization>
+          <Name>KentuckyIVS</Name>
+        </Organization>
+        <ReasonDetails>
+          <ReasonCode>BIVER</ReasonCode>
+          <TrackingNumber>KYTRK-260701-095228-328-16-283-5-1</TrackingNumber>
+        </ReasonDetails>
+      </RequestorInformation>
+      <Detail>
+        <PolicyInformation>
+          <OrganizationDetails>
+            <NAIC>22993</NAIC>
+          </OrganizationDetails>
+          <PolicyDetails>
+            <VerificationDate>2026-07-01T00:00:00.000</VerificationDate>
+            <PolicyKey>PTest12345</PolicyKey>
+            <PolicyState>KY</PolicyState>
+          </PolicyDetails>
+        </PolicyInformation>
+        <VehicleInformation>
+          <VehicleDetails>
+            <VIN>56KDMABH4N3000596</VIN>
+          </VehicleDetails>
+        </VehicleInformation>
+      </Detail>
+    </CoverageRequest>
+  </soapenv:Body>
+</soapenv:Envelope>
+
+Response:
+HTTP/1.1 403 Forbidden
+x-amzn-RequestId: 434c3a87-36e0-4dac-bff7-930dbc41c811
+x-amzn-ErrorType: MissingAuthenticationTokenException
+x-amz-apigw-id: f1FAkFzHIAMFVcg=
+content-type: application/json
+content-length: 42
+connection: keep-alive
+date: Wed, 01 Jul 2026 13:52:28 GMT
+
+{"message":"Missing Authentication Token"}
+
+Please let us know if there is additional Authentication that we may have missed. 
+
+Thanks
+KentuckyIVS Helpdesk
