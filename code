@@ -1,10 +1,82 @@
-variable "soap_disable_execute_api_endpoint" {
-  description = "When true, disables the default execute-api endpoint for the SOAP API, enforcing traffic through the custom domain (mTLS) only."
-  type        = bool
-  default     = true
-}
+ # ============================================================
+ # OPA Policy Validation
+ # ============================================================
+      - name: Convert Tofu plan to JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          tofu show -json tfplan > tfplan.json
 
+      - name: Checkout central OPA policy repo
+        uses: actions/checkout@v4
+        with:
+          repository: kfbmic/opa-policy
+          ref: feature/T012SP/CPE-227
+          token: ${{ steps.get_workflow_token.outputs.token }}
+          path: opa-policy
 
-soap_disable_execute_api_endpoint = true
+      - name: Install OPA
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x opa
+          sudo mv opa /usr/local/bin/opa
+          opa version
 
-disable_execute_api_endpoint = var.soap_disable_execute_api_endpoint
+      - name: Run OPA Policy Validation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          RESULT=$(opa eval \
+            --format=json \
+            --data opa-policy/tags \
+            --input tfplan.json \
+            "data.terraform.tags.deny")
+
+          COUNT=$(echo "$RESULT" | jq '.result[0].expressions[0].value | length')
+
+          if [ "$COUNT" -eq 0 ]; then
+            echo "=================================================="
+            echo "        OPA POLICY CHECK: PASSED"
+            echo "=================================================="
+            echo "All required tags are present on all resources."
+            echo "=================================================="
+            exit 0
+          fi
+
+          # Extract data
+          VIOLATIONS=$(echo "$RESULT" | jq -r '.result[0].expressions[0].value[]')
+
+          UNIQUE_TAGS=$(echo "$VIOLATIONS" \
+            | sed 's/.*missing tag: //' \
+            | sort -u)
+
+          AFFECTED_RESOURCES=$(echo "$VIOLATIONS" \
+            | sed 's/Resource \(.*\) missing tag.*/\1/' \
+            | sort -u)
+
+          AFFECTED_COUNT=$(echo "$AFFECTED_RESOURCES" | wc -l)
+
+          echo "=================================================="
+          echo "           OPA POLICY CHECK: FAILED"
+          echo "=================================================="
+          echo "Total Violations  : $COUNT"
+          echo "Affected Resources: $AFFECTED_COUNT"
+          echo ""
+          echo " Missing Required Tags:"
+          echo "$UNIQUE_TAGS" | sed 's/^/   - /'
+          echo ""
+          echo " Affected Resources:"
+          echo "$AFFECTED_RESOURCES" | sed 's/^/   - /'
+          echo ""
+          echo "--------------------------------------------------"
+          echo "             Detailed Violations:"
+          echo "--------------------------------------------------"
+          echo "$VIOLATIONS" | sed 's/^/   • /'
+          echo "=================================================="
+          echo ""
+          echo "Fix: Add missing tags to provider default_tags OR resource tags blocks."
+
+          exit 1   
