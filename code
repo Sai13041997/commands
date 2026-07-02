@@ -80,3 +80,197 @@
           echo "Fix: Add missing tags to provider default_tags OR resource tags blocks."
 
           exit 1   
+
+
+
+
+C:\Users\T012sp\Git repo\opa-policy\tags\configurations\default_config.json:
+{
+  "required_tags": [
+    "application_name",
+    "terraform",
+    "source",
+    "created_by",
+    "requested_by",
+    "owned_by",
+    "business_ops_category"
+  ]
+}
+
+
+
+C:\Users\T012sp\Git repo\opa-policy\tags\tags.rego:
+package terraform.tags
+
+import rego.v1
+
+# Read required tags from config
+required_tags := data.configurations.required_tags
+
+# Expanded non-taggable resources
+non_taggable := {
+  "aws_iam_policy_attachment",
+  "aws_iam_role_policy",
+  "aws_iam_role_policy_attachment",
+  "aws_s3_bucket_policy",
+  "aws_route_table_association",
+  "aws_lambda_permission",
+  "aws_api_gateway_deployment",
+  "aws_api_gateway_method",
+  "aws_api_gateway_integration",
+  "aws_api_gateway_base_path_mapping",
+  "aws_route53_record",
+  "aws_acm_certificate_validation",
+  "aws_s3_bucket_public_access_block",
+  "aws_s3_bucket_versioning",
+  "aws_lb_target_group_attachment",
+  "aws_cloudwatch_event_target",
+  "aws_ecs_cluster_capacity_providers",
+  "terraform_data"
+}
+
+# Defensive: fail loud if config missing
+deny contains msg if {
+  not required_tags
+  msg := "CONFIG ERROR: required_tags config not loaded"
+}
+
+# Rule 1 — Resource has no tags at all
+deny contains msg if {
+  resource := input.resource_changes[_]
+
+  # Only check managed resources (skip data sources)
+  resource.mode == "managed"
+
+  not non_taggable[resource.type]
+  resource.change.after != null
+
+  tags := object.get(resource.change.after, "tags_all",
+          object.get(resource.change.after, "tags", null))
+
+  tags == null
+  msg := sprintf("Resource %s has no tags", [resource.address])
+}
+
+# Rule 2 — Resource missing specific required tag
+deny contains msg if {
+  resource := input.resource_changes[_]
+
+  # Only check managed resources (skip data sources)
+  resource.mode == "managed"
+
+  not non_taggable[resource.type]
+  resource.change.after != null
+
+  tags := object.get(resource.change.after, "tags_all", {})
+
+  required := required_tags[_]
+  not tags[required]
+
+  msg := sprintf("Resource %s missing tag: %s", [resource.address, required])
+}
+
+C:\Users\T012sp\Git repo\opa-policy\.github\workflows\opa-validate.yml:
+name: OPA Policy Validation
+
+on:
+  workflow_call:
+    inputs:
+      tfplan-artifact:
+        required: true
+        type: string
+    secrets:
+      cross_repo_app_id:
+        required: true
+      cross_repo_key:
+        required: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-24.04
+
+    steps:
+      - name: Get GitHub App Token
+        id: app_token
+        uses: actions/create-github-app-token@bcd2ba49218906704ab6c1aa796996da409d3eb1 # v3.2.0
+        with:
+          app-id: ${{ secrets.cross_repo_app_id }}
+          private-key: ${{ secrets.cross_repo_key }}
+          owner: ${{ github.repository_owner }}
+
+      - name: Checkout OPA policy repo
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        with:
+          repository: ${{ job.workflow_repository }}
+          ref: ${{ job.workflow_sha }}
+          token: ${{ steps.app_token.outputs.token }}
+          path: opa-policy
+
+      - name: Download tfplan artifact
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4.3.0
+        with:
+          name: ${{ inputs.tfplan-artifact }}
+          path: .
+      - name: Install OPA
+        run: |
+          curl -fsSL -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x opa
+          sudo mv opa /usr/local/bin/opa
+
+      - name: Run OPA validation
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          RESULT=$(opa eval \
+            --format=json \
+            --data opa-policy/tags \
+            --input tfplan.json \
+            "data.terraform.tags.deny")
+
+          COUNT=$(echo "$RESULT" | jq '(.result[0].expressions[0].value // []) | length')
+
+          #PASS CASE
+          if [ "$COUNT" -eq 0 ]; then
+            echo "=================================================="
+            echo "         OPA POLICY CHECK: PASSED"
+            echo "=================================================="
+            echo "All required tags are present on all resources."
+            echo "=================================================="
+            exit 0
+          fi
+
+          #FAIL CASE — extract details
+          VIOLATIONS=$(echo "$RESULT" | jq -r '(.result[0].expressions[0].value // [])[]')
+
+          UNIQUE_TAGS=$(echo "$VIOLATIONS" \
+            | sed -nE 's/^Resource .* missing tag: (.*)$/\1/p' \
+            | sort -u)
+
+          AFFECTED_RESOURCES=$(echo "$VIOLATIONS" \
+            | sed -E 's/^Resource ([^ ]+).*/\1/' \
+            | sort -u)
+
+          AFFECTED_COUNT=$(echo "$AFFECTED_RESOURCES" | wc -l)
+
+          #Clean structured output
+          echo "=================================================="
+          echo "         OPA POLICY CHECK: FAILED"
+          echo "=================================================="
+          echo "Total Violations  : $COUNT"
+          echo "Affected Resources: $AFFECTED_COUNT"
+          echo ""
+          echo "   Missing Required Tags:"
+          echo "$UNIQUE_TAGS" | sed 's/^/   - /'
+          echo ""
+          echo "   Affected Resources:"
+          echo "$AFFECTED_RESOURCES" | sed 's/^/   - /'
+          echo ""
+          echo "::group:: Detailed Violations"
+          echo "$VIOLATIONS" | sed 's/^/   • /'
+          echo "::endgroup::"
+          echo "=================================================="
+          echo "Fix: Add missing tags to resource tags blocks."
+          echo "=================================================="
+
+          exit 1
