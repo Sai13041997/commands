@@ -1,33 +1,10 @@
-That error means disable_execute_api_endpoint is being set in a block where the AWS provider schema does not allow it.
-
-Most common causes:
-
-It is in the wrong resource/module block.
-The hashicorp/aws provider version is too old for that argument.
-disable_execute_api_endpoint is valid on API resources like:
-
-aws_api_gateway_rest_api (REST v1)
-aws_apigatewayv2_api (HTTP/WebSocket v2)
-If it is inside something like aws_api_gateway_deployment, aws_api_gateway_stage, or a module input not declared by the module, you will get this exact error.
-
-Example (valid placement):
-resource "aws_api_gateway_rest_api" "soap" {
-  name                         = "soap-api"
-  disable_execute_api_endpoint = true
+variable "soap_disable_execute_api_endpoint" {
+  description = "When true, disables the default execute-api endpoint for the SOAP API, enforcing traffic through the custom domain (mTLS) only."
+  type        = bool
+  default     = true
 }
 
-Also pin/upgrade provider:
-terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = ">= 4.0"
-    }
-  }
-}
 
-Then run:
+soap_disable_execute_api_endpoint = true
 
-tofu init -upgrade
-tofu validate
-If needed, share the full resource/module block from soap_api.tf; the exact misplaced location can be identified quickly.
+disable_execute_api_endpoint = var.soap_disable_execute_api_endpoint
