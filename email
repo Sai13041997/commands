@@ -113,3 +113,28 @@ The full URL should be exactly: https://realtimeinsurance-soap-api-dev.devkyfb.c
 The method should be POST
 
 Once we have the raw request, we can quickly confirm whether it's reaching the correct route and pinpoint anything on our end.
+
+
+email 6:
+Hello,
+ 
+Thanks for clarifying the full URL. We are able to connect to your webservice but is timing out before we could read the response. Please make sure the web service is responding within  2s as specified in the implementation guide. 
+ 
+Here is the log
+
+2026-07-02 09:04:50.556       Connecting to https://realtimeinsurance-soap-api-dev.devkyfb.com/soap...
+2026-07-02 09:04:50.558       Connected to 34.193.17.109
+2026-07-02 09:04:50.558       SSL HANDSHAKE start
+2026-07-02 09:04:50.560       SSL HANDSHAKE checkServerTrusted
+2026-07-02 09:04:50.560       SSL HANDSHAKE getAcceptedIssuers
+2026-07-02 09:04:50.562       SSL HANDSHAKE chooseClientAlias [EC, RSASSA-PSS, RSA]
+2026-07-02 09:04:50.562       SSL HANDSHAKE getPrivateKey for tomcat
+2026-07-02 09:04:50.562       SSL HANDSHAKE getCertificateChain for tomcat returning a chain of 3
+2026-07-02 09:04:50.607       SSL HANDSHAKE complete TLSv1.2
+2026-07-02 09:04:52.607       java.net.SocketTimeoutException: Read timed out: first http header: 2000
+2026-07-02 09:04:52.607       Connection lost, response has 0 lines.
+2026-07-02 09:04:52.607      Returned <AR1=Connection lost while reading header.|REAS=3006|RESP=3|TNBR=KYTRK-330-3|UTNBR=TrackTest|VVAL=VALID|QCNR=1>
+  
+Thanks
+KentuckyIVS Helpdesk
+
