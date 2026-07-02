@@ -1,122 +1,23 @@
-Run set -euo pipefail
-  set -euo pipefail
-  
-  RESULT=$(opa eval \
-    --format=json \
-    --data opa-policy/tags \
-    --input tfplan.json \
-    "data.terraform.tags.deny")
-  
-  COUNT=$(echo "$RESULT" | jq '(.result[0].expressions[0].value // []) | length')
-  
-  #PASS CASE
-  if [ "$COUNT" -eq 0 ]; then
-    echo "=================================================="
-    echo "         OPA POLICY CHECK: PASSED"
-    echo "=================================================="
-    echo "All required tags are present on all resources."
-    echo "=================================================="
-    exit 0
-  fi
-  
-  #FAIL CASE — extract details
-  VIOLATIONS=$(echo "$RESULT" | jq -r '(.result[0].expressions[0].value // [])[]')
-  
-  UNIQUE_TAGS=$(echo "$VIOLATIONS" \
-    | sed -nE 's/^Resource .* missing tag: (.*)$/\1/p' \
-    | sort -u)
-  
-  AFFECTED_RESOURCES=$(echo "$VIOLATIONS" \
-    | sed -E 's/^Resource ([^ ]+).*/\1/' \
-    | sort -u)
-  
-  AFFECTED_COUNT=$(echo "$AFFECTED_RESOURCES" | wc -l)
-  
-  #Clean structured output
-  echo "=================================================="
-  echo "         OPA POLICY CHECK: FAILED"
-  echo "=================================================="
-  echo "Total Violations  : $COUNT"
-  echo "Affected Resources: $AFFECTED_COUNT"
-  echo ""
-  echo "   Missing Required Tags:"
-  echo "$UNIQUE_TAGS" | sed 's/^/   - /'
-  echo ""
-  echo "   Affected Resources:"
-  echo "$AFFECTED_RESOURCES" | sed 's/^/   - /'
-  echo ""
-  echo "::group:: Detailed Violations"
-  echo "$VIOLATIONS" | sed 's/^/   • /'
-  echo "::endgroup::"
-  echo "=================================================="
-  echo "Fix: Add missing tags to resource tags blocks."
-  echo "=================================================="
-  
-  exit 1
-  shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
-==================================================
-         OPA POLICY CHECK: FAILED
-==================================================
-Total Violations  : 40
-Affected Resources: 5
-
-   Missing Required Tags:
-   - application_name
-   - business_ops_category
-   - created_by
-   - owned_by
-   - requested_by
-   - source
-   - terraform
-
-   Affected Resources:
-   - module.api_gateway.aws_api_gateway_authorizer.jwt[0]
-   - module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"]
-   - module.api_gateway.aws_api_gateway_rest_api_policy.this
-   - module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"]
-   - module.soap_api_gateway.aws_api_gateway_rest_api_policy.this
-
- Detailed Violations
-     • Resource module.api_gateway.aws_api_gateway_authorizer.jwt[0] has no tags
-     • Resource module.api_gateway.aws_api_gateway_authorizer.jwt[0] missing tag: application_name
-     • Resource module.api_gateway.aws_api_gateway_authorizer.jwt[0] missing tag: business_ops_category
-     • Resource module.api_gateway.aws_api_gateway_authorizer.jwt[0] missing tag: created_by
-     • Resource module.api_gateway.aws_api_gateway_authorizer.jwt[0] missing tag: owned_by
-     • Resource module.api_gateway.aws_api_gateway_authorizer.jwt[0] missing tag: requested_by
-     • Resource module.api_gateway.aws_api_gateway_authorizer.jwt[0] missing tag: source
-     • Resource module.api_gateway.aws_api_gateway_authorizer.jwt[0] missing tag: terraform
-     • Resource module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"] has no tags
-     • Resource module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"] missing tag: application_name
-     • Resource module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"] missing tag: business_ops_category
-     • Resource module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"] missing tag: created_by
-     • Resource module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"] missing tag: owned_by
-     • Resource module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"] missing tag: requested_by
-     • Resource module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"] missing tag: source
-     • Resource module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"] missing tag: terraform
-     • Resource module.api_gateway.aws_api_gateway_rest_api_policy.this has no tags
-     • Resource module.api_gateway.aws_api_gateway_rest_api_policy.this missing tag: application_name
-     • Resource module.api_gateway.aws_api_gateway_rest_api_policy.this missing tag: business_ops_category
-     • Resource module.api_gateway.aws_api_gateway_rest_api_policy.this missing tag: created_by
-     • Resource module.api_gateway.aws_api_gateway_rest_api_policy.this missing tag: owned_by
-     • Resource module.api_gateway.aws_api_gateway_rest_api_policy.this missing tag: requested_by
-     • Resource module.api_gateway.aws_api_gateway_rest_api_policy.this missing tag: source
-     • Resource module.api_gateway.aws_api_gateway_rest_api_policy.this missing tag: terraform
-     • Resource module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"] has no tags
-     • Resource module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"] missing tag: application_name
-     • Resource module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"] missing tag: business_ops_category
-     • Resource module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"] missing tag: created_by
-     • Resource module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"] missing tag: owned_by
-     • Resource module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"] missing tag: requested_by
-     • Resource module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"] missing tag: source
-     • Resource module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"] missing tag: terraform
-     • Resource module.soap_api_gateway.aws_api_gateway_rest_api_policy.this has no tags
-     • Resource module.soap_api_gateway.aws_api_gateway_rest_api_policy.this missing tag: application_name
-     • Resource module.soap_api_gateway.aws_api_gateway_rest_api_policy.this missing tag: business_ops_category
-     • Resource module.soap_api_gateway.aws_api_gateway_rest_api_policy.this missing tag: created_by
-     • Resource module.soap_api_gateway.aws_api_gateway_rest_api_policy.this missing tag: owned_by
-     • Resource module.soap_api_gateway.aws_api_gateway_rest_api_policy.this missing tag: requested_by
-     • Resource module.soap_api_gateway.aws_api_gateway_rest_api_policy.this missing tag: source
-     • Resource module.soap_api_gateway.aws_api_gateway_rest_api_policy.this missing tag: terraform
-==================================================
-Fix: Add missing tags to resource tags blocks.
-==================================================
+non_taggable := {
+  "aws_iam_policy_attachment",
+  "aws_iam_role_policy",
+  "aws_iam_role_policy_attachment",
+  "aws_s3_bucket_policy",
+  "aws_route_table_association",
+  "aws_lambda_permission",
+  "aws_api_gateway_deployment",
+  "aws_api_gateway_method",
+  "aws_api_gateway_integration",
+  "aws_api_gateway_base_path_mapping",
+  "aws_api_gateway_authorizer",         # new — no tags support in AWS provider
+  "aws_api_gateway_resource",           # new — no tags support in AWS provider
+  "aws_api_gateway_rest_api_policy",    # new — no tags support in AWS provider
+  "aws_route53_record",
+  "aws_acm_certificate_validation",
+  "aws_s3_bucket_public_access_block",
+  "aws_s3_bucket_versioning",
+  "aws_lb_target_group_attachment",
+  "aws_cloudwatch_event_target",
+  "aws_ecs_cluster_capacity_providers",
+  "terraform_data"
+}
