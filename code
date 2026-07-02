@@ -1,3 +1,4 @@
+main.tf:
 terraform {
   required_providers {
     aws = {
@@ -289,4 +290,125 @@ resource "aws_api_gateway_base_path_mapping" "this" {
   stage_name  = aws_api_gateway_stage.this.stage_name
   domain_name = aws_api_gateway_domain_name.this[0].domain_name
   base_path   = ""
+}
+
+
+variables.tf:
+variable "name" {
+  type        = string
+  description = "API name."
+}
+
+variable "stage_name" {
+  type        = string
+  description = "Stage name for the REST API. REST APIs require a stage."
+  default     = "default"
+}
+
+variable "is_production" {
+  type        = bool
+  description = "If true, apply the production IP whitelist; otherwise apply the non-production whitelist."
+}
+
+variable "jwt_audience" {
+  type        = list(string)
+  description = "Accepted JWT audiences."
+  default     = ["api://585f3a95-8bf5-4df4-b80b-585ca5ca2071"]
+}
+
+variable "routes" {
+  description = <<EOT
+Minimal backend lambda route definitions.
+Example:
+[
+  { path = "/health", method = "GET",  lambda_arn = "arn:aws:lambda:..." },
+  { path = "/users",  method = "POST", lambda_arn = "arn:aws:lambda:..." }
+]
+EOT
+
+  type = list(object({
+    path       = string
+    method     = string
+    lambda_arn = string
+  }))
+}
+
+# ---------------------------------------------------------------------------
+# Optional — when set, this list is used instead of the shared prod/non-prod
+# lists, giving each API gateway its own independent IP allowlist.
+# The existing api_gateway call never passes this so it is completely
+# unaffected and keeps using ip_whitelist_nonproduction as before.
+# ---------------------------------------------------------------------------
+variable "custom_ip_whitelist" {
+  type        = list(string)
+  description = "Explicit CIDR allowlist for this API. Overrides the shared prod/non-prod lists when provided. Leave null to use the shared lists."
+  default     = null
+}
+
+# ---------------------------------------------------------------------------
+# mTLS / custom domain — all three default to null so existing callers
+# (e.g. the existing api_gateway block pinned at v1.0.0) are completely
+# unaffected.  Set these only when you are ready to enable the custom domain
+# and mTLS.
+# ---------------------------------------------------------------------------
+
+variable "domain_name" {
+  type        = string
+  description = "Custom domain name for the API (e.g. soap-api.mvsolutions.com). Leave null to skip custom domain and mTLS setup."
+  default     = null
+}
+
+variable "regional_certificate_arn" {
+  type        = string
+  description = "ACM certificate ARN for the custom domain (TLS). Required when domain_name is set."
+  default     = null
+}
+
+variable "mtls_truststore_uri" {
+  type        = string
+  description = "S3 URI of the mTLS truststore PEM bundle (e.g. s3://my-bucket/truststore.pem). Required when domain_name is set and mTLS is needed."
+  default     = null
+}
+
+soap_api.tf:
+module "soap_api_gateway" {
+  source        = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178"  #v1.1.1
+  name          = "${var.application_name}-${var.env_tier}-soap-api-gateway"
+  is_production = false
+  jwt_audience  = null
+  
+  #["${var.entra_audience}"]
+  
+  custom_ip_whitelist = [
+    # Producation IPs
+    "100.26.142.141/32",
+    "13.219.186.27/32",
+    "3.217.179.71/32",
+    "34.198.158.154/32",
+    "98.85.72.172/32",
+    "3.232.189.110/32",
+    "3.215.189.159/32",
+    "3.208.235.10/32",
+    "3.218.100.195/32",
+    "18.210.237.224/32",
+    "52.204.127.86/32",
+    "3.82.166.48/32",
+
+    "3.133.82.131/32",  # DR- Disaster Recovery
+
+    #Non-Producation IPs
+    "3.217.110.156/32"   #KentuckyIVS Testing Ip
+  ]
+
+  domain_name              = var.soap_api_domain_name
+  regional_certificate_arn = aws_acm_certificate.soap_api.arn
+  mtls_truststore_uri = "s3://${aws_s3_bucket.soap_api_truststore.bucket}/soap-truststore/truststore.pem"
+  
+  routes = [
+    {
+      path       = "/soap"
+      method     = "POST"
+      lambda_arn = module.soap_verification_lambda.lambda_function_arn
+    }
+  ]
 }
