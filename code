@@ -17,4 +17,17 @@ dynamic "mutual_tls_authentication" {
 
 mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
-Get-ChildItem C:\Users\T012sp\Downloads\curl-ossl -Recurse -Filter curl.exe
+
+
+cd C:\Users\T012sp\Downloads
+curl.exe --ssl-no-revoke -L -o curl-ossl.zip https://curl.se/windows/dl-8.20.0_5/curl-8.20.0_5-win64-mingw.zip
+Expand-Archive -Path curl-ossl.zip -DestinationPath curl-ossl -Force
+
+
+Set-Alias ocurl C:\Users\T012sp\Downloads\curl-ossl\curl-8.20.0_5-win64-mingw\bin\curl.exe
+ocurl --version
+
+
+cd C:\Users\T012sp\Downloads\Testing
+ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
