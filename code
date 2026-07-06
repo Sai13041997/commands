@@ -17,9 +17,7 @@ dynamic "mutual_tls_authentication" {
 
 mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
-Do we need to think about rds proxy here?
- 
-Or do you think lambda warmer is the way to go
- 
-Provisioned concurrency seems heavy to me, I’d say avoid if possible but if we need it we need it
+Yeah fair, provisioned concurrency does feel heavy — happy to avoid it if we can.
+RDS Proxy is a good shout, hadn't thought about that. A big chunk of the cold time is the fresh DB connection + IAM token per invocation, so proxy would knock that down without needing any app-code changes.
+Thinking I'd try RDS Proxy first, then a warmer if we still need it, and only go to provisioned concurrency as a last resort. Sound good?
  
