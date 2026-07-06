@@ -17,30 +17,4 @@ dynamic "mutual_tls_authentication" {
 
 mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d
- "test"
-
-TIME_TOTAL: 0.191855s
-TIME_STARTTRANSFER: 0.190993s
-HTTP_CODE: 502
-PS C:\Users\T012sp\Downloads\Testing> notepad request.xml
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
-
-TIME_TOTAL: 9.082055s
-TIME_STARTTRANSFER: 9.080905s
-HTTP_CODE: 200
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
-
-TIME_TOTAL: 0.772216s
-TIME_STARTTRANSFER: 0.771391s
-HTTP_CODE: 200
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
-
-TIME_TOTAL: 0.686050s
-TIME_STARTTRANSFER: 0.685120s
-HTTP_CODE: 200
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
-
-TIME_TOTAL: 0.642811s
-TIME_STARTTRANSFER: 0.641767s
-HTTP_CODE: 200
+Hey [name], quick thing — testing the SOAP API for the KIVS integration, warm calls come back around 0.7s (fine), but cold calls are hitting ~9s because of Lambda + Aurora warm-up, which would blow past their 2s SLA on every occasional test. I'm looking at two options — provisioned concurrency on the Lambda (reliable but has ongoing cost) or an EventBridge ping every 5 min (cheap, not fully guaranteed). Just wanted to get another opinion before I go one way or the other — what do you think? Also noticed the Lambda opens a fresh DB connection per invocation, which is eating warm time too, but that's app-code side.
