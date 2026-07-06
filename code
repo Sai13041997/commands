@@ -13,3 +13,6 @@ dynamic "mutual_tls_authentication" {
     truststore_version = var.mtls_truststore_version
   } 
 }
+
+
+mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
