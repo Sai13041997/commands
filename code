@@ -17,36 +17,30 @@ dynamic "mutual_tls_authentication" {
 
 mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
-<?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <soapenv:Body>
-    <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/" PublicationVersion="00200809" PublicationDate="2008-11-05">
-      <RequestorInformation>
-        <Organization>
-          <Name>KentuckyIVS</Name>
-        </Organization>
-        <ReasonDetails>
-          <ReasonCode>BIVER</ReasonCode>
-          <TrackingNumber>TEST-TIMING-001</TrackingNumber>
-        </ReasonDetails>
-      </RequestorInformation>
-      <Detail>
-        <PolicyInformation>
-          <OrganizationDetails>
-            <NAIC>22993</NAIC>
-          </OrganizationDetails>
-          <PolicyDetails>
-            <VerificationDate>2026-07-06T00:00:00.000</VerificationDate>
-            <PolicyKey>PTest12345</PolicyKey>
-            <PolicyState>KY</PolicyState>
-          </PolicyDetails>
-        </PolicyInformation>
-        <VehicleInformation>
-          <VehicleDetails>
-            <VIN>56KDMABH4N3000596</VIN>
-          </VehicleDetails>
-        </VehicleInformation>
-      </Detail>
-    </CoverageRequest>
-  </soapenv:Body>
-</soapenv:Envelope>
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d
+ "test"
+
+TIME_TOTAL: 0.191855s
+TIME_STARTTRANSFER: 0.190993s
+HTTP_CODE: 502
+PS C:\Users\T012sp\Downloads\Testing> notepad request.xml
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+TIME_TOTAL: 9.082055s
+TIME_STARTTRANSFER: 9.080905s
+HTTP_CODE: 200
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+TIME_TOTAL: 0.772216s
+TIME_STARTTRANSFER: 0.771391s
+HTTP_CODE: 200
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+TIME_TOTAL: 0.686050s
+TIME_STARTTRANSFER: 0.685120s
+HTTP_CODE: 200
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+TIME_TOTAL: 0.642811s
+TIME_STARTTRANSFER: 0.641767s
+HTTP_CODE: 200
