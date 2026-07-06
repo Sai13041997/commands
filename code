@@ -19,4 +19,20 @@ mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
 
 
- https://github.com/kfbmic/tf-module-api-gateway/blob/feature/T012SP/CPE-178/variables.tf
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git branch      
+* feature/T012SP/CPE-178
+  main
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git status
+On branch feature/T012SP/CPE-178
+Your branch is up to date with 'origin/feature/T012SP/CPE-178'.
+
+nothing to commit, working tree clean
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git log --online -5
+fatal: unrecognized argument: --online
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git log --oneline -5
+a6285e9 (HEAD -> feature/T012SP/CPE-178, origin/feature/T012SP/CPE-178) mtls truststore version added
+32bb3f3 added disable_execute_api_endpoint
+3c63fbe remove conditional and always manage policy seperately
+4cff78f correct error handling
+87b73a3 resoved IP diff bug
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-Content variables.tf | Select-String "mtls_trsustore_version"
