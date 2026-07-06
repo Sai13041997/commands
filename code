@@ -18,23 +18,8 @@ dynamic "mutual_tls_authentication" {
 mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
 
-PS C:\Users\T012sp\Downloads\Testing> Get-ChildItem
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d "test"
 
-
-    Directory: C:\Users\T012sp\Downloads\Testing
-
-
-Mode                 LastWriteTime         Length Name
-----                 -------------         ------ ----
--a----         6/29/2026  12:35 PM           2050 ca.crt
--a----         6/29/2026  12:35 PM           3324 ca.key
--a----         6/29/2026  12:36 PM           1580 client.crt
--a----         6/29/2026  12:36 PM           1580 client.crt.pem
--a----         6/29/2026  12:36 PM           1580 client.crt.pem2
--a----         6/29/2026  12:36 PM           1018 client.csr
--a----         6/29/2026  12:36 PM           1732 client.key
--a----         6/29/2026  12:36 PM           1732 client.key.pem
--a----         6/29/2026   1:33 PM           3135 test_mtls.py
--a----         6/29/2026  12:44 PM           2050 truststore-from-s3.pem
--a----         6/29/2026  12:35 PM           2050 truststore.pem
-
+TIME_TOTAL: 0.223020s
+TIME_STARTTRANSFER: 0.221215s
+HTTP_CODE: 403
