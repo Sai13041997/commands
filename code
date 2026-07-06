@@ -33,4 +33,3 @@ index cc6ecd4..f669766 100644
 @@ -279,7 +279,8 @@ resource "aws_api_gateway_domain_name" "this" {
    dynamic "mutual_tls_authentication" { 
      for_each = var.mtls_truststore_uri != null ? [1] : [] 
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-Content variables.tf | Select-String "mtls_trsustore_version"
