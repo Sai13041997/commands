@@ -19,20 +19,18 @@ mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
 
 
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git branch      
-* feature/T012SP/CPE-178
-  main
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git status
-On branch feature/T012SP/CPE-178
-Your branch is up to date with 'origin/feature/T012SP/CPE-178'.
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git show a6285e9
+commit a6285e96a82d80079dccabce77f198adfcc45bc7 (HEAD -> feature/T012SP/CPE-178, origin/feature/T012SP/CPE-178)
+Author: t012sp <sai.praneeth@kyfb.com>
+Date:   Mon Jul 6 10:53:29 2026 -0400
 
-nothing to commit, working tree clean
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git log --online -5
-fatal: unrecognized argument: --online
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git log --oneline -5
-a6285e9 (HEAD -> feature/T012SP/CPE-178, origin/feature/T012SP/CPE-178) mtls truststore version added
-32bb3f3 added disable_execute_api_endpoint
-3c63fbe remove conditional and always manage policy seperately
-4cff78f correct error handling
-87b73a3 resoved IP diff bug
+    mtls truststore version added
+
+diff --git a/main.tf b/main.tf
+index cc6ecd4..f669766 100644
+--- a/main.tf
++++ b/main.tf
+@@ -279,7 +279,8 @@ resource "aws_api_gateway_domain_name" "this" {
+   dynamic "mutual_tls_authentication" { 
+     for_each = var.mtls_truststore_uri != null ? [1] : [] 
 PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-Content variables.tf | Select-String "mtls_trsustore_version"
