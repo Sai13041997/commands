@@ -17,20 +17,37 @@ dynamic "mutual_tls_authentication" {
 
 mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d "test"
+2026-07-06T12:05:21.243-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) Extended Request Id: AF3KRF7EoAMFUIQ=
 
-TIME_TOTAL: 0.196061s
-TIME_STARTTRANSFER: 0.195165s
-HTTP_CODE: 502
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d
- "test"
+(5053d687-dc9a-449d-91fc-f253b234c152) Extended Request Id: AF3KRF7EoAMFUIQ=
+2026-07-06T12:05:21.253-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) Verifying Usage Plan for request: 5053d687-dc9a-449d-91fc-f253b234c152. API Key:  API Stage: q51dqcsrw5/default
 
-TIME_TOTAL: 0.182804s
-TIME_STARTTRANSFER: 0.181914s
-HTTP_CODE: 502
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d
- "test"
+(5053d687-dc9a-449d-91fc-f253b234c152) Verifying Usage Plan for request: 5053d687-dc9a-449d-91fc-f253b234c152. API Key: API Stage: q51dqcsrw5/default
+2026-07-06T12:05:21.254-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) API Key  authorized because method 'POST /soap' does not require API Key. Request will not contribute to throttle or quota limits
 
-TIME_TOTAL: 0.191855s
-TIME_STARTTRANSFER: 0.190993s
-HTTP_CODE: 502
+(5053d687-dc9a-449d-91fc-f253b234c152) API Key authorized because method 'POST /soap' does not require API Key. Request will not contribute to throttle or quota limits
+2026-07-06T12:05:21.254-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) Usage Plan check succeeded for API Key  and API Stage q51dqcsrw5/default
+
+(5053d687-dc9a-449d-91fc-f253b234c152) Usage Plan check succeeded for API Key and API Stage q51dqcsrw5/default
+2026-07-06T12:05:21.255-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) Starting execution for request: 5053d687-dc9a-449d-91fc-f253b234c152
+
+(5053d687-dc9a-449d-91fc-f253b234c152) Starting execution for request: 5053d687-dc9a-449d-91fc-f253b234c152
+2026-07-06T12:05:21.255-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) HTTP Method: POST, Resource Path: /soap
+
+(5053d687-dc9a-449d-91fc-f253b234c152) HTTP Method: POST, Resource Path: /soap
+2026-07-06T12:05:21.300-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) Lambda execution failed with status 200 due to customer function error: Invalid SOAP XML format. Lambda request id: 6b61d6f9-b3e2-4fac-9eb3-3f258bee21f8
+
+(5053d687-dc9a-449d-91fc-f253b234c152) Lambda execution failed with status 200 due to customer function error: Invalid SOAP XML format. Lambda request id: 6b61d6f9-b3e2-4fac-9eb3-3f258bee21f8
+2026-07-06T12:05:21.300-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) Method completed with status: 502
+
+(5053d687-dc9a-449d-91fc-f253b234c152) Method completed with status: 502
+2026-07-06T12:05:21.300-04:00
+(5053d687-dc9a-449d-91fc-f253b234c152) AWS Integration Endpoint RequestId : 6b61d6f9-b3e2-4fac-9eb3-3f258bee21f8
