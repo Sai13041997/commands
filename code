@@ -19,25 +19,26 @@ mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
 
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu init -upgrade
+Run set -euo pipefail
+  set -euo pipefail
+  WS="dev"
+  VARFILE="envs/${WS}.tfvars"
+  test -f "$VARFILE" || { echo "ERROR: Missing tfvars file: $VARFILE"; exit 1; }
+  tofu plan -no-color -var-file="$VARFILE" -out=tfplan
+  shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+  env:
+    TOFU_CLI_PATH: /home/runner/work/_temp/3ae84db2-839b-416f-962a-b8f94c301526
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_REGION: us-east-1
+    AWS_ACCESS_KEY_ID: ***
+    AWS_SECRET_ACCESS_KEY: ***
+    AWS_SESSION_TOKEN: ***
 
-Initializing the backend...
-Upgrading modules...
-Downloading git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178 for api_gateway...
-- api_gateway in .terraform\modules\api_gateway
-Downloading git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0 for aurora_security_group...
-- aurora_security_group in .terraform\modules\aurora_security_group
-Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0 for hello_lambda...
-- hello_lambda in .terraform\modules\hello_lambda
-Downloading git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178 for soap_api_gateway...
-- soap_api_gateway in .terraform\modules\soap_api_gateway
-Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0 for soap_verification_lambda...
-- soap_verification_lambda in .terraform\modules\soap_verification_lambda
-╷
-│ Error: validating provider credentials: retrieving caller identity from STS: operation error STS: GetCallerIdentity, https response error StatusCode: 403, RequestID: 726d9ed8-3a31-4ced-965c-d306541a2a8d, api error InvalidClientTokenId: The security token included in the request is invalid.
-│ 
-│ 
-╵
+Error: Unsupported argument
 
-aws_api_gateway_domain_name	mutual_tls_authentication
-Share the full resource block if you need a more targeted fix.
+  on soap_api.tf line 33, in module "soap_api_gateway":
+  33:   mtls_truststore_version = "Nkik7LukOI9iau370GkBDgD1yzVbZurH"
+
+An argument named "mtls_truststore_version" is not expected here.
+Error: OpenTofu exited with code 1.
+Error: Process completed with exit code 1.
