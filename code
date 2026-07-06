@@ -16,3 +16,20 @@ dynamic "mutual_tls_authentication" {
 
 
 mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
+
+
+
+/explain Unexpected attribute: An attribute named "mtls_truststore_version" is not expected here
+
+The error means mtls_truststore_version is placed in a block that does not support it.
+
+This attribute belongs inside the mutual_tls_authentication block, not at the top level of the resource.
+
+Fix — nest it correctly
+Note: The argument is truststore_version, not mtls_truststore_version. The mtls_ prefix is not part of the HCL schema — it is just the parent block name.
+
+Supported resources
+Resource	Block
+aws_apigatewayv2_api	mutual_tls_authentication
+aws_api_gateway_domain_name	mutual_tls_authentication
+Share the full resource block if you need a more targeted fix.
