@@ -17,9 +17,20 @@ dynamic "mutual_tls_authentication" {
 
 mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
 
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d "test"
+
+TIME_TOTAL: 0.196061s
+TIME_STARTTRANSFER: 0.195165s
+HTTP_CODE: 502
 PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d
  "test"
 
-TIME_TOTAL: 1.816188s
-TIME_STARTTRANSFER: 1.815234s
+TIME_TOTAL: 0.182804s
+TIME_STARTTRANSFER: 0.181914s
+HTTP_CODE: 502
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" -d
+ "test"
+
+TIME_TOTAL: 0.191855s
+TIME_STARTTRANSFER: 0.190993s
 HTTP_CODE: 502
