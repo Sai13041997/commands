@@ -1,1 +1,5 @@
-rds_proxy_db_secret_arn = "REPLACE_WITH_ARN_FROM_CG"
+db_endpoint = aws_db_proxy_endpoint.aurora_reader.endpoint
+
+
+
+Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${aws_db_proxy.aurora.resource_id}/lambda_svc"]
