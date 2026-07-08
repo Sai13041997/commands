@@ -1,4 +1,1 @@
-variable "rds_proxy_db_secret_arn" {
-  description = "Secrets Manager ARN for the RDS Proxy's Aurora credentials (created by DBA). Static username/password, not IAM token."
-  type        = string
-}
+rds_proxy_db_secret_arn = "REPLACE_WITH_ARN_FROM_CG"
