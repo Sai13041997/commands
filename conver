@@ -1,26 +1,63 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu fmt
-aurora.tf
-data.tf
-lambda.tf
-locals.tf
-main.tf
-soap_api.tf
-soap_mtls.tf
-
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu validate
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu init -backend=false -upgrade
+Upgrading modules...
+Downloading git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178 for api_gateway...
+- api_gateway in .terraform\modules\api_gateway
+Downloading git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0 for aurora_security_group...
+- aurora_security_group in .terraform\modules\aurora_security_group
+Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0 for policy_graph_ingest_lambda...
+- policy_graph_ingest_lambda in .terraform\modules\policy_graph_ingest_lambda
+Downloading git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0 for rds_proxy_security_group...
+- rds_proxy_security_group in .terraform\modules\rds_proxy_security_group
+Downloading git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178 for soap_api_gateway...
+- soap_api_gateway in .terraform\modules\soap_api_gateway
+Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0 for soap_verification_lambda...
+- soap_verification_lambda in .terraform\modules\soap_verification_lambda
 ╷
-│ Error: Module not installed
+│ Error: validating provider credentials: retrieving caller identity from STS: operation error STS: GetCallerIdentity, https response error StatusCode: 403, RequestID: 396fbc15-1064-4b84-9893-9d71bca5e575, api error InvalidClientTokenId: The security token included in the request is invalid.
 │ 
-│   on lambda.tf line 1:
-│    1: module "policy_graph_ingest_lambda" {
 │ 
-│ This module is not yet installed. Run "tofu init" to install all modules required by this configuration.
 ╵
-╷
-│ Error: Module not installed
-│ 
-│   on rds_proxy.tf line 13:
-│   13: module "rds_proxy_security_group" {
-│ 
-│ This module is not yet installed. Run "tofu init" to install all modules required by this configuration.
+
+lambdas.tf
+module "policy_graph_ingest_lambda" {
+  source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0"
+  name                   = "${var.application_name}-${var.env_tier}-policy-graph-ingest-lambda"
+  runtime                = "python3.13"
+  handler                = "index.handler"
+  timeout                = 10
+  memory_size            = 128
+  code_managed_elsewhere = true
+  vpc_enabled            = true
+  vpc_id                 = var.vpc_id
+  subnet_ids             = var.lambda_subnet_ids
+
+  tags = {}
+}
+
+module "soap_verification_lambda" {
+  source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0"
+  name                   = "${var.application_name}-${var.env_tier}-soap-verification-lambda"
+  runtime                = "python3.13"
+  handler                = "main.lambda_handler"
+  timeout                = 10
+  memory_size            = 512
+  code_managed_elsewhere = true
+  vpc_enabled            = true
+  vpc_id                 = var.vpc_id
+  subnet_ids             = var.lambda_subnet_ids
+  environment_variables = {
+    db_endpoint = aws_db_proxy_endpoint.aurora_reader.endpoint
+    db_user     = "lambda_svc"
+    db_region   = "us-east-1"
+    db_name     = "${var.application_name}_${var.env_tier}"
+  }
+  extra_policy_statements = [
+    {
+      Effect   = "Allow"
+      Action   = ["rds-db:connect"]
+      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${aws_db_proxy.aurora.resource_id}/lambda_svc"]
+    }
+  ]
+
+  tags = {}
+}
