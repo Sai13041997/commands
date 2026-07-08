@@ -6,3 +6,21 @@ locals.tf
 main.tf
 soap_api.tf
 soap_mtls.tf
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu validate
+╷
+│ Error: Module not installed
+│ 
+│   on lambda.tf line 1:
+│    1: module "policy_graph_ingest_lambda" {
+│ 
+│ This module is not yet installed. Run "tofu init" to install all modules required by this configuration.
+╵
+╷
+│ Error: Module not installed
+│ 
+│   on rds_proxy.tf line 13:
+│   13: module "rds_proxy_security_group" {
+│ 
+│ This module is not yet installed. Run "tofu init" to install all modules required by this configuration.
