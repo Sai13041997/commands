@@ -1,20 +1,19 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu validate                    
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu init -backend=false -upgrade
+Upgrading modules...
+Downloading git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178 for api_gateway...
+- api_gateway in .terraform\modules\api_gateway
+Downloading git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0 for aurora_security_group...
+- aurora_security_group in .terraform\modules\aurora_security_group
+Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0 for policy_graph_ingest_lambda...
+- policy_graph_ingest_lambda in .terraform\modules\policy_graph_ingest_lambda
+Downloading git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0 for rds_proxy_security_group...
+- rds_proxy_security_group in .terraform\modules\rds_proxy_security_group
+Downloading git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178 for soap_api_gateway...
+- soap_api_gateway in .terraform\modules\soap_api_gateway
+Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.1.0 for soap_verification_lambda...
+- soap_verification_lambda in .terraform\modules\soap_verification_lambda
 ╷
-│ Error: Missing required provider
+│ Error: validating provider credentials: retrieving caller identity from STS: operation error STS: GetCallerIdentity, https response error StatusCode: 403, RequestID: 3e39ab5e-08ae-4e51-b11e-1d4cacb4e73a, api error InvalidClientTokenId: The security token included in the request is invalid.
 │ 
-│ This configuration requires provider registry.opentofu.org/hashicorp/archive, but that provider isn't available. You may be able to install it
-│ automatically by running:
-│   tofu init
+│ 
 ╵
-╷
-│ Error: Missing required provider
-│ 
-│ This configuration requires provider registry.opentofu.org/hashicorp/aws, but that provider isn't available. You may be able to install it
-│ automatically by running:
-│   tofu init
-
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git log --online lambdas.tf
-fatal: ambiguous argument 'lambdas.tf': unknown revision or path not in the working tree.
-Use '--' to separate paths from revisions, like this:
-'git <command> [<revision>...] -- [<file>...]'
