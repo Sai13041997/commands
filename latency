@@ -1,0 +1,83 @@
+The problem
+KY IVS integration testing showed the SOAP API cold calls hitting ~9 seconds, blowing past their 2-second SLA. Warm calls were fine (~0.7s).
+What we investigated
+
+Discussed options with Alex: provisioned concurrency vs EventBridge warmer vs RDS Proxy
+Ranked RDS Proxy first, warmer second, provisioned concurrency as last resort
+Alex agreed
+
+What we found in the logs
+Broke down cold-request timings by pulling API Gateway + Lambda logs:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ComponentTimeLambda Init~965 msIAM token generation~515 msDB connection~5,511 ms ⚠️Query execution~28 msTotal cold~7.4 sWarm request~540 ms
+Bottleneck confirmed: DB connection establishment, not Lambda cold start. So provisioned concurrency would've been the wrong fix.
+What we did next
+
+Asked Zach (app dev) to add timing logs — got the exact breakdown above
+Confirmed RDS Proxy is the right architectural fix (connection pooling eliminates the 5.5s DB connect)
+Rejected pgbouncer alternative — would need EC2/ECS to run on, ops overhead, and dev/prod would drift
+
+Standards + gathering phase
+Pulled everything from AWS to make sure we build it right the first time:
+
+Aurora cluster, resource ID, engine, SG, subnets, VPC
+Lambda role, policies, SG, env vars, current DB user (lambda_svc)
+Confirmed IAM DB auth is enabled
+Confirmed Lambda role has least-privilege rds-db:connect
+
+Also flagged (separate issue, not blocking): Aurora storage encryption is currently disabled.
+Coordination with CG
+
+Asked her to create a non-person DB login role + Secrets Manager secret for the proxy
+She created pgsi_ans00315015 as an IAM auth user
+Pointed me at the Aurora master secret (kfb_aurora_admin) — flagged that as a least-privilege violation
+Suggested generate-db-auth-token — flagged that IAM tokens expire in 15 min and can't be stored for the proxy
+We had back-and-forth about how RDS Proxy → Aurora auth works
+
+Where we are right now
+
+Terraform skeleton designed but not written (waiting on you to paste the existing repo files so I can match your style)
+Blocked on CG: she needs to create a proper Secrets Manager secret with a static password for the proxy user (not the master account, not an IAM token)
+Meeting with CG tomorrow morning to sort out the auth confusion
+KY IVS test call is tomorrow at 11am — PM's been told to expect the current path (slow cold, fast warm) since proxy won't be ready in time
+
+What's left to do
+
+Sync with CG in the morning, get the right secret ARN
+Get the 4 existing infra files from you (variables.tf, locals.tf, aurora.tf, lambda.tf) to match style
+Build the Terraform (proxy + SG + IAM + target group + read-only endpoint + Lambda updates)
+PR, plan, OPA validation, review, apply
+Validate cold path drops to ~1.5–2s
+Update the Jira ticket with before/after numbers
