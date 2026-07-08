@@ -1,316 +1,134 @@
-Run set -euo pipefail
-module.policy_graph_ingest_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d45fea12-bb88-13e9-8d6b-68d9d50c648c]
-module.soap_verification_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d4e60f49-2b04-3487-e1df-f43069235eaf]
-data.aws_route53_zone.kyfb: Reading...
-data.aws_route53_zone.kyfb: Read complete after 0s [id=Z07550863D5AYI2X1ZLBW]
-aws_db_subnet_group.aurora: Refreshing state... [id=realtimeinsurance-dev-db-subnet-group]
-module.policy_graph_ingest_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-0afa63e12b463c669]
-module.api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=6h5fz78wz0]
-module.soap_api_gateway.data.aws_caller_identity.current: Reading...
-module.soap_verification_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-04d42cff2e98a040b]
-module.soap_api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=q51dqcsrw5]
-module.soap_api_gateway.data.aws_region.current: Reading...
-module.aurora_security_group.aws_security_group.this: Refreshing state... [id=sg-08b96e7fab8870702]
-module.soap_api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
-aws_s3_bucket.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-aws_acm_certificate.soap_api: Refreshing state... [id=arn:aws:acm:us-east-1:058264370150:certificate/23e1a0c5-3f4b-4838-a089-d530e8ae0127]
-module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
-module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
-data.aws_iam_policy_document.rds_proxy_assume: Reading...
-data.aws_iam_policy_document.rds_proxy_assume: Read complete after 0s [id=2562693050]
-module.api_gateway.data.aws_region.current: Reading...
-module.soap_api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
-module.api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
-module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
-module.policy_graph_ingest_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role]
-module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
-data.aws_iam_policy_document.rds_proxy_secret_access: Reading...
-data.aws_iam_policy_document.rds_proxy_secret_access: Read complete after 0s [id=880630686]
-module.soap_verification_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role]
-module.api_gateway.data.aws_caller_identity.current: Reading...
-module.api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
-module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Reading...
-module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Reading...
-module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
-module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
-module.api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role]
-aws_route53_record.cert_validation["realtimeinsurance-soap-api-dev.devkyfb.com"]: Refreshing state... [id=Z07550863D5AYI2X1ZLBW__18b0dbad95674ebd940a1b0394b92c22.realtimeinsurance-soap-api-dev.devkyfb.com._CNAME]
-module.soap_api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role]
-module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
-module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=44338937]
-module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
-module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=3426581130]
-module.soap_api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=q51dqcsrw5]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.17.0/24-all"]: Refreshing state... [id=sgr-00492af04c1754773]
-module.aurora_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-aurora-sg-egress-0.0.0.0/0-all"]: Refreshing state... [id=sgr-0e6b9aafc7c3b5a97]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.235.1.0/24-all"]: Refreshing state... [id=sgr-0a9e446de90a4c505]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.12.0/24-all"]: Refreshing state... [id=sgr-01791234adcb62b60]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.214.0.0/16-all"]: Refreshing state... [id=sgr-0a678fd4644fb0669]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.238.1.0/24-all"]: Refreshing state... [id=sgr-0ef9285af291f4818]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.212.0.0/16-all"]: Refreshing state... [id=sgr-00c169d9d2ac4ed69]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.236.1.0/24-all"]: Refreshing state... [id=sgr-0e90a69acbe60898a]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.217.3.0/24-all"]: Refreshing state... [id=sgr-0298e431494635c6a]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.225.0.0/16-all"]: Refreshing state... [id=sgr-0c5a98ba93df81392]
-module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.215.0.0/16-all"]: Refreshing state... [id=sgr-063117f9a1eaa4448]
-module.api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=6h5fz78wz0]
-aws_rds_cluster.aurora: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster]
-module.policy_graph_ingest_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.policy_graph_ingest_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role:realtimeinsurance-dev-policy-graph-ingest-lambda-vpc-networking]
-module.soap_verification_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-vpc-networking]
-module.soap_verification_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.policy_graph_ingest_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda]
-module.api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-aws_acm_certificate_validation.cert: Refreshing state... [id=2026-05-20 16:05:01.989 +0000 UTC]
-module.api_gateway.aws_lambda_function.jwt_authorizer[0]: Refreshing state... [id=realtimeinsurance-dev-api-gateway-entra-jwt-authorizer]
-module.soap_api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-aws_rds_cluster_instance.writer: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-writer]
-aws_rds_cluster_instance.reader[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-reader-1]
-aws_s3_bucket_versioning.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-aws_s3_bucket_public_access_block.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-module.soap_api_gateway.aws_api_gateway_domain_name.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com]
-aws_route53_record.soap_api_dns: Refreshing state... [id=Z07550863D5AYI2X1ZLBW_realtimeinsurance-soap-api-dev.devkyfb.com_CNAME]
-module.api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["GET /hello"]: Refreshing state... [id=AllowAPIGatewayInvoke-GET__hello]
-module.api_gateway.aws_api_gateway_resource.path_level_1["/hello"]: Refreshing state... [id=vnthl0]
-module.api_gateway.aws_lambda_permission.allow_apigw_invoke_authorizer[0]: Refreshing state... [id=AllowAPIGatewayInvokeAuthorizer]
-module.api_gateway.aws_api_gateway_authorizer.jwt[0]: Refreshing state... [id=h8jtyg]
-module.api_gateway.aws_api_gateway_method.this["GET /hello"]: Refreshing state... [id=agm-6h5fz78wz0-vnthl0-GET]
-module.api_gateway.aws_api_gateway_integration.this["GET /hello"]: Refreshing state... [id=agi-6h5fz78wz0-vnthl0-GET]
-module.api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=kkqidr]
-module.api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-6h5fz78wz0-default]
+me:
+Hey CG, I'm putting an RDS Proxy in front of realtimeinsurance-dev-aurora-cluster to fix a cold-start issue. The proxy needs its own DB login role (separate from lambda_svc, which the Lambda still uses via IAM through the proxy). Could you spin up a non-person login role l_aur_... naming, password auth (stored in Secrets Manager, KMS + rotation), same priv_* as lambda_svc, NOINHERIT?
 
-OpenTofu used the selected providers to generate the following execution
-plan. Resource actions are indicated with the following symbols:
-  + create
-  ~ update in-place (current -> planned)
+CG:
+Hey Sai, that’s great! I was actually going to recommend it for the issue you were facing, there’s also something called pg_bouncer that I can add on the postgres side but I’ll look into that if I can have both or the rds proxy is fine.
+ 
+I’ll work on the DB login role and send it to you
+ 
+for costs sake can you install the pgbouncer instead and we can do the rds proxy for production
+ 
+Me:
+I looked at pg_bouncer too but it'd need its own infra to run on (EC2/ECS) right?, plus patching and HA,  RDS Proxy is basically the managed version of that. I'd lean toward keeping dev and prod on the same path so we're actually testing what prod will do.
 
-OpenTofu planned the following actions, but then encountered a problem:
+CG:
+yes you're right. i was trying to set it up but realized that it will need more configurations
+ 
+i will work on getting the credentials set up for the rds proxy
+ 
 
-  # aws_iam_role.rds_proxy will be created
-  + resource "aws_iam_role" "rds_proxy" {
-      + arn                   = (known after apply)
-      + assume_role_policy    = jsonencode(
-            {
-              + Statement = [
-                  + {
-                      + Action    = "sts:AssumeRole"
-                      + Effect    = "Allow"
-                      + Principal = {
-                          + Service = "rds.amazonaws.com"
-                        }
-                    },
-                ]
-              + Version   = "2012-10-17"
-            }
-        )
-      + create_date           = (known after apply)
-      + force_detach_policies = false
-      + id                    = (known after apply)
-      + managed_policy_arns   = (known after apply)
-      + max_session_duration  = 3600
-      + name                  = "realtimeinsurance-dev-rds-proxy-role"
-      + name_prefix           = (known after apply)
-      + path                  = "/"
-      + tags_all              = {
+Me:
+Great, thanks 
+Hey CG, quick heads-up. So we've got a call with KY IVS tomorrow at 11 to test the SOAP call from their side. Any chance you'll have the DB login role + Secrets Manager secret wrapped up by EOD today? Totally understand if not, just want to plan around it. No pressure, just checking!
+ 
 
-          + "application_name"      = "realtimeinsurance"
-          + "business_ops_category" = "POL"
-          + "created_by"            = "PlatformEngineering@kyfb.com"
-          + "owned_by"              = "CloudOps@kyfb.com"
-          + "requested_by"          = "PMOGroup@kyfb.com"
-          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
-          + "terraform"             = "true"
-        }
-      + unique_id             = (known after apply)
+CG:
+i am currently working on it rn
 
-      + inline_policy (known after apply)
-    }
+Me:
+Awesome, you're a savior!
+ 
 
-  # aws_iam_role_policy.rds_proxy_secret_access will be created
-  + resource "aws_iam_role_policy" "rds_proxy_secret_access" {
-      + id          = (known after apply)
-      + name        = "realtimeinsurance-dev-rds-proxy-secret-access"
-      + name_prefix = (known after apply)
-      + policy      = jsonencode(
-            {
-              + Statement = [
-                  + {
-                      + Action   = [
-                          + "secretsmanager:GetSecretValue",
-                          + "secretsmanager:DescribeSecret",
-                        ]
-Error: "auth.0.secret_arn" (REPLACE_WITH_ARN_FROM_CG) is an invalid ARN: arn: invalid prefix
+CG:
+please try this userid :  pgsi_ans00315015
 
-  with aws_db_proxy.aurora,
-  on rds_proxy.tf line 82, in resource "aws_db_proxy" "aurora":
-  82: resource "aws_db_proxy" "aurora" {
+Me:
+Sure, thanks 
+ 
+Could you also send me the Secrets Manager secret ARN where the pgsi_ans00315015 credentials are stored and the KMS key ARN used to encrypt that secret
 
-                      + Effect   = "Allow"
-                      + Resource = "REPLACE_WITH_ARN_FROM_CG"
-                    },
-                ]
-              + Version   = "2012-10-17"
-            }
-        )
-      + role        = (known after apply)
-    }
 
-  # aws_vpc_security_group_ingress_rule.aurora_from_proxy will be created
-  + resource "aws_vpc_security_group_ingress_rule" "aurora_from_proxy" {
-      + arn                          = (known after apply)
-      + description                  = "Allow RDS Proxy to reach Aurora"
-      + from_port                    = 5432
-      + id                           = (known after apply)
-      + ip_protocol                  = "tcp"
-      + referenced_security_group_id = (known after apply)
-      + region                       = "us-east-1"
-      + security_group_id            = "sg-08b96e7fab8870702"
-      + security_group_rule_id       = (known after apply)
-      + tags_all                     = {
-          + "application_name"      = "realtimeinsurance"
-          + "business_ops_category" = "POL"
-          + "created_by"            = "PlatformEngineering@kyfb.com"
-          + "owned_by"              = "CloudOps@kyfb.com"
-          + "requested_by"          = "PMOGroup@kyfb.com"
-          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
-          + "terraform"             = "true"
-        }
-      + to_port                      = 5432
-    }
+CG:
+do you have access to the l2-dev account
+ 
+me:
+Yeah but I'm unable to find them 
 
-  # module.api_gateway.aws_api_gateway_stage.this will be updated in-place
-  ~ resource "aws_api_gateway_stage" "this" {
-      ~ deployment_id         = "cffdbs" -> "kkqidr"
-        id                    = "ags-6h5fz78wz0-default"
-        tags                  = {}
-        # (10 unchanged attributes hidden)
-    }
+CG:
+this is stored in pgadmin 
+ 
+ pgsi_ans00315015
+ 
+secret arn : arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh
+ 
 
-  # module.rds_proxy_security_group.aws_security_group.this will be created
-  + resource "aws_security_group" "this" {
-      + arn                    = (known after apply)
-      + description            = "RDS Proxy: inbound from Lambda, outbound to Aurora"
-      + egress                 = (known after apply)
-      + id                     = (known after apply)
-      + ingress                = (known after apply)
-      + name                   = "realtimeinsurance-dev-rds-proxy-sg"
-      + name_prefix            = (known after apply)
-      + owner_id               = (known after apply)
-      + region                 = "us-east-1"
-      + revoke_rules_on_delete = false
-      + tags_all               = {
-          + "application_name"      = "realtimeinsurance"
-          + "business_ops_category" = "POL"
-          + "created_by"            = "PlatformEngineering@kyfb.com"
-          + "owned_by"              = "CloudOps@kyfb.com"
-          + "requested_by"          = "PMOGroup@kyfb.com"
-          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
-          + "terraform"             = "true"
-        }
-      + vpc_id                 = "vpc-05b9da12fe9d64805"
-    }
+Me:
+Got it, thanks! Just to double-check on my end, is the pgsi_ans00315015 credential stored in AWS Secrets Manager, or is it saved locally in pgAdmin? Asking because RDS Proxy needs to pull the credentials from Secrets Manager to auth into Aurora, so wanted to make sure I'm looking in the right spot before I wire it up.
 
-  # module.rds_proxy_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-rds-proxy-sg-egress-0.0.0.0/0-all"] will be created
-  + resource "aws_vpc_security_group_egress_rule" "this" {
-      + arn                    = (known after apply)
-      + cidr_ipv4              = "0.0.0.0/0"
-      + id                     = (known after apply)
-      + ip_protocol            = "-1"
-      + region                 = "us-east-1"
-      + security_group_id      = (known after apply)
-      + security_group_rule_id = (known after apply)
-      + tags_all               = {
-          + "application_name"      = "realtimeinsurance"
-          + "business_ops_category" = "POL"
-          + "created_by"            = "PlatformEngineering@kyfb.com"
-          + "owned_by"              = "CloudOps@kyfb.com"
-          + "requested_by"          = "PMOGroup@kyfb.com"
-          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
-          + "terraform"             = "true"
-        }
-    }
+CG:
+the account  is stored in pgadmin and you copy the secret for the password
+ 
+Praneeth, Sai
+Got it, thanks! Just to double-check on my end, is the pgsi_ans00315015 credential stored in AWS Secrets Manager, or is it saved locally in pgAdmin? Asking because RDS Proxy needs to pull the credent…
+that should work
+ 
 
-  # module.rds_proxy_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-0.0.0.0/0-5432"] will be created
-  + resource "aws_vpc_security_group_ingress_rule" "this" {
-      + arn                    = (known after apply)
-      + cidr_ipv4              = "0.0.0.0/0"
-      + description            = "Postgres from Lambda"
-      + from_port              = 5432
-      + id                     = (known after apply)
-      + ip_protocol            = "tcp"
-      + region                 = "us-east-1"
-      + security_group_id      = (known after apply)
-      + security_group_rule_id = (known after apply)
-      + tags_all               = {
-          + "application_name"      = "realtimeinsurance"
-          + "business_ops_category" = "POL"
-          + "created_by"            = "PlatformEngineering@kyfb.com"
-          + "owned_by"              = "CloudOps@kyfb.com"
-          + "requested_by"          = "PMOGroup@kyfb.com"
-          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
-          + "terraform"             = "true"
-        }
-      + to_port                = 5432
-    }
+Me:
+Bulule, Ntwenhle
+7/7/2026 5:19 PM
+the account is stored in pgadmin and you copy the secret for the password
+Got it, that makes sense!
 
-  # module.soap_api_gateway.aws_api_gateway_rest_api_policy.this will be updated in-place
-  ~ resource "aws_api_gateway_rest_api_policy" "this" {
-        id          = "q51dqcsrw5"
-      ~ policy      = jsonencode(
-          ~ {
-              ~ Statement = [
-                  ~ {
-                      ~ Condition = {
-                          ~ NotIpAddress = {
-                              ~ "aws:SourceIp" = [
-                                    # (13 unchanged elements hidden)
-                                    "3.217.110.156/32",
-                                  - "147.0.31.195/32",
-                                ]
-                            }
-                        }
-                        # (5 unchanged attributes hidden)
-                    },
-                    {
-                        Action    = "execute-api:Invoke"
-                        Effect    = "Allow"
-                        Principal = "*"
-                        Resource  = "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*"
-                        Sid       = "AllowInvoke"
-                    },
-                ]
-                # (1 unchanged attribute hidden)
-            }
-        )
-        # (2 unchanged attributes hidden)
-    }
+CG:
+please let me know if it works
+ 
+Praneeth, Sai
+Hey CG, quick heads-up. So we've got a call with KY IVS tomorrow at 11 to test the SOAP call from their side. Any chance you'll have the DB login role + Secrets Manager secret wrapped up by EOD today?
+do you mind forwarding the meeting invite 
+ 
 
-Plan: 6 to add, 2 to change, 0 to destroy.
+Me:
+Yeah, I forwarded that. 
+ 
+Bulule, Ntwenhle
+please let me know if it works
+I'm working on that I will let you know
+ 
 
-Warning: Value derived from a deprecated source
+CG:
+Great, thanks
+1 Like reaction.
 
-  with module.api_gateway.aws_api_gateway_authorizer.jwt,
-  on .terraform/modules/api_gateway/main.tf line 183, in resource "aws_api_gateway_authorizer" "jwt":
- 183:   type            = "TOKEN"
+Me:
+Hey CG, I checked and that secret is for kfb_aurora_admin. If we use it, the proxy would end up running as admin which isn't what we want. Could you drop pgsi_ans00315015's password into a new Secrets Manager secret so I can point the proxy at that instead?
 
-This value is derived from data.aws_region.current.name, which is deprecated
-with the following message:
+CG:
+aws rds generate-db-auth-token --hostname realtimeinsurance-dev-aurora-cluster.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com --port 5432 --region us-east-1 --username pgsi_ans00315015  --profile l2dev
+ 
+You have to run that command to generate secret
+ 
+What aws account profile are you using
+ 
 
-name is deprecated. Use region instead.
 
-Warning: Redundant ignore_changes element
+Me:
+L2-Development 
+ 
+Correct me if I'm wrong but I dug into RDS Proxy a bit more and there's a wrinkle. That token from generate-db-auth-token is IAM-based and only lasts 15 min, and it turns out RDS Proxy → Aurora doesn't support IAM auth due to AWS limitation it only takes a static password from Secrets Manager. Good news is the Lambda still uses IAM through the proxy, so IAM auth stays end-user-side. For the proxy's own login, we'd just need a static password stored in Secrets Manager. Two ways to do it: New non-person role with a password, same priv_* as pgsi_ans00315015 or Add a password to pgsi_ans00315015 alongside the IAM auth
+ 
+I'm so sorry for disturbing you after the hours 
+ 
 
-  on .terraform/modules/policy_graph_ingest_lambda/main.tf line 152, in resource "aws_lambda_function" "placeholder":
- 152: resource "aws_lambda_function" "placeholder" {
+CG:
+No worries at all
+ 
+Praneeth, Sai
+Correct me if I'm wrong but I dug into RDS Proxy a bit more and there's a wrinkle. That token from generate-db-auth-token is IAM-based and only lasts 15 min, and it turns out RDS Proxy → Aurora doesn…
 
-Adding an attribute name to ignore_changes tells OpenTofu to ignore future
-changes to the argument in configuration after the object has been created,
-retaining the value originally configured.
+The password from secrets manager expires every 15 mins though, you’re wanting a password that doesn’t expire?
+ 
 
-The attribute last_modified is decided by the provider alone and therefore
-there can be no configured value to compare with. Including this attribute in
-ignore_changes has no effect. Remove the attribute from ignore_changes to
-quiet this warning.
+Me:
+I think the 15-min thing might be from the IAM auth token, that one expires every 15 min. Secrets Manager rotation is different right, you set the schedule yourself 30 days or 90 days, whatever we want right. RDS Proxy handles rotation automatically too, so when Secrets Manager rotates it, the proxy picks up the new password without any downtime. So basically what we need is a normal DB password for pgsi_ans00315015 or a new role, whichever's easier, stored in Secrets Manager on a normal rotation schedule. Same as any regular service account.
+ 
+Does that make sense?
+ 
 
-(and 5 more similar warnings elsewhere)
-Error: OpenTofu exited with code 1.
-Error: Process completed with exit code 1.
+CG:
+No it expires every 15 mins it generates a new one every 15 mins
+ 
+We can work on it tomorrow morning
+ 
+
+Me:
+That works for me. Thanks for your time 
