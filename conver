@@ -1,16 +1,38 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git status
-On branch feature/T012SP/CPE-240
-Your branch is up to date with 'origin/feature/T012SP/CPE-240'.
+Run set -euo pipefail
 
-Changes to be committed:
-  (use "git restore --staged <file>..." to unstage)
-        modified:   aurora.tf
-        modified:   data.tf
-        modified:   envs/dev.tfvars
-        modified:   lambda.tf
-        modified:   locals.tf
-        modified:   main.tf
-        new file:   rds_proxy.tf
-        modified:   soap_api.tf
-        modified:   soap_mtls.tf
-        modified:   variables.tf
+Warning: Value derived from a deprecated source
+
+  with module.api_gateway.aws_api_gateway_authorizer.jwt,
+  on .terraform/modules/api_gateway/main.tf line 183, in resource "aws_api_gateway_authorizer" "jwt":
+ 183:   type            = "TOKEN"
+
+This value is derived from data.aws_region.current.name, which is deprecated
+
+with the following message:
+
+name is deprecated. Use region instead.
+
+Warning: Redundant ignore_changes element
+
+  on .terraform/modules/policy_graph_ingest_lambda/main.tf line 152, in resource "aws_lambda_function" "placeholder":
+ 152: resource "aws_lambda_function" "placeholder" {
+
+Adding an attribute name to ignore_changes tells OpenTofu to ignore future
+changes to the argument in configuration after the object has been created,
+retaining the value originally configured.
+
+The attribute last_modified is decided by the provider alone and therefore
+there can be no configured value to compare with. Including this attribute in
+Error: Unsupported attribute
+ignore_changes has no effect. Remove the attribute from ignore_changes to
+
+quiet this warning.
+  on lambda.tf line 37, in module "soap_verification_lambda":
+  37:       Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${aws_db_proxy.aurora.resource_id}/lambda_svc"]
+
+
+(and 5 more similar warnings elsewhere)
+This object has no argument, nested block, or exported attribute named
+"resource_id".
+Error: OpenTofu exited with code 1.
+Error: Process completed with exit code 1.
