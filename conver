@@ -12,3 +12,9 @@ PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu validate
 │ This configuration requires provider registry.opentofu.org/hashicorp/aws, but that provider isn't available. You may be able to install it
 │ automatically by running:
 │   tofu init
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git log --online lambdas.tf
+fatal: ambiguous argument 'lambdas.tf': unknown revision or path not in the working tree.
+Use '--' to separate paths from revisions, like this:
+'git <command> [<revision>...] -- [<file>...]'
