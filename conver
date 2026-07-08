@@ -1,5 +1,8 @@
-db_endpoint = aws_db_proxy_endpoint.aurora_reader.endpoint
-
-
-
-Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${aws_db_proxy.aurora.resource_id}/lambda_svc"]
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu fmt
+aurora.tf
+data.tf
+lambda.tf
+locals.tf
+main.tf
+soap_api.tf
+soap_mtls.tf
