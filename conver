@@ -1,5 +1,5 @@
 PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 
-TIME_TOTAL: 0.145046s
-TIME_STARTTRANSFER: 0.144197s
-HTTP_CODE: 403
+TIME_TOTAL: 2.550306s
+TIME_STARTTRANSFER: 2.549376s
+HTTP_CODE: 502
