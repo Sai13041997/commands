@@ -1,132 +1,1051 @@
-# ---------------------------------------------------------------------------
-# RDS Proxy for Aurora
-#
-# Sits between the Lambda and the Aurora cluster to pool DB connections.
-# Eliminates the multi-second cold-connection cost per Lambda invocation.
-#
-# Auth model:
-#   - Lambda -> Proxy: IAM auth (matches current Lambda pattern)
-#   - Proxy  -> Aurora: Secrets Manager (durable credentials, managed by DBA)
-# ---------------------------------------------------------------------------
+module.soap_verification_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d4e60f49-2b04-3487-e1df-f43069235eaf]
+module.policy_graph_ingest_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d45fea12-bb88-13e9-8d6b-68d9d50c648c]
+module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Reading...
+module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
+module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Reading...
+module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
+data.aws_route53_zone.kyfb: Reading...
+data.aws_route53_zone.kyfb: Read complete after 1s [id=Z07550863D5AYI2X1ZLBW]
+module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
+aws_db_subnet_group.aurora: Refreshing state... [id=realtimeinsurance-dev-db-subnet-group]
+module.soap_verification_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role]
+module.policy_graph_ingest_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role]
+aws_acm_certificate.soap_api: Refreshing state... [id=arn:aws:acm:us-east-1:058264370150:certificate/23e1a0c5-3f4b-4838-a089-d530e8ae0127]
+module.policy_graph_ingest_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-0afa63e12b463c669]
+module.soap_api_gateway.data.aws_region.current: Reading...
+module.soap_api_gateway.data.aws_caller_identity.current: Reading...
+module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
+aws_s3_bucket.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
+module.soap_verification_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-04d42cff2e98a040b]
+module.soap_api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.aurora_security_group.aws_security_group.this: Refreshing state... [id=sg-08b96e7fab8870702]
+module.soap_api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
+module.api_gateway.data.aws_caller_identity.current: Reading...
+data.aws_iam_policy_document.rds_proxy_secret_access: Reading...
+data.aws_iam_policy_document.rds_proxy_secret_access: Read complete after 0s [id=1315028994]
+module.soap_api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=q51dqcsrw5]
+module.api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
+module.api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=6h5fz78wz0]
+module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
+module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
+data.aws_iam_policy_document.rds_proxy_assume: Reading...
+data.aws_iam_policy_document.rds_proxy_assume: Read complete after 0s [id=2562693050]
+module.api_gateway.data.aws_region.current: Reading...
+module.soap_api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role]
+module.api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role]
+module.api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.aurora_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-aurora-sg-egress-0.0.0.0/0-all"]: Refreshing state... [id=sgr-0e6b9aafc7c3b5a97]
+module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
+module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=44338937]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.236.1.0/24-all"]: Refreshing state... [id=sgr-0e90a69acbe60898a]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.214.0.0/16-all"]: Refreshing state... [id=sgr-0a678fd4644fb0669]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.215.0.0/16-all"]: Refreshing state... [id=sgr-063117f9a1eaa4448]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.12.0/24-all"]: Refreshing state... [id=sgr-01791234adcb62b60]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.17.0/24-all"]: Refreshing state... [id=sgr-00492af04c1754773]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.238.1.0/24-all"]: Refreshing state... [id=sgr-0ef9285af291f4818]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.225.0.0/16-all"]: Refreshing state... [id=sgr-0c5a98ba93df81392]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.212.0.0/16-all"]: Refreshing state... [id=sgr-00c169d9d2ac4ed69]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.235.1.0/24-all"]: Refreshing state... [id=sgr-0a9e446de90a4c505]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.217.3.0/24-all"]: Refreshing state... [id=sgr-0298e431494635c6a]
+module.soap_api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=q51dqcsrw5]
+aws_rds_cluster.aurora: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster]
+module.policy_graph_ingest_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda]
+module.policy_graph_ingest_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+aws_route53_record.cert_validation["realtimeinsurance-soap-api-dev.devkyfb.com"]: Refreshing state... [id=Z07550863D5AYI2X1ZLBW__18b0dbad95674ebd940a1b0394b92c22.realtimeinsurance-soap-api-dev.devkyfb.com._CNAME]
+module.policy_graph_ingest_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role:realtimeinsurance-dev-policy-graph-ingest-lambda-vpc-networking]
+module.soap_verification_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.soap_verification_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-vpc-networking]
+module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
+module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=3426581130]
+module.api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.api_gateway.aws_lambda_function.jwt_authorizer[0]: Refreshing state... [id=realtimeinsurance-dev-api-gateway-entra-jwt-authorizer]
+module.soap_api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=6h5fz78wz0]
+module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
+aws_s3_bucket_versioning.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
+module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda]
+aws_s3_bucket_public_access_block.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
+module.soap_api_gateway.aws_api_gateway_domain_name.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com]
+aws_acm_certificate_validation.cert: Refreshing state... [id=2026-05-20 16:05:01.989 +0000 UTC]
+aws_route53_record.soap_api_dns: Refreshing state... [id=Z07550863D5AYI2X1ZLBW_realtimeinsurance-soap-api-dev.devkyfb.com_CNAME]
+aws_rds_cluster_instance.writer: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-writer]
+aws_rds_cluster_instance.reader[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-reader-1]
+module.api_gateway.aws_api_gateway_resource.path_level_1["/policy-graph-ingest"]: Refreshing state... [id=gase28]
+module.api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["GET /policy-graph-ingest"]: Refreshing state... [id=AllowAPIGatewayInvoke-GET__policy-graph-ingest]
+module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__soap]
+module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"]: Refreshing state... [id=lknkms]
+module.api_gateway.aws_lambda_permission.allow_apigw_invoke_authorizer[0]: Refreshing state... [id=AllowAPIGatewayInvokeAuthorizer]
+module.api_gateway.aws_api_gateway_authorizer.jwt[0]: Refreshing state... [id=h8jtyg]
+module.soap_api_gateway.aws_api_gateway_method.this["POST /soap"]: Refreshing state... [id=agm-q51dqcsrw5-lknkms-POST]
+module.api_gateway.aws_api_gateway_method.this["GET /policy-graph-ingest"]: Refreshing state... [id=agm-6h5fz78wz0-gase28-GET]
+module.api_gateway.aws_api_gateway_integration.this["GET /policy-graph-ingest"]: Refreshing state... [id=agi-6h5fz78wz0-gase28-GET]
+module.soap_api_gateway.aws_api_gateway_integration.this["POST /soap"]: Refreshing state... [id=agi-q51dqcsrw5-lknkms-POST]
+module.api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=vptqd7]
+module.soap_api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=081nhc]
+module.api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-6h5fz78wz0-default]
+module.soap_api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-q51dqcsrw5-default]
+module.soap_api_gateway.aws_api_gateway_base_path_mapping.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com/]
 
-#Security group for the proxy
-module "rds_proxy_security_group" {
-  source      = "git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0"
-  name        = "${var.application_name}-${var.env_tier}-rds-proxy-sg"
-  description = "RDS Proxy: inbound from Lambda, outbound to Aurora"
-  vpc_id      = var.vpc_id
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place (current -> planned)
 
-  inbound_rules = []
+OpenTofu will perform the following actions:
 
-  outbound_rules = [
-    {
-      description = "Postgres to Aurora"
-      ip_protocol = "tcp"
-      from_port   = 5432
-      to_port     = 5432
-      cidr_ipv4   = "10.0.0.0/8"
+  # aws_db_proxy.aurora will be created
+  + resource "aws_db_proxy" "aurora" {
+      + arn                            = (known after apply)
+      + debug_logging                  = false
+      + default_auth_scheme            = (known after apply)
+      + endpoint                       = (known after apply)
+      + endpoint_network_type          = (known after apply)
+      + engine_family                  = "POSTGRESQL"
+      + id                             = (known after apply)
+      + idle_client_timeout            = 1800
+      + name                           = "realtimeinsurance-dev-aurora-proxy"
+      + region                         = "us-east-1"
+      + require_tls                    = true
+      + role_arn                       = (known after apply)
+      + tags                           = {
+          + "Name" = "realtimeinsurance-dev-aurora-proxy"
+        }
+      + tags_all                       = {
+          + "Name"                  = "realtimeinsurance-dev-aurora-proxy"
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + target_connection_network_type = (known after apply)
+      + vpc_security_group_ids         = (known after apply)
+      + vpc_subnet_ids                 = [
+          + "subnet-0af4371561e8a331b",
+          + "subnet-0af508befdea0ef9f",
+        ]
+
+      + auth {
+          + auth_scheme               = "SECRETS"
+          + client_password_auth_type = (known after apply)
+          + iam_auth                  = "REQUIRED"
+          + secret_arn                = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
+        }
     }
-  ]
-}
 
-# SG-to-SG: Lambda -> Proxy on 5432
-resource "aws_vpc_security_group_ingress_rule" "proxy_from_lambda" {
-  security_group_id            = module.rds_proxy_security_group.sg_id
-  referenced_security_group_id = module.soap_verification_lambda.security_group_id
-  ip_protocol                  = "tcp"
-  from_port                    = 5432
-  to_port                      = 5432
-  description                  = "Allow SOAP Lambda to reach RDS Proxy on 5432"
-}
+  # aws_db_proxy_default_target_group.aurora will be created
+  + resource "aws_db_proxy_default_target_group" "aurora" {
+      + arn           = (known after apply)
+      + db_proxy_name = "realtimeinsurance-dev-aurora-proxy"
+      + id            = (known after apply)
+      + name          = (known after apply)
+      + region        = "us-east-1"
 
-# Allow the proxy SG inbound to Aurora on 5432
-resource "aws_vpc_security_group_ingress_rule" "aurora_from_proxy" {
-  security_group_id            = module.aurora_security_group.sg_id
-  referenced_security_group_id = module.rds_proxy_security_group.sg_id
-  ip_protocol                  = "tcp"
-  from_port                    = 5432
-  to_port                      = 5432
-  description                  = "Allow RDS Proxy to reach Aurora"
-}
-
-#IAM role for the proxy to read the Secrets Manager secret
-data "aws_iam_policy_document" "rds_proxy_assume" {
-  statement {
-    effect = "Allow"
-    principals {
-      type        = "Service"
-      identifiers = ["rds.amazonaws.com"]
+      + connection_pool_config {
+          + connection_borrow_timeout    = 120
+          + max_connections_percent      = 100
+          + max_idle_connections_percent = 50
+        }
     }
-    actions = ["sts:AssumeRole"]
-  }
-}
 
-resource "aws_iam_role" "rds_proxy" {
-  name               = "${var.application_name}-${var.env_tier}-rds-proxy-role"
-  assume_role_policy = data.aws_iam_policy_document.rds_proxy_assume.json
-}
+  # aws_db_proxy_endpoint.aurora_reader will be created
+  + resource "aws_db_proxy_endpoint" "aurora_reader" {
+      + arn                    = (known after apply)
+      + db_proxy_endpoint_name = "realtimeinsurance-dev-aurora-proxy-reader"
+      + db_proxy_name          = "realtimeinsurance-dev-aurora-proxy"
+      + endpoint               = (known after apply)
+      + id                     = (known after apply)
+      + is_default             = (known after apply)
+      + region                 = "us-east-1"
+      + tags_all               = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + target_role            = "READ_ONLY"
+      + vpc_id                 = (known after apply)
+      + vpc_security_group_ids = (known after apply)
+      + vpc_subnet_ids         = [
+          + "subnet-0af4371561e8a331b",
+          + "subnet-0af508befdea0ef9f",
+        ]
+    }
 
-data "aws_iam_policy_document" "rds_proxy_secret_access" {
-  statement {
-    effect = "Allow"
-    actions = [
-      "secretsmanager:GetSecretValue",
-      "secretsmanager:DescribeSecret"
-    ]
-    resources = [var.rds_proxy_db_secret_arn]
-  }
-}
+  # aws_db_proxy_target.aurora will be created
+  + resource "aws_db_proxy_target" "aurora" {
+      + db_cluster_identifier = "realtimeinsurance-dev-aurora-cluster"
+      + db_proxy_name         = "realtimeinsurance-dev-aurora-proxy"
+      + endpoint              = (known after apply)
+      + id                    = (known after apply)
+      + port                  = (known after apply)
+      + rds_resource_id       = (known after apply)
+      + region                = "us-east-1"
+      + target_arn            = (known after apply)
+      + target_group_name     = (known after apply)
+      + tracked_cluster_id    = (known after apply)
+      + type                  = (known after apply)
+    }
 
-resource "aws_iam_role_policy" "rds_proxy_secret_access" {
-  name   = "${var.application_name}-${var.env_tier}-rds-proxy-secret-access"
-  role   = aws_iam_role.rds_proxy.id
-  policy = data.aws_iam_policy_document.rds_proxy_secret_access.json
-}
+  # aws_iam_role.rds_proxy will be created
+  + resource "aws_iam_role" "rds_proxy" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "rds.amazonaws.com"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "realtimeinsurance-dev-rds-proxy-role"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + unique_id             = (known after apply)
 
-#The proxy 
-resource "aws_db_proxy" "aurora" {
-  name                   = "${var.application_name}-${var.env_tier}-aurora-proxy"
-  engine_family          = "POSTGRESQL"
-  role_arn               = aws_iam_role.rds_proxy.arn
-  vpc_subnet_ids         = var.aurora_subnet_ids
-  vpc_security_group_ids = [module.rds_proxy_security_group.sg_id]
-  require_tls            = true
-  idle_client_timeout    = 1800
-  debug_logging          = false
+      + inline_policy (known after apply)
+    }
 
-  auth {
-    auth_scheme = "SECRETS"
-    iam_auth    = "REQUIRED"
-    secret_arn  = var.rds_proxy_db_secret_arn
-  }
+  # aws_iam_role_policy.rds_proxy_secret_access will be created
+  + resource "aws_iam_role_policy" "rds_proxy_secret_access" {
+      + id          = (known after apply)
+      + name        = "realtimeinsurance-dev-rds-proxy-secret-access"
+      + name_prefix = (known after apply)
+      + policy      = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "secretsmanager:GetSecretValue",
+                          + "secretsmanager:DescribeSecret",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + role        = (known after apply)
+    }
 
-  tags = {
-    Name = "${var.application_name}-${var.env_tier}-aurora-proxy"
-  }
-}
+  # aws_vpc_security_group_ingress_rule.aurora_from_proxy will be created
+  + resource "aws_vpc_security_group_ingress_rule" "aurora_from_proxy" {
+      + arn                          = (known after apply)
+      + description                  = "Allow RDS Proxy to reach Aurora"
+      + from_port                    = 5432
+      + id                           = (known after apply)
+      + ip_protocol                  = "tcp"
+      + referenced_security_group_id = (known after apply)
+      + region                       = "us-east-1"
+      + security_group_id            = "sg-08b96e7fab8870702"
+      + security_group_rule_id       = (known after apply)
+      + tags_all                     = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + to_port                      = 5432
+    }
 
-#Target group + target: point proxy at the Aurora cluster
-resource "aws_db_proxy_default_target_group" "aurora" {
-  db_proxy_name = aws_db_proxy.aurora.name
+  # aws_vpc_security_group_ingress_rule.proxy_from_lambda will be created
+  + resource "aws_vpc_security_group_ingress_rule" "proxy_from_lambda" {
+      + arn                          = (known after apply)
+      + description                  = "Allow SOAP Lambda to reach RDS Proxy on 5432"
+      + from_port                    = 5432
+      + id                           = (known after apply)
+      + ip_protocol                  = "tcp"
+      + referenced_security_group_id = "sg-04d42cff2e98a040b"
+      + region                       = "us-east-1"
+      + security_group_id            = (known after apply)
+      + security_group_rule_id       = (known after apply)
+      + tags_all                     = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + to_port                      = 5432
+    }
 
-  connection_pool_config {
-    max_connections_percent      = 100
-    max_idle_connections_percent = 50
-    connection_borrow_timeout    = 120
-  }
-}
+  # module.rds_proxy_security_group.aws_security_group.this will be created
+  + resource "aws_security_group" "this" {
+      + arn                    = (known after apply)
+      + description            = "RDS Proxy: inbound from Lambda, outbound to Aurora"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = (known after apply)
+      + name                   = "realtimeinsurance-dev-rds-proxy-sg"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + region                 = "us-east-1"
+      + revoke_rules_on_delete = false
+      + tags_all               = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + vpc_id                 = "vpc-05b9da12fe9d64805"
+    }
 
-resource "aws_db_proxy_target" "aurora" {
-  db_proxy_name         = aws_db_proxy.aurora.name
-  target_group_name     = aws_db_proxy_default_target_group.aurora.name
-  db_cluster_identifier = aws_rds_cluster.aurora.cluster_identifier
-}
+  # module.rds_proxy_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-rds-proxy-sg-egress-10.0.0.0/8-5432"] will be created
+  + resource "aws_vpc_security_group_egress_rule" "this" {
+      + arn                    = (known after apply)
+      + cidr_ipv4              = "10.0.0.0/8"
+      + description            = "Postgres to Aurora"
+      + from_port              = 5432
+      + id                     = (known after apply)
+      + ip_protocol            = "tcp"
+      + region                 = "us-east-1"
+      + security_group_id      = (known after apply)
+      + security_group_rule_id = (known after apply)
+      + tags_all               = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + to_port                = 5432
+    }
 
-#Read-only proxy endpoint (matches current reader pattern)
-resource "aws_db_proxy_endpoint" "aurora_reader" {
-  db_proxy_name          = aws_db_proxy.aurora.name
-  db_proxy_endpoint_name = "${var.application_name}-${var.env_tier}-aurora-proxy-reader"
-  vpc_subnet_ids         = var.aurora_subnet_ids
-  vpc_security_group_ids = [module.rds_proxy_security_group.sg_id]
-  target_role            = "READ_ONLY"
-}
+  # module.soap_verification_lambda.aws_iam_role_policy.extra[0] will be updated in-place
+  ~ resource "aws_iam_role_policy" "extra" {
+        id     = "realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra"
+        name   = "realtimeinsurance-dev-soap-verification-lambda-extra"
+      ~ policy = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "rds-db:connect",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:rds-db:us-east-1:058264370150:dbuser:cluster-FZCKYUP5O32DEWMAHJFEAXOG64/lambda_svc",
+                        ]
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.soap_verification_lambda.aws_lambda_function.placeholder[0] will be updated in-place
+  ~ resource "aws_lambda_function" "placeholder" {
+        id                             = "realtimeinsurance-dev-soap-verification-lambda"
+        tags                           = {}
+        # (25 unchanged attributes hidden)
+
+      ~ environment {
+          ~ variables = {
+              - "db_endpoint" = "realtimeinsurance-dev-aurora-cluster.cluster-ro-cx08iswmk3mr.us-east-1.rds.amazonaws.com"
+              - "db_name"     = "realtimeinsurance_dev"
+              - "db_region"   = "us-east-1"
+              - "db_user"     = "lambda_svc"
+            } -> (known after apply)
+        }
+
+        # (4 unchanged blocks hidden)
+    }
+
+Plan: 10 to add, 2 to change, 0 to destroy.
+aws_iam_role.rds_proxy: Creating...
+module.rds_proxy_security_group.aws_security_group.this: Creating...
+aws_iam_role.rds_proxy: Creation complete after 0s [id=realtimeinsurance-dev-rds-proxy-role]
+aws_iam_role_policy.rds_proxy_secret_access: Creating...
+aws_iam_role_policy.rds_proxy_secret_access: Creation complete after 0s [id=realtimeinsurance-dev-rds-proxy-role:realtimeinsurance-dev-rds-proxy-secret-access]
+module.rds_proxy_security_group.aws_security_group.this: Creation complete after 1s [id=sg-064a4f97c64e1d064]
+aws_db_proxy.aurora: Creating...
+aws_vpc_security_group_ingress_rule.proxy_from_lambda: Creating...
+module.rds_proxy_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-rds-proxy-sg-egress-10.0.0.0/8-5432"]: Creating...
+aws_vpc_security_group_ingress_rule.aurora_from_proxy: Creating...
+aws_vpc_security_group_ingress_rule.proxy_from_lambda: Creation complete after 0s [id=sgr-0fbcdad2f102821d1]
+module.rds_proxy_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-rds-proxy-sg-egress-10.0.0.0/8-5432"]: Creation complete after 0s [id=sgr-0aa18002f317c66c2]
+aws_vpc_security_group_ingress_rule.aurora_from_proxy: Creation complete after 0s [id=sgr-0d5ba80ba2148b45c]
+aws_db_proxy.aurora: Still creating... [10s elapsed]
+aws_db_proxy.aurora: Still creating... [20s elapsed]
+aws_db_proxy.aurora: Still creating... [30s elapsed]
+aws_db_proxy.aurora: Still creating... [40s elapsed]
+aws_db_proxy.aurora: Still creating... [50s elapsed]
+aws_db_proxy.aurora: Still creating... [1m0s elapsed]
+aws_db_proxy.aurora: Still creating... [1m10s elapsed]
+aws_db_proxy.aurora: Still creating... [1m20s elapsed]
+aws_db_proxy.aurora: Still creating... [1m30s elapsed]
+aws_db_proxy.aurora: Still creating... [1m40s elapsed]
+aws_db_proxy.aurora: Still creating... [1m50s elapsed]
+aws_db_proxy.aurora: Still creating... [2m0s elapsed]
+aws_db_proxy.aurora: Still creating... [2m10s elapsed]
+aws_db_proxy.aurora: Still creating... [2m20s elapsed]
+aws_db_proxy.aurora: Still creating... [2m30s elapsed]
+aws_db_proxy.aurora: Still creating... [2m40s elapsed]
+aws_db_proxy.aurora: Still creating... [2m50s elapsed]
+aws_db_proxy.aurora: Still creating... [3m0s elapsed]
+aws_db_proxy.aurora: Still creating... [3m10s elapsed]
+aws_db_proxy.aurora: Still creating... [3m20s elapsed]
+aws_db_proxy.aurora: Still creating... [3m30s elapsed]
+aws_db_proxy.aurora: Still creating... [3m40s elapsed]
+aws_db_proxy.aurora: Still creating... [3m50s elapsed]
+aws_db_proxy.aurora: Still creating... [4m0s elapsed]
+aws_db_proxy.aurora: Still creating... [4m10s elapsed]
+aws_db_proxy.aurora: Creation complete after 4m16s [id=realtimeinsurance-dev-aurora-proxy]
+aws_db_proxy_default_target_group.aurora: Creating...
+aws_db_proxy_endpoint.aurora_reader: Creating...
+module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Modifying... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
+module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Modifications complete after 0s [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
+aws_db_proxy_default_target_group.aurora: Creation complete after 1s [id=realtimeinsurance-dev-aurora-proxy]
+aws_db_proxy_target.aurora: Creating...
+aws_db_proxy_target.aurora: Creation complete after 1s [id=realtimeinsurance-dev-aurora-proxy/default/TRACKED_CLUSTER/realtimeinsurance-dev-aurora-cluster]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [9m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [9m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Creation complete after 9m20s [id=realtimeinsurance-dev-aurora-proxy/realtimeinsurance-dev-aurora-proxy-reader]
+module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Modifying... [id=realtimeinsurance-dev-soap-verification-lambda]
+module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Modifications complete after 6s [id=realtimeinsurance-dev-soap-verification-lambda]
+╷
+│ Warning: Value derived from a deprecated source
+│ 
+│   with module.api_gateway.aws_api_gateway_authorizer.jwt,
+│   on .terraform/modules/api_gateway/main.tf line 183, in resource "aws_api_gateway_authorizer" "jwt":
+│  183:   type            = "TOKEN"
+│ 
+│ This value is derived from data.aws_region.current.name, which is
+│ deprecated with the following message:
+│ 
+│ name is deprecated. Use region instead.
+╵
+╷
+│ Warning: Redundant ignore_changes element
+│ 
+│   on .terraform/modules/policy_graph_ingest_lambda/main.tf line 152, in resource "aws_lambda_function" "placeholder":
+│  152: resource "aws_lambda_function" "placeholder" {
+│ 
+│ Adding an attribute name to ignore_changes tells OpenTofu to ignore future
+│ changes to the argument in configuration after the object has been created,
+│ retaining the value originally configured.
+│ 
+│ The attribute last_modified is decided by the provider alone and therefore
+│ there can be no configured value to compare with. Including this attribute
+│ in ignore_changes has no effect. Remove the attribute from ignore_changes
+│ to quiet this warning.
+│ 
+│ (and 5 more similar warnings elsewhere)
+╵
+
+Apply complete! Resources: 10 added, 2 changed, 0 destroyed.module.soap_verification_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d4e60f49-2b04-3487-e1df-f43069235eaf]
+module.policy_graph_ingest_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d45fea12-bb88-13e9-8d6b-68d9d50c648c]
+module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Reading...
+module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
+module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Reading...
+module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
+data.aws_route53_zone.kyfb: Reading...
+data.aws_route53_zone.kyfb: Read complete after 1s [id=Z07550863D5AYI2X1ZLBW]
+module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
+aws_db_subnet_group.aurora: Refreshing state... [id=realtimeinsurance-dev-db-subnet-group]
+module.soap_verification_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role]
+module.policy_graph_ingest_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role]
+aws_acm_certificate.soap_api: Refreshing state... [id=arn:aws:acm:us-east-1:058264370150:certificate/23e1a0c5-3f4b-4838-a089-d530e8ae0127]
+module.policy_graph_ingest_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-0afa63e12b463c669]
+module.soap_api_gateway.data.aws_region.current: Reading...
+module.soap_api_gateway.data.aws_caller_identity.current: Reading...
+module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
+aws_s3_bucket.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
+module.soap_verification_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-04d42cff2e98a040b]
+module.soap_api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.aurora_security_group.aws_security_group.this: Refreshing state... [id=sg-08b96e7fab8870702]
+module.soap_api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
+module.api_gateway.data.aws_caller_identity.current: Reading...
+data.aws_iam_policy_document.rds_proxy_secret_access: Reading...
+data.aws_iam_policy_document.rds_proxy_secret_access: Read complete after 0s [id=1315028994]
+module.soap_api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=q51dqcsrw5]
+module.api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
+module.api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=6h5fz78wz0]
+module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
+module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
+data.aws_iam_policy_document.rds_proxy_assume: Reading...
+data.aws_iam_policy_document.rds_proxy_assume: Read complete after 0s [id=2562693050]
+module.api_gateway.data.aws_region.current: Reading...
+module.soap_api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role]
+module.api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role]
+module.api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.aurora_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-aurora-sg-egress-0.0.0.0/0-all"]: Refreshing state... [id=sgr-0e6b9aafc7c3b5a97]
+module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
+module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=44338937]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.236.1.0/24-all"]: Refreshing state... [id=sgr-0e90a69acbe60898a]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.214.0.0/16-all"]: Refreshing state... [id=sgr-0a678fd4644fb0669]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.215.0.0/16-all"]: Refreshing state... [id=sgr-063117f9a1eaa4448]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.12.0/24-all"]: Refreshing state... [id=sgr-01791234adcb62b60]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.17.0/24-all"]: Refreshing state... [id=sgr-00492af04c1754773]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.238.1.0/24-all"]: Refreshing state... [id=sgr-0ef9285af291f4818]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.225.0.0/16-all"]: Refreshing state... [id=sgr-0c5a98ba93df81392]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.212.0.0/16-all"]: Refreshing state... [id=sgr-00c169d9d2ac4ed69]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.235.1.0/24-all"]: Refreshing state... [id=sgr-0a9e446de90a4c505]
+module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.217.3.0/24-all"]: Refreshing state... [id=sgr-0298e431494635c6a]
+module.soap_api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=q51dqcsrw5]
+aws_rds_cluster.aurora: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster]
+module.policy_graph_ingest_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda]
+module.policy_graph_ingest_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+aws_route53_record.cert_validation["realtimeinsurance-soap-api-dev.devkyfb.com"]: Refreshing state... [id=Z07550863D5AYI2X1ZLBW__18b0dbad95674ebd940a1b0394b92c22.realtimeinsurance-soap-api-dev.devkyfb.com._CNAME]
+module.policy_graph_ingest_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role:realtimeinsurance-dev-policy-graph-ingest-lambda-vpc-networking]
+module.soap_verification_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.soap_verification_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-vpc-networking]
+module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
+module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=3426581130]
+module.api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.api_gateway.aws_lambda_function.jwt_authorizer[0]: Refreshing state... [id=realtimeinsurance-dev-api-gateway-entra-jwt-authorizer]
+module.soap_api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=6h5fz78wz0]
+module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
+aws_s3_bucket_versioning.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
+module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda]
+aws_s3_bucket_public_access_block.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
+module.soap_api_gateway.aws_api_gateway_domain_name.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com]
+aws_acm_certificate_validation.cert: Refreshing state... [id=2026-05-20 16:05:01.989 +0000 UTC]
+aws_route53_record.soap_api_dns: Refreshing state... [id=Z07550863D5AYI2X1ZLBW_realtimeinsurance-soap-api-dev.devkyfb.com_CNAME]
+aws_rds_cluster_instance.writer: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-writer]
+aws_rds_cluster_instance.reader[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-reader-1]
+module.api_gateway.aws_api_gateway_resource.path_level_1["/policy-graph-ingest"]: Refreshing state... [id=gase28]
+module.api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["GET /policy-graph-ingest"]: Refreshing state... [id=AllowAPIGatewayInvoke-GET__policy-graph-ingest]
+module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__soap]
+module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"]: Refreshing state... [id=lknkms]
+module.api_gateway.aws_lambda_permission.allow_apigw_invoke_authorizer[0]: Refreshing state... [id=AllowAPIGatewayInvokeAuthorizer]
+module.api_gateway.aws_api_gateway_authorizer.jwt[0]: Refreshing state... [id=h8jtyg]
+module.soap_api_gateway.aws_api_gateway_method.this["POST /soap"]: Refreshing state... [id=agm-q51dqcsrw5-lknkms-POST]
+module.api_gateway.aws_api_gateway_method.this["GET /policy-graph-ingest"]: Refreshing state... [id=agm-6h5fz78wz0-gase28-GET]
+module.api_gateway.aws_api_gateway_integration.this["GET /policy-graph-ingest"]: Refreshing state... [id=agi-6h5fz78wz0-gase28-GET]
+module.soap_api_gateway.aws_api_gateway_integration.this["POST /soap"]: Refreshing state... [id=agi-q51dqcsrw5-lknkms-POST]
+module.api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=vptqd7]
+module.soap_api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=081nhc]
+module.api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-6h5fz78wz0-default]
+module.soap_api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-q51dqcsrw5-default]
+module.soap_api_gateway.aws_api_gateway_base_path_mapping.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com/]
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place (current -> planned)
+
+OpenTofu will perform the following actions:
+
+  # aws_db_proxy.aurora will be created
+  + resource "aws_db_proxy" "aurora" {
+      + arn                            = (known after apply)
+      + debug_logging                  = false
+      + default_auth_scheme            = (known after apply)
+      + endpoint                       = (known after apply)
+      + endpoint_network_type          = (known after apply)
+      + engine_family                  = "POSTGRESQL"
+      + id                             = (known after apply)
+      + idle_client_timeout            = 1800
+      + name                           = "realtimeinsurance-dev-aurora-proxy"
+      + region                         = "us-east-1"
+      + require_tls                    = true
+      + role_arn                       = (known after apply)
+      + tags                           = {
+          + "Name" = "realtimeinsurance-dev-aurora-proxy"
+        }
+      + tags_all                       = {
+          + "Name"                  = "realtimeinsurance-dev-aurora-proxy"
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + target_connection_network_type = (known after apply)
+      + vpc_security_group_ids         = (known after apply)
+      + vpc_subnet_ids                 = [
+          + "subnet-0af4371561e8a331b",
+          + "subnet-0af508befdea0ef9f",
+        ]
+
+      + auth {
+          + auth_scheme               = "SECRETS"
+          + client_password_auth_type = (known after apply)
+          + iam_auth                  = "REQUIRED"
+          + secret_arn                = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
+        }
+    }
+
+  # aws_db_proxy_default_target_group.aurora will be created
+  + resource "aws_db_proxy_default_target_group" "aurora" {
+      + arn           = (known after apply)
+      + db_proxy_name = "realtimeinsurance-dev-aurora-proxy"
+      + id            = (known after apply)
+      + name          = (known after apply)
+      + region        = "us-east-1"
+
+      + connection_pool_config {
+          + connection_borrow_timeout    = 120
+          + max_connections_percent      = 100
+          + max_idle_connections_percent = 50
+        }
+    }
+
+  # aws_db_proxy_endpoint.aurora_reader will be created
+  + resource "aws_db_proxy_endpoint" "aurora_reader" {
+      + arn                    = (known after apply)
+      + db_proxy_endpoint_name = "realtimeinsurance-dev-aurora-proxy-reader"
+      + db_proxy_name          = "realtimeinsurance-dev-aurora-proxy"
+      + endpoint               = (known after apply)
+      + id                     = (known after apply)
+      + is_default             = (known after apply)
+      + region                 = "us-east-1"
+      + tags_all               = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + target_role            = "READ_ONLY"
+      + vpc_id                 = (known after apply)
+      + vpc_security_group_ids = (known after apply)
+      + vpc_subnet_ids         = [
+          + "subnet-0af4371561e8a331b",
+          + "subnet-0af508befdea0ef9f",
+        ]
+    }
+
+  # aws_db_proxy_target.aurora will be created
+  + resource "aws_db_proxy_target" "aurora" {
+      + db_cluster_identifier = "realtimeinsurance-dev-aurora-cluster"
+      + db_proxy_name         = "realtimeinsurance-dev-aurora-proxy"
+      + endpoint              = (known after apply)
+      + id                    = (known after apply)
+      + port                  = (known after apply)
+      + rds_resource_id       = (known after apply)
+      + region                = "us-east-1"
+      + target_arn            = (known after apply)
+      + target_group_name     = (known after apply)
+      + tracked_cluster_id    = (known after apply)
+      + type                  = (known after apply)
+    }
+
+  # aws_iam_role.rds_proxy will be created
+  + resource "aws_iam_role" "rds_proxy" {
+      + arn                   = (known after apply)
+      + assume_role_policy    = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action    = "sts:AssumeRole"
+                      + Effect    = "Allow"
+                      + Principal = {
+                          + Service = "rds.amazonaws.com"
+                        }
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + create_date           = (known after apply)
+      + force_detach_policies = false
+      + id                    = (known after apply)
+      + managed_policy_arns   = (known after apply)
+      + max_session_duration  = 3600
+      + name                  = "realtimeinsurance-dev-rds-proxy-role"
+      + name_prefix           = (known after apply)
+      + path                  = "/"
+      + tags_all              = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + unique_id             = (known after apply)
+
+      + inline_policy (known after apply)
+    }
+
+  # aws_iam_role_policy.rds_proxy_secret_access will be created
+  + resource "aws_iam_role_policy" "rds_proxy_secret_access" {
+      + id          = (known after apply)
+      + name        = "realtimeinsurance-dev-rds-proxy-secret-access"
+      + name_prefix = (known after apply)
+      + policy      = jsonencode(
+            {
+              + Statement = [
+                  + {
+                      + Action   = [
+                          + "secretsmanager:GetSecretValue",
+                          + "secretsmanager:DescribeSecret",
+                        ]
+                      + Effect   = "Allow"
+                      + Resource = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
+                    },
+                ]
+              + Version   = "2012-10-17"
+            }
+        )
+      + role        = (known after apply)
+    }
+
+  # aws_vpc_security_group_ingress_rule.aurora_from_proxy will be created
+  + resource "aws_vpc_security_group_ingress_rule" "aurora_from_proxy" {
+      + arn                          = (known after apply)
+      + description                  = "Allow RDS Proxy to reach Aurora"
+      + from_port                    = 5432
+      + id                           = (known after apply)
+      + ip_protocol                  = "tcp"
+      + referenced_security_group_id = (known after apply)
+      + region                       = "us-east-1"
+      + security_group_id            = "sg-08b96e7fab8870702"
+      + security_group_rule_id       = (known after apply)
+      + tags_all                     = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + to_port                      = 5432
+    }
+
+  # aws_vpc_security_group_ingress_rule.proxy_from_lambda will be created
+  + resource "aws_vpc_security_group_ingress_rule" "proxy_from_lambda" {
+      + arn                          = (known after apply)
+      + description                  = "Allow SOAP Lambda to reach RDS Proxy on 5432"
+      + from_port                    = 5432
+      + id                           = (known after apply)
+      + ip_protocol                  = "tcp"
+      + referenced_security_group_id = "sg-04d42cff2e98a040b"
+      + region                       = "us-east-1"
+      + security_group_id            = (known after apply)
+      + security_group_rule_id       = (known after apply)
+      + tags_all                     = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + to_port                      = 5432
+    }
+
+  # module.rds_proxy_security_group.aws_security_group.this will be created
+  + resource "aws_security_group" "this" {
+      + arn                    = (known after apply)
+      + description            = "RDS Proxy: inbound from Lambda, outbound to Aurora"
+      + egress                 = (known after apply)
+      + id                     = (known after apply)
+      + ingress                = (known after apply)
+      + name                   = "realtimeinsurance-dev-rds-proxy-sg"
+      + name_prefix            = (known after apply)
+      + owner_id               = (known after apply)
+      + region                 = "us-east-1"
+      + revoke_rules_on_delete = false
+      + tags_all               = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + vpc_id                 = "vpc-05b9da12fe9d64805"
+    }
+
+  # module.rds_proxy_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-rds-proxy-sg-egress-10.0.0.0/8-5432"] will be created
+  + resource "aws_vpc_security_group_egress_rule" "this" {
+      + arn                    = (known after apply)
+      + cidr_ipv4              = "10.0.0.0/8"
+      + description            = "Postgres to Aurora"
+      + from_port              = 5432
+      + id                     = (known after apply)
+      + ip_protocol            = "tcp"
+      + region                 = "us-east-1"
+      + security_group_id      = (known after apply)
+      + security_group_rule_id = (known after apply)
+      + tags_all               = {
+          + "application_name"      = "realtimeinsurance"
+          + "business_ops_category" = "POL"
+          + "created_by"            = "PlatformEngineering@kyfb.com"
+          + "owned_by"              = "CloudOps@kyfb.com"
+          + "requested_by"          = "PMOGroup@kyfb.com"
+          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
+          + "terraform"             = "true"
+        }
+      + to_port                = 5432
+    }
+
+  # module.soap_verification_lambda.aws_iam_role_policy.extra[0] will be updated in-place
+  ~ resource "aws_iam_role_policy" "extra" {
+        id     = "realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra"
+        name   = "realtimeinsurance-dev-soap-verification-lambda-extra"
+      ~ policy = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "rds-db:connect",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:rds-db:us-east-1:058264370150:dbuser:cluster-FZCKYUP5O32DEWMAHJFEAXOG64/lambda_svc",
+                        ]
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> (known after apply)
+        # (1 unchanged attribute hidden)
+    }
+
+  # module.soap_verification_lambda.aws_lambda_function.placeholder[0] will be updated in-place
+  ~ resource "aws_lambda_function" "placeholder" {
+        id                             = "realtimeinsurance-dev-soap-verification-lambda"
+        tags                           = {}
+        # (25 unchanged attributes hidden)
+
+      ~ environment {
+          ~ variables = {
+              - "db_endpoint" = "realtimeinsurance-dev-aurora-cluster.cluster-ro-cx08iswmk3mr.us-east-1.rds.amazonaws.com"
+              - "db_name"     = "realtimeinsurance_dev"
+              - "db_region"   = "us-east-1"
+              - "db_user"     = "lambda_svc"
+            } -> (known after apply)
+        }
+
+        # (4 unchanged blocks hidden)
+    }
+
+Plan: 10 to add, 2 to change, 0 to destroy.
+aws_iam_role.rds_proxy: Creating...
+module.rds_proxy_security_group.aws_security_group.this: Creating...
+aws_iam_role.rds_proxy: Creation complete after 0s [id=realtimeinsurance-dev-rds-proxy-role]
+aws_iam_role_policy.rds_proxy_secret_access: Creating...
+aws_iam_role_policy.rds_proxy_secret_access: Creation complete after 0s [id=realtimeinsurance-dev-rds-proxy-role:realtimeinsurance-dev-rds-proxy-secret-access]
+module.rds_proxy_security_group.aws_security_group.this: Creation complete after 1s [id=sg-064a4f97c64e1d064]
+aws_db_proxy.aurora: Creating...
+aws_vpc_security_group_ingress_rule.proxy_from_lambda: Creating...
+module.rds_proxy_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-rds-proxy-sg-egress-10.0.0.0/8-5432"]: Creating...
+aws_vpc_security_group_ingress_rule.aurora_from_proxy: Creating...
+aws_vpc_security_group_ingress_rule.proxy_from_lambda: Creation complete after 0s [id=sgr-0fbcdad2f102821d1]
+module.rds_proxy_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-rds-proxy-sg-egress-10.0.0.0/8-5432"]: Creation complete after 0s [id=sgr-0aa18002f317c66c2]
+aws_vpc_security_group_ingress_rule.aurora_from_proxy: Creation complete after 0s [id=sgr-0d5ba80ba2148b45c]
+aws_db_proxy.aurora: Still creating... [10s elapsed]
+aws_db_proxy.aurora: Still creating... [20s elapsed]
+aws_db_proxy.aurora: Still creating... [30s elapsed]
+aws_db_proxy.aurora: Still creating... [40s elapsed]
+aws_db_proxy.aurora: Still creating... [50s elapsed]
+aws_db_proxy.aurora: Still creating... [1m0s elapsed]
+aws_db_proxy.aurora: Still creating... [1m10s elapsed]
+aws_db_proxy.aurora: Still creating... [1m20s elapsed]
+aws_db_proxy.aurora: Still creating... [1m30s elapsed]
+aws_db_proxy.aurora: Still creating... [1m40s elapsed]
+aws_db_proxy.aurora: Still creating... [1m50s elapsed]
+aws_db_proxy.aurora: Still creating... [2m0s elapsed]
+aws_db_proxy.aurora: Still creating... [2m10s elapsed]
+aws_db_proxy.aurora: Still creating... [2m20s elapsed]
+aws_db_proxy.aurora: Still creating... [2m30s elapsed]
+aws_db_proxy.aurora: Still creating... [2m40s elapsed]
+aws_db_proxy.aurora: Still creating... [2m50s elapsed]
+aws_db_proxy.aurora: Still creating... [3m0s elapsed]
+aws_db_proxy.aurora: Still creating... [3m10s elapsed]
+aws_db_proxy.aurora: Still creating... [3m20s elapsed]
+aws_db_proxy.aurora: Still creating... [3m30s elapsed]
+aws_db_proxy.aurora: Still creating... [3m40s elapsed]
+aws_db_proxy.aurora: Still creating... [3m50s elapsed]
+aws_db_proxy.aurora: Still creating... [4m0s elapsed]
+aws_db_proxy.aurora: Still creating... [4m10s elapsed]
+aws_db_proxy.aurora: Creation complete after 4m16s [id=realtimeinsurance-dev-aurora-proxy]
+aws_db_proxy_default_target_group.aurora: Creating...
+aws_db_proxy_endpoint.aurora_reader: Creating...
+module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Modifying... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
+module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Modifications complete after 0s [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
+aws_db_proxy_default_target_group.aurora: Creation complete after 1s [id=realtimeinsurance-dev-aurora-proxy]
+aws_db_proxy_target.aurora: Creating...
+aws_db_proxy_target.aurora: Creation complete after 1s [id=realtimeinsurance-dev-aurora-proxy/default/TRACKED_CLUSTER/realtimeinsurance-dev-aurora-cluster]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [1m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [2m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [3m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [4m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [5m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [6m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [7m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m20s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m30s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m40s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [8m50s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [9m0s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Still creating... [9m10s elapsed]
+aws_db_proxy_endpoint.aurora_reader: Creation complete after 9m20s [id=realtimeinsurance-dev-aurora-proxy/realtimeinsurance-dev-aurora-proxy-reader]
+module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Modifying... [id=realtimeinsurance-dev-soap-verification-lambda]
+module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Modifications complete after 6s [id=realtimeinsurance-dev-soap-verification-lambda]
+╷
+│ Warning: Value derived from a deprecated source
+│ 
+│   with module.api_gateway.aws_api_gateway_authorizer.jwt,
+│   on .terraform/modules/api_gateway/main.tf line 183, in resource "aws_api_gateway_authorizer" "jwt":
+│  183:   type            = "TOKEN"
+│ 
+│ This value is derived from data.aws_region.current.name, which is
+│ deprecated with the following message:
+│ 
+│ name is deprecated. Use region instead.
+╵
+╷
+│ Warning: Redundant ignore_changes element
+│ 
+│   on .terraform/modules/policy_graph_ingest_lambda/main.tf line 152, in resource "aws_lambda_function" "placeholder":
+│  152: resource "aws_lambda_function" "placeholder" {
+│ 
+│ Adding an attribute name to ignore_changes tells OpenTofu to ignore future
+│ changes to the argument in configuration after the object has been created,
+│ retaining the value originally configured.
+│ 
+│ The attribute last_modified is decided by the provider alone and therefore
+│ there can be no configured value to compare with. Including this attribute
+│ in ignore_changes has no effect. Remove the attribute from ignore_changes
+│ to quiet this warning.
+│ 
+│ (and 5 more similar warnings elsewhere)
+╵
+
+Apply complete! Resources: 10 added, 2 changed, 0 destroyed.
