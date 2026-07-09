@@ -1,1 +1,132 @@
-Hey CG, wanted to leave you with the exact ask for tomorrow so we don't spin wheels — the 15-min expiring thing is the IAM auth token (generate-db-auth-token), which RDS Proxy can't actually use. It needs a static password stored in Secrets Manager instead. Static passwords don't expire on their own; rotation is a scheduled thing (30/60/90 days) and the proxy handles it automatically. So what I need is: a DB user with a static password (either add one to pgsi_ans00315015 or create a new one like l_aur_soap_proxy, whichever's easier), stored in a new Secrets Manager secret in this format: {"username": "the_user", "password": "any_static_password_you_pick"}, and then send me the ARN. Once I have it, ~15 min to deploy on my side. Thanks!
+# ---------------------------------------------------------------------------
+# RDS Proxy for Aurora
+#
+# Sits between the Lambda and the Aurora cluster to pool DB connections.
+# Eliminates the multi-second cold-connection cost per Lambda invocation.
+#
+# Auth model:
+#   - Lambda -> Proxy: IAM auth (matches current Lambda pattern)
+#   - Proxy  -> Aurora: Secrets Manager (durable credentials, managed by DBA)
+# ---------------------------------------------------------------------------
+
+#Security group for the proxy
+module "rds_proxy_security_group" {
+  source      = "git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0"
+  name        = "${var.application_name}-${var.env_tier}-rds-proxy-sg"
+  description = "RDS Proxy: inbound from Lambda, outbound to Aurora"
+  vpc_id      = var.vpc_id
+
+  inbound_rules = []
+
+  outbound_rules = [
+    {
+      description = "Postgres to Aurora"
+      ip_protocol = "tcp"
+      from_port   = 5432
+      to_port     = 5432
+      cidr_ipv4   = "10.0.0.0/8"
+    }
+  ]
+}
+
+# SG-to-SG: Lambda -> Proxy on 5432
+resource "aws_vpc_security_group_ingress_rule" "proxy_from_lambda" {
+  security_group_id            = module.rds_proxy_security_group.sg_id
+  referenced_security_group_id = module.soap_verification_lambda.security_group_id
+  ip_protocol                  = "tcp"
+  from_port                    = 5432
+  to_port                      = 5432
+  description                  = "Allow SOAP Lambda to reach RDS Proxy on 5432"
+}
+
+# Allow the proxy SG inbound to Aurora on 5432
+resource "aws_vpc_security_group_ingress_rule" "aurora_from_proxy" {
+  security_group_id            = module.aurora_security_group.sg_id
+  referenced_security_group_id = module.rds_proxy_security_group.sg_id
+  ip_protocol                  = "tcp"
+  from_port                    = 5432
+  to_port                      = 5432
+  description                  = "Allow RDS Proxy to reach Aurora"
+}
+
+#IAM role for the proxy to read the Secrets Manager secret
+data "aws_iam_policy_document" "rds_proxy_assume" {
+  statement {
+    effect = "Allow"
+    principals {
+      type        = "Service"
+      identifiers = ["rds.amazonaws.com"]
+    }
+    actions = ["sts:AssumeRole"]
+  }
+}
+
+resource "aws_iam_role" "rds_proxy" {
+  name               = "${var.application_name}-${var.env_tier}-rds-proxy-role"
+  assume_role_policy = data.aws_iam_policy_document.rds_proxy_assume.json
+}
+
+data "aws_iam_policy_document" "rds_proxy_secret_access" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue",
+      "secretsmanager:DescribeSecret"
+    ]
+    resources = [var.rds_proxy_db_secret_arn]
+  }
+}
+
+resource "aws_iam_role_policy" "rds_proxy_secret_access" {
+  name   = "${var.application_name}-${var.env_tier}-rds-proxy-secret-access"
+  role   = aws_iam_role.rds_proxy.id
+  policy = data.aws_iam_policy_document.rds_proxy_secret_access.json
+}
+
+#The proxy 
+resource "aws_db_proxy" "aurora" {
+  name                   = "${var.application_name}-${var.env_tier}-aurora-proxy"
+  engine_family          = "POSTGRESQL"
+  role_arn               = aws_iam_role.rds_proxy.arn
+  vpc_subnet_ids         = var.aurora_subnet_ids
+  vpc_security_group_ids = [module.rds_proxy_security_group.sg_id]
+  require_tls            = true
+  idle_client_timeout    = 1800
+  debug_logging          = false
+
+  auth {
+    auth_scheme = "SECRETS"
+    iam_auth    = "REQUIRED"
+    secret_arn  = var.rds_proxy_db_secret_arn
+  }
+
+  tags = {
+    Name = "${var.application_name}-${var.env_tier}-aurora-proxy"
+  }
+}
+
+#Target group + target: point proxy at the Aurora cluster
+resource "aws_db_proxy_default_target_group" "aurora" {
+  db_proxy_name = aws_db_proxy.aurora.name
+
+  connection_pool_config {
+    max_connections_percent      = 100
+    max_idle_connections_percent = 50
+    connection_borrow_timeout    = 120
+  }
+}
+
+resource "aws_db_proxy_target" "aurora" {
+  db_proxy_name         = aws_db_proxy.aurora.name
+  target_group_name     = aws_db_proxy_default_target_group.aurora.name
+  db_cluster_identifier = aws_rds_cluster.aurora.cluster_identifier
+}
+
+#Read-only proxy endpoint (matches current reader pattern)
+resource "aws_db_proxy_endpoint" "aurora_reader" {
+  db_proxy_name          = aws_db_proxy.aurora.name
+  db_proxy_endpoint_name = "${var.application_name}-${var.env_tier}-aurora-proxy-reader"
+  vpc_subnet_ids         = var.aurora_subnet_ids
+  vpc_security_group_ids = [module.rds_proxy_security_group.sg_id]
+  target_role            = "READ_ONLY"
+}
