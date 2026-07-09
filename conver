@@ -1,7 +1,5 @@
-Set-Alias ocurl C:\Users\T012sp\Downloads\curl-ossl\curl-8.20.0_5-win64-mingw\bin\curl.exe
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 
-
-ocurl --version
-
-
-ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+TIME_TOTAL: 0.147339s
+TIME_STARTTRANSFER: 0.146140s
+HTTP_CODE: 403
