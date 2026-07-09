@@ -1,5 +1,2 @@
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
-
-TIME_TOTAL: 0.257073s
-TIME_STARTTRANSFER: 0.256078s
-HTTP_CODE: 403
+PS C:\Users\T012sp\Downloads\Testing> Get-Content response.xml
+{"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********0150:q51dqcsrw5/default/POST/soap with an explicit deny in a resource-based policy"}
