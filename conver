@@ -1,119 +1,410 @@
-What we changed
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 
-We made two small edits in the Terraform code (lambda.tf for the SOAP verification Lambda):
+TIME_TOTAL: 2.502736s
+TIME_STARTTRANSFER: 2.501075s
+HTTP_CODE: 502
 
-Change 1 — Lambda environment variable
-Diff
-1
-environment {
-2
-variables = {
-3
-- db_user = "lambda_svc"
-4
-+ db_user = "pgsi_ans00315015"
-5
-db_name = "..."
-6
-db_endpoint = "<rds-proxy-reader-endpoint>"
-7
+
+Lambda logs:
+No older events at this moment. 
+Retry
+2026-07-12T08:41:37.042-04:00
+INIT_START Runtime Version: python:3.13.mainlinev2.v14	Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:b3c960115d53da170f335080f5743e7f921c7739b6f09d83fc7b44b643838ace
+
+INIT_START Runtime Version: python:3.13.mainlinev2.v14 Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:b3c960115d53da170f335080f5743e7f921c7739b6f09d83fc7b44b643838ace
+2026-07-12T08:41:38.013-04:00
+START RequestId: aaf32709-f58e-459c-b418-e99db0aa4036 Version: $LATEST
+
+START RequestId: aaf32709-f58e-459c-b418-e99db0aa4036 Version: $LATEST
+2026-07-12T08:41:38.022-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,014",
+    "logger": "main",
+    "level": "INFO",
+    "message": "SOAP verification request started. request_id=aaf32709-f58e-459c-b418-e99db0aa4036"
 }
-8
+
+
+{"timestamp": "2026-07-12 12:41:38,014", "logger": "main", "level": "INFO", "message": "SOAP verification request started. request_id=aaf32709-f58e-459c-b418-e99db0aa4036"}
+2026-07-12T08:41:38.022-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,015",
+    "logger": "request_handler",
+    "level": "INFO",
+    "message": "Extracted VIN: 56KDMABH4N3000596"
 }
-Show more lines
-Change 2 — Lambda IAM role policy
-Diff
-1
-statement {
-2
-actions = ["rds-db:connect"]
-3
-resources = [
-4
-- "arn:aws:rds-db:us-east-1:058264370150:dbuser:prx-05af88b21156e01ae/lambda_svc"
-5
-+ "arn:aws:rds-db:us-east-1:058264370150:dbuser:prx-05af88b21156e01ae/pgsi_ans00315015"
-6
-]
-7
+
+
+{"timestamp": "2026-07-12 12:41:38,015", "logger": "request_handler", "level": "INFO", "message": "Extracted VIN: 56KDMABH4N3000596"}
+2026-07-12T08:41:38.022-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,015",
+    "logger": "request_handler",
+    "level": "INFO",
+    "message": "Extracted Verification Date: 2026-07-06T00:00:00.000"
 }
-Show more lines
-Why we made these changes
-Background
 
-When the Lambda connects to Aurora through RDS Proxy, three things must line up perfectly:
 
-Component	Must matchLambda's DB_USER env var	↔
-The username in the Secrets Manager secret registered to the Proxy	↔
-The DB user in the Lambda's IAM policy resource ARN	↔
+{"timestamp": "2026-07-12 12:41:38,015", "logger": "request_handler", "level": "INFO", "message": "Extracted Verification Date: 2026-07-06T00:00:00.000"}
+2026-07-12T08:41:38.022-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,015",
+    "logger": "request_handler",
+    "level": "INFO",
+    "message": "Extracted Tracking Number: TEST-TIMING-001"
+}
 
-If any of the three disagree, the connection fails with an authentication error.
 
-What the situation was
+{"timestamp": "2026-07-12 12:41:38,015", "logger": "request_handler", "level": "INFO", "message": "Extracted Tracking Number: TEST-TIMING-001"}
+2026-07-12T08:41:38.022-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,015",
+    "logger": "request_handler",
+    "level": "INFO",
+    "message": "Extracted Policy Key: PTest12345"
+}
 
-The DBA (CG) created:
 
-A DB user in Aurora: pgsi_ans00315015
-A Secrets Manager secret containing that user + password
-Registered the secret with the RDS Proxy
+{"timestamp": "2026-07-12 12:41:38,015", "logger": "request_handler", "level": "INFO", "message": "Extracted Policy Key: PTest12345"}
+2026-07-12T08:41:38.022-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,015",
+    "logger": "main",
+    "level": "INFO",
+    "message": "Request parsed successfully. request_id=aaf32709-f58e-459c-b418-e99db0aa4036 tracking_number=TEST-TIMING-001"
+}
 
-But the Lambda code and IAM policy were still built to log in as an older service account:
 
-Plain Text
-1
-DB_USER = "lambda_svc"
-2
-IAM policy → dbuser/lambda_svc
-Show more lines
+{"timestamp": "2026-07-12 12:41:38,015", "logger": "main", "level": "INFO", "message": "Request parsed successfully. request_id=aaf32709-f58e-459c-b418-e99db0aa4036 tracking_number=TEST-TIMING-001"}
+2026-07-12T08:41:38.076-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,076",
+    "logger": "botocore.credentials",
+    "level": "INFO",
+    "message": "Found credentials in environment variables."
+}
 
-That mismatch caused two errors in sequence during our test today:
 
-First error (before Change 1):
+{"timestamp": "2026-07-12 12:41:38,076", "logger": "botocore.credentials", "level": "INFO", "message": "Found credentials in environment variables."}
+2026-07-12T08:41:38.595-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,595",
+    "logger": "rds_iam_auth",
+    "level": "INFO",
+    "message": "IAM auth token generated. duration_ms=580.2"
+}
 
-Plain Text
-1
-28000 FATAL — This RDS proxy has no credentials for the role lambda_svc.
-Show more lines
 
-Meaning: the Proxy has no secret containing username lambda_svc.
+{"timestamp": "2026-07-12 12:41:38,595", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=580.2"}
+2026-07-12T08:41:38.815-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,815",
+    "logger": "rds_iam_auth",
+    "level": "INFO",
+    "message": "Database connection established. duration_ms=219.7"
+}
 
-Second error (before Change 2):
 
-Plain Text
-1
-28P01 FATAL — The IAM authentication failed for the role pgsi_ans00315015.
-Show more lines
+{"timestamp": "2026-07-12 12:41:38,815", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=219.7"}
+2026-07-12T08:41:38.962-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,959",
+    "logger": "database_handler",
+    "level": "ERROR",
+    "message": "Database query failed. vin=56KDMABH4N3000596 verification_date=2026-07-06T00:00:00.000"
+}
 
-Meaning: the DB user was now correct, but the Lambda's IAM policy didn't grant rds-db:connect for that user.
 
-Why the fixes solve it
-Change 1 aligns the Lambda's DB_USER with the username stored in the Proxy's Secrets Manager secret so the Proxy can authenticate to Aurora on behalf of the Lambda.
-Change 2 aligns the Lambda's IAM permission to allow rds-db:connect for the same DB user so the IAM auth token it generates is valid for that user.
+{"timestamp": "2026-07-12 12:41:38,959", "logger": "database_handler", "level": "ERROR", "message": "Database query failed. vin=56KDMABH4N3000596 verification_date=2026-07-06T00:00:00.000"}
+2026-07-12T08:41:38.962-04:00
+Traceback (most recent call last):
 
-Together, this makes the entire chain consistent:
+Traceback (most recent call last):
+2026-07-12T08:41:38.962-04:00
+File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
 
-Plain Text
-1
-Lambda (DB_USER = pgsi_ans00315015)
-2
-→ IAM policy allows rds-db:connect for pgsi_ans00315015
-3
-→ Proxy has a secret for pgsi_ans00315015
-4
-→ Proxy uses that secret to log in to Aurora
-Show more lines
-Why we didn't pick the alternative
+File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
+2026-07-12T08:41:38.962-04:00
+cursor.execute(query, (vin_number, verification_date))
 
-The other option would have been to ask CG to:
+cursor.execute(query, (vin_number, verification_date))
+2026-07-12T08:41:38.962-04:00
+~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Create a new DB user lambda_svc
-Create a new Secrets Manager secret
-Register it as an additional Auth entry on the Proxy
+~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-12T08:41:38.962-04:00
+File "/var/task/pg8000/legacy.py", line 250, in execute
 
-That would work, but:
+File "/var/task/pg8000/legacy.py", line 250, in execute
+2026-07-12T08:41:38.962-04:00
+self._c.execute_simple("begin transaction")
 
-Requires DB team coordination
-Adds a second credential to rotate/manage
-Doesn't match what CG already provisioned
+self._c.execute_simple("begin transaction")
+2026-07-12T08:41:38.962-04:00
+~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
 
-Aligning the Lambda to the DBA-provisioned user is smaller, faster, and matches the existing infrastructure.
+~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+2026-07-12T08:41:38.962-04:00
+File "/var/task/pg8000/core.py", line 694, in execute_simple
+
+File "/var/task/pg8000/core.py", line 694, in execute_simple
+2026-07-12T08:41:38.962-04:00
+self.handle_messages(context)
+
+self.handle_messages(context)
+2026-07-12T08:41:38.962-04:00
+~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+
+~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2026-07-12T08:41:38.962-04:00
+File "/var/task/pg8000/core.py", line 839, in handle_messages
+
+File "/var/task/pg8000/core.py", line 839, in handle_messages
+2026-07-12T08:41:38.962-04:00
+code, data_len = ci_unpack(_read(self._sock, 5))
+
+code, data_len = ci_unpack(_read(self._sock, 5))
+2026-07-12T08:41:38.962-04:00
+~~~~~^^^^^^^^^^^^^^^
+
+~~~~~^^^^^^^^^^^^^^^
+2026-07-12T08:41:38.962-04:00
+File "/var/task/pg8000/core.py", line 155, in _read
+
+File "/var/task/pg8000/core.py", line 155, in _read
+2026-07-12T08:41:38.962-04:00
+raise InterfaceError("network error")
+
+raise InterfaceError("network error")
+2026-07-12T08:41:38.962-04:00
+pg8000.exceptions.InterfaceError: network error
+
+pg8000.exceptions.InterfaceError: network error
+2026-07-12T08:41:38.963-04:00
+{
+    "timestamp": "2026-07-12 12:41:38,962",
+    "logger": "main",
+    "level": "ERROR",
+    "message": "SOAP verification request failed. request_id=aaf32709-f58e-459c-b418-e99db0aa4036"
+}
+
+
+{"timestamp": "2026-07-12 12:41:38,962", "logger": "main", "level": "ERROR", "message": "SOAP verification request failed. request_id=aaf32709-f58e-459c-b418-e99db0aa4036"}
+2026-07-12T08:41:38.963-04:00
+Traceback (most recent call last):
+
+Traceback (most recent call last):
+2026-07-12T08:41:38.963-04:00
+File "/var/task/main.py", line 52, in lambda_handler
+
+File "/var/task/main.py", line 52, in lambda_handler
+2026-07-12T08:41:38.963-04:00
+unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
+
+unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
+2026-07-12T08:41:38.963-04:00
+File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
+
+File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
+2026-07-12T08:41:38.963-04:00
+cursor.execute(query, (vin_number, verification_date))
+
+cursor.execute(query, (vin_number, verification_date))
+2026-07-12T08:41:38.963-04:00
+~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-07-12T08:41:38.963-04:00
+File "/var/task/pg8000/legacy.py", line 250, in execute
+
+File "/var/task/pg8000/legacy.py", line 250, in execute
+2026-07-12T08:41:38.963-04:00
+self._c.execute_simple("begin transaction")
+
+self._c.execute_simple("begin transaction")
+2026-07-12T08:41:38.963-04:00
+~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+
+~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+2026-07-12T08:41:38.963-04:00
+File "/var/task/pg8000/core.py", line 694, in execute_simple
+
+File "/var/task/pg8000/core.py", line 694, in execute_simple
+2026-07-12T08:41:38.963-04:00
+self.handle_messages(context)
+
+self.handle_messages(context)
+2026-07-12T08:41:38.963-04:00
+~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+
+~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+2026-07-12T08:41:38.963-04:00
+File "/var/task/pg8000/core.py", line 839, in handle_messages
+
+File "/var/task/pg8000/core.py", line 839, in handle_messages
+2026-07-12T08:41:38.963-04:00
+code, data_len = ci_unpack(_read(self._sock, 5))
+
+code, data_len = ci_unpack(_read(self._sock, 5))
+2026-07-12T08:41:38.963-04:00
+~~~~~^^^^^^^^^^^^^^^
+
+~~~~~^^^^^^^^^^^^^^^
+2026-07-12T08:41:38.963-04:00
+File "/var/task/pg8000/core.py", line 155, in _read
+
+File "/var/task/pg8000/core.py", line 155, in _read
+2026-07-12T08:41:38.963-04:00
+raise InterfaceError("network error")
+
+raise InterfaceError("network error")
+2026-07-12T08:41:38.963-04:00
+pg8000.exceptions.InterfaceError: network error
+
+pg8000.exceptions.InterfaceError: network error
+2026-07-12T08:41:38.963-04:00
+[ERROR] InterfaceError: network error
+Traceback (most recent call last):
+  File "/var/task/main.py", line 52, in lambda_handler
+    unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
+  File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
+    cursor.execute(query, (vin_number, verification_date))
+  File "/var/task/pg8000/legacy.py", line 250, in execute
+    self._c.execute_simple("begin transaction")
+  File "/var/task/pg8000/core.py", line 694, in execute_simple
+    self.handle_messages(context)
+  File "/var/task/pg8000/core.py", line 839, in handle_messages
+    code, data_len = ci_unpack(_read(self._sock, 5))
+  File "/var/task/pg8000/core.py", line 155, in _read
+    raise InterfaceError("network error")
+
+[ERROR] InterfaceError: network error Traceback (most recent call last):   File "/var/task/main.py", line 52, in lambda_handler     unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)   File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin     cursor.execute(query, (vin_number, verification_date))   File "/var/task/pg8000/legacy.py", line 250, in execute     self._c.execute_simple("begin transaction")   File "/var/task/pg8000/core.py", line 694, in execute_simple     self.handle_messages(context)   File "/var/task/pg8000/core.py", line 839, in handle_messages     code, data_len = ci_unpack(_read(self._sock, 5))   File "/var/task/pg8000/core.py", line 155, in _read     raise InterfaceError("network error")
+2026-07-12T08:41:38.966-04:00
+END RequestId: aaf32709-f58e-459c-b418-e99db0aa4036
+
+END RequestId: aaf32709-f58e-459c-b418-e99db0aa4036
+2026-07-12T08:41:38.966-04:00
+REPORT RequestId: aaf32709-f58e-459c-b418-e99db0aa4036	Duration: 952.17 ms	Billed Duration: 1915 ms	Memory Size: 512 MB	Max Memory Used: 96 MB	Init Duration: 962.05 ms	
+
+REPORT RequestId: aaf32709-f58e-459c-b418-e99db0aa4036 Duration: 952.17 ms Billed Duration: 1915 ms Memory Size: 512 MB Max Memory Used: 96 MB Init Duration: 962.05 ms
+No newer events at this moment.
+
+
+API gateway logs:
+2026-07-12T08:41:36.594-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Extended Request Id: AZK8KHiHIAMFyhw=
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Extended Request Id: AZK8KHiHIAMFyhw=
+2026-07-12T08:41:36.602-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Verifying Usage Plan for request: dcbd27cb-6144-49a2-a337-fd1abca36259. API Key:  API Stage: q51dqcsrw5/default
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Verifying Usage Plan for request: dcbd27cb-6144-49a2-a337-fd1abca36259. API Key: API Stage: q51dqcsrw5/default
+2026-07-12T08:41:36.603-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) API Key  authorized because method 'POST /soap' does not require API Key. Request will not contribute to throttle or quota limits
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) API Key authorized because method 'POST /soap' does not require API Key. Request will not contribute to throttle or quota limits
+2026-07-12T08:41:36.603-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Usage Plan check succeeded for API Key  and API Stage q51dqcsrw5/default
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Usage Plan check succeeded for API Key and API Stage q51dqcsrw5/default
+2026-07-12T08:41:36.603-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Starting execution for request: dcbd27cb-6144-49a2-a337-fd1abca36259
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Starting execution for request: dcbd27cb-6144-49a2-a337-fd1abca36259
+2026-07-12T08:41:36.603-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) HTTP Method: POST, Resource Path: /soap
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) HTTP Method: POST, Resource Path: /soap
+2026-07-12T08:41:36.603-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method request path: 
+{}
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method request path: {}
+2026-07-12T08:41:36.603-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method request query string: 
+{}
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method request query string: {}
+2026-07-12T08:41:36.603-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method request headers: {User-Agent=curl/8.20.0, X-Forwarded-For=163.116.249.42, content-type=text/xml, Host=realtimeinsurance-soap-api-dev.devkyfb.com, accept=*/*}
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method request headers: {User-Agent=curl/8.20.0, X-Forwarded-For=163.116.249.42, content-type=text/xml, Host=realtimeinsurance-soap-api-dev.devkyfb.com, accept=*/*}
+2026-07-12T08:41:36.603-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method request body before transformations: <?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <soapenv:Body>
+    <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/" PublicationVersion="00200809" PublicationDate="2008-11-05">
+      <RequestorInformation>
+        <Organization>
+          <Name>KentuckyIVS</Name>
+        </Organization>
+        <ReasonDetails>
+          <ReasonCode>BIVER</ReasonCode>
+          <TrackingNumber>TEST-TIMING-001</TrackingNumber>
+        </ReasonDetails>
+      </RequestorInformation>
+      <Detail>
+        <PolicyInformation>
+          <OrganizationDetails>
+            <NAIC>22993</NAIC>
+          </OrganizationDetails>
+          <PolicyDetails>
+            <VerificationDate>2026-07-06T00:00:00.000</VerificationDate>
+            <PolicyKey>PTest12345</PolicyKey>
+            <PolicyS [TRUNCATED]
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method request body before transformations: <?xml version="1.0" encoding="UTF-8"?> <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <soapenv:Body> <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/" PublicationVersion="00200809" PublicationDate="2008-11-05"> <RequestorInformation> <Organization> <Name>KentuckyIVS</Name> </Organization> <ReasonDetails> <ReasonCode>BIVER</ReasonCode> <TrackingNumber>TEST-TIMING-001</TrackingNumber> </ReasonDetails> </RequestorInformation> <Detail> <PolicyInformation> <OrganizationDetails> <NAIC>22993</NAIC> </OrganizationDetails> <PolicyDetails> <VerificationDate>2026-07-06T00:00:00.000</VerificationDate> <PolicyKey>PTest12345</PolicyKey> <PolicyS [TRUNCATED]
+2026-07-12T08:41:36.604-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
+2026-07-12T08:41:36.604-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint request headers: {X-Amz-Date=20260712T124136Z, x-amzn-apigateway-api-id=q51dqcsrw5, Accept=text/xml, User-Agent=AmazonAPIGateway_q51dqcsrw5, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=01d52ae8505bc771ed5fb4c49aea59dc947120d0621f003625d933a3bc36b572, X-Amzn-Trace-Id=Root=1-6a538b80-d2d5d36c32f4ec8f4f8f9155, x-amzn-lambda-integration-tag=dcbd27cb-6144-49a2-a337-fd1abca36259, Authorization=*********************************************************************************************************************************************************************************************************************************************************************************************************************************************836693, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:058264370150:q51dqcsrw5/default/POST/soap, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEBwaCXVzLWVhc3QtMSJHMEUCIAyrYEBqmk3PmU376QYBlppOewZlJOQpvf9KGhMLsm9YAiEAw9vHLOFEEm9uS0a8M8uwg17OHYkivFzsx/6xypwqrXAquwUI5f//////////ARAAGgwzOT [TRUNCATED]
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint request headers: {X-Amz-Date=20260712T124136Z, x-amzn-apigateway-api-id=q51dqcsrw5, Accept=text/xml, User-Agent=AmazonAPIGateway_q51dqcsrw5, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=01d52ae8505bc771ed5fb4c49aea59dc947120d0621f003625d933a3bc36b572, X-Amzn-Trace-Id=Root=1-6a538b80-d2d5d36c32f4ec8f4f8f9155, x-amzn-lambda-integration-tag=dcbd27cb-6144-49a2-a337-fd1abca36259, Authorization=*********************************************************************************************************************************************************************************************************************************************************************************************************************************************836693, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:058264370150:q51dqcsrw5/default/POST/soap, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEBwaCXVzLWVhc3QtMSJHMEUCIAyrYEBqmk3PmU376QYBlppOewZlJOQpvf9KGhMLsm9YAiEAw9vHLOFEEm9uS0a8M8uwg17OHYkivFzsx/6xypwqrXAquwUI5f//////////ARAAGgwzOT [TRUNCATED]
+2026-07-12T08:41:36.604-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint request body after transformations: {"resource":"/soap","path":"/soap","httpMethod":"POST","headers":{"accept":"*/*","content-type":"text/xml","Host":"realtimeinsurance-soap-api-dev.devkyfb.com","User-Agent":"curl/8.20.0","X-Forwarded-For":"163.116.249.42"},"multiValueHeaders":{"accept":["*/*"],"content-type":["text/xml"],"Host":["realtimeinsurance-soap-api-dev.devkyfb.com"],"User-Agent":["curl/8.20.0"],"X-Forwarded-For":["163.116.249.42"]},"queryStringParameters":null,"multiValueQueryStringParameters":null,"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"lknkms","resourcePath":"/soap","httpMethod":"POST","extendedRequestId":"AZK8KHiHIAMFyhw=","requestTime":"12/Jul/2026:12:41:36 +0000","path":"/soap","accountId":"058264370150","protocol":"HTTP/1.1","stage":"default","domainPrefix":"realtimeinsurance-soap-api-dev","requestTimeEpoch":1783860096593,"requestId":"dcbd27cb-6144-49a2-a337-fd1abca36259","identity":{"cognitoIdentityPoolId":null,"clientCert":{"clientCertPem":"-----BE [TRUNCATED]
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint request body after transformations: {"resource":"/soap","path":"/soap","httpMethod":"POST","headers":{"accept":"*/*","content-type":"text/xml","Host":"realtimeinsurance-soap-api-dev.devkyfb.com","User-Agent":"curl/8.20.0","X-Forwarded-For":"163.116.249.42"},"multiValueHeaders":{"accept":["*/*"],"content-type":["text/xml"],"Host":["realtimeinsurance-soap-api-dev.devkyfb.com"],"User-Agent":["curl/8.20.0"],"X-Forwarded-For":["163.116.249.42"]},"queryStringParameters":null,"multiValueQueryStringParameters":null,"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"lknkms","resourcePath":"/soap","httpMethod":"POST","extendedRequestId":"AZK8KHiHIAMFyhw=","requestTime":"12/Jul/2026:12:41:36 +0000","path":"/soap","accountId":"058264370150","protocol":"HTTP/1.1","stage":"default","domainPrefix":"realtimeinsurance-soap-api-dev","requestTimeEpoch":1783860096593,"requestId":"dcbd27cb-6144-49a2-a337-fd1abca36259","identity":{"cognitoIdentityPoolId":null,"clientCert":{"clientCertPem":"-----BE [TRUNCATED]
+2026-07-12T08:41:36.604-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Sending request to https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Sending request to https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
+2026-07-12T08:41:38.966-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Received response. Status: 200, Integration latency: 2362 ms
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Received response. Status: 200, Integration latency: 2362 ms
+2026-07-12T08:41:38.966-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint response headers: {Date=Sun, 12 Jul 2026 12:41:38 GMT, Content-Type=application/json, Content-Length=874, Connection=keep-alive, x-amzn-RequestId=aaf32709-f58e-459c-b418-e99db0aa4036, X-Amz-Function-Error=Unhandled, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=Root=1-6a538b80-d2d5d36c32f4ec8f4f8f9155;Parent=6e5022ef5442b2f0;Sampled=0;Lineage=1:81523d6a:0}
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint response headers: {Date=Sun, 12 Jul 2026 12:41:38 GMT, Content-Type=application/json, Content-Length=874, Connection=keep-alive, x-amzn-RequestId=aaf32709-f58e-459c-b418-e99db0aa4036, X-Amz-Function-Error=Unhandled, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=Root=1-6a538b80-d2d5d36c32f4ec8f4f8f9155;Parent=6e5022ef5442b2f0;Sampled=0;Lineage=1:81523d6a:0}
+2026-07-12T08:41:38.966-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint response body before transformations: 
+{
+    "errorMessage": "network error",
+    "errorType": "InterfaceError",
+    "requestId": "aaf32709-f58e-459c-b418-e99db0aa4036",
+    "stackTrace": [
+        "  File \"/var/task/main.py\", line 52, in lambda_handler\n    unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)\n",
+        "  File \"/var/task/database_handler.py\", line 70, in query_policy_info_by_vin\n    cursor.execute(query, (vin_number, verification_date))\n",
+        "  File \"/var/task/pg8000/legacy.py\", line 250, in execute\n    self._c.execute_simple(\"begin transaction\")\n",
+        "  File \"/var/task/pg8000/core.py\", line 694, in execute_simple\n    self.handle_messages(context)\n",
+        "  File \"/var/task/pg8000/core.py\", line 839, in handle_messages\n    code, data_len = ci_unpack(_read(self._sock, 5))\n",
+        "  File \"/var/task/pg8000/core.py\", line 155, in _read\n    raise InterfaceError(\"network error\")\n"
+    ]
+}
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Endpoint response body before transformations: {"errorMessage": "network error", "errorType": "InterfaceError", "requestId": "aaf32709-f58e-459c-b418-e99db0aa4036", "stackTrace": [" File \"/var/task/main.py\", line 52, in lambda_handler\n unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)\n", " File \"/var/task/database_handler.py\", line 70, in query_policy_info_by_vin\n cursor.execute(query, (vin_number, verification_date))\n", " File \"/var/task/pg8000/legacy.py\", line 250, in execute\n self._c.execute_simple(\"begin transaction\")\n", " File \"/var/task/pg8000/core.py\", line 694, in execute_simple\n self.handle_messages(context)\n", " File \"/var/task/pg8000/core.py\", line 839, in handle_messages\n code, data_len = ci_unpack(_read(self._sock, 5))\n", " File \"/var/task/pg8000/core.py\", line 155, in _read\n raise InterfaceError(\"network error\")\n"]}
+2026-07-12T08:41:38.967-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Lambda execution failed with status 200 due to customer function error: network error. Lambda request id: aaf32709-f58e-459c-b418-e99db0aa4036
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Lambda execution failed with status 200 due to customer function error: network error. Lambda request id: aaf32709-f58e-459c-b418-e99db0aa4036
+2026-07-12T08:41:38.967-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method completed with status: 502
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) Method completed with status: 502
+2026-07-12T08:41:38.967-04:00
+(dcbd27cb-6144-49a2-a337-fd1abca36259) AWS Integration Endpoint RequestId : aaf32709-f58e-459c-b418-e99db0aa4036
+
+(dcbd27cb-6144-49a2-a337-fd1abca36259) AWS Integration Endpoint RequestId : aaf32709-f58e-459c-b418-e99db0aa4036
+No 
