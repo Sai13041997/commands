@@ -1,5 +1,119 @@
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+What we changed
 
-TIME_TOTAL: 2.550306s
-TIME_STARTTRANSFER: 2.549376s
-HTTP_CODE: 502
+We made two small edits in the Terraform code (lambda.tf for the SOAP verification Lambda):
+
+Change 1 — Lambda environment variable
+Diff
+1
+environment {
+2
+variables = {
+3
+- db_user = "lambda_svc"
+4
++ db_user = "pgsi_ans00315015"
+5
+db_name = "..."
+6
+db_endpoint = "<rds-proxy-reader-endpoint>"
+7
+}
+8
+}
+Show more lines
+Change 2 — Lambda IAM role policy
+Diff
+1
+statement {
+2
+actions = ["rds-db:connect"]
+3
+resources = [
+4
+- "arn:aws:rds-db:us-east-1:058264370150:dbuser:prx-05af88b21156e01ae/lambda_svc"
+5
++ "arn:aws:rds-db:us-east-1:058264370150:dbuser:prx-05af88b21156e01ae/pgsi_ans00315015"
+6
+]
+7
+}
+Show more lines
+Why we made these changes
+Background
+
+When the Lambda connects to Aurora through RDS Proxy, three things must line up perfectly:
+
+Component	Must matchLambda's DB_USER env var	↔
+The username in the Secrets Manager secret registered to the Proxy	↔
+The DB user in the Lambda's IAM policy resource ARN	↔
+
+If any of the three disagree, the connection fails with an authentication error.
+
+What the situation was
+
+The DBA (CG) created:
+
+A DB user in Aurora: pgsi_ans00315015
+A Secrets Manager secret containing that user + password
+Registered the secret with the RDS Proxy
+
+But the Lambda code and IAM policy were still built to log in as an older service account:
+
+Plain Text
+1
+DB_USER = "lambda_svc"
+2
+IAM policy → dbuser/lambda_svc
+Show more lines
+
+That mismatch caused two errors in sequence during our test today:
+
+First error (before Change 1):
+
+Plain Text
+1
+28000 FATAL — This RDS proxy has no credentials for the role lambda_svc.
+Show more lines
+
+Meaning: the Proxy has no secret containing username lambda_svc.
+
+Second error (before Change 2):
+
+Plain Text
+1
+28P01 FATAL — The IAM authentication failed for the role pgsi_ans00315015.
+Show more lines
+
+Meaning: the DB user was now correct, but the Lambda's IAM policy didn't grant rds-db:connect for that user.
+
+Why the fixes solve it
+Change 1 aligns the Lambda's DB_USER with the username stored in the Proxy's Secrets Manager secret so the Proxy can authenticate to Aurora on behalf of the Lambda.
+Change 2 aligns the Lambda's IAM permission to allow rds-db:connect for the same DB user so the IAM auth token it generates is valid for that user.
+
+Together, this makes the entire chain consistent:
+
+Plain Text
+1
+Lambda (DB_USER = pgsi_ans00315015)
+2
+→ IAM policy allows rds-db:connect for pgsi_ans00315015
+3
+→ Proxy has a secret for pgsi_ans00315015
+4
+→ Proxy uses that secret to log in to Aurora
+Show more lines
+Why we didn't pick the alternative
+
+The other option would have been to ask CG to:
+
+Create a new DB user lambda_svc
+Create a new Secrets Manager secret
+Register it as an additional Auth entry on the Proxy
+
+That would work, but:
+
+Requires DB team coordination
+Adds a second credential to rotate/manage
+Doesn't match what CG already provisioned
+
+Aligning the Lambda to the DBA-provisioned user is smaller, faster, and matches the existing infrastructure.
