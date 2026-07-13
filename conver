@@ -1,6 +1,19 @@
-Me:
-CG, quick check on the ALTER USER did you set the password to the exact value that's currently in the Secrets Manager secret , or did you generate a new one?
+Proxy configuration
+A proxy makes applications more scalable, more transparent to database failures, and more secure.
 
-CG:
-Exact value, I went to secrets manager and copied it from there
- 
+Engine family
+Info
+PostgreSQL (supports Aurora PostgreSQL and RDS for PostgreSQL)
+Proxy identifier
+Enter a name for your proxy. The name must be unique across all proxies owned by your AWS account in the current AWS Region.
+realtimeinsurance-dev-aurora-proxy
+Constraints: 1 to 60 alphanumeric characters or hyphens. First character must be a letter. Can't contain two consecutive hyphens or end with a hyphen.
+Idle client connection timeout
+Idle connection from your application are closed after the specified time.
+
+00
+hours
+
+30
+minutes
+The minimum is 1 minute and the maximum is 8 hours.
