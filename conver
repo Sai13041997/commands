@@ -1,4 +1,1 @@
-Hey CG — enabled debug logging on the proxy and found the exact issue. The proxy is authenticating fine, but when it tries to log into Aurora as pgsi_ans00315015 using the password from Secrets Manager, Postgres rejects it because the user is IAM-only (no password set on the DB user itself).
-Fix on your side: run
-sqlALTER USER pgsi_ans00315015 WITH PASSWORD '<password stored in the secret>';
-That way the user can be reached both by IAM (for pgAdmin) and by password (for the proxy). No changes on my side needed.
+Yeah, technically but Secrets Manager has native RDS rotation. Enable it on the secret, and it handles both sides automatically generates a new password, updates the secret, and runs ALTER USER on Aurora in one atomic operation. Proxy picks up the new secret with no downtime. Without rotation enabled, yeah someone has to run ALTER USER every time. Not ideal. Want me to set up automated rotation so this is one-time setup and never a manual step again?
