@@ -1,26 +1,6 @@
-Good — the proxy is Available and targeting Aurora. So it's healthy. The mystery is why there's no log activity when the Lambda is clearly hitting it.
-Let me stop guessing and take a different angle. Rather than fight the proxy logs, let's verify the fix from the database side directly. That'll tell us if CG's ALTER USER actually worked.
-Ask CG to verify her change from the DB side.
-Message:
+Me:
+CG, quick check on the ALTER USER did you set the password to the exact value that's currently in the Secrets Manager secret , or did you generate a new one?
 
-Hey CG — I still see the same "network error" from the Lambda after your ALTER USER change, and I'm not seeing new proxy logs so I can't tell if the password is now being accepted. Could you double-check on your end:
-
-Confirm pgsi_ans00315015 now has a password by running:
-sqlSELECT rolname, rolcanlogin, rolpassword IS NOT NULL AS has_password
-FROM pg_authid WHERE rolname = 'pgsi_ans00315015';
-
-Verify the password in the Secrets Manager secret (realtimeinsurance-NNrdwU) matches the one you set on the DB. If those don't match, the proxy will keep failing.
-
-Even easier: try connecting to Aurora directly with pgAdmin using the password from the Secrets Manager secret. If that fails, the DB and secret are out of sync. If it succeeds, the issue is somewhere else and I'll keep digging.
-
-Why this test is decisive:
-If CG can connect to Aurora with the exact password stored in the secret, then the credentials are correct and the proxy should be working. If she can't, we've found the mismatch.
-In the meantime, let me also flag: it's possible the proxy hasn't fully picked up the new credentials. RDS Proxy caches secret values and refreshes them periodically. If the DB password was changed but the Secrets Manager secret's password value wasn't updated to match, the proxy is still trying the old (or wrong) password.
-Quick check for you: has anyone updated the secret value in Secrets Manager?
-Go to AWS Console → Secrets Manager → find realtimeinsurance-NNrdwU → Retrieve secret value. What's the "Last changed" timestamp? Is it recent (matching when CG did the ALTER), or is it from days ago?
-Bottom line: the fix requires both sides to be in sync:
-
-Postgres user must have password X.
-Secrets Manager must have the same password X.
-
-If CG only did the ALTER USER on Postgres but the secret still contains the old (or a different) password, the proxy fails. Ping her with the message above.
+CG:
+Exact value, I went to secrets manager and copied it from there
+ 
