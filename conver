@@ -1,19 +1,20 @@
-Proxy configuration
-A proxy makes applications more scalable, more transparent to database failures, and more secure.
+The only way to know for sure whether the credentials in Aurora and the credentials in Secrets Manager actually match is to have someone test them directly. Ask CG to try connecting to Aurora using pgAdmin with pgsi_ans00315015 and the exact password from the Secrets Manager secret.
+Message to CG:
 
-Engine family
-Info
-PostgreSQL (supports Aurora PostgreSQL and RDS for PostgreSQL)
-Proxy identifier
-Enter a name for your proxy. The name must be unique across all proxies owned by your AWS account in the current AWS Region.
-realtimeinsurance-dev-aurora-proxy
-Constraints: 1 to 60 alphanumeric characters or hyphens. First character must be a letter. Can't contain two consecutive hyphens or end with a hyphen.
-Idle client connection timeout
-Idle connection from your application are closed after the specified time.
+Hey — refreshed the proxy config to force it to re-pull the secret, but still getting the same error. Could you sanity-check by opening pgAdmin and trying to connect to Aurora directly with pgsi_ans00315015 and the password from the Secrets Manager secret? Just to confirm the two are actually in sync end-to-end. If pgAdmin connects → we know creds are good and the issue is elsewhere. If it fails → we've found the mismatch.
 
-00
-hours
+Why this matters:
+There are only a few honest possibilities left:
 
-30
-minutes
-The minimum is 1 minute and the maximum is 8 hours.
+The password in Secrets Manager and the password on the DB user don't actually match (typo, copy error, wrong secret version, etc.).
+The user in the DB has some other setting preventing password auth (rolcanlogin = false, or the rds_iam role blocks password auth entirely).
+Something else in Postgres/Aurora config is rejecting the proxy's login attempts.
+
+pgAdmin with the same credentials the proxy uses will show us #1 and #2 directly. If it fails, we know exactly where to focus.
+While waiting on CG, one more thing I want to do — look at the proxy logs one more time.
+You said proxy logs since 10:47 are empty. That's weird given we just modified the proxy. Try this: CloudWatch → Log groups → search "proxy" → click on /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy → then click the "Log streams" tab → sort by "Last Event Time" descending.
+Is there a stream from the last 10 minutes (post-modify)? If yes, click it and paste what you see. If not, that itself is a clue — the proxy is functional but not logging, which would mean debug_logging isn't taking effect for some reason.
+Do both:
+
+Ping CG to try pgAdmin.
+Look one more time at CloudWatch, sorted by Last Event Time.
