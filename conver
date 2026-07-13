@@ -1,20 +1,49 @@
-The only way to know for sure whether the credentials in Aurora and the credentials in Secrets Manager actually match is to have someone test them directly. Ask CG to try connecting to Aurora using pgAdmin with pgsi_ans00315015 and the exact password from the Secrets Manager secret.
-Message to CG:
+2026-07-13T13:21:39.858-04:00
+2026-07-13T17:21:39.756Z [INFO] [proxyEndpoint=default] [clientConnection=2213969693] A new client connected from 10.212.56.171:30742.
 
-Hey — refreshed the proxy config to force it to re-pull the secret, but still getting the same error. Could you sanity-check by opening pgAdmin and trying to connect to Aurora directly with pgsi_ans00315015 and the password from the Secrets Manager secret? Just to confirm the two are actually in sync end-to-end. If pgAdmin connects → we know creds are good and the issue is elsewhere. If it fails → we've found the mismatch.
+2026-07-13T17:21:39.756Z [INFO] [proxyEndpoint=default] [clientConnection=2213969693] A new client connected from 10.212.56.171:30742.
+2026-07-13T13:21:39.858-04:00
+2026-07-13T17:21:39.768Z [DEBUG] [proxyEndpoint=default] [clientConnection=2213969693] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
 
-Why this matters:
-There are only a few honest possibilities left:
+2026-07-13T17:21:39.768Z [DEBUG] [proxyEndpoint=default] [clientConnection=2213969693] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
+2026-07-13T13:21:39.858-04:00
+2026-07-13T17:21:39.852Z [DEBUG] [proxyEndpoint=default] [clientConnection=2213969693] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
 
-The password in Secrets Manager and the password on the DB user don't actually match (typo, copy error, wrong secret version, etc.).
-The user in the DB has some other setting preventing password auth (rolcanlogin = false, or the rds_iam role blocks password auth entirely).
-Something else in Postgres/Aurora config is rejecting the proxy's login attempts.
+2026-07-13T17:21:39.852Z [DEBUG] [proxyEndpoint=default] [clientConnection=2213969693] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
+2026-07-13T13:21:40.108-04:00
+2026-07-13T17:21:39.855Z [INFO] [dbConnection=41655430] A TCP connection was established from the proxy at 10.212.57.112:60887 to the database at 10.212.56.15:5432.
 
-pgAdmin with the same credentials the proxy uses will show us #1 and #2 directly. If it fails, we know exactly where to focus.
-While waiting on CG, one more thing I want to do — look at the proxy logs one more time.
-You said proxy logs since 10:47 are empty. That's weird given we just modified the proxy. Try this: CloudWatch → Log groups → search "proxy" → click on /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy → then click the "Log streams" tab → sort by "Last Event Time" descending.
-Is there a stream from the last 10 minutes (post-modify)? If yes, click it and paste what you see. If not, that itself is a clue — the proxy is functional but not logging, which would mean debug_logging isn't taking effect for some reason.
-Do both:
+2026-07-13T17:21:39.855Z [INFO] [dbConnection=41655430] A TCP connection was established from the proxy at 10.212.57.112:60887 to the database at 10.212.56.15:5432.
+2026-07-13T13:21:40.108-04:00
+2026-07-13T17:21:39.892Z [WARN] [dbConnection=41655430] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
 
-Ping CG to try pgAdmin.
-Look one more time at CloudWatch, sorted by Last Event Time.
+2026-07-13T17:21:39.892Z [WARN] [dbConnection=41655430] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+2026-07-13T13:21:44.907-04:00
+2026-07-13T17:21:39.893Z [INFO] [proxyEndpoint=default] [clientConnection=2213969693] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+
+2026-07-13T17:21:39.893Z [INFO] [proxyEndpoint=default] [clientConnection=2213969693] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+2026-07-13T14:28:10.228-04:00
+2026-07-13T18:28:10.108Z [INFO] [proxyEndpoint=default] [clientConnection=1668375893] A new client connected from 10.212.56.171:31436.
+
+2026-07-13T18:28:10.108Z [INFO] [proxyEndpoint=default] [clientConnection=1668375893] A new client connected from 10.212.56.171:31436.
+2026-07-13T14:28:10.228-04:00
+2026-07-13T18:28:10.122Z [DEBUG] [proxyEndpoint=default] [clientConnection=1668375893] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
+
+2026-07-13T18:28:10.122Z [DEBUG] [proxyEndpoint=default] [clientConnection=1668375893] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
+2026-07-13T14:28:10.228-04:00
+2026-07-13T18:28:10.211Z [DEBUG] [proxyEndpoint=default] [clientConnection=1668375893] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
+
+2026-07-13T18:28:10.211Z [DEBUG] [proxyEndpoint=default] [clientConnection=1668375893] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
+2026-07-13T14:28:10.479-04:00
+2026-07-13T18:28:10.215Z [INFO] [dbConnection=3895550149] A TCP connection was established from the proxy at 10.212.59.9:24437 to the database at 10.212.56.15:5432.
+
+2026-07-13T18:28:10.215Z [INFO] [dbConnection=3895550149] A TCP connection was established from the proxy at 10.212.59.9:24437 to the database at 10.212.56.15:5432.
+2026-07-13T14:28:10.479-04:00
+2026-07-13T18:28:10.236Z [WARN] [dbConnection=3895550149] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+
+2026-07-13T18:28:10.236Z [WARN] [dbConnection=3895550149] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+2026-07-13T14:28:14.986-04:00
+2026-07-13T18:28:10.238Z [INFO] [proxyEndpoint=default] [clientConnection=1668375893] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+
+2026-07-13T18:28:10.238Z [INFO] [proxyEndpoint=default] [clientConnection=1668375893] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+No 
