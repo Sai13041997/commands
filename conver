@@ -1,407 +1,81 @@
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
-
-TIME_TOTAL: 2.063050s
-TIME_STARTTRANSFER: 2.062120s
-HTTP_CODE: 502
-
-
-2026-07-13T11:43:51.304-04:00
-INIT_START Runtime Version: python:3.13.mainlinev2.v14	Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:b3c960115d53da170f335080f5743e7f921c7739b6f09d83fc7b44b643838ace
-
-INIT_START Runtime Version: python:3.13.mainlinev2.v14 Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:b3c960115d53da170f335080f5743e7f921c7739b6f09d83fc7b44b643838ace
-2026-07-13T11:43:52.165-04:00
-START RequestId: b0f36329-f601-41d8-91a1-56c5d0a363fe Version: $LATEST
-
-START RequestId: b0f36329-f601-41d8-91a1-56c5d0a363fe Version: $LATEST
-2026-07-13T11:43:52.166-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,166",
-    "logger": "main",
-    "level": "INFO",
-    "message": "SOAP verification request started. request_id=b0f36329-f601-41d8-91a1-56c5d0a363fe"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,166", "logger": "main", "level": "INFO", "message": "SOAP verification request started. request_id=b0f36329-f601-41d8-91a1-56c5d0a363fe"}
-2026-07-13T11:43:52.166-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,166",
-    "logger": "request_handler",
-    "level": "INFO",
-    "message": "Extracted VIN: 56KDMABH4N3000596"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,166", "logger": "request_handler", "level": "INFO", "message": "Extracted VIN: 56KDMABH4N3000596"}
-2026-07-13T11:43:52.166-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,166",
-    "logger": "request_handler",
-    "level": "INFO",
-    "message": "Extracted Verification Date: 2026-07-06T00:00:00.000"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,166", "logger": "request_handler", "level": "INFO", "message": "Extracted Verification Date: 2026-07-06T00:00:00.000"}
-2026-07-13T11:43:52.166-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,166",
-    "logger": "request_handler",
-    "level": "INFO",
-    "message": "Extracted Tracking Number: TEST-TIMING-001"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,166", "logger": "request_handler", "level": "INFO", "message": "Extracted Tracking Number: TEST-TIMING-001"}
-2026-07-13T11:43:52.166-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,166",
-    "logger": "request_handler",
-    "level": "INFO",
-    "message": "Extracted Policy Key: PTest12345"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,166", "logger": "request_handler", "level": "INFO", "message": "Extracted Policy Key: PTest12345"}
-2026-07-13T11:43:52.166-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,166",
-    "logger": "main",
-    "level": "INFO",
-    "message": "Request parsed successfully. request_id=b0f36329-f601-41d8-91a1-56c5d0a363fe tracking_number=TEST-TIMING-001"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,166", "logger": "main", "level": "INFO", "message": "Request parsed successfully. request_id=b0f36329-f601-41d8-91a1-56c5d0a363fe tracking_number=TEST-TIMING-001"}
-2026-07-13T11:43:52.215-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,214",
-    "logger": "botocore.credentials",
-    "level": "INFO",
-    "message": "Found credentials in environment variables."
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,214", "logger": "botocore.credentials", "level": "INFO", "message": "Found credentials in environment variables."}
-2026-07-13T11:43:52.672-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,672",
-    "logger": "rds_iam_auth",
-    "level": "INFO",
-    "message": "IAM auth token generated. duration_ms=505.7"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,672", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=505.7"}
-2026-07-13T11:43:52.829-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,829",
-    "logger": "rds_iam_auth",
-    "level": "INFO",
-    "message": "Database connection established. duration_ms=156.3"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,829", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=156.3"}
-2026-07-13T11:43:52.872-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,870",
-    "logger": "database_handler",
-    "level": "ERROR",
-    "message": "Database query failed. vin=56KDMABH4N3000596 verification_date=2026-07-06T00:00:00.000"
-}
+2026-07-13T10:47:53.872-04:00
+2026-07-13T14:47:53.689Z [INFO] [proxyEndpoint=default] [clientConnection=1418842] A new client connected from 10.212.56.171:33651.
 
-
-{"timestamp": "2026-07-13 15:43:52,870", "logger": "database_handler", "level": "ERROR", "message": "Database query failed. vin=56KDMABH4N3000596 verification_date=2026-07-06T00:00:00.000"}
-2026-07-13T11:43:52.872-04:00
-Traceback (most recent call last):
-
-Traceback (most recent call last):
-2026-07-13T11:43:52.872-04:00
-File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
-
-File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
-2026-07-13T11:43:52.872-04:00
-cursor.execute(query, (vin_number, verification_date))
-
-cursor.execute(query, (vin_number, verification_date))
-2026-07-13T11:43:52.872-04:00
-~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-07-13T11:43:52.872-04:00
-File "/var/task/pg8000/legacy.py", line 250, in execute
-
-File "/var/task/pg8000/legacy.py", line 250, in execute
-2026-07-13T11:43:52.872-04:00
-self._c.execute_simple("begin transaction")
-
-self._c.execute_simple("begin transaction")
-2026-07-13T11:43:52.872-04:00
-~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-
-~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-2026-07-13T11:43:52.872-04:00
-File "/var/task/pg8000/core.py", line 694, in execute_simple
-
-File "/var/task/pg8000/core.py", line 694, in execute_simple
-2026-07-13T11:43:52.872-04:00
-self.handle_messages(context)
-
-self.handle_messages(context)
-2026-07-13T11:43:52.872-04:00
-~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-
-~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-2026-07-13T11:43:52.872-04:00
-File "/var/task/pg8000/core.py", line 839, in handle_messages
-
-File "/var/task/pg8000/core.py", line 839, in handle_messages
-2026-07-13T11:43:52.872-04:00
-code, data_len = ci_unpack(_read(self._sock, 5))
-
-code, data_len = ci_unpack(_read(self._sock, 5))
-2026-07-13T11:43:52.872-04:00
-~~~~~^^^^^^^^^^^^^^^
-
-~~~~~^^^^^^^^^^^^^^^
-2026-07-13T11:43:52.872-04:00
-File "/var/task/pg8000/core.py", line 155, in _read
-
-File "/var/task/pg8000/core.py", line 155, in _read
-2026-07-13T11:43:52.872-04:00
-raise InterfaceError("network error")
-
-raise InterfaceError("network error")
-2026-07-13T11:43:52.872-04:00
-pg8000.exceptions.InterfaceError: network error
-
-pg8000.exceptions.InterfaceError: network error
-2026-07-13T11:43:52.873-04:00
-{
-    "timestamp": "2026-07-13 15:43:52,872",
-    "logger": "main",
-    "level": "ERROR",
-    "message": "SOAP verification request failed. request_id=b0f36329-f601-41d8-91a1-56c5d0a363fe"
-}
-
-
-{"timestamp": "2026-07-13 15:43:52,872", "logger": "main", "level": "ERROR", "message": "SOAP verification request failed. request_id=b0f36329-f601-41d8-91a1-56c5d0a363fe"}
-2026-07-13T11:43:52.873-04:00
-Traceback (most recent call last):
-
-Traceback (most recent call last):
-2026-07-13T11:43:52.873-04:00
-File "/var/task/main.py", line 52, in lambda_handler
-
-File "/var/task/main.py", line 52, in lambda_handler
-2026-07-13T11:43:52.873-04:00
-unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
-
-unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
-2026-07-13T11:43:52.873-04:00
-File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
-
-File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
-2026-07-13T11:43:52.873-04:00
-cursor.execute(query, (vin_number, verification_date))
-
-cursor.execute(query, (vin_number, verification_date))
-2026-07-13T11:43:52.873-04:00
-~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-07-13T11:43:52.873-04:00
-File "/var/task/pg8000/legacy.py", line 250, in execute
-
-File "/var/task/pg8000/legacy.py", line 250, in execute
-2026-07-13T11:43:52.873-04:00
-self._c.execute_simple("begin transaction")
-
-self._c.execute_simple("begin transaction")
-2026-07-13T11:43:52.873-04:00
-~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-
-~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-2026-07-13T11:43:52.873-04:00
-File "/var/task/pg8000/core.py", line 694, in execute_simple
-
-File "/var/task/pg8000/core.py", line 694, in execute_simple
-2026-07-13T11:43:52.873-04:00
-self.handle_messages(context)
-
-self.handle_messages(context)
-2026-07-13T11:43:52.873-04:00
-~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-
-~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-2026-07-13T11:43:52.873-04:00
-File "/var/task/pg8000/core.py", line 839, in handle_messages
-
-File "/var/task/pg8000/core.py", line 839, in handle_messages
-2026-07-13T11:43:52.873-04:00
-code, data_len = ci_unpack(_read(self._sock, 5))
-
-code, data_len = ci_unpack(_read(self._sock, 5))
-2026-07-13T11:43:52.873-04:00
-~~~~~^^^^^^^^^^^^^^^
-
-~~~~~^^^^^^^^^^^^^^^
-2026-07-13T11:43:52.873-04:00
-File "/var/task/pg8000/core.py", line 155, in _read
-
-File "/var/task/pg8000/core.py", line 155, in _read
-2026-07-13T11:43:52.873-04:00
-raise InterfaceError("network error")
-
-raise InterfaceError("network error")
-2026-07-13T11:43:52.873-04:00
-pg8000.exceptions.InterfaceError: network error
-
-pg8000.exceptions.InterfaceError: network error
-2026-07-13T11:43:52.873-04:00
-[ERROR] InterfaceError: network error
-Traceback (most recent call last):
-  File "/var/task/main.py", line 52, in lambda_handler
-    unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
-  File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
-    cursor.execute(query, (vin_number, verification_date))
-  File "/var/task/pg8000/legacy.py", line 250, in execute
-    self._c.execute_simple("begin transaction")
-  File "/var/task/pg8000/core.py", line 694, in execute_simple
-    self.handle_messages(context)
-  File "/var/task/pg8000/core.py", line 839, in handle_messages
-    code, data_len = ci_unpack(_read(self._sock, 5))
-  File "/var/task/pg8000/core.py", line 155, in _read
-    raise InterfaceError("network error")
-
-[ERROR] InterfaceError: network error Traceback (most recent call last):   File "/var/task/main.py", line 52, in lambda_handler     unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)   File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin     cursor.execute(query, (vin_number, verification_date))   File "/var/task/pg8000/legacy.py", line 250, in execute     self._c.execute_simple("begin transaction")   File "/var/task/pg8000/core.py", line 694, in execute_simple     self.handle_messages(context)   File "/var/task/pg8000/core.py", line 839, in handle_messages     code, data_len = ci_unpack(_read(self._sock, 5))   File "/var/task/pg8000/core.py", line 155, in _read     raise InterfaceError("network error")
-2026-07-13T11:43:52.875-04:00
-END RequestId: b0f36329-f601-41d8-91a1-56c5d0a363fe
-
-END RequestId: b0f36329-f601-41d8-91a1-56c5d0a363fe
-2026-07-13T11:43:52.876-04:00
-REPORT RequestId: b0f36329-f601-41d8-91a1-56c5d0a363fe	Duration: 710.13 ms	Billed Duration: 1568 ms	Memory Size: 512 MB	Max Memory Used: 96 MB	Init Duration: 857.44 ms	
-
-REPORT RequestId: b0f36329-f601-41d8-91a1-56c5d0a363fe Duration: 710.13 ms Billed Duration: 1568 ms Memory Size: 512 MB Max Memory Used: 96 MB Init Duration: 857.44 ms
-No 
-
-
-
-2026-07-13T11:43:50.967-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Extended Request Id: Ac4kqEiMIAMFktw=
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Extended Request Id: Ac4kqEiMIAMFktw=
-2026-07-13T11:43:50.971-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Verifying Usage Plan for request: 43e58b2a-129b-403a-bc7c-5125e9a3b658. API Key:  API Stage: q51dqcsrw5/default
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Verifying Usage Plan for request: 43e58b2a-129b-403a-bc7c-5125e9a3b658. API Key: API Stage: q51dqcsrw5/default
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) API Key  authorized because method 'POST /soap' does not require API Key. Request will not contribute to throttle or quota limits
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) API Key authorized because method 'POST /soap' does not require API Key. Request will not contribute to throttle or quota limits
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Usage Plan check succeeded for API Key  and API Stage q51dqcsrw5/default
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Usage Plan check succeeded for API Key and API Stage q51dqcsrw5/default
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Starting execution for request: 43e58b2a-129b-403a-bc7c-5125e9a3b658
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Starting execution for request: 43e58b2a-129b-403a-bc7c-5125e9a3b658
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) HTTP Method: POST, Resource Path: /soap
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) HTTP Method: POST, Resource Path: /soap
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method request path: 
-{}
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method request path: {}
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method request query string: 
-{}
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method request query string: {}
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method request headers: {User-Agent=curl/8.20.0, X-Forwarded-For=163.116.249.42, content-type=text/xml, Host=realtimeinsurance-soap-api-dev.devkyfb.com, accept=*/*}
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method request headers: {User-Agent=curl/8.20.0, X-Forwarded-For=163.116.249.42, content-type=text/xml, Host=realtimeinsurance-soap-api-dev.devkyfb.com, accept=*/*}
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method request body before transformations: <?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <soapenv:Body>
-    <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/" PublicationVersion="00200809" PublicationDate="2008-11-05">
-      <RequestorInformation>
-        <Organization>
-          <Name>KentuckyIVS</Name>
-        </Organization>
-        <ReasonDetails>
-          <ReasonCode>BIVER</ReasonCode>
-          <TrackingNumber>TEST-TIMING-001</TrackingNumber>
-        </ReasonDetails>
-      </RequestorInformation>
-      <Detail>
-        <PolicyInformation>
-          <OrganizationDetails>
-            <NAIC>22993</NAIC>
-          </OrganizationDetails>
-          <PolicyDetails>
-            <VerificationDate>2026-07-06T00:00:00.000</VerificationDate>
-            <PolicyKey>PTest12345</PolicyKey>
-            <PolicyS [TRUNCATED]
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method request body before transformations: <?xml version="1.0" encoding="UTF-8"?> <soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"> <soapenv:Body> <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/" PublicationVersion="00200809" PublicationDate="2008-11-05"> <RequestorInformation> <Organization> <Name>KentuckyIVS</Name> </Organization> <ReasonDetails> <ReasonCode>BIVER</ReasonCode> <TrackingNumber>TEST-TIMING-001</TrackingNumber> </ReasonDetails> </RequestorInformation> <Detail> <PolicyInformation> <OrganizationDetails> <NAIC>22993</NAIC> </OrganizationDetails> <PolicyDetails> <VerificationDate>2026-07-06T00:00:00.000</VerificationDate> <PolicyKey>PTest12345</PolicyKey> <PolicyS [TRUNCATED]
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint request URI: https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint request headers: {X-Amz-Date=20260713T154350Z, x-amzn-apigateway-api-id=q51dqcsrw5, Accept=text/xml, User-Agent=AmazonAPIGateway_q51dqcsrw5, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=0dc1640cd4d4a71500887c7ec72ea328de9c09f964832d5e9458ff21492a4ecd, X-Amzn-Trace-Id=Root=1-6a5507b6-f4a9cb91a656f3488f76a8f4, x-amzn-lambda-integration-tag=43e58b2a-129b-403a-bc7c-5125e9a3b658, Authorization=*********************************************************************************************************************************************************************************************************************************************************************************************************************************************d86fe8, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:058264370150:q51dqcsrw5/default/POST/soap, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEDgaCXVzLWVhc3QtMSJGMEQCIG+lNUUhFptWmGGNb8q8Tjm63yBzqLaG10zYovfOQLogAiAc3aGGOSmsNzsFe0sPhcHBrrdjyclzcLgRAhe1GELOUSqzBQgAEAAaDDM5MjIyMDU3NjY1MC [TRUNCATED]
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint request headers: {X-Amz-Date=20260713T154350Z, x-amzn-apigateway-api-id=q51dqcsrw5, Accept=text/xml, User-Agent=AmazonAPIGateway_q51dqcsrw5, Host=lambda.us-east-1.amazonaws.com, X-Amz-Content-Sha256=0dc1640cd4d4a71500887c7ec72ea328de9c09f964832d5e9458ff21492a4ecd, X-Amzn-Trace-Id=Root=1-6a5507b6-f4a9cb91a656f3488f76a8f4, x-amzn-lambda-integration-tag=43e58b2a-129b-403a-bc7c-5125e9a3b658, Authorization=*********************************************************************************************************************************************************************************************************************************************************************************************************************************************d86fe8, X-Amz-Source-Arn=arn:aws:execute-api:us-east-1:058264370150:q51dqcsrw5/default/POST/soap, X-Amz-Security-Token=IQoJb3JpZ2luX2VjEDgaCXVzLWVhc3QtMSJGMEQCIG+lNUUhFptWmGGNb8q8Tjm63yBzqLaG10zYovfOQLogAiAc3aGGOSmsNzsFe0sPhcHBrrdjyclzcLgRAhe1GELOUSqzBQgAEAAaDDM5MjIyMDU3NjY1MC [TRUNCATED]
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint request body after transformations: {"resource":"/soap","path":"/soap","httpMethod":"POST","headers":{"accept":"*/*","content-type":"text/xml","Host":"realtimeinsurance-soap-api-dev.devkyfb.com","User-Agent":"curl/8.20.0","X-Forwarded-For":"163.116.249.42"},"multiValueHeaders":{"accept":["*/*"],"content-type":["text/xml"],"Host":["realtimeinsurance-soap-api-dev.devkyfb.com"],"User-Agent":["curl/8.20.0"],"X-Forwarded-For":["163.116.249.42"]},"queryStringParameters":null,"multiValueQueryStringParameters":null,"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"lknkms","resourcePath":"/soap","httpMethod":"POST","extendedRequestId":"Ac4kqEiMIAMFktw=","requestTime":"13/Jul/2026:15:43:50 +0000","path":"/soap","accountId":"058264370150","protocol":"HTTP/1.1","stage":"default","domainPrefix":"realtimeinsurance-soap-api-dev","requestTimeEpoch":1783957430966,"requestId":"43e58b2a-129b-403a-bc7c-5125e9a3b658","identity":{"cognitoIdentityPoolId":null,"clientCert":{"clientCertPem":"-----BE [TRUNCATED]
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint request body after transformations: {"resource":"/soap","path":"/soap","httpMethod":"POST","headers":{"accept":"*/*","content-type":"text/xml","Host":"realtimeinsurance-soap-api-dev.devkyfb.com","User-Agent":"curl/8.20.0","X-Forwarded-For":"163.116.249.42"},"multiValueHeaders":{"accept":["*/*"],"content-type":["text/xml"],"Host":["realtimeinsurance-soap-api-dev.devkyfb.com"],"User-Agent":["curl/8.20.0"],"X-Forwarded-For":["163.116.249.42"]},"queryStringParameters":null,"multiValueQueryStringParameters":null,"pathParameters":null,"stageVariables":null,"requestContext":{"resourceId":"lknkms","resourcePath":"/soap","httpMethod":"POST","extendedRequestId":"Ac4kqEiMIAMFktw=","requestTime":"13/Jul/2026:15:43:50 +0000","path":"/soap","accountId":"058264370150","protocol":"HTTP/1.1","stage":"default","domainPrefix":"realtimeinsurance-soap-api-dev","requestTimeEpoch":1783957430966,"requestId":"43e58b2a-129b-403a-bc7c-5125e9a3b658","identity":{"cognitoIdentityPoolId":null,"clientCert":{"clientCertPem":"-----BE [TRUNCATED]
-2026-07-13T11:43:50.973-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Sending request to https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Sending request to https://lambda.us-east-1.amazonaws.com/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda/invocations
-2026-07-13T11:43:52.878-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Received response. Status: 200, Integration latency: 1904 ms
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Received response. Status: 200, Integration latency: 1904 ms
-2026-07-13T11:43:52.878-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint response headers: {Date=Mon, 13 Jul 2026 15:43:52 GMT, Content-Type=application/json, Content-Length=874, Connection=keep-alive, x-amzn-RequestId=b0f36329-f601-41d8-91a1-56c5d0a363fe, X-Amz-Function-Error=Unhandled, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=Root=1-6a5507b6-f4a9cb91a656f3488f76a8f4;Parent=08a91e11b8d8bc95;Sampled=0;Lineage=1:81523d6a:0}
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint response headers: {Date=Mon, 13 Jul 2026 15:43:52 GMT, Content-Type=application/json, Content-Length=874, Connection=keep-alive, x-amzn-RequestId=b0f36329-f601-41d8-91a1-56c5d0a363fe, X-Amz-Function-Error=Unhandled, x-amzn-Remapped-Content-Length=0, X-Amz-Executed-Version=$LATEST, X-Amzn-Trace-Id=Root=1-6a5507b6-f4a9cb91a656f3488f76a8f4;Parent=08a91e11b8d8bc95;Sampled=0;Lineage=1:81523d6a:0}
-2026-07-13T11:43:52.878-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint response body before transformations: 
-{
-    "errorMessage": "network error",
-    "errorType": "InterfaceError",
-    "requestId": "b0f36329-f601-41d8-91a1-56c5d0a363fe",
-    "stackTrace": [
-        "  File \"/var/task/main.py\", line 52, in lambda_handler\n    unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)\n",
-        "  File \"/var/task/database_handler.py\", line 70, in query_policy_info_by_vin\n    cursor.execute(query, (vin_number, verification_date))\n",
-        "  File \"/var/task/pg8000/legacy.py\", line 250, in execute\n    self._c.execute_simple(\"begin transaction\")\n",
-        "  File \"/var/task/pg8000/core.py\", line 694, in execute_simple\n    self.handle_messages(context)\n",
-        "  File \"/var/task/pg8000/core.py\", line 839, in handle_messages\n    code, data_len = ci_unpack(_read(self._sock, 5))\n",
-        "  File \"/var/task/pg8000/core.py\", line 155, in _read\n    raise InterfaceError(\"network error\")\n"
-    ]
-}
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Endpoint response body before transformations: {"errorMessage": "network error", "errorType": "InterfaceError", "requestId": "b0f36329-f601-41d8-91a1-56c5d0a363fe", "stackTrace": [" File \"/var/task/main.py\", line 52, in lambda_handler\n unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)\n", " File \"/var/task/database_handler.py\", line 70, in query_policy_info_by_vin\n cursor.execute(query, (vin_number, verification_date))\n", " File \"/var/task/pg8000/legacy.py\", line 250, in execute\n self._c.execute_simple(\"begin transaction\")\n", " File \"/var/task/pg8000/core.py\", line 694, in execute_simple\n self.handle_messages(context)\n", " File \"/var/task/pg8000/core.py\", line 839, in handle_messages\n code, data_len = ci_unpack(_read(self._sock, 5))\n", " File \"/var/task/pg8000/core.py\", line 155, in _read\n raise InterfaceError(\"network error\")\n"]}
-2026-07-13T11:43:52.878-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Lambda execution failed with status 200 due to customer function error: network error. Lambda request id: b0f36329-f601-41d8-91a1-56c5d0a363fe
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Lambda execution failed with status 200 due to customer function error: network error. Lambda request id: b0f36329-f601-41d8-91a1-56c5d0a363fe
-2026-07-13T11:43:52.878-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method completed with status: 502
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) Method completed with status: 502
-2026-07-13T11:43:52.878-04:00
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) AWS Integration Endpoint RequestId : b0f36329-f601-41d8-91a1-56c5d0a363fe
-
-(43e58b2a-129b-403a-bc7c-5125e9a3b658) AWS Integration Endpoint RequestId : b0f36329-f601-41d8-91a1-56c5d0a363fe
+2026-07-13T14:47:53.689Z [INFO] [proxyEndpoint=default] [clientConnection=1418842] A new client connected from 10.212.56.171:33651.
+2026-07-13T10:47:53.880-04:00
+2026-07-13T14:47:53.803Z [INFO] [dbConnection=3917186975] A TCP connection was established from the proxy at 10.212.59.9:32573 to the database at 10.212.56.15:5432.
+
+2026-07-13T14:47:53.803Z [INFO] [dbConnection=3917186975] A TCP connection was established from the proxy at 10.212.59.9:32573 to the database at 10.212.56.15:5432.
+2026-07-13T10:47:53.880-04:00
+2026-07-13T14:47:53.828Z [WARN] [dbConnection=3917186975] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+
+2026-07-13T14:47:53.828Z [WARN] [dbConnection=3917186975] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+2026-07-13T10:47:57.986-04:00
+2026-07-13T14:47:53.829Z [INFO] [proxyEndpoint=default] [clientConnection=1418842] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+
+2026-07-13T14:47:53.829Z [INFO] [proxyEndpoint=default] [clientConnection=1418842] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+2026-07-13T11:27:55.317-04:00
+2026-07-13T15:27:55.092Z [INFO] [proxyEndpoint=default] [clientConnection=3526654703] A new client connected from 10.212.56.171:34989.
+
+2026-07-13T15:27:55.092Z [INFO] [proxyEndpoint=default] [clientConnection=3526654703] A new client connected from 10.212.56.171:34989.
+2026-07-13T11:27:55.317-04:00
+2026-07-13T15:27:55.228Z [INFO] [dbConnection=85512997] A TCP connection was established from the proxy at 10.212.59.9:10019 to the database at 10.212.56.15:5432.
+
+2026-07-13T15:27:55.228Z [INFO] [dbConnection=85512997] A TCP connection was established from the proxy at 10.212.59.9:10019 to the database at 10.212.56.15:5432.
+2026-07-13T11:27:55.317-04:00
+2026-07-13T15:27:55.266Z [WARN] [dbConnection=85512997] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+
+2026-07-13T15:27:55.266Z [WARN] [dbConnection=85512997] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+2026-07-13T11:27:59.986-04:00
+2026-07-13T15:27:55.268Z [INFO] [proxyEndpoint=default] [clientConnection=3526654703] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+
+2026-07-13T15:27:55.268Z [INFO] [proxyEndpoint=default] [clientConnection=3526654703] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+2026-07-13T11:43:52.852-04:00
+2026-07-13T15:43:52.743Z [INFO] [proxyEndpoint=default] [clientConnection=2646962452] A new client connected from 10.212.56.171:9544.
+
+2026-07-13T15:43:52.743Z [INFO] [proxyEndpoint=default] [clientConnection=2646962452] A new client connected from 10.212.56.171:9544.
+2026-07-13T11:43:52.852-04:00
+2026-07-13T15:43:52.758Z [DEBUG] [proxyEndpoint=default] [clientConnection=2646962452] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
+
+2026-07-13T15:43:52.758Z [DEBUG] [proxyEndpoint=default] [clientConnection=2646962452] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
+2026-07-13T11:43:52.852-04:00
+2026-07-13T15:43:52.827Z [DEBUG] [proxyEndpoint=default] [clientConnection=2646962452] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
+
+2026-07-13T15:43:52.827Z [DEBUG] [proxyEndpoint=default] [clientConnection=2646962452] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
+2026-07-13T11:43:53.102-04:00
+2026-07-13T15:43:52.832Z [INFO] [dbConnection=3999382333] A TCP connection was established from the proxy at 10.212.59.9:35909 to the database at 10.212.56.15:5432.
+
+2026-07-13T15:43:52.832Z [INFO] [dbConnection=3999382333] A TCP connection was established from the proxy at 10.212.59.9:35909 to the database at 10.212.56.15:5432.
+2026-07-13T11:43:53.102-04:00
+2026-07-13T15:43:52.868Z [WARN] [dbConnection=3999382333] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+
+2026-07-13T15:43:52.868Z [WARN] [dbConnection=3999382333] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+2026-07-13T11:43:57.986-04:00
+2026-07-13T15:43:52.869Z [INFO] [proxyEndpoint=default] [clientConnection=2646962452] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+
+2026-07-13T15:43:52.869Z [INFO] [proxyEndpoint=default] [clientConnection=2646962452] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+2026-07-13T11:46:39.597-04:00
+2026-07-13T15:46:39.556Z [INFO] [proxyEndpoint=default] [clientConnection=273493347] A new client connected from 10.212.56.171:32228.
+
+2026-07-13T15:46:39.556Z [INFO] [proxyEndpoint=default] [clientConnection=273493347] A new client connected from 10.212.56.171:32228.
+2026-07-13T11:46:39.838-04:00
+2026-07-13T15:46:39.569Z [DEBUG] [proxyEndpoint=default] [clientConnection=273493347] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
+
+2026-07-13T15:46:39.569Z [DEBUG] [proxyEndpoint=default] [clientConnection=273493347] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
+2026-07-13T11:46:39.838-04:00
+2026-07-13T15:46:39.654Z [DEBUG] [proxyEndpoint=default] [clientConnection=273493347] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
+
+2026-07-13T15:46:39.654Z [DEBUG] [proxyEndpoint=default] [clientConnection=273493347] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
+2026-07-13T11:46:39.838-04:00
+2026-07-13T15:46:39.658Z [INFO] [dbConnection=3575534241] A TCP connection was established from the proxy at 10.212.57.112:1513 to the database at 10.212.56.15:5432.
+
+2026-07-13T15:46:39.658Z [INFO] [dbConnection=3575534241] A TCP connection was established from the proxy at 10.212.57.112:1513 to the database at 10.212.56.15:5432.
+2026-07-13T11:46:39.838-04:00
+2026-07-13T15:46:39.676Z [WARN] [dbConnection=3575534241] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+
+2026-07-13T15:46:39.676Z [WARN] [dbConnection=3575534241] The new database connection failed. RDS Proxy can't connect to the database because IAM authentication isn't set as the default authentication scheme. Set DefaultAuthScheme to IAM_AUTH in your proxy configuration and try again.
+2026-07-13T11:46:43.864-04:00
+2026-07-13T15:46:39.677Z [INFO] [proxyEndpoint=default] [clientConnection=273493347] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+
+2026-07-13T15:46:39.677Z [INFO] [proxyEndpoint=default] [clientConnection=273493347] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
 No
