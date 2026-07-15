@@ -1,19 +1,60 @@
-PS C:\Users\T012sp\Downloads\Testing>
 PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 
-TIME_TOTAL: 8.603508s
-TIME_STARTTRANSFER: 8.602268s
+TIME_TOTAL: 1.139810s
+TIME_STARTTRANSFER: 1.138981s
 HTTP_CODE: 200
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 
+TIME_TOTAL: 2.853534s
+TIME_STARTTRANSFER: 2.852648s
+HTTP_CODE: 200
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+TIME_TOTAL: 0.393277s
+TIME_STARTTRANSFER: 0.392404s
+HTTP_CODE: 200
+PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+
+TIME_TOTAL: 0.322868s
+TIME_STARTTRANSFER: 0.322050s
+HTTP_CODE: 200
 
 ~ $ aws logs tail /aws/lambda/realtimeinsurance-dev-soap-verification-lambda --region us-east-1 --since 5m --format short | grep -E "IAM auth token|Database connection|Query executed|REPORT"
 2026-07-15T00:40:04 {"timestamp": "2026-07-15 00:40:04,459", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=521.0"}
 2026-07-15T00:40:04 {"timestamp": "2026-07-15 00:40:04,632", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=172.6"}
 2026-07-15T00:40:11 {"timestamp": "2026-07-15 00:40:11,031", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=6398.3"}
 2026-07-15T00:40:11 REPORT RequestId: fcef1fb6-863b-46cf-b608-e51310fa2719      Duration: 7098.17 ms    Billed Duration: 8003 ms       Memory Size: 512 MB      Max Memory Used: 96 MB  Init Duration: 903.89 ms
+2026-07-15T00:42:17 {"timestamp": "2026-07-15 00:42:17,021", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=10.0"}
+2026-07-15T00:42:17 {"timestamp": "2026-07-15 00:42:17,115", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=93.4"}
+2026-07-15T00:42:17 {"timestamp": "2026-07-15 00:42:17,965", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=850.1"}
+2026-07-15T00:42:17 REPORT RequestId: 298ff3ac-7c8c-4dc9-9968-6f9be27a54bd      Duration: 959.20 ms     Billed Duration: 960 ms Memory Size: 512 MB     Max Memory Used: 97 MB
+2026-07-15T00:43:29 {"timestamp": "2026-07-15 00:43:29,840", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=22.2"}
+2026-07-15T00:43:30 {"timestamp": "2026-07-15 00:43:30,005", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=165.3"}
+2026-07-15T00:43:32 {"timestamp": "2026-07-15 00:43:32,482", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=2475.8"}
+2026-07-15T00:43:32 REPORT RequestId: 616a28dd-6c36-4b45-abf1-5361be5a2c96      Duration: 2669.12 ms    Billed Duration: 2670 ms       Memory Size: 512 MB      Max Memory Used: 97 MB
+2026-07-15T00:43:36 {"timestamp": "2026-07-15 00:43:36,594", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=5.3"}
+2026-07-15T00:43:36 {"timestamp": "2026-07-15 00:43:36,682", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=87.5"}
+2026-07-15T00:43:36 {"timestamp": "2026-07-15 00:43:36,813", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=130.9"}
+2026-07-15T00:43:36 REPORT RequestId: 2ba2cdbd-7830-4a0d-a662-3f83d69db6b2      Duration: 229.23 ms     Billed Duration: 230 ms Memory Size: 512 MB     Max Memory Used: 97 MB
+2026-07-15T00:43:39 {"timestamp": "2026-07-15 00:43:39,847", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=5.4"}
+2026-07-15T00:43:39 {"timestamp": "2026-07-15 00:43:39,935", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=87.5"}
+2026-07-15T00:43:39 {"timestamp": "2026-07-15 00:43:39,987", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=52.2"}
+2026-07-15T00:43:39 REPORT RequestId: 8560113f-92a6-4bdf-898f-274b1300e2e4      Duration: 150.69 ms     Billed Duration: 151 ms Memory Size: 512 MB     Max Memory Used: 97 MB
 
 
 ~ $ aws logs tail API-Gateway-Execution-Logs_q51dqcsrw5/default --region us-east-1 --since 5m --format short | grep -E "Starting execution|Received response|Integration latency|Method completed"
 2026-07-15T00:40:02 (f208423d-ad30-474f-ae29-c2119b444ef9) Starting execution for request: f208423d-ad30-474f-ae29-c2119b444ef9
 2026-07-15T00:40:11 (f208423d-ad30-474f-ae29-c2119b444ef9) Received response. Status: 200, Integration latency: 8455 ms
 2026-07-15T00:40:11 (f208423d-ad30-474f-ae29-c2119b444ef9) Method completed with status: 200
+2026-07-15T00:42:16 (767cde51-1c1e-4afd-b675-caad5ef24582) Starting execution for request: 767cde51-1c1e-4afd-b675-caad5ef24582
+2026-07-15T00:42:17 (767cde51-1c1e-4afd-b675-caad5ef24582) Received response. Status: 200, Integration latency: 993 ms
+2026-07-15T00:42:17 (767cde51-1c1e-4afd-b675-caad5ef24582) Method completed with status: 200
+2026-07-15T00:43:29 (1c1b0220-448e-4868-896b-36a6962574bd) Starting execution for request: 1c1b0220-448e-4868-896b-36a6962574bd
+2026-07-15T00:43:32 (1c1b0220-448e-4868-896b-36a6962574bd) Received response. Status: 200, Integration latency: 2703 ms
+2026-07-15T00:43:32 (1c1b0220-448e-4868-896b-36a6962574bd) Method completed with status: 200
+2026-07-15T00:43:36 (2d52e766-0ff8-4fa5-ac2c-2cd2ad6d49c5) Starting execution for request: 2d52e766-0ff8-4fa5-ac2c-2cd2ad6d49c5
+2026-07-15T00:43:36 (2d52e766-0ff8-4fa5-ac2c-2cd2ad6d49c5) Received response. Status: 200, Integration latency: 249 ms
+2026-07-15T00:43:36 (2d52e766-0ff8-4fa5-ac2c-2cd2ad6d49c5) Method completed with status: 200
+2026-07-15T00:43:39 (e45fe059-fd48-4319-b0f3-4482baf098f9) Starting execution for request: e45fe059-fd48-4319-b0f3-4482baf098f9
+2026-07-15T00:43:39 (e45fe059-fd48-4319-b0f3-4482baf098f9) Received response. Status: 200, Integration latency: 165 ms
+2026-07-15T00:43:39 (e45fe059-fd48-4319-b0f3-4482baf098f9) Method completed with status: 200
