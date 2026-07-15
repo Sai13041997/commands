@@ -312,3 +312,200 @@ Wait at least the payment integration. SQL Server is actually called payment int
 
   Speaker 1 24:11
 I think I'll see if James put that form up there. He always go look at one game today and see if it's something we can borrow. I'm going
+
+We've had some surprises recently. I'll just share with you like this. I thought it was just an intern project, and then they were going to Pivot to an Apple project. When they start saying, all right, I don't know that wrong. Gads, who's demander overtimester, even though that this is happening,
+
+  Speaker 1 24:38
+So producing a form sharing around a whole bunch of managers. That way, everybody is a chance to be like, what is happening? That's what I'm also after this payment integration thing, I don't know.
+
+  Speaker 4 24:50
+That many people know that is happening. Eric Adam was just scheduling meeting with us tomorrow to talk about something you get old. Yeah, I know about that. So it, this is.
+
+  Speaker 3 24:59
+Effico already has lamb they're already in our tenant that are written and run for the purpose of FBO. Uh, basically, pull data from S3 bucket and load data in Coda. Basically, KFB was, like, we want that process, too. For the kfb company, so kfb-coda Lambda was born like. A year ago, I worked on it.
+
+25:22
+We got it, working to an extent in UAC 2, and then it got dropped and not touching under a year, and then apparently got handed off to Eric Eric's not working on it. He renamed it, as you know. Uh, he, I guess, has been trying to figure out how it works and why there's lots of dead code and unused logic in the jar, he was trying to figure out some of it.
+
+25:42
+He told me that all of his questions triggered a request for an architecture review, I'm not sure by who probably his manager. I guess I don't know, yeah, uh. And yeah.
+
+  Speaker 4 25:54
+I just ordered it inside. I'm trying to think of things that we can separate out to Josiah Alex. You heard me a couple times yesterday, when a nil was sharing his stuff. And I said, we're gonna give that to somebody and Lance. Can't keep having you in the middle of everything?
+
+26:09
+Sure. So, if this is a good opportunity besides to do this thing,
+
+  Speaker 3 26:13
+That's obviously that's totally cool. I mean, from a cloud architecture perspective, there's literally there's a Lambda that runs and grease files from every bucket. There's nothing like cloud or actually complex or anything about this. I really know, I mean, it's like, it's all just Apple logic, and it's a mess, and they need to understand what they want this thing to do and how they want to do it to me.
+
+26:29
+But the cloud architecture is like, not even really a part of this. So you want to run on Lambda here. We have one for you. I don't.
+
+  Speaker 1 26:36
+I just needs to bring a book and because he gets bored. Thank you very much. You need to learn about General Ed or accounting principles. Okay, yeah, I mean, if this thing bounces after me?
+
+  Speaker 4 26:48
+I didn't know Eric was asking for this one. He invited me to be. I'm gonna be at a dentist appointment, so I'm not gonna be there if you just asking for things we stood off. The cloudy we already had patterns, for he's not asking for anything to be stuck, I actually don't even know exactly what he's after.
+
+26:59
+He has stood up, but he needs stood up. Okay, I
+
+  Speaker 3 27:03
+Think he is questioning how this is working, but I think his questions are pretty much purely to be honest and not flower related, so I think he's including me because I've been his main point of contact for inheriting this and stuff, but really, I think his questions are really for, like Maru and PWC, and like why the hell the code is written like this basically.
+
+27:20
+Like, I, I don't. In the data team a little bit too, but I really think we're kind of we're there for, like informational purposes, more so than hey, we need something from you, gotcha.
+
+27:33
+All right. The last thing. I'm just gonna figure out was for Martha. She won the database.
+
+  Speaker 4 27:40
+Sounds like we're going to use her as a guinea pig. Fill out this form, whether it's Danny's form or the form I work to get with other managers. I was planning to bring it up. I guess I'm gonna be bringing it up on what is Mother's Day. Well, it's gonna be a little while.
+
+27:53
+Let me start a Jack with, uh, managers, see if I can get them. We all want. Usually, I like to bring anything about the team. We have a plum for all managers, but I'm gonna be a business appointment. I've been sharing these conversations with deaf, so Jeff, should you where we're discussing.
+
+28:07
+I keep bringing up with him. We probably need to make a decision on who does databases. Now, this thing I was probably playing too fast and loose, so I feel like the idea that every time there's a new workload. I guess if there's a redundant database, we do that too, but I need to find out how Chris thinks he feels about that for his team.
+
+  Speaker 1 28:29
+I'm going to go out on the dear board by Friday. Start cleaning up every team. Just started the next round. I was looking at the board and started putting it to the next friend.
+
+  Speaker 4 28:38
+I need to get us back into. I've been a very good scrum Master, leading back to having scrubbed tasks, getting them assigned and done at a certain point.
+
+28:50
+Sounds like a. You didn't really even come up with a list of tasks. Anil. I think it's fair that we ask them for specifications on what they're after. Um, and they'll took it to me that I expected him to file the documentation, but it didn't just give us more a diagram for one thing, right?
+
+29:11
+But if we can express and like specifications, what he's after, that's where I was going to say. Hey, so, can you go start building these chunks with them as? I prove the concept you're probably going to get pressured to deliver on very tight time timelines because, as always, we're coupling it into a project.
+
+29:29
+Um, you know, we want to. We need to start going before Sures starts. Asking, where is this? It's been two weeks, so I'm gonna go and clean this board. I'd say on Monday we should probably just do a room real quick. Come up, what tasks we've got, what tasks we need to get moving.
+
+29:50
+Anything else we want to talk about?
+
+  Speaker 1 29:56
+Still no word on my books or
+
+  Speaker 4 29:58
+Standards documents?
+
+  Speaker 2 29:59
+No, nothing. Yet, I
+
+  Speaker 1 30:01
+Mentioned,
+
+  Speaker 4 30:02
+I mentioned Chris and Jeff that those were sent. I think either one of them were aware I meant to give them a heads up about on vacation, came back into price them. So just been on your table for a week. Um, I saw Chris, I think I think I signed to him.
+
+  Speaker 1 30:17
+I tried to edit as much as I can. Information.
+
+30:36
+Your standard was about also what your standard smaller look big. I'm trying to remember it in a while. Okay. Did you share your run-up with anybody?
+
+30:49
+I think last we hopped. I was supposed to get Jeff to agree, or we have to shoot him. So then Danny would just be a reviewer. Restools.com. What was Jeff's initial reaction to that question?
+
+  Speaker 3 31:00
+Well.
+
+31:04
+I'm trying to remember Jesus. I've asked him twice now. The first time I asked him. What do you think should we start letting anybody stand upstairs? Yeah, he's like, fine, yeah. Um, but you know?
+
+  Speaker 4 31:19
+When I shared with you all, let's start running in that direction. Both see Galaxy all had some thoughts on it. I think before we make a final decision, we just need to meet up. Whoever's name here needs to understand your reasons why Eva still needs to be a specialized skill set.
+
+31:35
+There's a lot of moving parts to stand up possibly and taking other entertainment.
+
+  Speaker 3 31:42
+I think I think there's just a lot of specialized knowledge process. Like, I would not like I would not be able to fill a DBA request without CDO detail. Like, not like, I wouldn't never. Sorry, I mean, I would be Googling stuff for sure. Like, I guess, my point.
+
+31:54
+I have no knowledge of, like our internal policies, and like, when it's like, hey, this is something that needed to go through the data architects or something. Like, if I was able to like Google my way through, it's like I don't even know, like, what our practices and policies are you're like, what's considered protected by pmo approval or something like that, like, exactly.
+
+32:10
+Well, I mean, I I?
+
+  Speaker 4 32:13
+To terms with, like, what are the specialized skill sets if she could say if she could generate document that says, we're going to take it. It says, please buy this logical amongst the physical model, and I walk you through that, do it.
+
+  Speaker 1 32:24
+That will also need licensing when we had licenses with Urban. So, yeah, those are one of the tops that need DBA to do, which will end up obtaining the database. And, yeah, imagine other things.
+
+32:41
+As as Jeff had these conversations with UCG. Uh, he said, no, I asked him. And he said he was going to talk to you, okay? Well, I don't know what, yeah.
+
+  Speaker 4 32:53
+I want to understand, uh, I don't really have a preference, but I always like to try to reduce bottlenecks when I'm going up. One person on my team that knows how to do something and they go on vacation. I'm so nervous because it inevitably breaks they're on vacation. Nobody can fix it, um, having just two dbas.
+
+33:09
+I think it was a week where CBD were out on vacation, and Danny had a emergency. It was like a day, but yes, yeah, yeah. Jeff like, please, nobody have any database needs. That. So you know? I would love for us to be able to start documenting what you all do.
+
+33:27
+That way, others on your team can take off those skill sets. But ultimately, you know, that's up to Jeff to decide. And that's pretty cool. There's no way Alex is ever going to understand third normal form.
+
+  Speaker 1 33:46
+I do think all the Galaxy had some pretty
+
+  Speaker 4 33:48
+Good points on the name. Surprising on database right now. We're doing the terraform bins. I have the workload, and you guys thought, maybe that needs to go specialized workload? Your concerns like, you run? A buy or something, and it wipes out the disc and they go too big, right?
+
+  Speaker 3 34:03
+Yeah, it's also that there's, I mean, especially if we are gonna have specialized Das and people. And you know, CJ and Danny are really like the owners of the configs, and they're the ones who know what configs need to change when. It's like, it doesn't even make sense to the same pipeline to apply to you.
+
+34:17
+From that perspective, because it's like aside, you see changes to the database, he doesn't configure the database. He's, like, I don't know what this means. Now, he has to go talk CG when it's like they could just be managed separately, and that's CG's off doing everything he's off doing his thing.
+
+34:31
+That surprised me too, but I think it, I don't know. I mean, either way, can definitely work. I mean, it's there's many ways to scan it bad just, uh, yeah.
+
+  Speaker 4 34:42
+I guess. For now, we're gonna keep doing what we're doing, where that base goes in the workload. So, like, from a month, if we get a push saying, hey, I needed that that budget's behind. I don't even know that she has a deadline, uh, you know, my first question is gonna be, what is your repository going to be called?
+
+34:56
+And then we'll put the infrastructure one right next to it. We're building it with Siege's running. Yeah, I guess I.
+
+  Speaker 3 35:04
+At some point, we're going to start getting this weird web of thing, because if it's like, it's literally like, hey, my application is just payment narration, so I'm not. I want to run on topcat. I want to use the same payment every application I used before. It's, like, well, we're not gonna, I mean, that that infrastructure is Pokemon, right?
+
+35:18
+So, it's, like, we're gonna have this weird web where we have to complement. We have stuff in GitHub. We're planning to manage some stuff, how to get up going forward, but I mean, it still has. His relationships of what we do in Pokemon, so I, I don't know, exactly.
+
+35:32
+I'm not even trying to make a point what we do find out that might become something we have to think about.
+
+  Speaker 1 35:42
+We talked a lot. We got a lot done.
+
+35:52
+I didn't have anything else I'm gonna tasting microphone. It was in the sun for a little too long. I got a headache. You build a house?
+
+  Speaker 3 36:01
+Yeah, we put up the walls, the interior walls, and start putting up siding nice.
+
+  Speaker 4 36:07
+Whatever you call that it was just a lot of good songs.
+
+  Speaker 3 36:10
+The the management team like goes out at the security that's doing it, and like people out here to help, and so like they come in and tell them, like, hey, you need to put up this siding and stuff here. And like the African, and they do it every year.
+
+36:23
+There's like, there's like, there's like, somebody like running there, like Nemo, too, right. Yeah, yeah,
+
+  Speaker 4 36:26
+They they showed up with the truck with all the walls already built numbered and on the floor, there's lines numbers and they tell you to take that wall over there. They make sure it's gonna be flat level Plum, and then they start nailing it. There's no screws. There's no power tools.
+
+36:41
+It's all hammers and wears it out. Oh yeah. It just got up to like 92 at the end, and it was just hot. Didn't bring it up.
+
+36:57
+All right, you all. Stay cool. Yeah, thank you.
+
+  Speaker 3 37:17
+I think you should be able to change a couple things.
