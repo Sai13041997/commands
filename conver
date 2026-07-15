@@ -1,88 +1,19 @@
-~ $ aws rds describe-db-proxies --db-proxy-name realtimeinsurance-dev-aurora-proxy --region us-east-1 --query "DBProxies[0].{Status:Status,DefaultAuthScheme:DefaultAuthScheme,UpdatedDate:UpdatedDate}" --output table
-------------------------------------------------------------------------
-|                           DescribeDBProxies                          |
-+--------------------+------------+------------------------------------+
-|  DefaultAuthScheme |  Status    |            UpdatedDate             |
-+--------------------+------------+------------------------------------+
-|  IAM_AUTH          |  available |  2026-07-13T20:54:21.138000+00:00  |
-+--------------------+------------+------------------------------------+
-
+PS C:\Users\T012sp\Downloads\Testing>
 PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
 
-TIME_TOTAL: 8.674683s
-TIME_STARTTRANSFER: 8.673506s
-HTTP_CODE: 502
-
-~ $ aws logs tail /aws/lambda/realtimeinsurance-dev-soap-verification-lambda --region us-east-1 --since 5m --format short
-2026-07-13T20:57:59 INIT_START Runtime Version: python:3.13.mainlinev2.v14      Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:b3c960115d53da170f335080f5743e7f921c7739b6f09d83fc7b44b643838ace
-2026-07-13T20:58:00 START RequestId: 74e4a8be-3a16-43ba-8649-019116f0414a Version: $LATEST
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,061", "logger": "main", "level": "INFO", "message": "SOAP verification request started. request_id=74e4a8be-3a16-43ba-8649-019116f0414a"}
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,062", "logger": "request_handler", "level": "INFO", "message": "Extracted VIN: 56KDMABH4N3000596"}
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,062", "logger": "request_handler", "level": "INFO", "message": "Extracted Verification Date: 2026-07-06T00:00:00.000"}
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,062", "logger": "request_handler", "level": "INFO", "message": "Extracted Tracking Number: TEST-TIMING-001"}
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,062", "logger": "request_handler", "level": "INFO", "message": "Extracted Policy Key: PTest12345"}
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,062", "logger": "main", "level": "INFO", "message": "Request parsed successfully. request_id=74e4a8be-3a16-43ba-8649-019116f0414a tracking_number=TEST-TIMING-001"}
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,093", "logger": "botocore.credentials", "level": "INFO", "message": "Found credentials in environment variables."}
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,551", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=488.9"}
-2026-07-13T20:58:00 {"timestamp": "2026-07-13 20:58:00,713", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=161.7"}
-2026-07-13T20:58:07 {"timestamp": "2026-07-13 20:58:07,304", "logger": "database_handler", "level": "ERROR", "message": "Database query failed. vin=56KDMABH4N3000596 verification_date=2026-07-06T00:00:00.000"}
-2026-07-13T20:58:07 Traceback (most recent call last):
-2026-07-13T20:58:07 File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
-2026-07-13T20:58:07 cursor.execute(query, (vin_number, verification_date))
-2026-07-13T20:58:07 ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-07-13T20:58:07 File "/var/task/pg8000/legacy.py", line 250, in execute
-2026-07-13T20:58:07 self._c.execute_simple("begin transaction")
-2026-07-13T20:58:07 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-2026-07-13T20:58:07 File "/var/task/pg8000/core.py", line 694, in execute_simple
-2026-07-13T20:58:07 self.handle_messages(context)
-2026-07-13T20:58:07 ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-2026-07-13T20:58:07 File "/var/task/pg8000/core.py", line 839, in handle_messages
-2026-07-13T20:58:07 code, data_len = ci_unpack(_read(self._sock, 5))
-2026-07-13T20:58:07 ~~~~~^^^^^^^^^^^^^^^
-2026-07-13T20:58:07 File "/var/task/pg8000/core.py", line 155, in _read
-2026-07-13T20:58:07 raise InterfaceError("network error")
-2026-07-13T20:58:07 pg8000.exceptions.InterfaceError: network error
-2026-07-13T20:58:07 {"timestamp": "2026-07-13 20:58:07,306", "logger": "main", "level": "ERROR", "message": "SOAP verification request failed. request_id=74e4a8be-3a16-43ba-8649-019116f0414a"}
-2026-07-13T20:58:07 Traceback (most recent call last):
-2026-07-13T20:58:07 File "/var/task/main.py", line 52, in lambda_handler
-2026-07-13T20:58:07 unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
-2026-07-13T20:58:07 File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
-2026-07-13T20:58:07 cursor.execute(query, (vin_number, verification_date))
-2026-07-13T20:58:07 ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-2026-07-13T20:58:07 File "/var/task/pg8000/legacy.py", line 250, in execute
-2026-07-13T20:58:07 self._c.execute_simple("begin transaction")
-2026-07-13T20:58:07 ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
-2026-07-13T20:58:07 File "/var/task/pg8000/core.py", line 694, in execute_simple
-2026-07-13T20:58:07 self.handle_messages(context)
-2026-07-13T20:58:07 ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-2026-07-13T20:58:07 File "/var/task/pg8000/core.py", line 839, in handle_messages
-2026-07-13T20:58:07 code, data_len = ci_unpack(_read(self._sock, 5))
-2026-07-13T20:58:07 ~~~~~^^^^^^^^^^^^^^^
-2026-07-13T20:58:07 File "/var/task/pg8000/core.py", line 155, in _read
-2026-07-13T20:58:07 raise InterfaceError("network error")
-2026-07-13T20:58:07 pg8000.exceptions.InterfaceError: network error
-2026-07-13T20:58:07 [ERROR] InterfaceError: network error
-Traceback (most recent call last):
-  File "/var/task/main.py", line 52, in lambda_handler
-    unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
-  File "/var/task/database_handler.py", line 70, in query_policy_info_by_vin
-    cursor.execute(query, (vin_number, verification_date))
-  File "/var/task/pg8000/legacy.py", line 250, in execute
-    self._c.execute_simple("begin transaction")
-  File "/var/task/pg8000/core.py", line 694, in execute_simple
-    self.handle_messages(context)
-  File "/var/task/pg8000/core.py", line 839, in handle_messages
-    code, data_len = ci_unpack(_read(self._sock, 5))
-  File "/var/task/pg8000/core.py", line 155, in _read
-    raise InterfaceError("network error")
-2026-07-13T20:58:07 END RequestId: 74e4a8be-3a16-43ba-8649-019116f0414a
-2026-07-13T20:58:07 REPORT RequestId: 74e4a8be-3a16-43ba-8649-019116f0414a      Duration: 7249.17 ms    Billed Duration: 8108 ms     Memory Size: 512 MB      Max Memory Used: 96 MB  Init Duration: 858.11 ms
+TIME_TOTAL: 8.603508s
+TIME_STARTTRANSFER: 8.602268s
+HTTP_CODE: 200
 
 
-~ $ aws logs tail /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy --region us-east-1 --since 5m --format short
-2026-07-13T20:58:00 2026-07-13T20:58:00.625Z [INFO] [proxyEndpoint=default] [clientConnection=4277603790] A new client connected from 10.212.56.171:25946.
-2026-07-13T20:58:00 2026-07-13T20:58:00.640Z [DEBUG] [proxyEndpoint=default] [clientConnection=4277603790] Received Startup Message: [username="pgsi_ans00315015", database="realtimeinsurance_dev", protocolMajorVersion=3, protocolMinorVersion=0, sslEnabled=true]
-2026-07-13T20:58:00 2026-07-13T20:58:00.712Z [DEBUG] [proxyEndpoint=default] [clientConnection=4277603790] Proxy authentication with IAM authentication succeeded for user "pgsi_ans00315015" with TLSv1.3.
-2026-07-13T20:58:04 2026-07-13T20:58:00.715Z [INFO] [dbConnection=3917861154] A TCP connection was established from the proxy at 10.212.59.9:21661 to the database at 10.212.56.15:5432.
-2026-07-13T20:58:07 2026-07-13T20:58:07.302Z [INFO] [dbConnection=3917861154] The new database connection using IAM authentication failed. Error code: [XX000]. Message: Request returned an error: permission denied for database "realtimeinsurance_dev". Detail: User does not have CONNECT privilege.
-2026-07-13T20:58:11 2026-07-13T20:58:07.303Z [INFO] [proxyEndpoint=default] [clientConnection=4277603790] The client connection closed. Reason: The database connection borrowed from the connection pool returned an error.
+~ $ aws logs tail /aws/lambda/realtimeinsurance-dev-soap-verification-lambda --region us-east-1 --since 5m --format short | grep -E "IAM auth token|Database connection|Query executed|REPORT"
+2026-07-15T00:40:04 {"timestamp": "2026-07-15 00:40:04,459", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=521.0"}
+2026-07-15T00:40:04 {"timestamp": "2026-07-15 00:40:04,632", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=172.6"}
+2026-07-15T00:40:11 {"timestamp": "2026-07-15 00:40:11,031", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=6398.3"}
+2026-07-15T00:40:11 REPORT RequestId: fcef1fb6-863b-46cf-b608-e51310fa2719      Duration: 7098.17 ms    Billed Duration: 8003 ms       Memory Size: 512 MB      Max Memory Used: 96 MB  Init Duration: 903.89 ms
+
+
+~ $ aws logs tail API-Gateway-Execution-Logs_q51dqcsrw5/default --region us-east-1 --since 5m --format short | grep -E "Starting execution|Received response|Integration latency|Method completed"
+2026-07-15T00:40:02 (f208423d-ad30-474f-ae29-c2119b444ef9) Starting execution for request: f208423d-ad30-474f-ae29-c2119b444ef9
+2026-07-15T00:40:11 (f208423d-ad30-474f-ae29-c2119b444ef9) Received response. Status: 200, Integration latency: 8455 ms
+2026-07-15T00:40:11 (f208423d-ad30-474f-ae29-c2119b444ef9) Method completed with status: 200
