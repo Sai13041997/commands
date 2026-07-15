@@ -1,74 +1,90 @@
-Best solution: EventBridge Lambda warmer + Aurora min_capacity bump.
-Deploy both together. Here's why this combination and not one of the alternatives.
-Why this over the alternatives:
+Yes, this suggestion is reasonable, but I would not call it the guaranteed “best solution.” I’d call it the best low-cost next step after what we found.
 
-Not Provisioned Concurrency alone — expensive, and doesn't fix Aurora warm-up (which is your bigger cost: 6.4s query vs 900ms Lambda init). Would burn money for partial win.
-Not Aurora bump alone — Lambda cold-start (~900ms + 500ms IAM token = 1.4s) still eats most of your budget even before the DB gets involved.
-Not warmer alone — keeps Lambda warm but Aurora can still cold-scale on the query side.
-Both together — attacks both cold-start sources for < $10/month total in dev. Best cost-to-effect ratio.
+What I agree with
 
-What this looks like in practice:
+Your latest data shows:
 
-EventBridge rule invokes the Lambda every 5 minutes with a tiny warmup payload.
-Lambda handler recognizes the warmup and does a light DB touch (SELECT 1), then returns immediately. Keeps Lambda container warm AND Aurora buffer cache active.
-Aurora min_capacity = 2 (up from 1). Keeps Aurora warmer floor so compute doesn't scale down between pings.
+Plain Text
+1
+Cold-ish request: 6 to 8 sec
+2
+Warm request: ~0.6 sec
+Show more lines
 
-When KIVS calls:
+So keeping the Lambda and DB side warm can absolutely help.
 
-Lambda container is already initialized → skip ~900ms cold-start.
-Aurora is warm and cached → skip 5–6 seconds of query warm-up.
-Expected result: cold calls land around 0.5–1.0s. Comfortably under 2s.
+Warm logs looked excellent:
 
-What you own vs what Zach owns:
-PieceOwnerEventBridge rule + Lambda permissionYou (Terraform)Aurora min_capacity = 2You (Terraform)Lambda handler warmup pathZach (code change)
-That last one matters — a warmer that hits the full SOAP path every 5 min is wasteful and would trigger unnecessary DB reads/writes. Zach needs to add ~5 lines to detect warmup events and short-circuit gracefully with a SELECT 1 touch.
-Concrete next steps in order:
-1. Send Zach a heads-up now. Draft:
+Plain Text
+1
+IAM token: ~5 ms
+2
+DB connection: ~92 to 138 ms
+3
+Query execution: ~200 ms
+4
+Lambda duration: ~300 to 350 ms
+5
+Total response: ~0.6 sec
+Show more lines
 
-Hey Zach — the RDS Proxy is working end-to-end now, but cold DB queries are still ~6.4s (Aurora warming). Going to add a scheduled Lambda warmer every 5 min to keep both Lambda + Aurora hot. Warmer will send a payload like {"warmup": true} — could you add a check at the top of the handler that short-circuits with a SELECT 1 touch when it sees that, so we're not running the full SOAP flow every 5 min? Small change, ~5 lines. Let me know when you can turn it around.
+So yes, a warmer makes sense because the warm path is already under the 2 sec SLA.
 
-2. Write and deploy the infra Terraform. Two files:
-envs/dev.tfvars — change:
-hclserverless_v2_min_acu = 2   # was 1
-lambda_warmer.tf — new file:
-hclresource "aws_cloudwatch_event_rule" "soap_lambda_warmer" {
-  name                = "${var.application_name}-${var.env_tier}-soap-lambda-warmer"
-  description         = "Keeps SOAP verification Lambda warm to meet KIVS 2s SLA"
-  schedule_expression = "rate(5 minutes)"
-}
+What I’d be careful with
 
-resource "aws_cloudwatch_event_target" "soap_lambda_warmer" {
-  rule      = aws_cloudwatch_event_rule.soap_lambda_warmer.name
-  target_id = "soap-verification-lambda"
-  arn       = module.soap_verification_lambda.lambda_function_arn
-  input     = jsonencode({ warmup = true })
-}
+This line is a little too confident:
 
-resource "aws_lambda_permission" "allow_eventbridge_warmer" {
-  statement_id  = "AllowEventBridgeWarmer"
-  action        = "lambda:InvokeFunction"
-  function_name = module.soap_verification_lambda.lambda_function_name
-  principal     = "events.amazonaws.com"
-  source_arn    = aws_cloudwatch_event_rule.soap_lambda_warmer.arn
-}
-3. Push, plan, apply. Expected changes:
+Plain Text
+1
+Expected result: cold calls land around 0.5 to 1.0s
+Show more lines
 
-Aurora cluster updated (min_capacity 1 → 2).
-New EventBridge rule + target + permission.
+I’d say:
 
-4. Wait 5–10 minutes for the warmer to kick in, then test cold + warm. Expected result:
+Plain Text
+1
+Expected result: normal calls should behave closer to the warm path, likely under 2s, but not guaranteed.
+Show more lines
 
-Cold (10+ min idle): ~500ms–1.0s
-Warm (within a few seconds): ~200–400ms
+Because EventBridge warmer is still best effort. AWS can recycle Lambda containers, deployments create new containers, and concurrent requests can still create new cold environments.
 
-Honest caveats:
+Best practical approach
 
-This assumes Zach adds the warmup short-circuit. If he can't for a few days, don't panic — the warmer still works, it just runs the full flow every 5 min and creates some background query load. Not ideal but not broken.
-If cold calls are still >2s after this, the query is genuinely slow even on a warm DB (unlikely, since warm queries were 52–131ms), OR the warmer isn't landing on the right container. At that point, next lever is Provisioned Concurrency (1 instance). But start here.
-lambda_function_name output — I'm using module.soap_verification_lambda.lambda_function_name in the permission block. Confirm your lambda module exposes that output. If it doesn't, you may need lambda_function_arn and let the permission derive the name from it, or check the module code.
+I agree with this order:
 
-Ordering matters:
+Plain Text
+1
+1. Keep RDS Proxy
+2
+2. Add EventBridge warmer
+3
+3. Add warmup path in Lambda
+4
+4. Increase Aurora min ACU to 2
+5
+5. If SLA still needs hard guarantee, use Provisioned Concurrency
+Show more lines
+Why this is better than only Provisioned Concurrency
 
-Ping Zach first (do this in the next 5 minutes), so he can work in parallel.
-Then write the Terraform and get it into a PR.
-Apply after Zach's warmup handler is deployed, so you don't waste 5 minutes of Aurora load on the full SOAP path.
+Provisioned Concurrency keeps Lambda warm, but it does not directly keep Aurora/cache/backend query path warm.
+
+Your warm result proves both Lambda and DB/query path behave well once hot. So warming both layers makes sense:
+
+Plain Text
+1
+EventBridge warmer = keeps Lambda active
+2
+SELECT 1 touch = keeps DB/proxy path active
+3
+Aurora min ACU 2 = keeps Aurora from scaling too low
+Show more lines
+What I’d send to the team
+Plain Text
+1
+This makes sense as the next low-cost step. RDS Proxy is working and warm calls are now around 600 ms, but cold or first-hit behavior is still higher. I think we should keep RDS Proxy, add an EventBridge warmer every 5 minutes, have the Lambda short-circuit on a warmup payload and do a light SELECT 1 DB touch, and bump Aurora min capacity from 1 to 2. That should keep both the Lambda runtime and Aurora path warm without jumping straight to Provisioned Concurrency cost. If this still doesn’t consistently keep us under 2 seconds, then Provisioned Concurrency would be the next stronger option.
+Show more lines
+My recommendation
+
+Do not remove RDS Proxy.
+ Do yes to the warmer plus Aurora min capacity bump.
+ Treat Provisioned Concurrency as the next step only if warmer plus min ACU still doesn’t satisfy the SLA.
