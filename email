@@ -1,140 +1,16 @@
-email 1: 
-Hi KentuckyIVS Team,
+We’re duplicating logic and processes that FbCo did with their GL Posting lambda but would like a review to make sure we are following (or creating!) good cloud standards going forward. We’ve got a bit of a mix of new and old here, and I’d like to make sure the recipe is correct.
 
-Hope you're doing well. We have completed the setup on our end and would like to do some end-to-end testing. 
+No logical technical architecture document that I know of exists, so I threw this together based on the requirements I’ve been given so far.
 
-For the testing, please use the following details:
-- URL: https://realtimeinsurance-soap-api-dev.devkyfb.com
-- VIN Number: 56KDMABH4N3000596
-
-Once you've made the request, if you could please send the response you receive, I will verify that it matches the expected outcome on our side. 
-
-Let us know if you encounter any issues or need anything from our side during the testing. 
-
-Thanks
-Zach
-
-email 2:
-Hello,
-
-We are receiving 403 Forbidden error. Please make sure you are allowing ‘KentuckyIVS’ as the organization name. 
-
-If your OLV Web Service uses IP address restrictions, the IP address of the test KentuckyIVS client is:
-3.217.110.156
-
-Thanks
-KentuckyIVS Helpdesk
+GL- CODA Integration Requirements June_2026.xlsx
 
 
-email 3:
-Hello KentuckyIVS Team, 
+Points of interest:
 
-Hope you're doing well, we’ve completed our investigation and made the necessary configuration updates on our API Gateway. 
-
-Could you please retry the SOAP request and let us know the result? If you still see the 403, please share the timestamp and any error details so we can investigate further. 
-
-The endpoint and IP allowlist remain unchanged: - 
-•	URL: https://realtimeinsurance-soap-api-dev.devkyfb.com/soap 
-•	Your test IP (3.217.110.156) is allowlisted 
-
-Thank you
-sai
-
-
-email 4:
-Hello,
-
-We are continuing to receive 403 error with the message ‘Missing Authentication Token’.
-
-Here is the corresponding Request and Response,
-
-Time: 2026-07-01 09:52:28.857
-
-Request:
-<?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <soapenv:Body>
-    <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/" PublicationVersion="00200809" PublicationDate="2008-11-05">
-      <RequestorInformation>
-        <Organization>
-          <Name>KentuckyIVS</Name>
-        </Organization>
-        <ReasonDetails>
-          <ReasonCode>BIVER</ReasonCode>
-          <TrackingNumber>KYTRK-260701-095228-328-16-283-5-1</TrackingNumber>
-        </ReasonDetails>
-      </RequestorInformation>
-      <Detail>
-        <PolicyInformation>
-          <OrganizationDetails>
-            <NAIC>22993</NAIC>
-          </OrganizationDetails>
-          <PolicyDetails>
-            <VerificationDate>2026-07-01T00:00:00.000</VerificationDate>
-            <PolicyKey>PTest12345</PolicyKey>
-            <PolicyState>KY</PolicyState>
-          </PolicyDetails>
-        </PolicyInformation>
-        <VehicleInformation>
-          <VehicleDetails>
-            <VIN>56KDMABH4N3000596</VIN>
-          </VehicleDetails>
-        </VehicleInformation>
-      </Detail>
-    </CoverageRequest>
-  </soapenv:Body>
-</soapenv:Envelope>
-
-Response:
-HTTP/1.1 403 Forbidden
-x-amzn-RequestId: 434c3a87-36e0-4dac-bff7-930dbc41c811
-x-amzn-ErrorType: MissingAuthenticationTokenException
-x-amz-apigw-id: f1FAkFzHIAMFVcg=
-content-type: application/json
-content-length: 42
-connection: keep-alive
-date: Wed, 01 Jul 2026 13:52:28 GMT
-
-{"message":"Missing Authentication Token"}
-
-Please let us know if there is additional Authentication that we may have missed. 
-
-Thanks
-KentuckyIVS Helpdesk
-
-
-email 5:
-Hi KentuckyIVS Team,
-Thanks for the details and the sample request and response, that's helpful.
-The MissingAuthenticationToken error is typically returned by our API Gateway when a request reaches it but doesn't match a configured method/path, so we'd like to confirm exactly how the request is being sent before we dig further on our side.
-Could you please confirm the following and share the complete raw HTTP request (the full request URL, the HTTP method, and all request headers — not just the SOAP body)?
-
-The full URL should be exactly: https://realtimeinsurance-soap-api-dev.devkyfb.com/soap (with the /soap path, no trailing slash or stage name appended)
-The method should be POST
-
-Once we have the raw request, we can quickly confirm whether it's reaching the correct route and pinpoint anything on our end.
-
-
-email 6:
-Hello,
- 
-Thanks for clarifying the full URL. We are able to connect to your webservice but is timing out before we could read the response. Please make sure the web service is responding within  2s as specified in the implementation guide. 
- 
-Here is the log
-
-2026-07-02 09:04:50.556       Connecting to https://realtimeinsurance-soap-api-dev.devkyfb.com/soap...
-2026-07-02 09:04:50.558       Connected to 34.193.17.109
-2026-07-02 09:04:50.558       SSL HANDSHAKE start
-2026-07-02 09:04:50.560       SSL HANDSHAKE checkServerTrusted
-2026-07-02 09:04:50.560       SSL HANDSHAKE getAcceptedIssuers
-2026-07-02 09:04:50.562       SSL HANDSHAKE chooseClientAlias [EC, RSASSA-PSS, RSA]
-2026-07-02 09:04:50.562       SSL HANDSHAKE getPrivateKey for tomcat
-2026-07-02 09:04:50.562       SSL HANDSHAKE getCertificateChain for tomcat returning a chain of 3
-2026-07-02 09:04:50.607       SSL HANDSHAKE complete TLSv1.2
-2026-07-02 09:04:52.607       java.net.SocketTimeoutException: Read timed out: first http header: 2000
-2026-07-02 09:04:52.607       Connection lost, response has 0 lines.
-2026-07-02 09:04:52.607      Returned <AR1=Connection lost while reading header.|REAS=3006|RESP=3|TNBR=KYTRK-330-3|UTNBR=TrackTest|VVAL=VALID|QCNR=1>
-  
-Thanks
-KentuckyIVS Helpdesk
+•	One file in = One document posted in Unit4Financials / Coda. Lambda will attempt to process all files it finds in the directory it’s pointed at. File sample attached.
+•	All “business logic” and/or batch balancing logic is pushed out to CDP. Only logs / archived files for history / research into what was posted, or U4F UI directly.
+•	Driven by jobs/scheduling from Zeke. May be unavoidable for the CDP feed, but what about the S3 bucket triggering a Lambda to do the processing directly?
+•	Currently driven by both the scheduling of a job, but also the lambda is coded not to process any files that do not have an associated “trigger” file of the same name. If everything is scheduled, is this necessary?
+•	No secrets manager in existing FBCo Lambda….this will need to be addressed retroactively, for them.
+•	FbCo Lambda clearly changed directions during development…originally it appears to have started to read the file and then create a message (assuming going to an SQS queue) to have another lambda process the file?
 
