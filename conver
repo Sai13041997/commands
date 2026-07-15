@@ -1,90 +1,314 @@
-Yes, this suggestion is reasonable, but I would not call it the guaranteed “best solution.” I’d call it the best low-cost next step after what we found.
+  Speaker 1 02:17
+Uh, Phillips is going to connect, I think, okay.
 
-What I agree with
+03:59
+Miss nearby.
 
-Your latest data shows:
+04:04
+I think Amanda would be here, but I think she's out of office like she said that for something.
 
-Plain Text
-1
-Cold-ish request: 6 to 8 sec
-2
-Warm request: ~0.6 sec
-Show more lines
+  Speaker 2 04:21
+So the proxy?
 
-So keeping the Lambda and DB side warm can absolutely help.
+  Speaker 1 04:23
+Connected to the database, and when I tested the end-to-end workflow, we are getting the responder expecting. Up.
 
-Warm logs looked excellent:
+  Speaker 2 04:32
+There is still latencies even with RDX. The new, like lock, shows that the latency is because of the query execution time, so that's actually taking like four to six seconds. So, I checked with Zach and I asked him if he can rewrite some like code to sorry, yeah. Oh, he tried, uh, but still, it's not working still, uh, we are just getting the same time.
 
-Plain Text
-1
-IAM token: ~5 ms
-2
-DB connection: ~92 to 138 ms
-3
-Query execution: ~200 ms
-4
-Lambda duration: ~300 to 350 ms
-5
-Total response: ~0.6 sec
-Show more lines
+04:58
+Like, you know, four to six seconds? Um, then he basically ran the explain analysis with the quality and there the actual CPU time for the query is two milliseconds, so it's not particularly for the query execution time then. Asked him to add more locks. So, uh, like, you know, check out time like, you know, times, so that I can see where exactly?
 
-So yes, a warmer makes sense because the warm path is already under the 2 sec SLA.
+05:23
+Latency is taking place. Then, what we found out is, like, uh, the query is good, uh, it's running probably, and it's a just as a semise seconds or something. Uh, when I tested that, but? Uh, the main problem is like? The Aurora serverless is being. Uh, like, you know, it needs to be awakened for the first request that is sent, so it's like, you know?
 
-What I’d be careful with
+05:49
+Low ACU because of that, and even for the old buffer cache and. Even though? Uh, cold, RDS proxiation. So, because of these things? We actually getting the latency. So,
 
-This line is a little too confident:
+  Speaker 3 06:02
+Do you think we need to up the serverless configurations? Do you think we just need to go straight provision.
 
-Plain Text
-1
-Expected result: cold calls land around 0.5 to 1.0s
-Show more lines
+  Speaker 2 06:07
+So, what I feel like, um, doing, is, like me, and one more thing actually. So, when I try to try to do that when the, uh, like, you know, whole path is, uh, I'm actually getting that, uh, below two seconds. So, when the whole path is warm, um, getting below seconds.
 
-I’d say:
+06:22
+But when the first, uh, the when it's cold, I'm actually getting from, uh, six to nine seconds latencies. So, yeah, that important.
 
-Plain Text
-1
-Expected result: normal calls should behave closer to the warm path, likely under 2s, but not guaranteed.
-Show more lines
+  Speaker 3 06:30
+In the RDS cluster, you think actually like it's had to do with the warming of your cluster. Um, actually, I think.
 
-Because EventBridge warmer is still best effort. AWS can recycle Lambda containers, deployments create new containers, and concurrent requests can still create new cold environments.
+  Speaker 2 06:38
+We need to warm up the whole part, so even the Lambda, because Lambda is, uh, even though. It's like low, but still, it's getting like 800 to 900 or 900 milliseconds. Exactly. So, that's why I suggest, like, you know, if we add the event Bridge and send a query like, uh, five minutes every five minutes, so it basically.
 
-Best practical approach
+07:01
+Like it warms the whole path from the Lambda to a proxy and also our. So, what
 
-I agree with this order:
+  Speaker 3 07:07
+Do you think that would even eliminate the need to change or configurations because we have a manual form like a lamb that's running big queries, like warming the circle, is,
 
-Plain Text
-1
-1. Keep RDS Proxy
-2
-2. Add EventBridge warmer
-3
-3. Add warmup path in Lambda
-4
-4. Increase Aurora min ACU to 2
-5
-5. If SLA still needs hard guarantee, use Provisioned Concurrency
-Show more lines
-Why this is better than only Provisioned Concurrency
+  Speaker 2 07:13
+I don't think so, like once. If you do that, uh, I'm basically hoping it'll just fall under two seconds. But. There is one more problem is that? When the warmer is sending that Quest at the same time in the case. Basically, this has also seen in the request. Ibs request might go to new container, so for new container again, there will be a latency because of connections.
 
-Provisioned Concurrency keeps Lambda warm, but it does not directly keep Aurora/cache/backend query path warm.
+07:40
+Like, because it's cold starting and the new content skating. You have to warm up the database levels they already want. Yes, it'll be, uh, not actually. The complete, uh, path needs to be. Uh, it's going to be cold. So, then? Request from kvs is going to have a coaster again, you know?
 
-Your warm result proves both Lambda and DB/query path behave well once hot. So warming both layers makes sense:
+07:57
+Five, six seconds or something. So for that? We can actually use a pro version concurrency. So, which has, like, you know, two, three, or like, you know, more than that, we can use the protein concurrency, and which basically keeps. Yeah. I definitely understand why we got there. So we get the point of using provision concurrency on Lambda.
 
-Plain Text
-1
-EventBridge warmer = keeps Lambda active
-2
-SELECT 1 touch = keeps DB/proxy path active
-3
-Aurora min ACU 2 = keeps Aurora from scaling too low
-Show more lines
-What I’d send to the team
-Plain Text
-1
-This makes sense as the next low-cost step. RDS Proxy is working and warm calls are now around 600 ms, but cold or first-hit behavior is still higher. I think we should keep RDS Proxy, add an EventBridge warmer every 5 minutes, have the Lambda short-circuit on a warmup payload and do a light SELECT 1 DB touch, and bump Aurora min capacity from 1 to 2. That should keep both the Lambda runtime and Aurora path warm without jumping straight to Provisioned Concurrency cost. If this still doesn’t consistently keep us under 2 seconds, then Provisioned Concurrency would be the next stronger option.
-Show more lines
-My recommendation
+08:16
+I think the network question is, why aren't we just running a server? You know, I mean, that's essentially what's doing right. It's running compute all the time exactly and? That's yeah. But I mean, all that does intense and even like the KBS is any more than 100 times. Still, they're.
 
-Do not remove RDS Proxy.
- Do yes to the warmer plus Aurora min capacity bump.
- Treat Provisioned Concurrency as the next step only if warmer plus min ACU still doesn’t satisfy the SLA.
+08:33
+Get this, but I'm not sure how many days they're gonna send it. So, I asked that, but he had no idea to worry about that, so you don't think that.
+
+  Speaker 3 08:39
+So, even though cold star perspective, so eight 800 seconds that comes from like the land, the coasters like the environment execution Mark, yes, where you said five to six seconds. I mean, where does that other five is? Attack come from is all. I mean, you know, you reference the RDS.
+
+08:55
+Is what they call um, the cu's, uh,
+
+  Speaker 2 08:58
+Yeah,
+
+  Speaker 3 09:00
+I mean, we need up the dailies and make that cool start. Like, better, we can actually upload ACU for, like, right now. It's one can make it two, but uh.
+
+  Speaker 2 09:10
+That's actually costs a bit more. How
+
+  Speaker 3 09:13
+Really do you believe? Do you have to believe that would make a difference? I mean, if even if we could, if we put it on a screw or whatever he's used or killer, we're still gonna see. That'll let you know, I mean, like? I don't think so. So, if we basically increase the?
+
+  Speaker 2 09:26
+Then the cache call will basically get, so it doesn't get cold. The connector doesn't get cold, so I'm expecting. That works, but alone that alone work. I'm not sure about that. We need to add something because.
+
+  Speaker 4 09:49
+You are going? Trying to do things. One thing that just popped in my head is not going to the going serverless on Aurora. So, are you doing a whole bunch of work? Just get response time down and test region and good production, and we go to Provisions. It's time to just dump the surface, put a provision one just to prove that when we go production, the provision is going to work as well.
+
+10:16
+I mean, it's not a permanent solution, unless
+
+  Speaker 2 10:18
+Yeah,
+
+  Speaker 4 10:18
+Somebody says, you have to maintain two second or less response time and test regions, which I would doubt that they're going to say that. But, you know, if you do all that work? Versus just stand up. What's ultimately gonna be there? I think I'm ready to say, let's stand up.
+
+10:33
+What's going to be there?
+
+10:36
+Yeah, sure.
+
+10:44
+No, no, I'm just talking about a rat. I think he wants to slip-on provision to death and see if it results on the size issues. Okay, I thought that you think you just?
+
+  Speaker 1 10:54
+Okay, sorry, I'm hard to hear you. Did you say we should just switch to an environment that has provision instead? Yeah, that's what we should use part.
+
+  Speaker 4 11:02
+Yeah, well, the problem was going hard. CG is, we're not to get the database all the infrastructure we're gonna have to get the data guys to get all the data over to that database so you can restore the database over there from what they already loaded. Um, this has to go to production in about month and a half, right?
+
+11:20
+Either way, you want to go CG. That's fine. I was just trying to take shortcut here.
+
+  Speaker 1 11:26
+You saying that would be best. Sorry,
+
+  Speaker 3 11:28
+You saying that would be faster, but I don't know. Do we have to replace the cluster to change it to from serverless conversion. Do you know,
+
+  Speaker 1 11:34
+Okay,
+
+  Speaker 3 11:34
+Interesting that might be just disease? I don't think we can just change it. Okay. That's I think that's a good idea, though we should figure out the easiest way we can test that, just like just getting proven performance here, because I mean, so, do you think artist proxy helps in a significant fashion, or do you think that's kind of a failed experiment,
+
+  Speaker 2 11:55
+Uh, not actually. It basically works, uh, the by, uh, is because, like, you know, a big RDX, so the connection? When it's called, the connection is basically making a few seconds. So now, now, the connection basically takes like 150 seconds.
+
+  Speaker 3 12:11
+Oh, okay, so we're still already. Guys proxy still shade off four or five, exactly? Okay.
+
+  Speaker 4 12:19
+We will make a decision right now so that I CG you got a direction. What do you all think? Would you think we should try to replace the cluster? Do you want to go to the performance region? Which way do you want to go?
+
+  Speaker 1 12:30
+Because that's.
+
+  Speaker 3 12:38
+So, even if we have to replace the cluster and make it provisioned, it would still be extra complications to do that. It doesn't mean it's not like if you want to do it, then you want to leave. Deploy it is, you can still do that like it wouldn't be the end of the world, but it would be.
+
+12:49
+A longer set of time than even replacing the necklace.
+
+12:58
+We mean, basically, we need to make sure. For one, we need to make sure we have all other roles and stuff set up in pre-fraud. We also need to basically set up a bunch of also the pipelines and stuff and get up to be able to deploy to your product.
+
+13:12
+That's about it, though, I think, uh. It won't be a huge deal. I'm just thrown out there. Yeah, because.
+
+  Speaker 4 13:22
+I don't know if that's true. DG, uh, we had moved to Bert. You know. Before we even do this, we need to let our data friends know whoever helped us on and look at the data in the first place. We need to let Zach know. Are, are they ever going to point performance?
+
+13:41
+Region policy Center to this database, I don't know. Are they going to be willing to load production data into this database? I don't know, uh, you're just right. Now, I want to not be wishy-wife feeling somebody to say, all right. This is what I want to do, and then we need to share it with everybody and see if anybody pushes back.
+
+14:01
+It sounds like you feel strongly we should use that department for this.
+
+  Speaker 3 14:04
+You know, it's, I would, but you know, it's up to whoever wants this.
+
+  Speaker 4 14:09
+I want them to run it, right? Like, I don't want some Bots to tell me what to do if I know better. Maybe tell everybody, hey look, we want to try this out and other things are like, great. I really wanted to see what you know. Performance, region production data sized would look like.
+
+  Speaker 1 14:23
+So,
+
+  Speaker 4 14:23
+It's worth sharing with everybody's a team. What we're planning to do what we're running into, and they might have opinions, absolutely not. That's how I would play it.
+
+  Speaker 1 14:34
+So, I'm just Googling him, and I'd say that we can change custom. Just, please set it off.
+
+14:53
+I'm saying, I guess we can do that in depth.
+
+  Speaker 4 15:04
+You know, we can keep going down this road. We're trying to be warmers and Bridge and things. But if all we're trying to do is prop up a test version of the database. You're now proving out the final database. He's gonna have. Better speed, right? I'd rather find out now, so.
+
+15:18
+We're gonna set up definitely a provision dies. Sure, yes. All right.
+
+  Speaker 1 15:27
+Well, thanks for having so much fun with this eye.
+
+  Speaker 4 15:33
+Anybody else have anything that they want to talk about?
+
+15:39
+Danny wrote the RDS standard. I think he felt like he had to. Oh yeah.
+
+  Speaker 3 15:50
+Yeah, I granted them access to platform engineering work in progress folder. I hope that's cool. Let's see it eventually, right? I'll give them right access. Oh.
+
+  Speaker 4 16:08
+Well, I was trying to get. Don't ever do this. I was trying to get my earpods to work with legs. Yeah. We can hear you. Yeah, it's still a lot of headphones. The next box, and it just rarely decided to connect to my headphones. Yeah, I could hear you the whole time.
+
+16:26
+I'm just waiting for it to pop after my speakerphone.
+
+  Speaker 3 16:29
+I'll get right after this by the way. Yeah, wow, that matters. I figured it didn't matter. Yeah. Yeah.
+
+  Speaker 4 16:39
+I think at all, I think. Basically, I think
+
+  Speaker 3 16:44
+He was updating the SQL request form based on the conversation you guys had yesterday, and he, I don't know. He said he wanted to make sure that the. The form didn't.
+
+  Speaker 1 16:55
+And that's what he's basically doing. Rds. Okay, yeah, I'm thinking more of. Um, you know, I haven't seen this point. All it says, I did share with, uh, Jeff, what we talked about last night? Um, I had really much time to talk to them. We got to have that Humanity, and they go in their cars, um.
+
+17:20
+I'm thinking I liked the idea that. Dating with saying somebody needs?
+
+  Speaker 4 17:26
+Freeform, so that whenever there's a, and I'm not going for just a new database, I was going off with a new workload anytime. It was a brand new workload. Somebody needs to design it. Here's what I'm going to be planning to do. Here's, what's the internet. That way, instructor we in security.
+
+17:41
+Navy Network. Maybe an architecture has to sign off on it and say, yep, we can all support that. And I keep raising the concern. You know, I'm not an expert on Nacho compliance. I didn't think we were allowed to do that kind of stuff. Anyway, that's fine, uh, I didn't want to talk about that stuff.
+
+18:00
+I'm going to talk about the claim follow-up first before we got to that, though. What about it? So, I started to create a list of to Do's. You said something about we needed a laugh? Yeah, so we met again today. I feel like I feel like I have a better wrap around the list so.
+
+18:19
+Uh. I talked to Lance about laugh, he basically explained.
+
+  Speaker 3 18:25
+They understood what he's been getting at, more so he basically playing he wants to use those same rules that are on kyp.com, but he wants separate web ACLS for each. So, like, you know, he wants different TL to bundle rules in the web ACLS. The thing you actually attach to the load balancer or whatever, right?
+
+18:39
+So, basically, he wants to use the same rules as we got for those part, but he wants to separate bundle of set rules and basically the way we deployed the web for kyp.com is not helpful for that. It has separate rules, even for its own different environments, so. Basically working with him to restruct yourself.
+
+18:57
+We're going to deploy centralized rules, and then we're now going to deploy applications with their custom ACLS that always include these required rules and have the option to deploy their own. Specific custom roles to their own way skills that has to do with, like, account photos, and stuff like that.
+
+19:13
+Basically, if we keep creating many rules. We're going to fill up that reserves account, and it's cleaner anyway. Conceptually, okay, um. Start with him on those structural changes. Um, as far as Waffle, I think I basically know exactly what we should do to get laughing blades. Um. Mason added.
+
+19:29
+What KFE web health and walking to which project as it works? One is label with. Um, he
+
+  Speaker 4 19:34
+Did. Which versions is he using? Is he using the ones in GitHub are the ones in SBN?
+
+  Speaker 3 19:39
+He is using some version that he pulled at local, probably sdn. I'm going to try to put him onto. I'm gonna try to play a minute, like your GitHub vectors and stuff, um. And then, sorry. What other items did you have? That's what I'm trying to remember. I wrote him down, and I left them on my laptop, and I'm added into my VM, so I don't have.
+
+  Speaker 4 19:58
+So, they want me to go ahead and start looking. Okay, so the other things we have so, uh, we.
+
+  Speaker 3 20:04
+They decided to write two FSX instead of local temp storage for temporary files for that processing. Um, we have an FSX cluster ready for that use. We just need to add share to it, but we need a new service account for one amount point to talk FSX and then two for JBS to call the app from the bad process.
+
+20:20
+So, if you guys have a question for that service account, we're waiting on that. Um. And I need to build broad infrastructure. But, uh, I think all the other stuff is kind of a prerequisite that, like if we want to figure out the exact lab structure and stuff, otherwise it's just you know that right back around to it.
+
+20:37
+Um.
+
+  Speaker 4 20:39
+I'd say before you click the final code in there. We need to get a change to take off this thing.
+
+  Speaker 2 20:46
+Um, yes, in
+
+  Speaker 4 20:47
+Anil reference to directly do a full code base review. Basically, before we go to Broadway and they'll seem much less than a rush than this guy does. Okay. Yeah, I don't think threshers in her. He just wants to make sure it's making progress. Um.
+
+21:06
+That is basically technically, they don't. Technically, what XL star right now, they want to not have these are anymore. Yeah, around 80 groups with both plants. Um.
+
+  Speaker 1 21:21
+One
+
+  Speaker 4 21:21
+Item that I'm still ironing out that I don't know is the really requirement for go live. Is, I'm working on a bootstrap automation for stuff that gets deployed and managed GitHub. Uh, before you know, we had an obligation that ran on server build that would go deploy all latest stuff from like our Legacy yesterday.
+
+21:36
+First off, definitely man, it's just your whole process. We don't really have an equivalent, like if something's been being played through GitHub, like, whatever, probably look up Dev. If I go rebuild property lookup Dev, there's no automatic mechanism that deploys latest code from get up to it on full time, like you would need to GitHub when you do initiate their build.
+
+21:51
+So, I'm working on a process take care of that. I have it almost done. I'm technically not all the way on. I was really hoping to have that done before we went live here. So that's another thing I'm trying to do. I guess that's kind of related to this, but it's generally it's just kind of the whole deployment process.
+
+22:03
+The whole kind of thing, so, uh? I, that's everything I can think of that. I don't want you to do.
+
+  Speaker 1 22:14
+That's pretty. Other than all the build stuff, I knew that means I'm trying to think through, like when people ask for new workbooks.
+
+  Speaker 2 22:23
+Do we go and say what active directory, which are these only? I'm trying to think all the things infrastructure you all get surprised with. We wait until the last minute to get answers to start putting them on a checklist. That way, their thought group, they come to everybody. Everybody can start to agree on what we're doing.
+
+22:36
+I also know that most developers, I'm just trying to get one gigantic form in my head. What can be asked, and then what to figure out? At what point do they need? To lock those portions. Um. Jeff had the same. I don't know Jeff dating. They're talking CG. This might be interesting for you when you are doing an aurora clusters.
+
+22:56
+Are we planning to create a cluster? For every individual workload, are you? Do you have anything in your own book that talks about, like? When should something behind an existing boxer? I'm sure they could go ahead and Zone cluster. How usually same applications we're just going to put the same amount?
+
+  Speaker 1 23:14
+She got what I decided off doing. How, wondering how the SQL Surfer we have the same lots of bases in the server that belong in the same business category? Or, will you just take a patient? So, I think that is also explained.
+
+23:37
+So, are you saying a closer per application basically?
+
+  Speaker 4 23:44
+Yeah, and I guess we're in a weird spot like this. Hey manageration, already today, as SQL Server? And they're putting all this code in the payment integration application. Well, now you're going to have a pen integration, SQL Server payment integration, Aurora database, but that's just growing. And so, we get things transitioned.
+
+23:59
+Wait at least the payment integration. SQL Server is actually called payment integration. I know what it's called. Yeah, it's called E-Business underscore pmtit. Okay.
+
+  Speaker 1 24:11
+I think I'll see if James put that form up there. He always go look at one game today and see if it's something we can borrow. I'm going
