@@ -1,60 +1,74 @@
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+Best solution: EventBridge Lambda warmer + Aurora min_capacity bump.
+Deploy both together. Here's why this combination and not one of the alternatives.
+Why this over the alternatives:
 
-TIME_TOTAL: 1.139810s
-TIME_STARTTRANSFER: 1.138981s
-HTTP_CODE: 200
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+Not Provisioned Concurrency alone — expensive, and doesn't fix Aurora warm-up (which is your bigger cost: 6.4s query vs 900ms Lambda init). Would burn money for partial win.
+Not Aurora bump alone — Lambda cold-start (~900ms + 500ms IAM token = 1.4s) still eats most of your budget even before the DB gets involved.
+Not warmer alone — keeps Lambda warm but Aurora can still cold-scale on the query side.
+Both together — attacks both cold-start sources for < $10/month total in dev. Best cost-to-effect ratio.
 
-TIME_TOTAL: 2.853534s
-TIME_STARTTRANSFER: 2.852648s
-HTTP_CODE: 200
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+What this looks like in practice:
 
-TIME_TOTAL: 0.393277s
-TIME_STARTTRANSFER: 0.392404s
-HTTP_CODE: 200
-PS C:\Users\T012sp\Downloads\Testing> ocurl -w "`nTIME_TOTAL: %{time_total}s`nTIME_STARTTRANSFER: %{time_starttransfer}s`nHTTP_CODE: %{http_code}`n" -o response.xml -s --resolve realtimeinsurance-soap-api-dev.devkyfb.com:443:54.225.164.69 --cert client.crt --key client.key https://realtimeinsurance-soap-api-dev.devkyfb.com/soap -H "Content-Type: text/xml" --data-binary "@request.xml"
+EventBridge rule invokes the Lambda every 5 minutes with a tiny warmup payload.
+Lambda handler recognizes the warmup and does a light DB touch (SELECT 1), then returns immediately. Keeps Lambda container warm AND Aurora buffer cache active.
+Aurora min_capacity = 2 (up from 1). Keeps Aurora warmer floor so compute doesn't scale down between pings.
 
-TIME_TOTAL: 0.322868s
-TIME_STARTTRANSFER: 0.322050s
-HTTP_CODE: 200
+When KIVS calls:
 
-~ $ aws logs tail /aws/lambda/realtimeinsurance-dev-soap-verification-lambda --region us-east-1 --since 5m --format short | grep -E "IAM auth token|Database connection|Query executed|REPORT"
-2026-07-15T00:40:04 {"timestamp": "2026-07-15 00:40:04,459", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=521.0"}
-2026-07-15T00:40:04 {"timestamp": "2026-07-15 00:40:04,632", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=172.6"}
-2026-07-15T00:40:11 {"timestamp": "2026-07-15 00:40:11,031", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=6398.3"}
-2026-07-15T00:40:11 REPORT RequestId: fcef1fb6-863b-46cf-b608-e51310fa2719      Duration: 7098.17 ms    Billed Duration: 8003 ms       Memory Size: 512 MB      Max Memory Used: 96 MB  Init Duration: 903.89 ms
-2026-07-15T00:42:17 {"timestamp": "2026-07-15 00:42:17,021", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=10.0"}
-2026-07-15T00:42:17 {"timestamp": "2026-07-15 00:42:17,115", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=93.4"}
-2026-07-15T00:42:17 {"timestamp": "2026-07-15 00:42:17,965", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=850.1"}
-2026-07-15T00:42:17 REPORT RequestId: 298ff3ac-7c8c-4dc9-9968-6f9be27a54bd      Duration: 959.20 ms     Billed Duration: 960 ms Memory Size: 512 MB     Max Memory Used: 97 MB
-2026-07-15T00:43:29 {"timestamp": "2026-07-15 00:43:29,840", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=22.2"}
-2026-07-15T00:43:30 {"timestamp": "2026-07-15 00:43:30,005", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=165.3"}
-2026-07-15T00:43:32 {"timestamp": "2026-07-15 00:43:32,482", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=2475.8"}
-2026-07-15T00:43:32 REPORT RequestId: 616a28dd-6c36-4b45-abf1-5361be5a2c96      Duration: 2669.12 ms    Billed Duration: 2670 ms       Memory Size: 512 MB      Max Memory Used: 97 MB
-2026-07-15T00:43:36 {"timestamp": "2026-07-15 00:43:36,594", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=5.3"}
-2026-07-15T00:43:36 {"timestamp": "2026-07-15 00:43:36,682", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=87.5"}
-2026-07-15T00:43:36 {"timestamp": "2026-07-15 00:43:36,813", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=130.9"}
-2026-07-15T00:43:36 REPORT RequestId: 2ba2cdbd-7830-4a0d-a662-3f83d69db6b2      Duration: 229.23 ms     Billed Duration: 230 ms Memory Size: 512 MB     Max Memory Used: 97 MB
-2026-07-15T00:43:39 {"timestamp": "2026-07-15 00:43:39,847", "logger": "rds_iam_auth", "level": "INFO", "message": "IAM auth token generated. duration_ms=5.4"}
-2026-07-15T00:43:39 {"timestamp": "2026-07-15 00:43:39,935", "logger": "rds_iam_auth", "level": "INFO", "message": "Database connection established. duration_ms=87.5"}
-2026-07-15T00:43:39 {"timestamp": "2026-07-15 00:43:39,987", "logger": "database_handler", "level": "INFO", "message": "Query executed. duration_ms=52.2"}
-2026-07-15T00:43:39 REPORT RequestId: 8560113f-92a6-4bdf-898f-274b1300e2e4      Duration: 150.69 ms     Billed Duration: 151 ms Memory Size: 512 MB     Max Memory Used: 97 MB
+Lambda container is already initialized → skip ~900ms cold-start.
+Aurora is warm and cached → skip 5–6 seconds of query warm-up.
+Expected result: cold calls land around 0.5–1.0s. Comfortably under 2s.
 
+What you own vs what Zach owns:
+PieceOwnerEventBridge rule + Lambda permissionYou (Terraform)Aurora min_capacity = 2You (Terraform)Lambda handler warmup pathZach (code change)
+That last one matters — a warmer that hits the full SOAP path every 5 min is wasteful and would trigger unnecessary DB reads/writes. Zach needs to add ~5 lines to detect warmup events and short-circuit gracefully with a SELECT 1 touch.
+Concrete next steps in order:
+1. Send Zach a heads-up now. Draft:
 
-~ $ aws logs tail API-Gateway-Execution-Logs_q51dqcsrw5/default --region us-east-1 --since 5m --format short | grep -E "Starting execution|Received response|Integration latency|Method completed"
-2026-07-15T00:40:02 (f208423d-ad30-474f-ae29-c2119b444ef9) Starting execution for request: f208423d-ad30-474f-ae29-c2119b444ef9
-2026-07-15T00:40:11 (f208423d-ad30-474f-ae29-c2119b444ef9) Received response. Status: 200, Integration latency: 8455 ms
-2026-07-15T00:40:11 (f208423d-ad30-474f-ae29-c2119b444ef9) Method completed with status: 200
-2026-07-15T00:42:16 (767cde51-1c1e-4afd-b675-caad5ef24582) Starting execution for request: 767cde51-1c1e-4afd-b675-caad5ef24582
-2026-07-15T00:42:17 (767cde51-1c1e-4afd-b675-caad5ef24582) Received response. Status: 200, Integration latency: 993 ms
-2026-07-15T00:42:17 (767cde51-1c1e-4afd-b675-caad5ef24582) Method completed with status: 200
-2026-07-15T00:43:29 (1c1b0220-448e-4868-896b-36a6962574bd) Starting execution for request: 1c1b0220-448e-4868-896b-36a6962574bd
-2026-07-15T00:43:32 (1c1b0220-448e-4868-896b-36a6962574bd) Received response. Status: 200, Integration latency: 2703 ms
-2026-07-15T00:43:32 (1c1b0220-448e-4868-896b-36a6962574bd) Method completed with status: 200
-2026-07-15T00:43:36 (2d52e766-0ff8-4fa5-ac2c-2cd2ad6d49c5) Starting execution for request: 2d52e766-0ff8-4fa5-ac2c-2cd2ad6d49c5
-2026-07-15T00:43:36 (2d52e766-0ff8-4fa5-ac2c-2cd2ad6d49c5) Received response. Status: 200, Integration latency: 249 ms
-2026-07-15T00:43:36 (2d52e766-0ff8-4fa5-ac2c-2cd2ad6d49c5) Method completed with status: 200
-2026-07-15T00:43:39 (e45fe059-fd48-4319-b0f3-4482baf098f9) Starting execution for request: e45fe059-fd48-4319-b0f3-4482baf098f9
-2026-07-15T00:43:39 (e45fe059-fd48-4319-b0f3-4482baf098f9) Received response. Status: 200, Integration latency: 165 ms
-2026-07-15T00:43:39 (e45fe059-fd48-4319-b0f3-4482baf098f9) Method completed with status: 200
+Hey Zach — the RDS Proxy is working end-to-end now, but cold DB queries are still ~6.4s (Aurora warming). Going to add a scheduled Lambda warmer every 5 min to keep both Lambda + Aurora hot. Warmer will send a payload like {"warmup": true} — could you add a check at the top of the handler that short-circuits with a SELECT 1 touch when it sees that, so we're not running the full SOAP flow every 5 min? Small change, ~5 lines. Let me know when you can turn it around.
+
+2. Write and deploy the infra Terraform. Two files:
+envs/dev.tfvars — change:
+hclserverless_v2_min_acu = 2   # was 1
+lambda_warmer.tf — new file:
+hclresource "aws_cloudwatch_event_rule" "soap_lambda_warmer" {
+  name                = "${var.application_name}-${var.env_tier}-soap-lambda-warmer"
+  description         = "Keeps SOAP verification Lambda warm to meet KIVS 2s SLA"
+  schedule_expression = "rate(5 minutes)"
+}
+
+resource "aws_cloudwatch_event_target" "soap_lambda_warmer" {
+  rule      = aws_cloudwatch_event_rule.soap_lambda_warmer.name
+  target_id = "soap-verification-lambda"
+  arn       = module.soap_verification_lambda.lambda_function_arn
+  input     = jsonencode({ warmup = true })
+}
+
+resource "aws_lambda_permission" "allow_eventbridge_warmer" {
+  statement_id  = "AllowEventBridgeWarmer"
+  action        = "lambda:InvokeFunction"
+  function_name = module.soap_verification_lambda.lambda_function_name
+  principal     = "events.amazonaws.com"
+  source_arn    = aws_cloudwatch_event_rule.soap_lambda_warmer.arn
+}
+3. Push, plan, apply. Expected changes:
+
+Aurora cluster updated (min_capacity 1 → 2).
+New EventBridge rule + target + permission.
+
+4. Wait 5–10 minutes for the warmer to kick in, then test cold + warm. Expected result:
+
+Cold (10+ min idle): ~500ms–1.0s
+Warm (within a few seconds): ~200–400ms
+
+Honest caveats:
+
+This assumes Zach adds the warmup short-circuit. If he can't for a few days, don't panic — the warmer still works, it just runs the full flow every 5 min and creates some background query load. Not ideal but not broken.
+If cold calls are still >2s after this, the query is genuinely slow even on a warm DB (unlikely, since warm queries were 52–131ms), OR the warmer isn't landing on the right container. At that point, next lever is Provisioned Concurrency (1 instance). But start here.
+lambda_function_name output — I'm using module.soap_verification_lambda.lambda_function_name in the permission block. Confirm your lambda module exposes that output. If it doesn't, you may need lambda_function_arn and let the permission derive the name from it, or check the module code.
+
+Ordering matters:
+
+Ping Zach first (do this in the next 5 minutes), so he can work in parallel.
+Then write the Terraform and get it into a PR.
+Apply after Zach's warmup handler is deployed, so you don't waste 5 minutes of Aurora load on the full SOAP path.
