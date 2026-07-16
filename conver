@@ -1,182 +1,32 @@
-  Speaker 1 00:37
-I think I set up a zoom for this tonight.
+  Speaker 1 01:08
+I think.
 
-02:10
-Man, a scroll is sensitive.
+  Speaker 2 01:14
+Yeah, Alex will do that and reminding the database I can check on. So, in the environment variables, just, I don't know if it's.
 
-  Speaker 2 02:18
-Yeah, so it's kind of everything, all in one place.
+  Speaker 1 01:24
+Yeah, but uh, we are not touching any anything. But I think he did something with. Locating.
 
-02:53
-And they said Joanna. We'll join. I think she's tentative. Or maybe she wanted a recording. The zoom have a recording? Functionality. You can check under the more. Record record to the cloud.
+  Speaker 2 01:38
+What I'm saying is, I don't know the exact answer.
 
-  Speaker 1 03:19
-Cool. All right, it's recording. Great.
+01:46
+We haven't tested. Okay, I can give you the.
 
-  Speaker 2 03:26
-Surrey G, Peter, I don't know if they're going to show up. Philip forwarded it to you, so all right.
+  Speaker 1 02:33
+No, that has nothing in this.
 
-  Speaker 1 03:35
-So I wasn't given any requirements for this. This land that opposed to Dakota. Essentially, I was just told do what fbco did. And I should say. Motorcar was given those requirements, and then he passed it on to me, which is fine.
+  Speaker 2 02:42
+The Lambda that we are using for policy graph. It has. We have different connections to the database.
 
-  Speaker 2 03:55
-Uh, I do have access to. The fbco's Lambda, as stored in bitbucket. I don't know if they've moved to GitHub, and if there's a newer version, someone would have to tell me because I don't have access to the FP code. Yeah, and
+03:11
+Perfect anything but the policy. Okay, I will just check the end point and just.
 
-  Speaker 1 04:10
-Github, sorry, okay. This is correct.
+03:19
+So, I have to say.
 
-  Speaker 2 04:14
-Um, and so I guess we're more or less due of whatever FP code did. One thing we found. Yesterday morning was that the, uh, I'm working with Alex here. Hi, Alex. One thing we found yesterday, which was an issue, was they? The password was being stored in plot text.
-
-04:37
-Makes it in the environment variables, so we're going to have to. Throw in the secrets manager code and go to search manager and pull that out instead of. Passing that around? So that that's a change that's coming, but that's just one of the things that came out of this.
-
-04:52
-I think when they coded it was a little immature. What we were doing, and so we don't want to do that anymore. That's one fix. My other fixes. The other thing I'm really concerned with. Is trying to make sure we're using Cloud native Technologies where we can. And so, my other major concern was.
-
-05:15
-Are we not using like an S3 bucket trigger to process the files when they come in and it kind of looked like? And with a caveat of being that it looked like fbco originally said? We're gonna take whatever we get and create messages, and then from the messages we're going to create another Lambda actually process in the unit 4 financials, and then they change their mind, and they said they would do it with the trigger.
-
-05:41
-And then they change their mind and just said, we'll consume everything that's in this directory. Uh, and schedule the job. I think there was a desired habit within
-
-  Speaker 3 05:53
-Some bash cycle dependency. I, I don't know, like, exactly what it was, but they weren't planning to have it, like bash, cycle related, and then they decided they needed it to be. For some reason, I don't know what that reason is.
-
-  Speaker 4 06:10
-I know that in everywhere with the Epico party and they created, this is
-
-  Speaker 3 06:16
-A jar it has like. A I think it has a lot. I'm a grime, I think, has a lot of dead coat in it. I, I think it has a lot of
-
-  Speaker 2 06:22
-Dead code, honestly, like a little bit, but the web services or soap and? You need a bigger jar just to handle all that the dependencies for it. What do we already have a Lambda, which is doing the work you know. Did we develop those things, or this is something you need to work on?
-
-  Speaker 4 06:41
-This is being
-
-  Speaker 2 06:42
-Worked on right now, and I would say it's 90 done. Oh, okay. I'm we're the only pizza we're working on now is fixing this password thing. I'm adding secret manager to it.
-
-  Speaker 1 06:53
-Well,
-
-  Speaker 4 06:54
-To me, he's saying that the Lambda is not the right way to do the things because it's a bad process. It's not even the one. It's there's no being using here. It's a it's against. The aerome is recommendation. It's a. It can be a lot many houses. It's a it passes.
-
-07:14
-We schedule from the match. I don't really
-
-  Speaker 3 07:20
-Disagree, because ultimately, that bad job is, there's still logic executed on the server that then comes and triggers this Lambda that same place where we're running that logic to trigger the Lambda. We could just run the logic there. I kind of feel the same way, but I. I think there's a.
-
-07:39
-I think the initial intent came from what you were talking about where it was supposed to be event driven, and I think that's where the whole idea of Lambda came from here.
-
-  Speaker 2 07:46
-And then,
-
-  Speaker 3 07:47
-Once the code was already written, and implementations had already begun, they said, we don't want this to be event driven anymore. We want this. Actually,
-
-  Speaker 4 07:53
-That policies in a week we create.
-
-  Speaker 3 07:59
-Should be triggered by that even doesn't need to be a Lambda function because it's, it's a there's a. There's a possibility that you know, the the airport or the data we have there about high level, then that process it made it 12 minutes. Okay,
-
-  Speaker 2 08:14
-Right now, they're sending like six records, so it's not gonna run and the existing one is doing the same thing. It's not taking a long time and again, it's it's going to be just. Process. There is no concurrency here, right? It's not like, you know?
-
-  Speaker 3 08:34
-Hundreds of diesel processes are going to be span and then process these things that, no, it's just just one thing, which is getting processed at end of the day. It doesn't act like prerequisites.
-
-  Speaker 5 08:50
-Successor jobs, and then
-
-  Speaker 3 08:55
-There's a dependency. So that means it is getting scheduled from from the SKU level. And then that doesn't need to be alarm. Like, it can be a better be a splash process or a process which is scheduled.
-
-  Speaker 1 09:11
-Yeah,
-
-  Speaker 2 09:11
-Well, ignoring the CDP portion of that which is our requirements. If you just take the S3 bucket and say, hey, I'm going to kick this thing off when a file occurs. Why didn't we do that with the FP, Co one. And why don't we do it now? I think
-
-  Speaker 4 09:28
-There's business requirements.
-
-  Speaker 5 09:30
-Now, I don't know what it is, I thought, I thought you would know to be honest, but I. I will say
-
-  Speaker 2 09:39
-There are two kind of directory Coatings in there. There's a directory for daily and a directory for monthly, and you can say, hey, run daily, or hey, run monthly, and it will pick up every file that's in that directory. The way it's coded, not just a single file, so you're not.
-
-09:57
-You're not pointing to a file you're pointing to a directory. Go process everything in here. And they made a daily and a monthly subdirectory. Um, right now, they're planning on sending the fee GL entries once a month. And it's a conglomeration of everything that happened in that month from the cloud data platform already summed up.
-
-10:20
-And so it's literally a file with six rack. I don't know if anybody looked at the at the sample file, but it's literally just a file of five or six records. To show you guys, there is a need to.
-
-  Speaker 6 10:31
-Aggregate that data
-
-  Speaker 2 10:34
-Humified in a CSV file. It's already been aggregated for us right now. You could say, well, they could technically produce that every day, or they can technically pull out each individual fee and send it in this file.
-
-  Speaker 6 10:48
-He does the consideration, then the Lambda is the best option to do that. It's kind of like an even cure, right, you know, as these transactions happens of the, you know, on the solar system? As a passengers or sqs, and then the Lambda is processing that one day and then sending it to a
-
-  Speaker 5 11:10
-Corner. I think I think we're in a situation where the architecture is designed, while the requirements in like the business logic is still being determined. It doesn't like, we end up with something other many times. Oh, they're they're done
-
-  Speaker 2 11:23
-With it. They're they're summing and creating this file already. This already exists. It's already done this. These are the records they're going to send. I'm
-
-  Speaker 5 11:31
-Saying the coda Lambda, like the fbco lambdas, were party builds like before they really decided how they wanted to handle event trigger and the batch cycle, like the way like the way they wanted the job, actually triggered. Like, right,
-
-  Speaker 2 11:42
-Yeah, and I'm saying, from the way it's coded right now, we can do an S3 bucket trigger. We don't have to schedule a job. I'm I'm not saying, don't schedule the CDP side of things. I'm saying, can we
-
-  Speaker 1 11:55
-Get rid of the Zeke job scheduler for 50 30?
-
-  Speaker 2 11:59
-And just do an S3 bucket trigger as part of our IAC, and then John doesn't have to do a python. We don't have to throw it in the scheduler and then in the future. If something comes around and we say, hey, we want to send that once a week, we've got too many records.
-
-12:12
-We want to split the processing hour. We want to send it once a day. Yeah, you want to send it whenever as soon as it gets a file. Hey, I got a file, you know, it'll chew it up. Um, yeah.
-
-  Speaker 1 12:26
-That
-
-  Speaker 5 12:26
-Sounds ideal to me if there's not a reason we have to do it best. That sounds like a much better way of doing it to me.
-
-  Speaker 2 12:31
-Now, there is
-
-  Speaker 6 12:32
-Two batch processes.
-
-  Speaker 1 12:34
-Yeah,
-
-  Speaker 6 12:39
-I was thinking another extreme, of course, you know, they strong community, but does it says, which is there still like a separation in our bash between what Boeing Center is doing for proper?
-
-  Speaker 2 12:56
-In Auto, and they both have to finish before it's got all the fees before they can populate snowflake and get it. I mean, all that. I'm like, I'm just ignoring that. I just know what cdp's giving me they've already. And put it all together. You know, it's all in one spot, you know, it's there, and won the file there, you know, he's done.
-
-13:13
-His job is your point, so there's no reason to right, right? There's no.
-
-  Speaker 1 13:18
-There's no
-
-  Speaker 2 13:18
-Logic in this Lander. The land has been stripped out of everything that, like AFS spring batch does. It's literally I have the files, the file, the file field names are matching almost word for word. What the web service has populating the XML? We're spitting it to the web service, so the Lambda is like almost as generic as we can get.
+03:31
+Thank you.ic in this Lander. The land has been stripped out of everything that, like AFS spring batch does. It's literally I have the files, the file, the file field names are matching almost word for word. What the web service has populating the XML? We're spitting it to the web service, so the Lambda is like almost as generic as we can get.
 
 13:41
 Um. So I, I don't see a reason why we have to. Involve the scheduler at that point. If we want to change it in the future, I mean, I don't have a problem doing it scheduled. I think I don't think John has a problem writing the little python script there to do it, but Um, and I, I really don't feel like it's a huge amount of data, even when we go to the GL posting, uh, data.
