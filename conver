@@ -1,29 +1,281 @@
-  Speaker 1 01:08
-I think.
+  Speaker 1 05:10
+Uh, this won't be actually. So basically.
 
-  Speaker 2 01:14
-Yeah, Alex will do that and reminding the database I can check on. So, in the environment variables, just, I don't know if it's.
+  Speaker 2 05:24
+Resources are. Not tank.
 
-  Speaker 1 01:24
-Yeah, but uh, we are not touching any anything. But I think he did something with. Locating.
+05:34
+It's like. Few things were, uh, like created for tasting, then later.
 
-  Speaker 2 01:38
-What I'm saying is, I don't know the exact answer.
+05:44
+So, for that, I basically thought of like.
 
-01:46
-We haven't tested. Okay, I can give you the.
+05:55
+So, instead of making people tag, we can just make the tagging like automatic. So for that. When user basically creates a resource, so any but any resource then?
 
-  Speaker 1 02:33
-No, that has nothing in this.
+  Speaker 1 06:14
+They'll even bring basically listens to the cloud trade. And from that. It basically points to the Lambda, so the Lambda is the one which.
 
-  Speaker 2 02:42
-The Lambda that we are using for policy graph. It has. We have different connections to the database.
+  Speaker 2 06:24
+Uh, basically, thanks for all the resources. So, for now, the tax I was thinking, like, expireds on, like, the present day plus 30 days. Next if the life cycle is active or it's not, the third one is like owner email. So, whenever a resource is created, these tracks will be applied automatic by the Lambda, and we will just create a.
 
-03:11
-Perfect anything but the policy. Okay, I will just check the end point and just.
+06:50
+Uh, I am role of Lambda execution role. Only particular people who can?
 
-03:19
-So, I have to say.
+07:06
+So? That's the first step that I was thinking and the second one.
 
-03:31
-Thank you.
+07:18
+This. This is the step one is basically for the new resources, but the resources which are already existing. For that is a step two.
+
+07:28
+So, we will write, uh, we will basically create a Lambda. Or, we can just do this in the script, but it is a one-time thing.
+
+07:38
+8 basically scans all the resources that are in the cloud sandbox in classroom accounts. And if the owner is identified, so then it basically tags with the expert and the life cycle status and owner email. Just like the step one, but if it's? Owner is unknown, so we are not sure who is the owner?
+
+07:59
+We can just flag those flightless resources and. We can just in this shade that to everyone like, you know, this particular econom, this user, this resources ID. Uh, will be deleted in 30 days, so if they reach us out. Within this 30 days, once the email goes so, then we can just.
+
+08:26
+In 35 States, so if it is?
+
+  Speaker 1 08:30
+Yes, it will be. For the third one. So, this is the main thing. So here, once the resources are created with the tax enroll.
+
+  Speaker 2 08:43
+All the resources tightly at one, like in one time daily. So, once it is. Scans all the resources. So before three days of expirations? Can you send an email like, you know, this resource will be deleted, like? So, like, you know, keep this resource. You can just reach out to the cloud flat.
+
+09:12
+It's update that in place case. And I just want to make sure same.
+
+09:22
+This will be the final one. Okay tomorrow if you want to keep this. You can just switch out to the cloud platform team. So, if they reach us out before this, then we can just update that with the treatment base.
+
+  Speaker 1 09:45
+Instead of just basically deleting it.
+
+  Speaker 2 09:57
+We just know that. Exactly how?
+
+10:12
+Uh, we can just make it quarantine for stop the resource for three days, so if they want, they can just teach us out and we can just start that again, and we can just add the tags one more time. And I was also thinking we can use AWS scheduler.
+
+10:29
+So, which basically starts every day, all the resources every night and we can just start back again in the morning. So, even that makes. As like, you know, save a lot of money.
+
+  Speaker 1 10:44
+Say it one more time, so the schedule all the resources in the sandboxing classroom and concept, right? And then we can start that again.
+
+  Speaker 2 11:08
+Yeah. And it's off their own. What we do?
+
+  Speaker 1 11:37
+The body to drop a turn every instance.
+
+11:49
+If they have access.
+
+12:40
+Well, honestly, my.
+
+12:59
+Shh!
+
+13:51
+Um, so?
+
+  Speaker 2 13:56
+May create the resources with the terraform or using the pencil. Present that we can use the event, which, so I don't think.
+
+14:15
+If they assume it's terrible. This up here, like?
+
+  Speaker 1 14:30
+Okay.
+
+14:40
+Cloud rail gets
+
+  Speaker 2 14:41
+The yeah.
+
+14:46
+It all that information?
+
+  Speaker 1 15:38
+Put that here. Actually, I can add one more thing here for the Lambda, so.
+
+15:54
+They go outside.
+
+16:34
+Built a name on it. Well, I guess my concern, like my experience, but we're not at right now.
+
+16:48
+Uh, okay, I can do that. No, I'm asking you, no, actually, I don't want to do that because. Uh, some
+
+  Speaker 2 16:54
+People might just you don't want the block. Okay, no, I'm so sorry. I
+
+  Speaker 1 17:04
+Don't want them to basically update the expire. I am.
+
+17:15
+Exactly!
+
+17:25
+It wants access to stop them.
+
+17:36
+Okay. Say longer than the default.
+
+  Speaker 2 18:00
+If this researchers like, forever, or obviously like?
+
+  Speaker 1 18:22
+So once?
+
+18:33
+But yeah, only the expired one or you cannot update. You can update the email.
+
+  Speaker 2 18:40
+Yes.
+
+  Speaker 1 19:06
+Yeah, that's completely possible. Yeah, yeah.
+
+19:16
+Yeah, yeah. To the back door.
+
+19:35
+This one is.
+
+  Speaker 3 19:37
+It was last minute idea. I just wanted.
+
+  Speaker 1 19:49
+It looks like that.
+
+26:13
+But once they drop it, it's just like based on.
+
+26:21
+Let's see.
+
+27:15
+Approval from your business partner, and then you get approval from your manager.
+
+28:29
+What developers?
+
+29:36
+So?
+
+30:02
+Which is scary?
+
+31:14
+So?
+
+33:19
+There is instructions talking.
+
+33:52
+I don't know.
+
+36:45
+Specific.
+
+36:58
+Well, it's simplifying something.
+
+37:09
+If you endangered.
+
+37:44
+Listen to everybody.
+
+38:34
+It's really fast.
+
+38:56
+Please access it.
+
+39:45
+They said, uh, you can just ask Anil. When I? Click ask Daniel.
+
+39:55
+Still waiting for that these ends.
+
+40:57
+Yes.
+
+43:16
+What's your playlist? Successful.
+
+44:32
+What's it's like?
+
+44:41
+It's like, like.
+
+45:06
+Hey!
+
+45:09
+Yeah.
+
+46:04
+It's like, it's like.
+
+47:25
+It's just like the same way we do this.
+
+47:37
+The first time?
+
+48:16
+Up
+
+  Speaker 3 48:16
+The real-time insurance, so they already tested it, and it's working fine. So, can we just change this IBS? So we can change that to serverless now.
+
+  Speaker 2 48:42
+What's this?
+
+  Speaker 1 48:47
+Yes.
+
+49:03
+Yeah. You can put it back down.
+
+49:14
+A cool start, though. I mean, if they're testing with PCAP, that's not necessary. So, if you can promise me?
+
+49:27
+As long as he doesn't.
+
+49:39
+15 minutes.
+
+50:45
+There he goes.
+
+51:08
+I don't know.
+
+51:34
+Yeah.
+
+51:48
+Actually,
+
+  Speaker 2 51:48
+Uh, like, 5 seconds.
+
+  Speaker 1 52:28
+Pro.
+
+52:52
+I found it's good to put it.
