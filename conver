@@ -1,362 +1,109 @@
-  Speaker 1 01:17
-Good morning.
+See what that side guy's up to? So still working on that, uh, error that we are getting.
 
-01:25
-Oh God.
+  Speaker 3 21:51
+Ah, with the card wire payload, uh. But, and I'm actually waiting on Zach u. So, the original error is like, it's a invalid signature, so. Uh, this is the first time actually, I. Basically had this issue, so when I just gone through that? I observed that the issuers version is like, you know, V1, and?
 
-01:32
-I live right there.
+  Speaker 2 22:18
+Authorizer version is V2, so that might be the reason we are getting that. So, I changed that, but I asked him to generate it, uh, like another token, because the order one is using the? Still using the same version so? Uh, he said, he raised a ticket, and I'm just still waiting on that from him.
 
-  Speaker 2 01:44
-Okay.
+22:38
+Apart from that, I have gone through the. Ah, like documents, and the Arctic diagram that, uh, and Hill gave me.
 
-  Speaker 1 02:17
-So, then
+  Speaker 1 22:48
+All right, so I just added one question until actually. I asked him that.
 
-  Speaker 2 02:18
-We want to share that. So, I want you both work closely, you know? Figure out what we need, you know, based on our understanding? We designed okay. If anything has to be changed with your experience and your experience.
+  Speaker 3 22:54
+So, is it just for the mortgage that we are doing this, uh, like POC or? You just want to make that a like a standard for all the upcoming projects in further in future.
 
-  Speaker 1 02:36
-Okay,
-
-  Speaker 2 02:36
-And if you're aligned, you can start configuring and try and get the once they figure out everything you know. You can go to the process like, you know, create your own book and all that sure. So if you surely we need to try and all the things like, you know, okay, so if it is not working and what is, like, okay?
-
-03:59
-Well, you know, the first thing is that, you know, we go through that. So, the
-
-  Speaker 3 04:04
-Api Gateway implementation, and how is?
-
-  Speaker 2 04:21
-Yeah, so you know, create another one.
-
-  Speaker 1 04:41
-How do we implement that could be the reason?
-
-05:01
-Is probably config.
-
-  Speaker 2 05:15
-We'll see that. That is, uh.
-
-  Speaker 1 05:23
-There should be a selection place so, and then there are different ways, and then the immigration. Also, there is a custom immigration, and there's boxing relation. We have to choose, but all that you know. We all can close the world. Yes, this is this is the communicate to him that you know what I am thinking is the right thing?
-
-05:53
-Right? So they can do a PLC of these things, and they see that this is a this is not going to work in, and you can come back and change this kind of, you know? Official process.
-
-06:20
-I think this is the shortest way to do that, so I can explained everything clearly the way you want, and they can go through this one, you know, you'll see whether we can be climate it. I see some other things. Yeah, some other videos.
-
-06:44
-So, it's a selection process. And then and? The recommendation is, you know, just go with the HTTP, not the last API. And the authentication part. Um, then in the once you authenticate, we need. Three things getting passed to the the downstream connection. We need the username. We need the role and we need the better token.
-
-07:14
-So okay,
-
-  Speaker 2 07:15
-Two headers and a token that goes to basically pre headers there.
-
-  Speaker 1 07:19
-So, the header is, you know, the standard name is not a header authenticated user Excel indicator role, and that. Can you know the the claim goal? Exactly how it come in chatability? Game times called. I think it's a comma separated names. Yeah, and then authoriz. Sister talking? It can be able.
-
-07:46
-Any other thing? But we need to get started. You can use these agendas to get those values and then make each of decisions okay. Then, the only time whenever the Lambda authorizer for custom role logic, you know it's, I think it should be limited to very custom things, otherwise, you know, your chance to be the native integration Builder actually.
-
-08:21
-Basically based upon the role. The Lambda works right? Well, when it comes to the Lambda or a Tomcat server, the the connection is already authenticated, and then I will be making a change to the, you know, there was something in the Tomcat world we call it the enroll, and the opportunity is done by Java authentication organization framework, and this, uh, there's a piece of code which we can use to e.
-
-08:57
-This is all names and the usernames to that authentication and authorization framework. If I, you know, when we do that, when you know the application is going to work exactly like, you know, the way it is
-
-  Speaker 2 09:11
-Okay. The only
-
-  Speaker 1 09:12
-Thing is that there's no authentication, but still, these applications can use either the usernames and or names. Okay, doodle. What did I say should work? Get it.
-
-09:34
-And then, when it comes to the single page applications, the single page applications are the one which is going to do the the redirect. So, the two so and other things. And we're just going to get the better token, and it is going to pass. It is a slightly different from what we are doing today.
-
-09:54
-And today, you know that it is going to the request is going to come to the Tomcat. The Tomcat is the one which is going to do that. And get the better top. Go get the token and then get the access token and then exchange that one from the marathon.
-
-10:10
-That is, that is something you know, we do it on the term gets. Going forward that that is done on the front end side.
-
-10:27
-Yes, actually. When it comes to the? Legacy systems. Yeah, that's the same way they used to do that.
-
-10:42
-And we are using the TLS. We are using the TLS.
-
-10:58
-So for the authentication, uh?
-
-  Speaker 2 11:02
-Uh, are we using, uh, cognito? Or we just use using the Android ID using the? Cognito and and the user holes use of pools, you know, you know, if not?
-
-  Speaker 1 11:19
-You know, we can. The Native way of integrating in the entra ID with the API Gateway? I think the best way is an employment, the use of food, and then, and the entry ID is one of the things in the pool, right? And we can use,
-
-  Speaker 2 11:35
-So all the users are going to be, uh, KFB users, or any eggs
-
-  Speaker 1 11:42
-In the beginning. It is going to be okay, but going forward as a possible data, you know, okay, then? That makes sense. Okay.
-
-  Speaker 2 11:55
-So that time, you know, we'll be adding one more pool.
-
-12:04
-Uh, is this application like? Stateless or stateful application, like?
-
-  Speaker 1 12:10
-Well, you know, it can be stateful or stateless. Okay, you know that, that is, after the application, right? So, we prefer stay less applications, but some of these applications can be saved, but the statefulness of these applications will be handled by the application itself. Okay, okay, yeah, session ID, and then this browser is going to pass the same JS session ID.
-
-12:35
-Then, you know, we will use that one for understanding.
-
-  Speaker 3 12:41
-And when it comes to the Lambda, you know, that is a totally different mechanism.
-
-  Speaker 1 12:45
-I will. I wouldn't, you know, if somebody needs a state in the Instagram going with the step functions, you know, create a don't get navigation?
-
-13:12
-So, there are some some security. Thing we need to consider, you know? Since these things we need to, we need to have a way to make sure that no one is going to pass an X authenticated header.
-
-  Speaker 2 13:30
-You know, since it isn't the connections coming from outside the front and care, and somebody can create a header manually and send it to us, right? Yeah, they can. Then, you shouldn't be trusting that. Yes, we should be trusting the head of created by the API game. Okay, so those are the controls, you know, we need to.
-
-13:51
-We need to put in place. Make sure that you know, you know, no one is going to bypass the security, okay?
-
-14:07
-So, first, we are just going to work on the API then. We're going to create the full flow. Like how we are planning it to do that, like, you know, proof of concept? The proof of concept. I think you know if you can create an API Gateway. It will create a API Gateway for the real dimension.
-
-14:29
-Yes, so what is the difference?
-
-  Speaker 1 14:36
-So, we need to. We need to, you know, without disturbing the existing step. You really do really do configure that, don't do the authentication, and then once, you know, the POC work is complete. We can. To take this configuration to the production range limited there. It's not going to happen.
-
-15:12
-Is there
-
-  Speaker 2 15:13
-Any diagram like, you know, I can go through how the flow Works exactly, so we have the other diagram?
-
-16:06
-Up,
-
-  Speaker 1 16:07
+  Speaker 2 23:06
 So
 
-  Speaker 2 16:07
-The request to API is it both? Like, you know, a human request and also the PC, CC, and PCC request?
+  Speaker 1 23:07
+With security? Or does it have to do with something else with the API authentication just? So he's been trying to push that, so he wants to offload the off. What is it? I always get it mixed up. Authorization is me checking. Are you who you say you are? Yes, I think I got it.
 
-17:03
-Strong and wrong.
+23:25
+Backwards authentication is your side. I know you authorization is Psy. You have these roles, and you can do these permissions.
 
-  Speaker 1 17:08
-Okay, so what is your question? So I was just saying. The request is only a human request or the request even comes from the.
+  Speaker 3 23:33
+Yeah, I,
 
-  Speaker 2 17:19
-Claim center policy Center Building Center, right? Okay, okay, so there need to be two type of authentications.
+  Speaker 1 23:34
+I can't remember which ones, which, but you know, he wants to offload the authentication. The confirmation you are, who you say you are? Are because it right now. Every single application has to know how to send you to Microsoft to do your login to do your single sign-on. That's a lot of Maintenance, right?
 
-17:30
-The the
+23:53
+Yes. Uh, he wants to offload that functionality to another thing. The problem is, that's non-standard. As far as I know. Um. Okay, that's what. When he met with us, you were in the room, and I kept saying, hey, can you make sure that this is a standard. Hey, can you make sure we're not Reinventing the security wheel?
 
-  Speaker 1 17:31
-Request comes from. Other obligations still will have the same pattern. Okay, so then you know. We'll do. The authentication will be interested. So machine to machine a message should come with the value. Okay?
+24:15
+Hey, can you make sure that there's an AWS approved, sanctioned way to do this, and he said he would get us a document. Yes,
 
-17:56
-In the, uh?
+  Speaker 2 24:24
+Yes, uh, he have gave me like.
 
-  Speaker 2 17:58
-So, just want to make sure this one. So, uh, the kfb account and also the? Cardware account. Like, you know, two different accounts, right? So when it comes to? Uh, like, you know, connecting these two accounts to be like, you know, we are going to use a cross account.
+  Speaker 3 24:28
+Like a document about the API authentications. Okay, so, so? I didn't go through that completely, but I think. It was mentioned, I guess, but I'll just check that one more time and I'll be. I'll make sure. Yeah, if there is anything like that? I, I don't mind to entertain the idea.
 
-18:16
-I am role on networking, right?
+24:47
+It's just, um. You
 
-18:22
-So, basically, these are two different FFA counts like two different AWS accounts. Are you talking about the air at the GW AWS exactly, right? So, when it comes to connecting these two, then we, I think so. So, this
+  Speaker 1 24:52
+Know, I? I think I've shared with you all that me and Ann comment things completely different, and I'm trying not to be biased and say, no, he doesn't know what he's doing go my way. But I do know he goes about things. In ways that? I'm trying to say it, fairly sorry.
 
-  Speaker 1 18:39
-Is what I'm thinking, you know, say, whole system for making a call to the API Gator. Okay, the poll system has to get the better talk and. For a particular user ID and password by going to. Entry ID directly. That would be a server-side call from all season to get that better talking.
+25:10
+I'm trying to be impartial. Okay. I don't always agree with his methodology, and I don't have to, right? It's not my job to be the architect. It's his job to be the architect, yes. But what it is my job to do is that he's not sneaking around people's backs and getting things done the way he wants them to be done.
 
-19:06
-Get that better talk? And then pass that better token along with the connection. Then, when it comes to us, you know, we will be validated in that barrier, talking and making sure that the topic is valid. So, you know, there is no account or account, or, you know, user account wall here, okay?
+25:28
+When he needs to convince people so? That's where I'm being overly cautious. I've seen this happen before at this company where, and I've had to do it myself where you just go do something behind everybody's back and say, see, it works, and then that becomes the standard. I want to make sure that whatever you do goes through the hands of our it security friends.
 
-19:41
-It is just like in any other third party, you know, we are not creating at all and trusting that maybe we can do if it is in a few things that, you know, that is a something we need to do for a certain particular use cases. Those things you know where, how to bypass the AP again, where I don't know about the beginning.
+25:50
+Yes, and I agree that they can support this. That's what I was trying to get to. Let's make sure that whatever he asks us to do. Our infrastructure teammates Alex and our I.T security teammates Jackson and Lance agree that this is what we want to do, and they are willing to support it.
 
-20:04
-We use the APK where you do those kind of authentication. Maybe you know if you kind of dive on to the?
+26:12
+I guess that's what I needed to say, sure. And then I'll sworn you. I got a biased, so you can say Phil shut up. Your your bias is showing.
 
-20:15
-Usable. Yes, you may be.
+26:24
+That's what I had to say sure, uh? For Zach, we're pulling him in 15 directions, so he might be a little bit slower than us.
 
-  Speaker 2 20:25
-And we are using the plugin deployment. Like, oh yes, I think that's. That's
+  Speaker 3 26:32
+Yes, uh, that's what he told him actually. He was busy with some of the work, so I guess we have several things all becoming urgent at once. And just so, you know what timelines we've got going on?
 
-  Speaker 3 20:30
-The idea for this one. Okay, and
+  Speaker 1 26:45
+Uh, this is helpful. I think when you understand why, sometimes people are becoming agitated and more urgently, asking for things yeah. We are five weeks away from being on code freeze. For the September release, so we, in five weeks, we've got to get real-time insurance. Test it ready to go.
 
-  Speaker 2 20:32
-Going forward, uh, yeah. Blue green deployment and photo scaling? So, basically, we need to create a Target group.
+27:05
+Yes, I think it's seven weeks away from going into production. Problem is, is, he's also being tagged to help us retire our web sphere systems. You all know? Ibm is a terrible company. Phil's opinion, showing again. There's nothing wrong with IBM, but they we pay very much through the nose to use some of their software, and we don't really get any benefits from it, and we've been trying to get off of it for several years.
 
-  Speaker 3 20:43
-And then and he to the Target group and two Target groups.
+27:36
+The next time we have to sign another yearly contract is October 1st, and we are going to say nope. So, September is the last month where we're going to be getting as coaching client kfb web services. Remote print e-signature about five or six systems have to move, and he's working on two of them.
 
-20:52
-And then you know it should Escape. And.
+27:58
+Okay, so he's under the gun to get a lot of stuff done. I'll let management know that we're pulling on one resource we might need to tell him to let one thing drop or another. Of course, I'll I'll make sure that you two are saying it's adequate. I just don't want to get down to three weeks, and we're still trying to figure this out.
 
-  Speaker 2 20:59
-For the domain name. Is it like a wildcard domain?
+28:19
+Yeah, and
 
-  Speaker 3 21:07
-That's something you need to talk with us. A good idea. I'm assuming that the domain is all KB applications under my wild card away.
+  Speaker 3 28:20
+It's
 
-21:20
-Too much in your fear to create something.
+  Speaker 1 28:21
+Regulatory reason versus we're trying to save a quarter million dollars. Somebody's gotta make that decision. Yes. But anyway, does this background help you all understand what's going on? Are you all to say, Phil? Leave us alone. Let's get some more work done.
 
-  Speaker 2 21:22
-Yes, exactly. Yeah, yeah, that makes sense.
+28:43
+Yeah, that helps. Okay, I like to over explain things. I, I don't know that everybody appreciates it, but. I think it helps you all understand, like, what your impact is to this company? How you're helping us get? Members needs for it's budgets needs met. Anyway. I take feedback if you all don't like the background.
 
-21:40
-So, for the notifications, like, you know? The change in notifications. So when it goes to the? Like, policy Center will injected and all those. Are we adding any, uh, dead queue, dead letter queue?
+29:10
+And.
 
-  Speaker 3 21:58
-Oh yes, oh, so if that any sqs we have sqs for pcbc CC, you know we have an elq for that? Yeah,
+  Speaker 3 29:11
+Like, can I get a ticket for that, uh? And also for the. A cost optimization of classroom and sandbox, too. I got a list of to-do's.
 
-  Speaker 2 22:09
-So we
+  Speaker 1 29:29
+I started writing down everything.
 
-  Speaker 3 22:10
-Don't need a separated dlq. I was thinking, like, maybe we need a separate BL thing, United States, yes, right? Yeah, every queue will have its own dmq. Well, I don't know. I have to. I haven't done any in search of that. You know how people do that one DLQ for all these things because it's a it's all related to one day.
+29:34
+These are all my two dudes. I haven't had a chance to get to.
 
-22:32
-Yes, but still, you know, if it is one dlq, how do? How do we move these messages back to the exact queue? Right? So, so? Maybe, you know, we can go with the assumption that the one one that makes sense. Okay, so, so basically, you know, this is like, you know, it's a subscription here.
+  Speaker 3 29:36
+Got it.
 
-23:00
-Yeah, this is a topic, and then we have three cues subscribed to the website.
-
-  Speaker 2 23:07
-Yeah, and then that is going to notify basically one as we, uh, for Target avenues.
-
-23:18
-Yes, application. Yes, then one more cue to that. We're just gonna subscribe to the same topic, so you know, for example?
-
-23:32
-You can.
-
-  Speaker 3 23:38
-Look at the security sure.
-
-  Speaker 2 23:44
-Yeah, the q1, and other things, you know, it's already in place, you know, we have a Lambda sending images. So, it's for the lab that is going to be an SNS top beginner, so I think it is a pretty straightforward thing.
-
-  Speaker 4 23:59
-The main thing here is that you know we need the?
-
-24:06
-Databases really well. This is a world diagram sorry, okay.
-
-24:24
-I need to install this year.
-
-  Speaker 2 25:49
-You have this. Powerpoint.
-
-  Speaker 3 26:08
-There will be some logic, like another time. Yes, that
-
-  Speaker 2 26:18
-Logic is going to be better, so every database change it is. We are going to consume. Uh, subscribe to at Kenny's Directory. So the the that is a built-in functionality in AWS. The Aurora can publish this database changes to ns3. So, we'll be using these. Okay, this is a data screen.
-
-26:44
-And that data stream, you know, will have two subscribers to the album. One is the Lambda and the other one is the data virus. The data file rules is, again, it's an AWS service.
-
-  Speaker 4 26:59
-Which you can consume the data from Kinesis directory and then try to get Target database. You can write multiple ones at the same time. So, so you know, I just show the Warriors here, but you know, you can, you can. You can have any database, so it's near real time.
-
-27:20
-The data is getting free. You can get getting there and then the logic to write. Not every change we need to write to that one. We can ignore that one here in the fireworks.
-
-  Speaker 2 27:31
-And then it's configurable thing. Then this Lambda. We have all these changes coming in here, and when the change coming here, it's every transaction is going to come to this alarm diagram. So, the Lambda is going to check, oh, okay. Do I need to change these? Publish these things.
-
-  Speaker 1 27:54
-If you see that, you know, this is a, you know that they changed? The data is just. You know, phone number, and we don't want to come anywhere.
-
-  Speaker 2 28:06
-The things which we need to it will study to the SMS.
-
-28:15
-It is like a database, a trigger we want here. That is. This way is like, you know, it's a the transaction control is that it's okay, otherwise, you know, it's hard, you know, how do we? How do we make sure that the database is updated before we update our systems?
-
-28:38
-In
-
-  Speaker 3 28:38
-The RDX proxies, is, is that only for the connection pulling or?
-
-  Speaker 2 28:43
-Rdx proxy is mainly publication. Okay?
-
-28:52
-Of the services.
-
-  Speaker 3 28:56
-I learned with our companies.
-
-  Speaker 2 29:07
-So, I never worked with Kinesis. Actually, this is the first time that I'm working with Kinesis and remaining, uh, the Gateway called NATO. Like most of these things, uh, I did work on that basically the same way other companies are working.
-
-  Speaker 3 29:25
-We know that what we are looking at we want something. Yeah.
-
-  Speaker 2 29:30
-So?
-
-  Speaker 3 29:39
-That is not the service, then enter the other service, provide the same country that's fine.
-
-29:49
-Okay. And these things in a video. Well, our idea is that we'll be getting everything in the data stream, right? Not the change in the
-
-  Speaker 2 30:01
-Data.
-
-  Speaker 3 30:01
-Sometimes, if it's like, you know, the the data we can pass in a stream is limited, right?
-
-  Speaker 2 30:08
-Also,
-
-  Speaker 3 30:08
-One packet of all the things which we can post to their sender storage and others. So, if people in any way that is going to exceed that limit, then what we need to do is that we need to. We need to just pass the keys, the database keys, and then, from from here, or, or well, SNS topic is the limit.
-
-30:34
-Then, from here. We will be leading using the keys and reading the database and then creating the parallel for the next step.
-
-  Speaker 2 30:48
-So, so that is something that we need to do. We need to work, you know? When you as you complete the further design? So you're running out of time, but really, like, you know?
-
-  Speaker 1 30:59
-I want you able to work closely without meetings for that.
-
-  Speaker 2 31:03
-Okay,
-
-  Speaker 1 31:03
-If you have any questions, reach out on, please, you know. Yeah, what are the research you have to do in configuration? You have to do it. Let's do it. And once we know, okay, this is how we are going to implement. Then, we'll go with proper channel of documenting and all that.
-
-31:23
-Yeah, so, but you don't have to wait for that. Foreign.
-
-  Speaker 2 31:37
-Again, it's not complete. It's a work in progress, but in other things which we have at the high level, I think you know, that is.
+29:41
+Okay, you know that to yourself? What's that? Do you email that to-do list to yourself?
