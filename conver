@@ -1,109 +1,437 @@
-See what that side guy's up to? So still working on that, uh, error that we are getting.
+00:04
+Where are you working from?
 
-  Speaker 3 21:51
-Ah, with the card wire payload, uh. But, and I'm actually waiting on Zach u. So, the original error is like, it's a invalid signature, so. Uh, this is the first time actually, I. Basically had this issue, so when I just gone through that? I observed that the issuers version is like, you know, V1, and?
+  Speaker 1 00:07
+Today here in Louisville.
 
-  Speaker 2 22:18
-Authorizer version is V2, so that might be the reason we are getting that. So, I changed that, but I asked him to generate it, uh, like another token, because the order one is using the? Still using the same version so? Uh, he said, he raised a ticket, and I'm just still waiting on that from him.
+00:46
+Got a carton of mail from FB cup sitting next to me?
 
-22:38
-Apart from that, I have gone through the. Ah, like documents, and the Arctic diagram that, uh, and Hill gave me.
+  Speaker 2 00:51
+You all want to look at some bills.
+
+00:59
+I think we got everybody since Alex is out. Oh, there's CG? Sorry, oh, you're good. I'll probably ask it, but we wanted to look throughout. Oh.
+
+  Speaker 1 01:18
+Everybody have a good weekend!
+
+01:27
+Nobody had a good weekend!
+
+  Speaker 2 01:33
+It's pretty okay.
+
+  Speaker 1 01:39
+Man, nobody wants to turn on a camera today. Sounds like we all had a rage over the weekend, and we're recovering.
+
+  Speaker 2 01:49
+It's frozen.
+
+  Speaker 1 01:53
+Rendering your artificial?
+
+  Speaker 2 01:55
+Avatar. Yeah. It's a Monday.
+
+02:04
+All right, everybody. Let's run through the scrum board. I'm assuming nobody had any topic they wanted to bring up. It's too early on Monday to be that ambitious.
+
+02:19
+Okay. Let's jump in it! I cleaned up damn near the entire section on my board. Um. Chair. A lot of you all got tickets saying so close this Phil Close that. I was looking through a lot of those tickets and. Most of them. We've already got documents.
+
+02:41
+I couldn't think of anything that needed to go back through one of you all. If you got difference of opinion, you can look at my column and see everything I close down. I think we're pretty good on most of those. A lot of them were GitHub related Amanda, where I wanted to capture your notes or make sure I could find your documents so that when you were out, I could figure things out, but I've been getting along pretty well with all those documents.
+
+03:07
+All right. Good news. And then CGI have these two tasks where we need to work with compliance, need to work with legal. Uh, I'm gonna kick an email out to them. I have no clue what I'm doing. I just assume when we start storing data in a new platform or a new data center, they may or may not want to know.
+
+03:29
+I don't know if we have any specific controls around databases. I know we do. I know we're going to get audited, saying, who had access to it, and when did they have access to it? Uh, it's mostly just a heads up in case they have any legal or compliance controls they want to test out.
+
+03:49
+I like giving them a heads up. If they don't complete.
+
+03:57
+Okay, um, I also asked Jeff about that.
+
+  Speaker 3 04:02
+Maybe you also have more information on the compliance okay Island databases? As far as I know, they usually.
+
+  Speaker 2 04:11
+Once or twice a year, send out a message saying, hey, can you give me everybody that had access to this data source? And then you've got to provide evidence of who had access. And when? If all that's defined in active directory, then you're really needing to do anything.
+
+04:30
+Sorry.
+
+  Speaker 3 04:31
+Yeah, we, we can provide that kind of, uh, auditing. But when it comes to like when? That is something that can. That would need to be set up to, like, kind of track, um. Uh, like, kind of, get. We will be able to track when it when they were able to access and what time that is, something that needs to be set up, but it won't.
+
+04:54
+It won't be something that shows and not auditing.
+
+  Speaker 2 04:57
+Tg, I'm I'm assuming you already, you all or Security's already providing them what this information? It, it just needs to be. Did they have access not? Did they access it? Did they have access?
+
+  Speaker 3 05:10
+Okay, that's
+
+  Speaker 2 05:11
+The kind of stuff, so I don't think you actually need to worry about anything.
+
+  Speaker 3 05:16
+Okay, oh, we'll see.
+
+05:21
+We gotta Adam on the line.
+
+05:26
+I'm here. What's going on Adam? Not much.
+
+  Speaker 2 05:36
+Yeah, just continuing to work on that template for the Java deployments.
+
+05:44
+Still working on? Um, the peer projects, permissions, and stuff from Thursday.
+
+05:56
+Hopefully, we should have that in a state where? Um. We're, yeah. It's ready to, to review or to to have somebody take a look at it. Probably tomorrow. Awesome. So. Yep, okay. I, I know you're out. The first week of August, there's a part of the first week. Yeah, the whole first.
+
+06:21
+So, um? Next next Monday, Monday through Friday. So, yeah, first week of August, I'm out. Yeah, I was hoping we can get it to where I'm gonna do. And me. Looks like I was silly and forgot that we had that issue with the Pat not getting releases, but uh.
+
+06:40
+I'd like for me and him to be able to try out whatever you've got. And then, the week after that, I'd love for you, Alex, or Psy, or all three of you to come. Demo what we've been doing?
+
+  Speaker 1 06:54
+So, yeah, that sounds great. All right,
+
+  Speaker 4 06:56
+Hey Phil,
+
+  Speaker 1 06:58
+Yeah. Could
+
+  Speaker 4 06:59
+I sit in on those demos just because I've been out, and it would help me catch up a little sure. Okay, I appreciate that. Yeah, we would what I was trying to do is, uh. When working with managers Amanda, we're starting to get like my moth, I said. Hey, I need a database.
+
+  Speaker 2 07:17
+And I don't think they realize we're not standing up databases by hand anymore. We need you to tell us what project you want. We're going to create you a GitHub repo and right below that. We're going to create the dash info repo. Uh, so this was just a taste for managers to start getting that.
+
+07:35
+But yeah, we can involve you gotcha. Sure, it'll be lots of questions we won't get through all of it, but we'll do our best.
+
+07:47
+Anything else Adam? Uh, no, that's it. Okay? I'm always afraid to look at this guy's board dang. I've just seen if there's anything we need to move when he's out.
+
+08:03
+I don't think so. Add this build out. Claim mobile upload is what? Trying to call it.
+
+08:12
+He's got a lot of pending approvals, right? I need to look through those. I managed. You find yourself something to do.
+
+  Speaker 1 08:19
+Yeah, I'm gonna finish out that work on insights this week.
+
+  Speaker 3 08:27
+Uh, and then Alex has given me a review task for one of his documents. Okay. So, I'm gonna get those two knocked out this week, and then I'm going to go cherry. Pick something else.
+
+  Speaker 1 08:42
+So this terraform deployment. Anyway, I'll leave it in his name.
+
+08:50
+Jackson's got one item develop process for requesting AWS data access. Are we actually doing anything on this?
+
+  Speaker 2 08:59
+As part of this team, what's the latest Jackson? Yeah, I don't. There's
+
+  Speaker 5 09:03
+Not really much for this team. I just have the task there. In case you know, people are questioning what is their process look like, for the most part, um? As of right now, we're really just requesting, um. Some standard set of approvals, manager approval, and business owner approval is who we always ask for.
+
+09:24
+Okay, and a lot of the database stuff. At least. Ron traditionally owned that. Um, so we're just defaulting to that, but I didn't. I left this open in case we want to explore the idea that somebody else might own it. Stuff like that, okay? You all know. After this, I go to Cloud manager meeting.
+
+09:45
+Um.
+
+  Speaker 2 09:46
+I know Danny created a form that we're going to start asking people to fill out when they do database need new database. Items. I was going to see if Chris when you're you all want to review that. I don't know if you all have a run book for doing this kind of stuff.
+
+10:03
+I just know whenever some developer says I want a new thing. It's always kind of clunky, right? Are they doing? The right things to make sure that when it gets to I.T security, Jax is not. I don't think you do a seal of approval. I think you have a seal of disapproval Jackson.
+
+10:24
+That has both. If I help you work on what you asked for, then you have my approval. Okay, um, but no, for the most part from databases.
+
+  Speaker 5 10:36
+Danny and CG have traditionally handled that, and they kind of let us know. Hey, we need, you know, new sets of ad groups. This is at least on-prem for cloud-based. It's all based upon that sensitivity.
+
+  Speaker 1 10:49
+Bubble
+
+  Speaker 5 10:50
+That somebody might get. So it's a matter of should so, and so be able to be at such sensitivity. Um. Level. So, who should make that decisions really? The bigger question that we're asking here? Um, as of right now, it's wrong, because he's he's on the data team and the data team technically owns all data.
+
+11:11
+But do we want that to stay run, or do we not want that to stay wrong? Is the?
+
+  Speaker 2 11:19
+There's the real question. Yeah, it really is the manager of the data team now. Okay, so
+
+  Speaker 5 11:23
+That Merle would be the one to then do those approvals from now on. Yeah, if we're just going to blanket
+
+  Speaker 2 11:30
+Statement, anything that, yeah, I thought, Roman. I'm just trying to Fumble back. Yeah, I
+
+  Speaker 5 11:37
+Mean that the whole labeling project is kind of just on hold because nobody really provided any further input, and so we're just not doing anything with it at this point in time.
+
+  Speaker 2 11:49
+And
+
+  Speaker 5 11:49
+That's kind of what this was relying on is, like, some more buy-in from that project to figure out who should be able to look at what data. Um, because as of right now. It's kind of just as long as a manager and then really approve
+
+  Speaker 1 12:04
+It.
+
+  Speaker 5 12:06
+You can have access to that sensitivity level, of course. All data sources, the database S3, Diamond DB, whatever it may be.
+
+  Speaker 2 12:15
+Why why? Oh.
+
+12:45
+Oh, I'll hit up. Chris, yeah. All right. I took a note saying actionable, if not, we're going to close it out. That sounds good.
+
+  Speaker 5 12:59
+New repository for password sync. I think I gave this to you all. Uh, and I always pick on Lance.
+
+  Speaker 2 13:06
+Lance. Did you know I gave this to you? Thanks, Bill. Yeah, I saw an email. Yeah, I figure we'd talk about it, um. The password sync project. You know what I'm talking about when I say that?
+
+  Speaker 5 13:19
+Is that our Mainframe password sync yes?
+
+  Speaker 2 13:24
+I did not know exactly. Yeah, so? Sometime last year, Zach worked to get our password sync tool that Jackson knows about it. It's how we synchronize your ad password with the Mainframe. Yeah, I think the software we use over there. But uh, he was asking, hey, can I move that code up to GitHub?
+
+13:45
+And I, sir, yeah, certainly. Let's do that, but then somebody mentioned it actually has the production username and password in the code checked into svn. Uh, to where, if you have that source code, you can go in there and change anybody's password in on the Mainframe.
+
+  Speaker 1 14:02
+And
+
+  Speaker 2 14:02
+Uh, we said, oh, crap. We need to rotate that.
+
+14:09
+So, the task is. Lance Jackson can you all work with Zach to get this secret rotated and do not give it? Please do not give it to anybody. Just bringing any bells? Um, I don't recall the.
+
+  Speaker 5 14:25
+Name of the account, but we can easily rotate it on our end. It's we just generate a new password.
+
+14:35
+We'll put it where it's needed. Yeah, no, it's a secret and secrets manager. We can throw it in there, um? Zach can tell you exactly what account it is. Alex can tell you exactly what account it is.
+
+  Speaker 2 14:48
+But since we've had a production username and password that has that capability checked into SVN, I kind of put the brakes and said, we're not moving this until we get that secret rotated.
+
+  Speaker 5 14:58
+Yeah, we can. We can rotate it anytime, anytime they're ready to have it rotated.
+
+  Speaker 2 15:03
+Okay, we
+
+  Speaker 5 15:04
+Just need to know when and where that needs to be. Okay, so you wanna you want us to drive it? Yeah, we just need to know, like? Hey, yeah, we're ready to have this deployed. Tonight at five is when you can rotate the. Password, and we'll say, okay, cool.
+
+15:25
+That sounds good, and we'll rotate the password then. Um. In all actuality. 90 of our users do not need this process. Yeah. Um, and of the 10 remaining. I bet you. It's really only 5% who actually use it. If that? So?
+
+  Speaker 2 15:49
+I don't understand your statement every time I change. My password ad synchronizes my password into. The Mainframe. So then, when I log into arms and arms is using my, I didn't use it.
+
+  Speaker 1 16:00
+Okay, so that's
+
+  Speaker 2 16:01
+What you're saying. Is nobody's really logging on to the Mainframe? That's why it doesn't matter.
+
+  Speaker 5 16:05
+Yep, if the only thing that password matters is when, if you pull up an actual green screen, so one time you need the password synced, so there's not that many users that actually utilize that because here in I.T from our admin point of view.
+
+  Speaker 2 16:18
+Yeah, all of us
+
+  Speaker 5 16:19
+Admins manually sync. Our passwords are ready. Okay, that's good to know, so it's, it's. Really, just a couple business people I know about.
+
+  Speaker 4 16:28
+Truly use the green screens, and that's about it at this point in time. And some people in I.T who aren't admins in the Mainframe? Yeah.
+
+  Speaker 2 16:36
+I don't know if Jack was in the or shared this with you all, but when he was sharing the windows hello. Stat is kind of letting us know about it. Um, they kind of mentioned down the road. We're going to extend how long, maybe even not make you rotate your personal password and?
+
+16:56
+Jake on the Mainframe side said this synchronization thing. It actually keeps your account live on the Mainframe. So, now, we would have to figure out how to keep your account from blocking due to in, you know, disuse. So it does do that function, so it's it actually doesn't do that part.
+
+17:15
+Um, well, Jake's running in the arms. Yeah, logging in the arms actually refreshes your last swap on time. Okay, well, Jake probably needs to know that then. Yeah, your password would be expired. Jake's right about that part, it just, it won't. It shouldn't lock you out because we, you know, how we white list servers and stuff?
+
+17:33
+Yeah. Those servers can log in as anybody in the Mainframe without a password. That sounds fun. Yeah, that's what that white listing actually means. Okay, so? Anytime you log into arms, you do to log into the Mainframe, but the arm server is whitelisted to log in as you without a password.
+
+17:55
+Oh, I'm I'm asking Zach to drive this now. Yep, spell Zach. Sounds good. Thanks, Phil. All right.
+
+  Speaker 1 18:02
+You, uh, had this waft design over here, and I can't remember what we're looking for. Is this you've got?
+
+18:12
+I think all this is done, I mean. Um, Alex and nerdy got the tariff one built. We worked on that over the last couple weeks
+
+  Speaker 3 18:19
+And actually deployed.
+
+  Speaker 1 18:22
+Bottle, okay?
+
+  Speaker 2 18:27
+I'll have to look back through this. Do you care if I assign this to myself?
+
+  Speaker 1 18:31
+Uh, that's fine. Yeah. Um. That what that WAF governance I'm trying to think that may have changed?
+
+  Speaker 2 18:41
+Okay, well, what I was going to assign it to myself, was I was going to take a look at what you got, and then I'm going to follow up with Chris. Um, sometimes you all are going to have standards run books that you all don't want to or need to pass by the other teams.
+
+  Speaker 1 18:56
+I
+
+  Speaker 2 18:56
+Think that's one. This is one of those times unless they wrote governance around wax. But if it's all up to date, we'll just close it. But I do know you all were working on. Uh, changing this for the claim mobile upload. So right, I'll take a quick look at it and ask Chris what he wants to do, and then probably kick it back to you to say if it's up to date.
+
+19:18
+Probably need to know where you're publishing them because Danny was trying to get us to publish them all somewhere. But if you all have your own separate process? We just need to make sure it gets there. Yeah, it should be in the AWS main page as well. We've been publishing all of them.
+
+19:31
+So perfect. All right.
+
+  Speaker 1 19:39
+Well, I had you off mute and you went back. I mean, um.
+
+  Speaker 2 19:43
+I was trying to keep an eye on this claim mobile upload.
+
+  Speaker 1 19:47
+Alex mentioned he's gotten it as far as he can get.
+
+  Speaker 2 19:51
+The last bit was, uh, you all working on that laugh. Do you all think you're done with the laugh for playing mobile upload now? I need to give it a. Glance over. Today, just to make, sure, but um. He included everything that you know pretty much asked for from the security standpoint.
+
+20:09
+But yeah, if there's any tweaks that need? May we have to do those one-off, but I think it's, it's pretty good to go right now. So okay, and then. Are we doing Dean Dorton scan before we open it up to production? Uh, yeah, they're supposed to do a scam, um, I know.
+
+20:30
+Mason said that it was offline the other day when we were talking to Dean Dorton on the phone. They were actually asking when
+
+  Speaker 1 20:36
+They could do it, and the website was down. But I think it's back up now, so. Uh, we can ask them to move forward with that. All right, I'm prepping for if they ask questions. Yeah, I've already done the and our internal scan through tenable and that came back, uh, we had to make one change, um.
+
+  Speaker 2 20:56
+But HS TS editors stuff like that, but that was nothing major. Other than that, I didn't find anything awesome.
+
+21:07
+Thanks, Les. No, thanks. Gigi, you have a chance to look through all these to see if they're already done. Um. Partially, I'm still gonna go through and just move them to in progress or done okay, um. But for the data-based patch, I'm I'm gonna work on the script.
+
+  Speaker 4 21:29
+Is that I'm going to put on the file on the S3 and JVS is also working on this python script as well and and? And I'm going to. I'm also working on the code for it or the because you're going to need a Lambda SNS not
+
+  Speaker 3 21:48
+Knowing what SMS because we're going to be using, um, extra batch. So that's that, but there's a few, um.
+
+  Speaker 4 21:56
+Things I'm working on to be able to move that to pending or at least for us to finalize our testing, but I'll I'll put in updates on it on the ticket and comment. Okay. Do you care if I give you one more thing? You've got plenty on here, but
+
+  Speaker 1 22:16
+Uh, since you're working through all these to see if these are already covered by our standard or run book that you've written, Danny wrote a standard, and we need to review it.
+
+  Speaker 2 22:26
+I'm trying to figure if anybody should review it. It probably should be you. Yeah, you can. We can add that on here. All right, I'll find that one and give it to you. Okay.
 
   Speaker 1 22:48
-All right, so I just added one question until actually. I asked him that.
+Anything else CG? Um.
 
-  Speaker 3 22:54
-So, is it just for the mortgage that we are doing this, uh, like POC or? You just want to make that a like a standard for all the upcoming projects in further in future.
+  Speaker 5 22:54
+The rest I will just pick and choose, which I need to be. Go to go to to be moved to Dan,
 
-  Speaker 2 23:06
-So
+  Speaker 2 22:59
+And I'll just
 
-  Speaker 1 23:07
-With security? Or does it have to do with something else with the API authentication just? So he's been trying to push that, so he wants to offload the off. What is it? I always get it mixed up. Authorization is me checking. Are you who you say you are? Yes, I think I got it.
+  Speaker 5 23:00
+Add a comment before I move it to Dan. Honestly, if you just, I think most of these you've covered with your run book. If you just want to move them to done, I'm fine with that. Okay,
 
-23:25
-Backwards authentication is your side. I know you authorization is Psy. You have these roles, and you can do these permissions.
+  Speaker 2 23:11
+Save you some time if you want to take notes you can, but I'm pretty sure most of these, if not all, of these, you've already covered them in your runbook. Yeah, yeah. So, up to you.
 
-  Speaker 3 23:33
-Yeah, I,
+23:28
+Sorry. Starving for work, aren't you exactly? Yeah!
 
-  Speaker 1 23:34
-I can't remember which ones, which, but you know, he wants to offload the authentication. The confirmation you are, who you say you are? Are because it right now. Every single application has to know how to send you to Microsoft to do your login to do your single sign-on. That's a lot of Maintenance, right?
+  Speaker 1 23:35
+Yeah, but uh, right now. I'm actually, uh. Uh, helping Zach to tis? Uh, guard wire payload.
 
-23:53
-Yes. Uh, he wants to offload that functionality to another thing. The problem is, that's non-standard. As far as I know. Um. Okay, that's what. When he met with us, you were in the room, and I kept saying, hey, can you make sure that this is a standard. Hey, can you make sure we're not Reinventing the security wheel?
+  Speaker 6 23:44
+Up, so we're working on that. And in fact, I'm actually having a bit errors from the database side. I'm just trying to figure out. Uh, exactly, pinpoint what? Exact error is. Okay, so, yeah, working on that, and I even updated the Lambda standards and run books with the RDX proxy and also the.
 
-24:15
-Hey, can you make sure that there's an AWS approved, sanctioned way to do this, and he said he would get us a document. Yes,
+24:10
+Provision concurrency.
 
-  Speaker 2 24:24
-Yes, uh, he have gave me like.
+  Speaker 2 24:19
+What are we calling this the inbound, the Gap wire inbound? Yeah, payload this.
 
-  Speaker 3 24:28
-Like a document about the API authentications. Okay, so, so? I didn't go through that completely, but I think. It was mentioned, I guess, but I'll just check that one more time and I'll be. I'll make sure. Yeah, if there is anything like that? I, I don't mind to entertain the idea.
+24:30
+You're doing the whole thing Gateway. Rds proxy.
 
-24:47
-It's just, um. You
+24:40
+I'll try to come up with a lot more succinct message.
 
-  Speaker 1 24:52
-Know, I? I think I've shared with you all that me and Ann comment things completely different, and I'm trying not to be biased and say, no, he doesn't know what he's doing go my way. But I do know he goes about things. In ways that? I'm trying to say it, fairly sorry.
+24:52
+There we go. That's that.
 
-25:10
-I'm trying to be impartial. Okay. I don't always agree with his methodology, and I don't have to, right? It's not my job to be the architect. It's his job to be the architect, yes. But what it is my job to do is that he's not sneaking around people's backs and getting things done the way he wants them to be done.
+24:58
+At Sprint 7. I collected tonight. Oh my gosh, I didn't assign it to anybody because it doesn't have a drop down button. What do we got unsigned? Let's just see, oh, just that one.
 
-25:28
-When he needs to convince people so? That's where I'm being overly cautious. I've seen this happen before at this company where, and I've had to do it myself where you just go do something behind everybody's back and say, see, it works, and then that becomes the standard. I want to make sure that whatever you do goes through the hands of our it security friends.
+25:16
+There you go. Sorry, yeah!
 
-25:50
-Yes, and I agree that they can support this. That's what I was trying to get to. Let's make sure that whatever he asks us to do. Our infrastructure teammates Alex and our I.T security teammates Jackson and Lance agree that this is what we want to do, and they are willing to support it.
+  Speaker 1 25:17
+Yeah,
 
-26:12
-I guess that's what I needed to say, sure. And then I'll sworn you. I got a biased, so you can say Phil shut up. Your your bias is showing.
+  Speaker 2 25:18
+Anything from Anil, are you still? Wait, I'm still waiting actually, uh? Once I get anything like, any documents or any designs, then I can just let you know. I put that.
 
-26:24
-That's what I had to say sure, uh? For Zach, we're pulling him in 15 directions, so he might be a little bit slower than us.
+  Speaker 4 25:32
+Okay, I'll hit up Suresh again, saying, hey, we're still
 
-  Speaker 3 26:32
-Yes, uh, that's what he told him actually. He was busy with some of the work, so I guess we have several things all becoming urgent at once. And just so, you know what timelines we've got going on?
+  Speaker 1 25:34
+Waiting.
 
-  Speaker 1 26:45
-Uh, this is helpful. I think when you understand why, sometimes people are becoming agitated and more urgently, asking for things yeah. We are five weeks away from being on code freeze. For the September release, so we, in five weeks, we've got to get real-time insurance. Test it ready to go.
+  Speaker 2 25:34
+If you still need work after that, let me know. We probably can dig you something up. Sure. I, I do know we have a lot of one-off workloads where we built it one-of-a-kind. This pims, uh? I don't know if anybody shared with you, but I think it's from bitbucket.
 
-27:05
-Yes, I think it's seven weeks away from going into production. Problem is, is, he's also being tagged to help us retire our web sphere systems. You all know? Ibm is a terrible company. Phil's opinion, showing again. There's nothing wrong with IBM, but they we pay very much through the nose to use some of their software, and we don't really get any benefits from it, and we've been trying to get off of it for several years.
+25:54
+We deploy a pems mobile upload, kind of like the claim file upload. Yeah. Raj on my team is trying to upgrade the node.js version on it. And I'm pretty sure that's a project that we did not use terraform to produce any of the resources. I'd like to start getting rid of these one-offs if we just have nothing else to do.
 
-27:36
-The next time we have to sign another yearly contract is October 1st, and we are going to say nope. So, September is the last month where we're going to be getting as coaching client kfb web services. Remote print e-signature about five or six systems have to move, and he's working on two of them.
+  Speaker 1 26:19
+Let me know if you're desperate, and I can see if we can get you that sure.
 
-27:58
-Okay, so he's under the gun to get a lot of stuff done. I'll let management know that we're pulling on one resource we might need to tell him to let one thing drop or another. Of course, I'll I'll make sure that you two are saying it's adequate. I just don't want to get down to three weeks, and we're still trying to figure this out.
+26:26
+Anything else anybody need me to ask the cloud management team anything?
 
-28:19
-Yeah, and
+26:34
+Then we tell him we prefer to go to Google Cloud instead of azure and AWS.
 
-  Speaker 3 28:20
-It's
-
-  Speaker 1 28:21
-Regulatory reason versus we're trying to save a quarter million dollars. Somebody's gotta make that decision. Yes. But anyway, does this background help you all understand what's going on? Are you all to say, Phil? Leave us alone. Let's get some more work done.
-
-28:43
-Yeah, that helps. Okay, I like to over explain things. I, I don't know that everybody appreciates it, but. I think it helps you all understand, like, what your impact is to this company? How you're helping us get? Members needs for it's budgets needs met. Anyway. I take feedback if you all don't like the background.
-
-29:10
-And.
-
-  Speaker 3 29:11
-Like, can I get a ticket for that, uh? And also for the. A cost optimization of classroom and sandbox, too. I got a list of to-do's.
-
-  Speaker 1 29:29
-I started writing down everything.
-
-29:34
-These are all my two dudes. I haven't had a chance to get to.
-
-  Speaker 3 29:36
-Got it.
-
-29:41
-Okay, you know that to yourself? What's that? Do you email that to-do list to yourself?
+26:45
+All right. Psy, what's your favorite cloud provider? Aws, actually, all right. We'll stay on it then. All right, everybody. That's all I got. Five, yeah, sure. See y'all have a good Monday. Thank you. Thanks. Me too. See you.
