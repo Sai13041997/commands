@@ -304,7 +304,6 @@ Aws certificate is not managed, right? Everything's atomic, based on the resourc
 29:03
 So, when?
 
-  Speaker 2 29:05
 So here, run the ice here. Pretty easy to. There are other resources on the back end of these two creation, right? There's PBS, you know, if those do those inherit the tags of the ec2, um, so they can? Yes, um. But also, like, we do most of our tagging through default tags and terraforms, like we did through the provider itself.
 
 29:29
@@ -317,4 +316,277 @@ That's in the in the main, or it's one of the it's either in the.
 Oh, yes, it's
 
   Speaker 1 29:47
-Either in the main or it's in the locals or someplace like that, that wherever it can tag it. Okay, yes, in some st
+Either in the main or it's in the locals or someplace like that, that wherever it can tag it. Okay, yes, in some structures, have the tags set as locals. And that each resources tags equal tanks locals.tx, right, and we'll do that, but? However, mechanism has figured out how to take tags is within the scope of the food people.
+
+30:14
+So, how y'all want to figure out how more efficiently applithetics? Yeah, that's what's, right?
+
+  Speaker 2 30:19
+Yeah, but basically are doing it the way we want to do it. It's tagging everything you can.
+
+  Speaker 1 30:23
+Yeah. And so, the key part is, it's tagging everything in hand, right? Yeah, I was thinking of the loving the truth. I could bring our number up if we're already doing that. That's great.
+
+  Speaker 2 30:34
+Uh, yeah, I mean, I think it's something like the compliance numbers like, for example, like, I think, like, for example, I'm not sure this terraform equals true. Attack that we really put on everything is an approved tag. So, like, I think, if we like that, for example, I think that specific tag being on most of our apps is like destroying some of our compliance numbers from, like the executive summary, for example, oh so, like, there's like, little things.
+
+30:56
+Yeah, I think we need to have.
+
+  Speaker 1 31:00
+In either the standards or the audits or one of those things or some. There has to be some follow-up meetings on looking at flag by tag. Okay, does this need to be put on the approved list or not for improved list? Yeah, but a lot of that is going to fall under the.
+
+  Speaker 2 31:18
+Sure, yeah, I think I think a good first step is to, like, I'm sure it's in here. You might already put it up like we could find the most used unapproved tags, and that could be a good way to say, well, what does everyone using? No, you may have missed that we should have, which I don't think I have that metric yet.
+
+31:35
+And there's more to do so. The other the next? Aspect I had to do to get this fully wrapped up is the automation. So right now. Um. And go into it briefly. Um, I don't want to go into two depth. Is, I will bring up.
+
+31:58
+So?
+
+  Speaker 1 32:04
+Come on!
+
+32:09
+Let's just briefly take a look at the repo and. Read me or whatever. I'm just going to bring up the repo three. We just. Because you can look at that on your own, but I might need to update it.
+
+32:34
+So, everything is under the awf fig repo. And you'll see.
+
+32:52
+You'll see the variance reposed, I mean. Um. Perform files. Uh, this does do, uh, deployment to two accounts. The log archive account, where the data is and much of the. Uh, Athena work is done, and then there's it. Does deployment into the this reporting account? Um, where the quick site stuff is?
+
+33:16
+But under the tag reference tables. The thing that you're probably most interested in? I maintain a list of our AWS accounts. All right to have friendly names. Not just account number. On various things. Um. There's tag exemption types. The tags themselves, right? So, these are basically the representation. Of what was in the spreadsheet tabs so we can okay?
+
+33:45
+You look at the tanks CSV file.
+
+  Speaker 2 33:52
+Uh, tag name, everything's lowercase, pack name. Blah, blah, blah, blah.
+
+34:00
+And so, this.
+
+  Speaker 1 34:02
+Tag values tag exemption. Pack value exemptions, pack resource exemptions.
+
+  Speaker 2 34:08
+So, this is where you maintain the key pairs of this resource type is exempt from this thing. And is it an act? Exception.
+
+34:21
+These get uploaded to a CSV S3 bucket. And then what's called a glue crawler goes out there and draws the CSV every day and makes blue table for them. And there's a theme of queries that are pointed to those clue tables.
+
+34:40
+And then.
+
+  Speaker 1 34:42
+Oh, right here. Under here is also the. A schema queries.
+
+34:53
+I think it worries by account. That get create that were created. Create data, insert data, write to execution.
+
+35:06
+Great
+
+  Speaker 5 35:07
+Views!
+
+  Speaker 1 35:08
+So, this is the. This is the abstraction from the data layer to the view layer to then see these. These form the sources of the data sets that you see in.
+
+35:26
+So, if you want to do your pull request on the AWS config repo and you've got it all?
+
+35:35
+But what I have to do is? These first few. Audits were run manually. It's a series of about 20 25 differences. I think that clear East quad young, which are all in the terraform repository. And Ryan that? Repopulate the data. Create the audit saved audit record for that date of that audit.
+
+36:02
+And so, my next step is to automate that entire process that is running on a quarterly basis according to our standards. It's got to be run, wanted to run quarterly at minimum. That will automatically generate this data.
+
+36:22
+That's my next step. The next step for whoever that management decides is how we're gonna what. What are the next steps? Next steps, I think, is looking at remediation. In the form of. Finding and updating the exemptions that's going to be the easiest thing. To lower the numbers, right?
+
+36:42
+Because it's not got much in there from everything. Nothing is exempt right now. I only have a couple of things in there to make sure that I had some examples to show I create about it all about it. Those we don't want. Like, say we don't want to check the value on those, but we want to make sure the tag exists.
+
+37:02
+So, it's gonna have to be work to get the CSP files updated decision, but the work is probably not the hardest part. The hardest part is the decision making. Which things are going to not be subject to tax? Right. What are the tags that we need to add to our data dictionary?
+
+37:23
+Now, the decisions are gonna be some of these one hour arm wrestling meetings that you're going to be in with other people and say, no, I need to have this tag. No, I don't think we need to have that tag now previously. I need to, but this is where man.
+
+37:38
+That's where I got to get management decision on who is the final Authority on what our tags are. Is the cloud governance people? Standards, right? Etc.
+
+  Speaker 3 37:54
+I'm going to bring it up in our. Csgt, meeting tomorrow.
+
+  Speaker 1 38:04
+Any other comments questions?
+
+  Speaker 2 38:10
+I don't like. The quick site never shows up, as I previously viewed.
+
+38:18
+Yeah, I just I didn't pinned into mine.
+
+  Speaker 1 38:22
+And when you take it quick, it always wants to click. Yeah, I saw that something that you don't want to click on.
+
+38:36
+Uh, I thought we were doing pretty good, and
+
+  Speaker 2 38:39
+I saw those numbers. Danny, uh, first, my bubble. I think there's a lot of little things that make that number way worse than you would imagine. But no, I think it's great. I think it has like a ton of. I think this is a great framework for us to.
+
+38:55
+Obviously, like we need to make it useful, like right, was maintenance and use, right? But I think it's super powerful platform, so I think it'll work out. Yeah. Got AWS, you know, we've been hearing from them every time, their old times and?
+
+  Speaker 1 39:15
+To a certain extent, you
+
+  Speaker 3 39:16
+Can ask why, you know, but it all depends on how you're going to use that. Are you using every day?
+
+  Speaker 2 39:23
+Looking for application names, release levels? Different when I'm searching, okay? In ec2 or other things I search tags. I never I stopped and memorizing server names because it's useless. It's so much easier, even with. Um, you know, I've got a shell script on our ansible server that can tell me what?
+
+39:47
+What IPS this application name in this release level? If you have a timer, absolutely. But if if there's 40 tags approved, you'll probably use three or four.
+
+40:06
+Like created by your own buyer cost to buy and those two, like the map migrated. We always try to do, like the source. Uh, it's a code in the revo. We try to do business Ops category, and it told me that one for sure. Like most of like kfb apps or whatever like L1 repos or KBS table, that's fine, but they also have terraform Drew, which brings all the metal clients I think, and the cicd tier tag as well, which brings.
+
+40:42
+Only for, like, when you're creating and we conclude them in our terraform subscribes. Yeah, but after that, you're not really no. It's like searching like you didn't know,
+
+  Speaker 1 40:51
+Like from when you say we for which habit we asking you're asking for me as you see. What is that? They say, I'm sure. Are you asking for my CSVP role the CF GT role? We know nothing about that database perspective, um, we really don't have that, because yeah, I don't do any searching.
+
+41:13
+By larger. We don't have the number of ec2s. That you all have to try to filter out. Bought my average appointments, you know? Amazon says, oh, you should tag me and have tag me wrong. Like, it's super important, but yeah, it's not really. So, you get into aspects of, say, like, cost management,
+
+  Speaker 2 41:36
+And other
+
+  Speaker 1 41:37
+Things like that, where somebody. And then, we've never got any feedback from at least I have not heard from anybody from the financial side and says, oh, here's how we want to set up our tags so we can see reports around different things else. I've built everything around assuming what they may want to see.
+
+41:56
+Yeah, so we.
+
+  Speaker 2 41:58
+We have the big the monthly billing meeting with Jim, and that's I, me and Mike both try to reiterate that to him. It's like, if you guys have like requests for like tagging or visibility that you don't have right now, please let us know. We were happy to like, serve that, and he's always like I will.
+
+42:13
+I'll keep in mind he brings. He has questions about stuff like he, like when we added, like the.
+
+42:23
+Uh, like the specific tag for like the on base upgrade or whatever, like he cared about, that he was interested in it and stuff. But I think that. I don't know. He hasn't had a ton of proactive, like, hey, I need to, like, see this better. Like, I was looking at this, I have questions about this.
+
+42:35
+There hasn't been a ton of that, but we, we're trying to probe for that. So,
+
+  Speaker 1 42:40
+I expected a few years if we built up our tags, you can follow myself. How do you process we? There'll probably be more questions about hey, why are we spending our money off? You know, we're we're spending two million dollars on onbase stuff and one million dollars on the rest.
+
+42:54
+Well, he doesn't ask for a ton of stuff, but like he, I mean, he goes in there, and he knows how to filter by tag.
+
+  Speaker 2 43:00
+Well, I know how it like he's pulled it up. He's like, I, I,
+
+  Speaker 1 43:03
+Yeah. So, I mean,
+
+  Speaker 2 43:04
+He looks like he knows how to look at it? He looks at the cost, so I think at some point that requests will become more. Specific and complex, but I think for now, what we're doing is good.
+
+  Speaker 1 43:17
+So, I would ask that in your next meeting with you, I'm just run by that. We're doing starting our tag auditing. Yeah, vocab. We there are mitigation steps that we need to take, and it's going to take some time, and there's we have to evolve on some of the tag management because he might be looking for a specific tag, and if we're only tagging five percent of that resource.
+
+43:40
+Yeah, he's gonna be. In like 11 on this. I mean, actually, we're spending. Yeah, $10,000. Absolutely. Yeah.
+
+  Speaker 5 43:50
+In my mind, I thought, I mean, I'm just joking. But AWS would send us an itemized
+
+  Speaker 2 43:56
+Bill every month, right? They do. I mean, they 100 do. It's just, but it's, I mean, how granular, though, right, is it,
+
+  Speaker 5 44:03
+Uh, pretty granular? Yeah, I
+
+  Speaker 2 44:04
+Mean, it depends what you mean, though. It's extremely granular, and it's oh, but not, not. Not necessarily in the way that you want, right? Like, I mean, it's like it'll say you spent this much exact. This exact many, like much compute time on this exact. Uh, ec2, type, and therefore, I'm charging you this much, and there's like hundreds and hundreds of lines that explain that.
+
+44:27
+And here is this instance height for Linux that you spent this much and stuff, but it doesn't break it down necessarily by you know this specific, yeah, anything? So okay, it
+
+  Speaker 3 44:39
+Gets extremely granular in some ways by default, just in the bills. But yeah, it's.
+
+  Speaker 1 44:46
+What it would look like, well, I don't have access to count, so I can't get into cost and budgeting app. But that's really designed to be a dashboard where people go in and they create their reports according to the met. According to the parameters that you want to see.
+
+45:02
+So, if you, if you want to go and say, okay, any, how much is each account cost? And within this count, how much are things created by John Van Sickle, you know? Now, again, that's why that cost allocation flag is there. Because not every tag is used as deemed as being.
+
+45:24
+Tag used the false allocation. That's set up on the other side. You have to go into that, say, oh yeah, I want to use this tag to start allocating my costs. And once you do that. Yeah, you can start bringing that into your. Dash, I think pretty much all of our move tags are.
+
+45:48
+Amazon gives us. Itemized bill according to what they want to itemize. That's what, how we want to see it right. Sure, they don't pair. I, I might not care that we're spending. $10,000 a month on. 2x large r5s versus? $5,000 on 2x large or eights. Okay, you know?
+
+46:19
+Okay, while we're at the end of our time.
+
+46:26
+I'll try to lead some of this by setting up some. Follow our meetings, particularly on the file exemption. Updates, right? For something. After eat business. Enterprise billing. It shouldn't be easy. Ebb.
+
+46:58
+Thank you! If you need help with the automation part, you know, yeah, I'm? I'm using co-pilot to help me write. Lambda functions. Athenic queries. It's the triggering. I. Get inside on it's. It's pushing me down that bridge and some of the built-in Amazon.
+
+  Speaker 2 47:22
+If you want to associate with the batch, it's like a like active patch. It's easy. It'll be easy to trigger the Lambda. Yeah, that's right. Well, well, once I get there, I need to get the code.
+
+  Speaker 1 47:35
+I mean around this onion that the first part is being able to build the infrastructure they can execute the ATV queries. Then, how do I get that to run on a periodic basis?
+
+47:50
+Yeah. And I knew that there. Getting it right on a periodic. It won't have to be batch, like, pay a beat batch and a great panel. This is. I'll run on a quarterly basis. I will try to run. I'm not going to, we're going to run another outage. Uh, because I don't read.
+
+48:12
+The key part is why I run audits if we're not making progress. I'm changing the numbers, so that's where I think we can make some progress. Identify some of these exemptions. Getting a good chunk of those? Knocked out for, um, look at the numbers.
+
+48:34
+There's an auditing facts, and again, there's all kinds of documentation out on the Wild Side. Tagging standards, tagging run books, tagging. Backpage sorry, like that?
+
+  Speaker 2 48:50
+So, I was looking. I only see one item in that shared folders. Is that because of the author? Rights that I have.
+
+  Speaker 5 49:01
+Not that I'm looking for more access, but uh, no, uh, you mean any quick side, right? Yes. So? I need to maybe change the sharing settings, okay? Yeah, if you're not seeing what? All of them. No, I didn't. Um, I only see the.
+
+49:26
+The main tag management. Fruit or folder, and I didn't see any of the data sets.
+
+  Speaker 1 49:36
+Yeah, I did log out and log back in just to see if maybe it was a yeah, something that needed to be done there.
+
+51:34
+Yeah, somebody had.
+
+51:41
+Hey Matt.
+
+  Speaker 2 51:43
+You know anything about the?
+
+  Speaker 1 51:45
+Informant faster.
+
+  Speaker 2 51:51
+Brent was looking to get some logs, and no one knows how to log into the.
