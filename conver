@@ -1,437 +1,320 @@
-00:04
-Where are you working from?
+00:25
+Hello, everybody.
 
-  Speaker 1 00:07
-Today here in Louisville.
+00:30
+Not punctual. Three more minutes.
 
-00:46
-Got a carton of mail from FB cup sitting next to me?
+  Speaker 1 03:21
+Okay, we'll get started as soon as JD is.
 
-  Speaker 2 00:51
-You all want to look at some bills.
+03:50
+Okay, so I saw that Alex and girl, you all just? In the quick site, um, and you might have to.
 
-00:59
-I think we got everybody since Alex is out. Oh, there's CG? Sorry, oh, you're good. I'll probably ask it, but we wanted to look throughout. Oh.
+  Speaker 2 03:59
+Lafayette culture session or refresh, and now you should dial that. All that did was create your evidential in the brick site environment. I didn't Grant you access the.
 
-  Speaker 1 01:18
-Everybody have a good weekend!
+  Speaker 3 04:16
+But I will get out and get back in if you don't see anything under dashboards or shared folders. Um. Yeah, yeah, I see the tag management reference. Okay, so, um, on today's agenda? Um.
 
-01:27
-Nobody had a good weekend!
+  Speaker 2 04:31
+Sending I'm gonna accessing quicksite, which we I sent out that email the other day, and I'm excited. It's its own kind of special environment within AWS, really almost an application for them. AWS equipment of power behind. Um.
 
-  Speaker 2 01:33
-It's pretty okay.
+  Speaker 1 04:46
+And so it has its own security boundaries, Etc like that. I'm gonna go too much into the administration of quicksite itself today.
 
-  Speaker 1 01:39
-Man, nobody wants to turn on a camera today. Sounds like we all had a rage over the weekend, and we're recovering.
+  Speaker 2 04:54
+I'm really just going to cover all the Milestone of being able to report on and manage our tastes across our accounts. And so, if you do have access, please feel free to pour along in your coloring books. So, um? What has been? Let's navigating quicksite, so you'll see. These menus on the left.
 
-  Speaker 2 01:49
-It's frozen.
+05:15
+I don't know if you see all of them. Um. Basically, it starts with Theta where you go create your data sets, and there's quite a few data sets created. The further data. Since you use your data set to analysis right now, all you all have is viewer mode. You don't have.
 
-  Speaker 1 01:53
-Rendering your artificial?
+05:32
+Might have author mode, um, so you might be able to create some things in here yourself, but so I created the analysis. And then. From there you publish your analysis as dashboards. Now, I don't know if. I have dashboards under me. Actually the three dashboard, but I didn't see any data.
 
-  Speaker 2 01:55
-Avatar. Yeah. It's a Monday.
+  Speaker 3 05:54
+You didn't see in data. No, no, you mean data sets, but I created a shoot for input. I published the map here as, um.
 
-02:04
-All right, everybody. Let's run through the scrum board. I'm assuming nobody had any topic they wanted to bring up. It's too early on Monday to be that ambitious.
+  Speaker 2 06:02
+Uh as different dashboards, so you'll if you see under shared folders. You'll see, uh, and tagging tag management. You'll see three dashboards, the ones we're going to cover today are tag auditing. And tag management and reference. So, um? And access the dashboard. You just click on it. So, I'm gonna I'm not gonna go through all the metrics.
 
-02:19
-Okay. Let's jump in it! I cleaned up damn near the entire section on my board. Um. Chair. A lot of you all got tickets saying so close this Phil Close that. I was looking through a lot of those tickets and. Most of them. We've already got documents.
+06:29
+Who's going to cover the highlights of kind of like what the structure is supposed to be? So the way this works. Is that an audit is run and what I mean by audit is right. There are a variety of of. Uh, name is Athena queries and tables out there that, um.
 
-02:41
-I couldn't think of anything that needed to go back through one of you all. If you got difference of opinion, you can look at my column and see everything I close down. I think we're pretty good on most of those. A lot of them were GitHub related Amanda, where I wanted to capture your notes or make sure I could find your documents so that when you were out, I could figure things out, but I've been getting along pretty well with all those documents.
+06:52
+Basically, our our AWS config process goes out there and creates a snapshot every day. And. There's, there's queries and processes in place. To go out. Consolidate that data into What's called the base tables. And from the base tables. Uh, then, when an audit run is done, it goes out.
 
-03:07
-All right. Good news. And then CGI have these two tasks where we need to work with compliance, need to work with legal. Uh, I'm gonna kick an email out to them. I have no clue what I'm doing. I just assume when we start storing data in a new platform or a new data center, they may or may not want to know.
+07:15
+And it accumulates and does calculations on various metrics about the about the tags. Uh, and records that those audit findings in tables. And so there it will build up a history of audit audits on this audit day here, with the findings for that on it. Um, so we can do various management and monitoring of our our tax.
 
-03:29
-I don't know if we have any specific controls around databases. I know we do. I know we're going to get audited, saying, who had access to it, and when did they have access to it? Uh, it's mostly just a heads up in case they have any legal or compliance controls they want to test out.
-
-03:49
-I like giving them a heads up. If they don't complete.
-
-03:57
-Okay, um, I also asked Jeff about that.
-
-  Speaker 3 04:02
-Maybe you also have more information on the compliance okay Island databases? As far as I know, they usually.
-
-  Speaker 2 04:11
-Once or twice a year, send out a message saying, hey, can you give me everybody that had access to this data source? And then you've got to provide evidence of who had access. And when? If all that's defined in active directory, then you're really needing to do anything.
-
-04:30
-Sorry.
-
-  Speaker 3 04:31
-Yeah, we, we can provide that kind of, uh, auditing. But when it comes to like when? That is something that can. That would need to be set up to, like, kind of track, um. Uh, like, kind of, get. We will be able to track when it when they were able to access and what time that is, something that needs to be set up, but it won't.
-
-04:54
-It won't be something that shows and not auditing.
-
-  Speaker 2 04:57
-Tg, I'm I'm assuming you already, you all or Security's already providing them what this information? It, it just needs to be. Did they have access not? Did they access it? Did they have access?
-
-  Speaker 3 05:10
-Okay, that's
-
-  Speaker 2 05:11
-The kind of stuff, so I don't think you actually need to worry about anything.
-
-  Speaker 3 05:16
-Okay, oh, we'll see.
-
-05:21
-We gotta Adam on the line.
-
-05:26
-I'm here. What's going on Adam? Not much.
-
-  Speaker 2 05:36
-Yeah, just continuing to work on that template for the Java deployments.
-
-05:44
-Still working on? Um, the peer projects, permissions, and stuff from Thursday.
-
-05:56
-Hopefully, we should have that in a state where? Um. We're, yeah. It's ready to, to review or to to have somebody take a look at it. Probably tomorrow. Awesome. So. Yep, okay. I, I know you're out. The first week of August, there's a part of the first week. Yeah, the whole first.
-
-06:21
-So, um? Next next Monday, Monday through Friday. So, yeah, first week of August, I'm out. Yeah, I was hoping we can get it to where I'm gonna do. And me. Looks like I was silly and forgot that we had that issue with the Pat not getting releases, but uh.
-
-06:40
-I'd like for me and him to be able to try out whatever you've got. And then, the week after that, I'd love for you, Alex, or Psy, or all three of you to come. Demo what we've been doing?
-
-  Speaker 1 06:54
-So, yeah, that sounds great. All right,
-
-  Speaker 4 06:56
-Hey Phil,
-
-  Speaker 1 06:58
-Yeah. Could
-
-  Speaker 4 06:59
-I sit in on those demos just because I've been out, and it would help me catch up a little sure. Okay, I appreciate that. Yeah, we would what I was trying to do is, uh. When working with managers Amanda, we're starting to get like my moth, I said. Hey, I need a database.
-
-  Speaker 2 07:17
-And I don't think they realize we're not standing up databases by hand anymore. We need you to tell us what project you want. We're going to create you a GitHub repo and right below that. We're going to create the dash info repo. Uh, so this was just a taste for managers to start getting that.
-
-07:35
-But yeah, we can involve you gotcha. Sure, it'll be lots of questions we won't get through all of it, but we'll do our best.
-
-07:47
-Anything else Adam? Uh, no, that's it. Okay? I'm always afraid to look at this guy's board dang. I've just seen if there's anything we need to move when he's out.
+07:42
+So the first one is the tag login. This is a representation of. So, there's the latest tag on it. And then there's the history of audits. Three, three good audits. Back in July. Executive summary this, this one is designed to be. What's our current state, right? How are we doing?
 
 08:03
-I don't think so. Add this build out. Claim mobile upload is what? Trying to call it.
+On our attacking, so there's various kpis out there on this on this mate on this first page says. This is the this is basically the latest version of our tags. And so there's all these kpis. Total resources evaluated findings, tag value, and consistency. Uh, the documentation has also been updated to explain what these metrics say so, uh, fellow resources.
 
-08:12
-He's got a lot of pending approvals, right? I need to look through those. I managed. You find yourself something to do.
+08:28
+There were 47 638 resources in our AWS. Distinct resource IDs. Uh, total findings is. In addition, a summation of all of the things. Of the various.
 
-  Speaker 1 08:19
-Yeah, I'm gonna finish out that work on insights this week.
+08:49
+Add it together about aspects, means things that have no pain, things that have tags that we don't have in our list, things that have values that don't comply with the values that are in our list. Etc untagged resources so? Yeah, every single one of those metrics, one one one.
 
-  Speaker 3 08:27
-Uh, and then Alex has given me a review task for one of his documents. Okay. So, I'm gonna get those two knocked out this week, and then I'm going to go cherry. Pick something else.
+09:09
+It adds it all up, so 95, 599 as of our last audit. Bad things in our does, uh,
 
-  Speaker 1 08:42
-So this terraform deployment. Anyway, I'll leave it in his name.
+  Speaker 3 09:18
+If something has an unapproved tag on it. Is it considered out of compliance? We will get to tag management.
 
-08:50
-Jackson's got one item develop process for requesting AWS data access. Are we actually doing anything on this?
-
-  Speaker 2 08:59
-As part of this team, what's the latest Jackson? Yeah, I don't. There's
-
-  Speaker 5 09:03
-Not really much for this team. I just have the task there. In case you know, people are questioning what is their process look like, for the most part, um? As of right now, we're really just requesting, um. Some standard set of approvals, manager approval, and business owner approval is who we always ask for.
-
-09:24
-Okay, and a lot of the database stuff. At least. Ron traditionally owned that. Um, so we're just defaulting to that, but I didn't. I left this open in case we want to explore the idea that somebody else might own it. Stuff like that, okay? You all know. After this, I go to Cloud manager meeting.
+  Speaker 2 09:24
+In the second half of this. So, yes, I there are that. That's what the various metrics here mean different things. So, an invalid tag means it's not in our list. Right. Yeah, so basically to answer your question. Yes, in Valentine is not on our proof Titans. Yeah. Uh, untied resources count.
 
 09:45
-Um.
+Um. Then it gets some
 
-  Speaker 2 09:46
-I know Danny created a form that we're going to start asking people to fill out when they do database need new database. Items. I was going to see if Chris when you're you all want to review that. I don't know if you all have a run book for doing this kind of stuff.
+  Speaker 1 09:48
+Percentages like overall compliance rate of our percent of our total number of. Resources. How many are compliant with our tags? Less than 1%. Um, so there's various metrics here on top apis. And then there's some graphs down here. I'm going to each one of these. The idea is to provide a picture of what we are.
 
-10:03
-I just know whenever some developer says I want a new thing. It's always kind of clunky, right? Are they doing? The right things to make sure that when it gets to I.T security, Jax is not. I don't think you do a seal of approval. I think you have a seal of disapproval Jackson.
+  Speaker 2 10:15
+Giving various various graphs and metrics and kpis.
 
-10:24
-That has both. If I help you work on what you asked for, then you have my approval. Okay, um, but no, for the most part from databases.
+10:23
+The comparative analysis takes the current. How have we changed since our last time? We obviously want to see positive numbers in there, right? How many things have we? Total finance reduction negative 669 means we have more. We've gone down. We got Morse, right? But only one added audit compared to another.
 
-  Speaker 5 10:36
-Danny and CG have traditionally handled that, and they kind of let us know. Hey, we need, you know, new sets of ad groups. This is at least on-prem for cloud-based. It's all based upon that sensitivity.
+10:47
+So, this, the first way compares what we. Uh, where we are second. One compares how we've how we've made changes actually compare the current on against any previous audit. And here's the list of all these. That I've run over here on the left. So, it gives you another date if you want to pick a different date.
 
-  Speaker 1 10:49
-Bubble
+11:08
+You compare the most recent audit current audit. I guess the
 
-  Speaker 5 10:50
-That somebody might get. So it's a matter of should so, and so be able to be at such sensitivity. Um. Level. So, who should make that decisions really? The bigger question that we're asking here? Um, as of right now, it's wrong, because he's he's on the data team and the data team technically owns all data.
+  Speaker 4 11:14
+Previous audit one taken the day before what I'm doing that comparing the current audit against the first slide and so? In some of the, uh, about your navigating. In some of these, you will see. Filters. You might want to call parameters boxes, either within the report or at the top of the screen.
 
-11:11
-But do we want that to stay run, or do we not want that to stay wrong? Is the?
+  Speaker 2 11:33
+The last one is, how have we changed over time? Prince, right? So there's various various charts here. Line graphs it takes a second to run because these are all pulling from data. Uh, queries about queries not allowed against config, but it says the audit records. And so this is far over time.
 
-  Speaker 2 11:19
-There's the real question. Yeah, it really is the manager of the data team now. Okay, so
+11:54
+So it just shows us Trends of,
 
-  Speaker 5 11:23
-That Merle would be the one to then do those approvals from now on. Yeah, if we're just going to blanket
+  Speaker 3 11:55
+However, we do it over time, so this will only have at each time an audit is run, right? Yes, so good point. This will only have a point when an audit is round.
 
-  Speaker 2 11:30
-Statement, anything that, yeah, I thought, Roman. I'm just trying to Fumble back. Yeah, I
+  Speaker 2 12:06
+Any comments, questions?
 
-  Speaker 5 11:37
-Mean that the whole labeling project is kind of just on hold because nobody really provided any further input, and so we're just not doing anything with it at this point in time.
+12:10
+Um. Well, I made my question actually belongs later.
 
-  Speaker 2 11:49
-And
+12:17
+Back to the agenda. Make sure I'm sticking to it. Navigating is by explaining backwards, have actually a brief overview entrance.
 
-  Speaker 5 11:49
-That's kind of what this was relying on is, like, some more buy-in from that project to figure out who should be able to look at what data. Um, because as of right now. It's kind of just as long as a manager and then really approve
+  Speaker 5 12:24
+So they basically, uh, you know, I'm not going to go over the document, but there's out here in. Filed home site. Uh, newly published documents.
 
-  Speaker 1 12:04
-It.
+12:40
+I am the coverage.
 
-  Speaker 5 12:06
-You can have access to that sensitivity level, of course. All data sources, the database S3, Diamond DB, whatever it may be.
+  Speaker 2 12:45
+There's multiple documentation created under the official documents. Short map.
 
-  Speaker 2 12:15
-Why why? Oh.
+12:59
+So, the pro, the one you'd probably be more interested in, is. Are tagging and audit metric specification. That's where it tells each metric what it means and how it's derived. The architecture specification talks about what platform is, what the integration between quicksite, Athene, and glue? There's a tagging governance document, which is not all that much, but there's also the tech standards which I've created and published.
 
-12:45
-Oh, I'll hit up. Chris, yeah. All right. I took a note saying actionable, if not, we're going to close it out. That sounds good.
+13:31
+Uh, a few weeks ago.
 
-  Speaker 5 12:59
-New repository for password sync. I think I gave this to you all. Uh, and I always pick on Lance.
+13:36
+Is that different
 
-  Speaker 2 13:06
-Lance. Did you know I gave this to you? Thanks, Bill. Yeah, I saw an email. Yeah, I figure we'd talk about it, um. The password sync project. You know what I'm talking about when I say that?
+  Speaker 3 13:36
+From the old tagging standards document?
 
-  Speaker 5 13:19
-Is that our Mainframe password sync yes?
+13:44
+And in that talks about. Or time, your time and all. It's going to be run.
 
-  Speaker 2 13:24
-I did not know exactly. Yeah, so? Sometime last year, Zach worked to get our password sync tool that Jackson knows about it. It's how we synchronize your ad password with the Mainframe. Yeah, I think the software we use over there. But uh, he was asking, hey, can I move that code up to GitHub?
+  Speaker 2 13:51
+Different things like that about how to manage tax, which we will get back into in just a minute. But
 
-13:45
-And I, sir, yeah, certainly. Let's do that, but then somebody mentioned it actually has the production username and password in the code checked into svn. Uh, to where, if you have that source code, you can go in there and change anybody's password in on the Mainframe.
+  Speaker 3 13:56
+That's that document is still a good source of Truth. Yeah, this is the source of yeah. This is the first the first truth for taking standards.
 
-  Speaker 1 14:02
-And
+  Speaker 2 14:04
+Back in the main in the main site in this documents where other runbooks have been put so far. There are one books about.
 
-  Speaker 2 14:02
-Uh, we said, oh, crap. We need to rotate that.
+14:16
+There are two run books. When about running audits. And, and then.
 
-14:09
-So, the task is. Lance Jackson can you all work with Zach to get this secret rotated and do not give it? Please do not give it to anybody. Just bringing any bells? Um, I don't recall the.
+  Speaker 1 14:28
+More about running.
 
-  Speaker 5 14:25
-Name of the account, but we can easily rotate it on our end. It's we just generate a new password.
+  Speaker 2 14:35
+These are just yet finished. Um, maintaining the eye platform. And then tagging, maintaining the reference tagging information.
 
-14:35
-We'll put it where it's needed. Yeah, no, it's a secret and secrets manager. We can throw it in there, um? Zach can tell you exactly what account it is. Alex can tell you exactly what account it is.
+14:46
+I'll go back. Come back here in. Current comments or questions about that? Audit findings.
 
-  Speaker 2 14:48
-But since we've had a production username and password that has that capability checked into SVN, I kind of put the brakes and said, we're not moving this until we get that secret rotated.
+15:01
+Then, I will go to the next export to look at. And this is where. Danny has made some decisions.
 
-  Speaker 5 14:58
-Yeah, we can. We can rotate it anytime, anytime they're ready to have it rotated.
+15:13
+So, right now, the only source of truth we have for our tags is that spreadsheet. That is going away. Tags tag management. All that is now under the terraform code repository. Of the AWS config. They are CSV files, right? So, I'm getting rid of the Excel spreadsheet, and then I've already updated the tag exact page.
 
-  Speaker 2 15:03
-Okay, we
+15:37
+Talk about this
 
-  Speaker 5 15:04
-Just need to know when and where that needs to be. Okay, so you wanna you want us to drive it? Yeah, we just need to know, like? Hey, yeah, we're ready to have this deployed. Tonight at five is when you can rotate the. Password, and we'll say, okay, cool.
+  Speaker 3 15:37
+In those CSV piles are literally used by used. Those are the references,
 
-15:25
-That sounds good, and we'll rotate the password then. Um. In all actuality. 90 of our users do not need this process. Yeah. Um, and of the 10 remaining. I bet you. It's really only 5% who actually use it. If that? So?
+  Speaker 2 15:43
+So there's a tag there's a tags CSV file. There's a tag values CSV file maintains this and the relationship the between them, but there's some new. New other things that we're going to go into in here in just a minute. How about that, but the big thing is, is, tags, will now be managed to be a terrified.
 
-  Speaker 2 15:49
-I don't understand your statement every time I change. My password ad synchronizes my password into. The Mainframe. So then, when I log into arms and arms is using my, I didn't use it.
+16:04
+No more Excel spreadsheet. Naive what tags are approved and what?
 
-  Speaker 1 16:00
-Okay, so that's
+  Speaker 1 16:11
+Values, so
 
-  Speaker 2 16:01
-What you're saying. Is nobody's really logging on to the Mainframe? That's why it doesn't matter.
+  Speaker 2 16:11
+That takes us probably about one year, maybe more interested in. Is this change management and reference dashboard, right? So, audits are different than the tag management, so you'll see right off the bat. I forgot to cover on in each inch. Dashboard is a guide. They talks to you that explains kind of what's in the dash and the dashboard, along with an explanations, metrics, and different things like that.
 
-  Speaker 5 16:05
-Yep, if the only thing that password matters is when, if you pull up an actual green screen, so one time you need the password synced, so there's not that many users that actually utilize that because here in I.T from our admin point of view.
+16:37
+Now, back to your question. Thanks! The official version now is in the CSV. Founding from this report and see what our proof takes in the tank daily this year.
 
-  Speaker 2 16:18
-Yeah, all of us
+16:51
+Gosh,
 
-  Speaker 5 16:19
-Admins manually sync. Our passwords are ready. Okay, that's good to know, so it's, it's. Really, just a couple business people I know about.
+  Speaker 3 16:51
+Sorry, I didn't like traffic out there,
 
-  Speaker 4 16:28
-Truly use the green screens, and that's about it at this point in time. And some people in I.T who aren't admins in the Mainframe? Yeah.
+  Speaker 2 16:53
+But tag management reference. So, there's the list of tags we have, right? That's pulled straight from a CSV. Oh boy, there's. Tags that haven't approved and allowed value. If paper that?
 
-  Speaker 2 16:36
-I don't know if Jack was in the or shared this with you all, but when he was sharing the windows hello. Stat is kind of letting us know about it. Um, they kind of mentioned down the road. We're going to extend how long, maybe even not make you rotate your personal password and?
+  Speaker 1 17:11
+One new aspect of that, and I'll get to this after we review these reports is tag exemptions. Not every tag was every AWS. And so. This is where he would follow. You would look to see isn't tagging required. Does it require a value, right? That's in this column here.
 
-16:56
-Jake on the Mainframe side said this synchronization thing. It actually keeps your account live on the Mainframe. So, now, we would have to figure out how to keep your account from blocking due to in, you know, disuse. So it does do that function, so it's it actually doesn't do that part.
+17:39
+This is for each tag doesn't have a defined list. Right, so? This kind of covers the allowed values. Is it a required K? Yes or no, right? Here's where to get into some of the management types. We can say there's a flag in the CSV, file says. Is this study marketed so we can say we're not even concerned about checking on this pay?
 
-17:15
-Um, well, Jake's running in the arms. Yeah, logging in the arms actually refreshes your last swap on time. Okay, well, Jake probably needs to know that then. Yeah, your password would be expired. Jake's right about that part, it just, it won't. It shouldn't lock you out because we, you know, how we white list servers and stuff?
+18:07
+Our tag values are. And isn't it across control? So these are bag control columns. That are in the CSV file that will help us manage our audits moving forward. There's no sense the audit the value of something if we have that flag, as it doesn't have a lap value.
 
-17:33
-Yeah. Those servers can log in as anybody in the Mainframe without a password. That sounds fun. Yeah, that's what that white listing actually means. Okay, so? Anytime you log into arms, you do to log into the Mainframe, but the arm server is whitelisted to log in as you without a password.
+18:31
+Um. Next part you get into is actually. Exemptions. Now, how are we going to handle the situation that will match with our quality, right? Um. There's an exemptions list. So, the reason it's going to work? Is that by tag? Right. We can set the flag to say whether the tag is audited at all.
 
-17:55
-Oh, I'm I'm asking Zach to drive this now. Yep, spell Zach. Sounds good. Thanks, Phil. All right.
+18:58
+Right, but we also have to update. We also have a list that says these resources are Exempted from being tagged.
 
-  Speaker 1 18:02
-You, uh, had this waft design over here, and I can't remember what we're looking for. Is this you've got?
+19:11
+So, there's a table that says for this tag for this resource. Are we or are we not? Auditing the tag on them. Now, there's a flag that says, is it active, but co-pilot had me had that to say, well, you might want to not audit it right now. Audit it later in the future, so it added a control flag so that if we do want to start auditing application name on 80 on AWS ACM certificates.
 
-18:12
-I think all this is done, I mean. Um, Alex and nerdy got the tariff one built. We worked on that over the last couple weeks
+19:37
+We can go in there and turn the flag. Yes or no. Same goes through, goes best exceptions, exemptions. They're things that we want and the required times are probably the most one easiest ones to understand. We want to require the tag. But we don't want to audit the value in that tag because it's going to change.
 
-  Speaker 3 18:19
-And actually deployed.
+20:02
+It's going to have a big. It's going to have 25 different possible values in there. We're not concerned that the create by matches a list of known email addresses, but we do want to make sure that the tag is there, but we don't want to track the audit, same structure.
 
-  Speaker 1 18:22
-Bottle, okay?
+20:16
+We can say this tag for this for this resource. In this tag, we do not want to try to evaluate. Maybe we want to talk okay, but don't aren't concerned about the value. And so those these tables. Are actually it updated by updating the CS files in their form repository.
 
-  Speaker 2 18:27
-I'll have to look back through this. Do you care if I assign this to myself?
+20:33
+So when we go to make changes, else we no longer want to audit the tag value for created by on these resources? We just update the CSV. Push. And how many resources? How long do you think this particular thing will grow to a very large chance?
 
-  Speaker 1 18:31
-Uh, that's fine. Yeah. Um. That what that WAF governance I'm trying to think that may have changed?
+20:54
+I, I don't know, uh, and that's why this filter is here. Is to help you understand, okay.
 
-  Speaker 2 18:41
-Okay, well, what I was going to assign it to myself, was I was going to take a look at what you got, and then I'm going to follow up with Chris. Um, sometimes you all are going to have standards run books that you all don't want to or need to pass by the other teams.
+21:04
+For this. What's the status of? This tag on these resources. Right, so you can work use it to work through. How many more resources are expected on the application name that we decided it doesn't have another word? Go ahead. There's, I don't know how many AWS resources, I'm sure it's a huge number.
 
-  Speaker 1 18:56
-I
+21:26
+Well, that I think is one of the. Things here. How many distinct resource types are there, right? Would it? Would it not make sense to worth eaters where? Are only looking for this resource type X.
 
-  Speaker 2 18:56
-Think that's one. This is one of those times unless they wrote governance around wax. But if it's all up to date, we'll just close it. But I do know you all were working on. Uh, changing this for the claim mobile upload. So right, I'll take a quick look at it and ask Chris what he wants to do, and then probably kick it back to you to say if it's up to date.
+  Speaker 2 21:44
+Instead of everything.
 
-19:18
-Probably need to know where you're publishing them because Danny was trying to get us to publish them all somewhere. But if you all have your own separate process? We just need to make sure it gets there. Yeah, it should be in the AWS main page as well. We've been publishing all of them.
+  Speaker 1 21:46
+I'm not changing my audit logic for this because our auto logic says and our rules say this tag belongs on everything. It doesn't say this title loans on only these things. I mean, okay, this one way half does another, but I'm following the 10 policies and practices in the standards.
 
-19:31
-So perfect. All right.
+22:05
+Community, all specification, and played out. So? Doing it your way. Has a possibility for misplace. You say, I don't want to all these things, and the other new thing we don't know that we. Go and add it back to the audience. These are the things that I'm gonna pack, but a negative check.
 
-  Speaker 1 19:39
-Well, I had you off mute and you went back. I mean, um.
+22:25
+Okay, I'm checking everything and then processing listing. The extensions will come up in orders. I think both would
 
-  Speaker 2 19:43
-I was trying to keep an eye on this claim mobile upload.
+  Speaker 2 22:32
+Be important. Okay,
 
-  Speaker 1 19:47
-Alex mentioned he's gotten it as far as he can get.
+  Speaker 1 22:33
+So that's the tech manager that's just Tech management. Then there's, you want to know what current tags are and what values we're using. This is the report. This is a distinct list of every tag name that we have out there, right?
 
-  Speaker 2 19:51
-The last bit was, uh, you all working on that laugh. Do you all think you're done with the laugh for playing mobile upload now? I need to give it a. Glance over. Today, just to make, sure, but um. He included everything that you know pretty much asked for from the security standpoint.
+22:51
+This ties in, so we have three five, so this kind of gives you a number of resources that type so little tiny back to the exceptions table. There will be some things that we don't want to type because they are.
 
-20:09
-But yeah, if there's any tweaks that need? May we have to do those one-off, but I think it's, it's pretty good to go right now. So okay, and then. Are we doing Dean Dorton scan before we open it up to production? Uh, yeah, they're supposed to do a scam, um, I know.
+23:11
+Service managed, right? We don't have a control that is a AWS service pay. Beyond our controls, not in our list. We can't do anything, so you will Define, which which tags are exempt because they're not candidates. Sir, so you want you want to know what the distinct number extinct value of current tags is, that's your list.
 
-20:30
-Mason said that it was offline the other day when we were talking to Dean Dorton on the phone. They were actually asking when
+23:36
+It's distinct, distinct thing, value pairs, and this one does have a filter.
 
-  Speaker 1 20:36
-They could do it, and the website was down. But I think it's back up now, so. Uh, we can ask them to move forward with that. All right, I'm prepping for if they ask questions. Yeah, I've already done the and our internal scan through tenable and that came back, uh, we had to make one change, um.
+23:45
+There's something called unique tag. It's like every go, easy snapshot. Now, we're not going to go ahead and delete those times. We don't have control over those tags. But it's getting created, and this is a hence black back. Why? You don't only have list if you only look what you're going to tag, you're going to miss things that are behind your control to do anyway.
 
-  Speaker 2 20:56
-But HS TS editors stuff like that, but that was nothing major. Other than that, I didn't find anything awesome.
+24:04
+Substance off your student numbers so? Um. Uh, if cohesity is take as crazy, we need to update the update the CSV file to add it to. Um, the resource types. And so that the next story comes around. It's not included.
 
-21:07
-Thanks, Les. No, thanks. Gigi, you have a chance to look through all these to see if they're already done. Um. Partially, I'm still gonna go through and just move them to in progress or done okay, um. But for the data-based patch, I'm I'm gonna work on the script.
+24:26
+The other tat on this are? The complete list of what you would see in the executive summary in the title of right, so missing required types.
 
-  Speaker 4 21:29
-Is that I'm going to put on the file on the S3 and JVS is also working on this python script as well and and? And I'm going to. I'm also working on the code for it or the because you're going to need a Lambda SNS not
+24:41
+I I audit dashboard just gives you summary metrics and graphs and charts, and things like that give you a kind of saying what it is, but I don't tell you about detailing. What exactly makes up those 39, 133 things in a row? So, that's where you can come to these reports here.
 
-  Speaker 3 21:48
-Knowing what SMS because we're going to be using, um, extra batch. So that's that, but there's a few, um.
+25:05
+Not bad values.
 
-  Speaker 4 21:56
-Things I'm working on to be able to move that to pending or at least for us to finalize our testing, but I'll I'll put in updates on it on the ticket and comment. Okay. Do you care if I give you one more thing? You've got plenty on here, but
+25:14
+So these. These are like some of those specific metrics to give you the detail of. If Jeff says, oh, we're gonna go fix it. You can use the reports. I don't know. So this, this entire list might be ten thousand miles. I don't know. You have access to all the 10 000 lines if you come here.
 
-  Speaker 1 22:16
-Uh, since you're working through all these to see if these are already covered by our standard or run book that you've written, Danny wrote a standard, and we need to review it.
+25:36
+You go to f42xl. Whether it's going to give you the full results of the underlying data or just what the bot 100 had a choice.
 
-  Speaker 2 22:26
-I'm trying to figure if anybody should review it. It probably should be you. Yeah, you can. We can add that on here. All right, I'll find that one and give it to you. Okay.
+25:51
+Our reports give you the numbers and metrics. Reporting industry management reference gives you the reports. Let's see what happens here of our current? Management structure control. And the underlying the actual individual records.
 
-  Speaker 1 22:48
-Anything else CG? Um.
+26:17
+Hey Max Ellen radio show it to me?
 
-  Speaker 5 22:54
-The rest I will just pick and choose, which I need to be. Go to go to to be moved to Dan,
+26:33
+Okay, so it gave me 7493 rows. Of invalid type values, right? I'm assuming that's all I don't. It looks like it's more than a website in the screen because I limited unlimited to this these these rendered tables so. 500 or 100.
 
-  Speaker 2 22:59
-And I'll just
+27:03
+There's already a list of things to do in version 2.0. That's what we had. We're not going to teach me all the way at this, we have too much work to do on our tags. We're not finding right now. Is there a list of items that are the high priorities?
 
-  Speaker 5 23:00
-Add a comment before I move it to Dan. Honestly, if you just, I think most of these you've covered with your run book. If you just want to move them to done, I'm fine with that. Okay,
+27:22
+Uh, that is a decision. The people who are going to are going to remediate from right, so that or tell us to remediate.
 
-  Speaker 2 23:11
-Save you some time if you want to take notes you can, but I'm pretty sure most of these, if not all, of these, you've already covered them in your runbook. Yeah, yeah. So, up to you.
+27:35
+Identifies value. Great question! Okay. I think if following in my and this is where we don't have any management here. Today, management needs to make a decisions. I lost the responsibility to fix the tags. Take care of the tax. Profile platform engineering. One of the two groups are going to create another group of.
 
-23:28
-Sorry. Starving for work, aren't you exactly? Yeah!
+28:01
+Tag Busters. People who go out there and? I think my first. Unfortunately, that's all that we need to do is start. Well, we're starting to work, start working through tights, and start addressing the exemptions. These resources are exempt from pegging, and these resources are different protect values.
 
-  Speaker 1 23:35
-Yeah, but uh, right now. I'm actually, uh. Uh, helping Zach to tis? Uh, guard wire payload.
+28:27
+Resource types. That generic wire, like, start like, you know, using a star or an SB, exactly specific, because there is a query that goes out there inside of a? Tell me all the AWS resources that are in AWS config. So, I'm not trying to gain the system off, well, everything.
 
-  Speaker 6 23:44
-Up, so we're working on that. And in fact, I'm actually having a bit errors from the database side. I'm just trying to figure out. Uh, exactly, pinpoint what? Exact error is. Okay, so, yeah, working on that, and I even updated the Lambda standards and run books with the RDX proxy and also the.
+28:51
+Aws certificate is not managed, right? Everything's atomic, based on the resource.
 
-24:10
-Provision concurrency.
+29:03
+So, when?
 
-  Speaker 2 24:19
-What are we calling this the inbound, the Gap wire inbound? Yeah, payload this.
+  Speaker 2 29:05
+So here, run the ice here. Pretty easy to. There are other resources on the back end of these two creation, right? There's PBS, you know, if those do those inherit the tags of the ec2, um, so they can? Yes, um. But also, like, we do most of our tagging through default tags and terraforms, like we did through the provider itself.
 
-24:30
-You're doing the whole thing Gateway. Rds proxy.
+29:29
+So, my understanding is basically the way we configure taxes, like everything that terraform can tag. It will tag with those default tag values.
 
-24:40
-I'll try to come up with a lot more succinct message.
+  Speaker 1 29:41
+That's in the in the main, or it's one of the it's either in the.
 
-24:52
-There we go. That's that.
+  Speaker 2 29:47
+Oh, yes, it's
 
-24:58
-At Sprint 7. I collected tonight. Oh my gosh, I didn't assign it to anybody because it doesn't have a drop down button. What do we got unsigned? Let's just see, oh, just that one.
-
-25:16
-There you go. Sorry, yeah!
-
-  Speaker 1 25:17
-Yeah,
-
-  Speaker 2 25:18
-Anything from Anil, are you still? Wait, I'm still waiting actually, uh? Once I get anything like, any documents or any designs, then I can just let you know. I put that.
-
-  Speaker 4 25:32
-Okay, I'll hit up Suresh again, saying, hey, we're still
-
-  Speaker 1 25:34
-Waiting.
-
-  Speaker 2 25:34
-If you still need work after that, let me know. We probably can dig you something up. Sure. I, I do know we have a lot of one-off workloads where we built it one-of-a-kind. This pims, uh? I don't know if anybody shared with you, but I think it's from bitbucket.
-
-25:54
-We deploy a pems mobile upload, kind of like the claim file upload. Yeah. Raj on my team is trying to upgrade the node.js version on it. And I'm pretty sure that's a project that we did not use terraform to produce any of the resources. I'd like to start getting rid of these one-offs if we just have nothing else to do.
-
-  Speaker 1 26:19
-Let me know if you're desperate, and I can see if we can get you that sure.
-
-26:26
-Anything else anybody need me to ask the cloud management team anything?
-
-26:34
-Then we tell him we prefer to go to Google Cloud instead of azure and AWS.
-
-26:45
-All right. Psy, what's your favorite cloud provider? Aws, actually, all right. We'll stay on it then. All right, everybody. That's all I got. Five, yeah, sure. See y'all have a good Monday. Thank you. Thanks. Me too. See you.
+  Speaker 1 29:47
+Either in the main or it's in the locals or someplace like that, that wherever it can tag it. Okay, yes, in some st
