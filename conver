@@ -1,1 +1,4 @@
-aws rds describe-db-clusters --query 'DBClusters[*].[DBClusterIdentifier,Endpoint,DatabaseName]' --output text
+~ $ aws rds describe-db-clusters --query 'DBClusters[*].[DBClusterIdentifier,Endpoint,DatabaseName]' --output text
+fin-db-rds-cluster-dev1-cashmgt-pg      fin-db-rds-cluster-dev1-cashmgt-pg.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com     None
+realtimeinsurance-dev-aurora-cluster    realtimeinsurance-dev-aurora-cluster.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com   None
+~ $ 
