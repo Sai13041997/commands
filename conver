@@ -1,1 +1,18 @@
-cat /etc/os-release | head -2; echo "---"; env | grep -i -E "cloudshell|execution_env|container" ; echo "---"; hostname
+~ $ cat /etc/os-release | head -2; echo "---"; env | grep -i -E "cloudshell|execution_env|container" ; echo "---"; hostname
+NAME="Amazon Linux"
+VERSION="2023"
+---
+AWS_CONTAINER_CREDENTIALS_FULL_URI=http://localhost:1338/latest/meta-data/container/security-credentials
+AWS_EXECUTION_ENV=CloudShell
+PWD=/home/cloudshell-user
+LOGNAME=cloudshell-user
+HOME=/home/cloudshell-user
+AWS_CONTAINER_AUTHORIZATION_TOKEN=NKPwfNGRKMOoL/Nw9YF4W9i7rVXofpWRZihgdah/UeQ=
+CLOUDSHELL_PRIVATE_IPV4=10.139.170.179
+USER=cloudshell-user
+PATH=/home/cloudshell-user/.local/bin:/home/cloudshell-user/bin:/usr/local/python3.13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/node_modules/aws-cdk/bin
+AWS_TOOLING_USER_AGENT=AWS-CloudShell/2026.07.27
+MAIL=/var/spool/mail/cloudshell-user
+---
+bash: hostname: command not found
+~ $ 
