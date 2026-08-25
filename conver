@@ -1,12 +1,4 @@
-~ $ aws rds describe-db-proxies \
->   --db-proxy-name realtimeinsurance-dev-aurora-proxy \
->   --query 'DBProxies[0].Auth'
-[
-    {
-        "AuthScheme": "SECRETS",
-        "SecretArn": "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh",
-        "IAMAuth": "REQUIRED",
-        "ClientPasswordAuthType": "POSTGRES_SCRAM_SHA_256"
-    }
-]
-~ $ 
+aws secretsmanager get-secret-value \
+  --secret-id arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh \
+  --query SecretString --output text \
+  | python3 -c "import sys,json; print(json.load(sys.stdin)['username'])"
