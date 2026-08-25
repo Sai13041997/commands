@@ -1,18 +1,1 @@
-~ $ cat /etc/os-release | head -2; echo "---"; env | grep -i -E "cloudshell|execution_env|container" ; echo "---"; hostname
-NAME="Amazon Linux"
-VERSION="2023"
----
-AWS_CONTAINER_CREDENTIALS_FULL_URI=http://localhost:1338/latest/meta-data/container/security-credentials
-AWS_EXECUTION_ENV=CloudShell
-PWD=/home/cloudshell-user
-LOGNAME=cloudshell-user
-HOME=/home/cloudshell-user
-AWS_CONTAINER_AUTHORIZATION_TOKEN=NKPwfNGRKMOoL/Nw9YF4W9i7rVXofpWRZihgdah/UeQ=
-CLOUDSHELL_PRIVATE_IPV4=10.139.170.179
-USER=cloudshell-user
-PATH=/home/cloudshell-user/.local/bin:/home/cloudshell-user/bin:/usr/local/python3.13/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/lib/node_modules/aws-cdk/bin
-AWS_TOOLING_USER_AGENT=AWS-CloudShell/2026.07.27
-MAIL=/var/spool/mail/cloudshell-user
----
-bash: hostname: command not found
-~ $ 
+Your RDS Proxy is configured with AuthScheme: SECRETS, which means it logs into Aurora using a password pulled from Secrets Manager — IAM is only used for the Lambda-to-proxy hop, not the proxy-to-Aurora hop. The proxy has exactly one secret registered, and that secret belongs to kfb_aurora_admin. There is no secret registered for pgsi_ans00315015, so that user has no valid credential for the second hop and Aurora rejects the login. On top of that, the role almost certainly has rds_iam granted, which in this mode forces Postgres to authenticate it via PAM and reject any password the proxy presents — that's the exact error text you're seeing. The fix is to revoke rds_iam from the user, give it a SCRAM-SHA-256 password, store that in a new secret, and register that secret on the proxy. No Lambda code changes needed.
