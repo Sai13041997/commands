@@ -1,1 +1,811 @@
-Your RDS Proxy is configured with AuthScheme: SECRETS, which means it logs into Aurora using a password pulled from Secrets Manager — IAM is only used for the Lambda-to-proxy hop, not the proxy-to-Aurora hop. The proxy has exactly one secret registered, and that secret belongs to kfb_aurora_admin. There is no secret registered for pgsi_ans00315015, so that user has no valid credential for the second hop and Aurora rejects the login. On top of that, the role almost certainly has rds_iam granted, which in this mode forces Postgres to authenticate it via PAM and reject any password the proxy presents — that's the exact error text you're seeing. The fix is to revoke rds_iam from the user, give it a SCRAM-SHA-256 password, store that in a new secret, and register that secret on the proxy. No Lambda code changes needed.
+Copilot said:
+DEV SOAP / Aurora / RDS Proxy Investigation - Complete Handoff
+Executive Summary
+
+The DEV SOAP API issue was fully investigated and the root cause was identified.
+
+The actual issue is:
+
+Plain Text
+1
+PAM authentication failed for user "pgsi_ans00315015"
+Show more lines
+
+This occurs when the SOAP Lambda attempts to query Aurora PostgreSQL through the RDS Proxy.
+
+The RDS Proxy is currently configured only with the Aurora master-user secret (kfb_aurora_admin), while the Lambda application connects using database user:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+This mismatch causes Aurora authentication to fail.
+
+What is the issue?
+
+SOAP requests fail when the Lambda attempts to read data from Aurora PostgreSQL.
+
+The database connection path is:
+
+Plain Text
+1
+SOAP Request
+2
+↓
+3
+API Gateway
+4
+↓
+5
+Lambda
+6
+↓
+7
+Generate IAM Token
+8
+↓
+9
+RDS Proxy
+10
+↓
+11
+Aurora PostgreSQL
+12
+↓
+13
+PAM authentication failed for user "pgsi_ans00315015"
+Show more lines
+
+The actual failure is not Lambda.
+
+The actual failure is database authentication.
+
+What was initially observed?
+
+Several errors were encountered during testing.
+
+Observation 1
+
+Direct Lambda invocation failed with:
+
+Plain Text
+1
+Missing required SOAP field
+Show more lines
+
+Cause:
+
+The SOAP payload structure was incorrect.
+
+Lambda expected:
+
+XML
+1
+<VehicleInformation>
+2
+<VehicleDetails>
+3
+<VIN>...</VIN>
+4
+</VehicleDetails>
+5
+</VehicleInformation>
+Show more lines
+
+But the original test payload contained:
+
+XML
+1
+<VehicleIdentification>
+2
+<VIN>...</VIN>
+3
+</VehicleIdentification>
+Show more lines
+Observation 2
+
+mTLS testing failed
+
+Various curl attempts produced:
+
+Plain Text
+1
+Failed to import cert file
+2
+password is bad
+Show more lines
+
+and
+
+Plain Text
+1
+server closed abruptly
+2
+``
+Show more lines
+
+These turned out not to be the core issue.
+
+Observation 3
+
+After fixing SOAP payload:
+
+Plain Text
+1
+InterfaceError: network error
+Show more lines
+
+appeared.
+
+Initially looked like networking.
+
+Later determined to be the Aurora authentication issue underneath.
+
+Final confirmed issue
+
+RDS Proxy logs showed:
+
+Plain Text
+1
+The new database connection using IAM authentication failed.
+2
+ 
+3
+Error code: [XX000]
+4
+ 
+5
+Message:
+6
+PAM authentication failed for user "pgsi_ans00315015"
+Show more lines
+
+This is the actual root cause.
+
+Evidence collected
+Lambda logs
+
+Lambda successfully:
+
+Plain Text
+1
+SOAP parsed successfully
+2
+VIN extracted
+3
+Request fields extracted
+4
+IAM token generated
+5
+Database connection established
+6
+Database cursor created
+7
+Executing query
+Show more lines
+
+This proves:
+
+Plain Text
+1
+Lambda works
+2
+IAM auth token generation works
+3
+Proxy reachable
+4
+Database reachable
+Show more lines
+
+Failure occurs during database authentication.
+
+Lambda log snippets
+
+Logs showed:
+
+Plain Text
+1
+IAM auth token generated
+Show more lines
+
+Then:
+
+Plain Text
+1
+Database connection established
+Show more lines
+
+Then:
+
+Plain Text
+1
+Database cursor created
+2
+``
+Show more lines
+
+Then:
+
+Plain Text
+1
+Executing query
+2
+``
+Show more lines
+
+Then:
+
+Plain Text
+1
+InterfaceError: network error
+Show more lines
+
+Only after checking RDS Proxy logs did the true reason become visible.
+
+RDS Proxy findings
+
+Located in:
+
+Plain Text
+1
+modules/aurora-postgres/rds_proxy.tf
+Show more lines
+
+Current configuration:
+
+Terraform
+1
+auth {
+2
+auth_scheme = "SECRETS"
+3
+iam_auth = "REQUIRED"
+4
+secret_arn = aws_rds_cluster.aurora.master_user_secret[0].secret_arn
+5
+}
+Show more lines
+
+Only one secret exists:
+
+Plain Text
+1
+Aurora master user secret
+Show more lines
+
+Used by:
+
+Plain Text
+1
+kfb_aurora_admin
+Show more lines
+What database user does the application use?
+
+Lambda logs showed:
+
+Plain Text
+1
+user=pgsi_ans00315015
+2
+``
+Show more lines
+
+Meaning:
+
+Plain Text
+1
+Proxy Secret User
+2
+=
+3
+kfb_aurora_admin
+Show more lines
+
+while
+
+Plain Text
+1
+Application User
+2
+=
+3
+pgsi_ans00315015
+Show more lines
+
+Mismatch exists.
+
+Commands used during investigation
+Get API custom domain configuration
+PowerShell
+1
+aws apigateway get-domain-name `
+2
+--domain-name realtimeinsurance-soap-api-dev.devkyfb.com `
+3
+--profile L2-Development `
+4
+--region us-east-1
+Show more lines
+Get API mapping
+PowerShell
+1
+aws apigateway get-base-path-mappings `
+2
+--domain-name realtimeinsurance-soap-api-dev.devkyfb.com `
+3
+--profile L2-Development `
+4
+--region us-east-1
+Show more lines
+
+Result:
+
+Plain Text
+1
+restApiId = q51dqcsrw5
+2
+stage = default
+Show more lines
+Invoke Lambda directly
+PowerShell
+1
+aws lambda invoke `
+2
+--region us-east-1 `
+3
+--function-name realtimeinsurance-dev-soap-verification-lambda `
+4
+--profile L2-Development `
+5
+--cli-binary-format raw-in-base64-out `
+6
+--payload file://event.json `
+7
+response.json
+Show more lines
+Read Lambda response
+PowerShell
+1
+Get-Content .\response.json
+Show more lines
+View Lambda logs
+PowerShell
+1
+aws logs tail "/aws/lambda/realtimeinsurance-dev-soap-verification-lambda" `
+2
+--since 5m `
+3
+--profile L2-Development `
+4
+--region us-east-1
+Show more lines
+View RDS Proxy logs
+PowerShell
+1
+aws logs tail "/aws/rds/proxy/realtimeinsurance-dev-aurora-proxy" `
+2
+--since 10m `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--format short
+Show more lines
+
+This command exposed:
+
+Plain Text
+1
+PAM authentication failed for user "pgsi_ans00315015"
+Show more lines
+Discussion with Alex
+
+Initial findings shared:
+
+Plain Text
+1
+Proxy only configured with admin secret.
+2
+ 
+3
+Lambda connects as pgsi_ans00315015.
+4
+ 
+5
+Proxy logs show PAM authentication failed.
+Show more lines
+
+Alex responded:
+
+Plain Text
+1
+Yeah I think you're on the right track.
+2
+ 
+3
+We should update aurora module
+4
+To manage secret for custom user rather than admin user.
+Show more lines
+
+Then:
+
+Plain Text
+1
+My thought is we should have module create it,
+2
+maybe take input for the name as an option though.
+Show more lines
+
+Further:
+
+Plain Text
+1
+If needed we can just recreate secret,
+2
+easy to migrate over the creds.
+Show more lines
+
+Finally Alex approved proceeding:
+
+Plain Text
+1
+If you think you know what's needed
+2
+I say go right ahead.
+Show more lines
+Additional clue discovered
+
+In:
+
+Plain Text
+1
+apps/realtimeinsurance/main.tf
+Show more lines
+
+A comment exists:
+
+Terraform
+1
+# Adopted from real-time-insurance-infra:
+2
+#
+3
+# it previously ran its own proxy
+4
+# against a custom secret/db-user,
+5
+# now consolidated onto this module's proxy,
+6
+# which authenticates as var.master_username
+Show more lines
+
+This suggests:
+
+Old design
+Plain Text
+1
+Custom DB User
+2
++
+3
+Custom Secret
+4
++
+5
+Custom Proxy Auth
+Show more lines
+New design
+Plain Text
+1
+Master Secret Only
+Show more lines
+
+Likely introducing the regression.
+
+Terraform code changes made
+File
+Plain Text
+1
+modules/aurora-postgres/variables.tf
+Show more lines
+
+Added:
+
+Terraform
+1
+variable "rds_proxy_application_auth" {
+2
+description = "Optional application database user authentication for RDS Proxy"
+3
+ 
+4
+type = object({
+5
+username = string
+6
+secret_arn = string
+7
+})
+8
+ 
+9
+default = null
+10
+nullable = true
+11
+}
+Show more lines
+File
+Plain Text
+1
+modules/aurora-postgres/rds_proxy.tf
+Show more lines
+Secrets Manager access
+
+Original:
+
+Terraform
+1
+resources = [
+2
+aws_rds_cluster.aurora.master_user_secret[0].secret_arn
+3
+]
+Show more lines
+
+Updated:
+
+Terraform
+1
+resources = concat(
+2
+[aws_rds_cluster.aurora.master_user_secret[0].secret_arn],
+3
+var.rds_proxy_application_auth != null ? [
+4
+var.rds_proxy_application_auth.secret_arn
+5
+] : []
+6
+)
+Show more lines
+rds-db:connect permission
+
+Original:
+
+Terraform
+1
+resources = [
+2
+"arn:aws:rds-db:.../${var.master_username}"
+3
+]
+Show more lines
+
+Updated:
+
+Terraform
+1
+resources = concat(
+2
+[
+3
+"arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.master_username}"
+4
+],
+5
+var.rds_proxy_application_auth != null ? [
+6
+"arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.rds_proxy_application_auth.username}"
+7
+] : []
+8
+)
+Show more lines
+RDS Proxy auth configuration
+
+Kept original:
+
+Terraform
+1
+auth {
+2
+auth_scheme = "SECRETS"
+3
+iam_auth = "REQUIRED"
+4
+secret_arn = aws_rds_cluster.aurora.master_user_secret[0].secret_arn
+5
+}
+Show more lines
+
+Added:
+
+Terraform
+1
+dynamic "auth" {
+2
+for_each = var.rds_proxy_application_auth != null ? [var.rds_proxy_application_auth] : []
+3
+ 
+4
+content {
+5
+auth_scheme = "SECRETS"
+6
+iam_auth = "REQUIRED"
+7
+secret_arn = auth.value.secret_arn
+8
+}
+9
+}
+Show more lines
+Validation
+
+Executed:
+
+PowerShell
+1
+tofu validate
+Show more lines
+
+Result:
+
+Plain Text
+1
+Success! The configuration is valid.
+Show more lines
+Git work completed
+
+Staged:
+
+PowerShell
+1
+git add modules/aurora-postgres/rds_proxy.tf
+2
+git add modules/aurora-postgres/variables.tf
+Show more lines
+
+Committed:
+
+PowerShell
+1
+git commit -m "Add optional RDS proxy application user authentication"
+Show more lines
+
+Commit:
+
+Plain Text
+1
+f3cab8f
+Show more lines
+
+Pushed:
+
+PowerShell
+1
+git push origin feature/T012SP/CPE-250-perf-output-fix
+Show more lines
+Current status
+
+Completed:
+
+✅ Root cause identified
+
+✅ PAM authentication failure reproduced
+
+✅ RDS Proxy logs collected
+
+✅ Infra code enhanced to support application-user secret
+
+✅ Terraform validation passed
+
+✅ Changes committed
+
+✅ Changes pushed
+
+What is still missing?
+
+The module now supports:
+
+Terraform
+1
+rds_proxy_application_auth = {
+2
+username = "pgsi_ans00315015"
+3
+secret_arn = "..."
+4
+}
+Show more lines
+
+But:
+
+Plain Text
+1
+No caller passes this variable yet.
+Show more lines
+
+and
+
+Plain Text
+1
+No secret ARN has been wired in yet.
+Show more lines
+
+Therefore:
+
+Plain Text
+1
+Deploying current branch
+2
+does NOT fix DEV yet.
+Show more lines
+
+The proxy would still be configured exactly as before.
+
+Next recommended work
+
+Need to determine:
+
+Plain Text
+1
+What Secrets Manager secret belongs to
+2
+pgsi_ans00315015
+Show more lines
+
+Then update:
+
+Plain Text
+1
+apps/realtimeinsurance/main.tf
+Show more lines
+
+to pass:
+
+Terraform
+1
+rds_proxy_application_auth = {
+2
+username = "pgsi_ans00315015"
+3
+secret_arn = <secret arn>
+4
+}
+Show more lines
+
+Deploy.
+
+Then retest SOAP Lambda.
+
+Final conclusion
+
+The investigation is complete.
+
+The root cause is:
+
+Plain Text
+1
+RDS Proxy only knows about the Aurora master-user secret.
+2
+ 
+3
+The application connects as:
+4
+pgsi_ans00315015
+5
+ 
+6
+Aurora rejects that authentication attempt:
+7
+ 
+8
+PAM authentication failed for user "pgsi_ans00315015"
+Show more lines
+
+The Terraform module has been updated to support application-user authentication, but the application-user secret still needs to be identified and wired into the consuming stack before the DEV environment can be fixed.
