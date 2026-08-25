@@ -1,3 +1,12 @@
-aws rds describe-db-proxies \
-  --db-proxy-name realtimeinsurance-dev-aurora-proxy \
-  --query 'DBProxies[0].Auth'
+~ $ aws rds describe-db-proxies \
+>   --db-proxy-name realtimeinsurance-dev-aurora-proxy \
+>   --query 'DBProxies[0].Auth'
+[
+    {
+        "AuthScheme": "SECRETS",
+        "SecretArn": "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh",
+        "IAMAuth": "REQUIRED",
+        "ClientPasswordAuthType": "POSTGRES_SCRAM_SHA_256"
+    }
+]
+~ $ 
