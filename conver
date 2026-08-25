@@ -1,89 +1,174 @@
-00:00
-With the real-time insurance stuff.
+Copilot said:
+The issue (plain English)
 
-  Speaker 1 00:02
-Are you taking it on or is I taking it on with you and CG I? I was planning on handing off back to him. Once I had my stuff done, but he I, I think he'll be quick once I give it to him. All, right. So, yeah, sorry, that'll be coming.
+The SOAP Lambda is working, but when it tries to query Aurora through the RDS Proxy, Aurora rejects the login for:
 
-00:18
-You were on the phone I was talking about, that I talked a lot. Hopefully you didn't. I'll sleep while I was talking. No, no. Now, if you want to be mean to somebody, ask a really elaborate question, and then say their name. And then they'll be surprised, and they don't know what you're doing.
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
 
-00:37
-All right. Ready for me to move on? Yep, sure. Do you care if I move any of these to like the pending approval or no? Oh, I'm still working on all those three. Okay, and I'm moving it to performance is going to be like the final validations of a lot of these, right?
+The exact error is:
 
-00:57
-Yeah. The real-time insurance stuff.
+Plain Text
+1
+PAM authentication failed for user "pgsi_ans00315015"
+Show more lines
+What we have proven so far
+SOAP Flow
 
-  Speaker 2 01:00
-Yes,
+✅ API Gateway receives the SOAP request
 
-  Speaker 1 01:01
-Do we have any idea of what size Lambda? What size database we're going to put in performance because they're wanting to performance tested. Are we going to go with what we are going to guess? Is the? Database size for production. Like the size. So I had.
+✅ Lambda is invoked successfully
 
-  Speaker 2 01:21
-I'm going to. Size it as dbr7g, large, which which has two vcpus, and then for production, will be extra large. Maybe that's how I want to keep it all. We want to make it the exact same size as production. One thing,
+✅ SOAP XML is parsed correctly
 
-  Speaker 1 01:41
-Some things to think about, like, right now. If we're using this and the data team is going to go ahead and load it, and they're going to time it. So, like, all right, let's load up brush data. It took three hours, and then we're gonna put in the production implementation plan after standing up the database.
+✅ Lambda reaches the database layer
 
-01:55
-We need to allow three hours of time, but then you. Make it even bigger than the times. Could be smaller.
+Lambda Configuration
 
-02:04
-Is, um? Larry Schuler talking to you about this stuff.
+✅ db_user = pgsi_ans00315015
 
-  Speaker 2 02:11
-Not, not that deep, like, like, in terms of exercising, you just might
+✅ db_endpoint = realtimeinsurance-dev-aurora-proxy...
 
-  Speaker 1 02:15
-Want to let him know or whoever requests this saying, yes, I did it. I did it this size, but in production, it'll be the size, and they'll say that's okay. They'll say absolutely not. We need to know exactly what size it is. Yes, I actually did
+✅ Lambda code uses:
 
-  Speaker 2 02:25
-Austin deck, and he, I think, lithium red. He left you on red.
+Python
+1
+generate_db_auth_token(...)
+2
+pg8000.connect(...)
+Show more lines
 
-  Speaker 1 02:30
-Oh well, tells boss, uh, no, you tell his old boss Larry Schulley, oh
+Correct IAM authentication code.
 
-  Speaker 2 02:35
-Actually, he didn't, anyway, he did. I said, will you be doing heavy testing performance. I just want to know how much I should provision him. I don't know if he sold it. If you did it smaller than a potato, then we're good.
+IAM Permissions
 
-02:53
-Yeah, we should. I haven't created it. Oh, okay, I can change it.
+✅ Lambda role has:
 
-  Speaker 1 02:59
-Yeah, they they are going to load it with production size data. They are going to hit it with as much performance as they can, and then they're even going to simulate. Like, if the vendor wants to send like a burst of 100 requests all at once, they're going to hit it like, it's production okay, and we should make it exactly that production.
+Plain Text
+1
+rds-db:connect
+Show more lines
 
-03:18
-Okay. It might be ideal.
+for:
 
-  Speaker 2 03:21
-It doesn't have to stay that way,
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
 
-  Speaker 1 03:22
-Believe it or not. We, the performance region, used to be performance-sized on the Mainframe instance on guidewire. It is no longer because it was so damn expensive. I think it was like three thousand dollars a month just to leave it at performance size database, and they shrunk it down.
+So IAM permissions are not the problem.
 
-03:37
-It still enhanced, but it's not production size, so. If you use your past judgment, nobody knows what we're doing okay. And if you want to go with exercise great, and then we can shrink it down. Save some bucks. It just helps to be over commutative when we're doing stuff like.
+RDS Proxy
 
-03:58
-This, in my opinion, Zach, I'm going to make it this size, even though production size is going to be this or say I'm making it exactly production size, but we'll probably turn it down after you're done testing. And yes, yeah, that's cool. I can't do exact impression yet, but.
+✅ Proxy is Available
 
-04:12
-All right. Tackle on our list. What's he got new repository for password sync, I know? Today, be well. Deleted the old one and created a new one. Cool! I like triple confirm with him. He was positive. The old room was good to go because it had commits in it, but he's they were all from it.
+✅ Proxy uses:
 
-04:31
-In turn, that's gone now, and he assured me it's definitely good. So I did all right. He reached out to me about using the migration tool for that repo, so that should already be in progress, so I'll sign it. Oh, he's got it. It's moved to progress. I was just curious if they had rotated the secret and somehow he had gotten it as a test.
+Plain Text
+1
+IAM Authentication = Required
+Show more lines
 
-04:53
-I'll ask him what it is.
+✅ Proxy successfully connects to Aurora
 
-04:57
-Never shall again. Believe it or not, I've made mistakes I accidentally was logging out everybody's username and a base64 encoding of their password if they used my application. And I was born. I mean, I. And be anybody I want. Oh no. Um, I did go ahead and start putting a lot of these tasks that we mentioned out here.
+Proxy log shows:
 
-05:27
-Uh, clouds. Let me see if this even makes sense. Cloud security based or workload based? Nope, that needs to be assigned to B. And I've asked Chris, how do we want to pursue that one? That's the question about Eric Adam. Was it only Eric's team want access to anatch three bucket.
+Plain Text
+1
+A TCP connection was established...
+Show more lines
 
-05:43
-How do we accomplish team-based security? We currently don't do that. I'm trying, like, hell not to do anything like that. It's all found out to me because I asked Chris you want to pursue this. Uh, determine Java package. I think this one I want to give to a job, a developer, and perhaps maybe even.
+So networking is not the problem.
 
-06:00
-Personally, I think we should just ask Enterprise architecture to decide and roll with it. Going forward, all packing.
+Aurora
+
+✅ IAM Database Authentication = Enabled
+
+✅ Aurora cluster is healthy
+
+✅ Aurora admin secret exists
+
+✅ Secret rotated on:
+
+Plain Text
+1
+2026-08-20
+Show more lines
+CG Verification
+
+CG confirmed:
+
+the user still has the same privileges as before
+
+So according to CG, nothing obvious changed with the role permissions.
+
+What does NOT appear to be broken
+
+❌ Not API Gateway
+
+❌ Not Lambda code
+
+❌ Not SGs / Networking
+
+❌ Not RDS Proxy connectivity
+
+❌ Not Lambda IAM permissions
+
+❌ Not IAM Database Authentication being disabled
+
+Where the problem is
+
+The failure is happening inside Aurora authentication.
+
+Aurora is rejecting:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+during IAM authentication.
+
+That's why the Proxy log says:
+
+Plain Text
+1
+PAM authentication failed for user "pgsi_ans00315015"
+Show more lines
+Strongest clue found tonight
+
+The Aurora master secret was:
+
+Plain Text
+1
+LastRotatedDate = 2026-08-20
+2
+LastChangedDate = 2026-08-20
+Show more lines
+
+which happened right around the Aurora migration/rebuild timeframe.
+
+That doesn't prove the cause, but it's the biggest change we've found in the auth chain.
+
+My current conclusion
+
+The issue is not in AWS infrastructure anymore.
+
+The issue is most likely one of:
+
+Aurora's role definition for pgsi_ans00315015
+Aurora IAM authentication configuration for that role
+Something that changed in Aurora/proxy authentication after the Aug 20 secret rotation
+
+The one thing we still have not directly verified is:
+
+SQL
+1
+\du pgsi_ans00315015
+Show more lines
+
+inside the Aurora database.
+
+That is the remaining missing piece. Everything else in the path has been validated.
