@@ -1,4 +1,1 @@
-~ $ aws rds describe-db-clusters --query 'DBClusters[*].[DBClusterIdentifier,Endpoint,DatabaseName]' --output text
-fin-db-rds-cluster-dev1-cashmgt-pg      fin-db-rds-cluster-dev1-cashmgt-pg.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com     None
-realtimeinsurance-dev-aurora-cluster    realtimeinsurance-dev-aurora-cluster.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com   None
-~ $ 
+export PGPASSWORD=$(aws secretsmanager get-secret-value --secret-id 'arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh' --query SecretString --output text | python3 -c "import sys,json; print(json.load(sys.stdin)['password'])")
