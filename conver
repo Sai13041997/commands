@@ -1,109 +1,530 @@
-The short version
+New Findings After Further Investigation
+1. We proved the current RDS Proxy is only configured with ONE auth entry
 
-Your module change is the right shape, but there are two things that will still bite you after you wire the secret in. Handle all three:
+Command:
 
-Register an application-user secret with the proxy (what you built).
-Check whether pgsi_ans00315015 has the rds_iam role granted in Postgres — this is very likely the actual cause of the PAM error.
-Fix the rds-db:connect ARN — it must reference the proxy resource ID, not the cluster resource ID.
-1. The rds_iam gotcha (check this first)
-
-PAM authentication failed for user "..." is an Aurora-side error. PAM is what Aurora PostgreSQL uses for IAM authentication. With auth_scheme = "SECRETS", the proxy is supposed to connect to Aurora with the password from the secret — password auth, not PAM. The fact that Aurora is invoking PAM at all means that role is flagged for IAM-only auth.
-
-In Aurora PostgreSQL, once you GRANT rds_iam TO <role>, password authentication for that role is disabled — Aurora forces PAM. RDS Proxy then cannot log in with the secret, and you get exactly this error. Given the comment you found ("it previously ran its own proxy against a custom secret/db-user"), it's plausible the legacy stack used direct IAM auth and someone granted rds_iam to this user.
-
-Connect as kfb_aurora_admin and check:
-
-sql
-SELECT r.rolname AS member, g.rolname AS granted_role
-FROM pg_auth_members m
-JOIN pg_roles r ON r.oid = m.member
-JOIN pg_roles g ON g.oid = m.roleid
-WHERE r.rolname = 'pgsi_ans00315015';
-
--- also confirm the role even exists and can log in
-SELECT rolname, rolcanlogin, rolvaliduntil FROM pg_roles WHERE rolname = 'pgsi_ans00315015';
-
-If rds_iam shows up:
-
-sql
-REVOKE rds_iam FROM pgsi_ans00315015;
-ALTER ROLE pgsi_ans00315015 WITH LOGIN PASSWORD '<new-strong-password>';
-
-The IAM half still works — the Lambda authenticates to the proxy with an IAM token; the proxy authenticates to Aurora with the password. The DB user does not need rds_iam when going through a proxy, and having it actively breaks things.
-
-2. Find or create the secret
-
-Look for the legacy one first:
-
-powershell
-aws secretsmanager list-secrets `
-  --profile L2-Development --region us-east-1 `
-  --query "SecretList[?contains(Name,'pgsi') || contains(Name,'realtimeinsurance')].{Name:Name,ARN:ARN}" `
-  --output table
-
-Also grep the old real-time-insurance-infra repo (or its state) for the secret it referenced before consolidation.
-
-If nothing usable exists, create one. The password inside must match what you just set with ALTER ROLE:
-
-powershell
-aws secretsmanager create-secret `
-  --name "realtimeinsurance/dev/aurora/pgsi_ans00315015" `
-  --secret-string '{\"username\":\"pgsi_ans00315015\",\"password\":\"<new-strong-password>\"}' `
-  --profile L2-Development --region us-east-1
-
-The proxy requires the JSON keys to be exactly username and password. If the secret is KMS-encrypted with a CMK, the proxy role needs kms:Decrypt on that key — add that alongside the secretsmanager:GetSecretValue grant you already extended.
-
-3. Fix the rds-db:connect resource ARN
-
-This is a bug in both the original and your updated code. When connecting through a proxy, the IAM policy resource must use the proxy's resource ID (prx-...), not the cluster's (cluster-...):
-
-arn:aws:rds-db:<region>:<account>:dbuser:<proxy-resource-id>/<db-user>
-
-Get it with:
-
-powershell
+PowerShell
+1
 aws rds describe-db-proxies `
-  --db-proxy-name realtimeinsurance-dev-aurora-proxy `
-  --profile L2-Development --region us-east-1 `
-  --query "DBProxies[0].DBProxyArn"
+2
+--db-proxy-name realtimeinsurance-dev-aurora-proxy `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--query "DBProxies[0].Auth"
+Show more lines
 
-The resource ID is the trailing prx-xxxxxxxx segment of the ARN. In Terraform, aws_db_proxy.<name>.arn gives you the full ARN — you can split(":", ...) it, or just expose the ID and interpolate.
+Result:
 
-Also confirm which role needs this permission. The rds-db:connect grant belongs to the identity generating the token — that's the Lambda execution role, not the proxy role. The proxy role needs Secrets Manager + KMS. If your module only put rds-db:connect on the proxy role, the Lambda's role is missing it entirely, and that alone produces an auth failure at the proxy.
-
-4. Wire it into the app stack
-
-apps/realtimeinsurance/main.tf:
-
-hcl
-module "aurora" {
-  # ...
-  rds_proxy_application_auth = {
-    username   = "pgsi_ans00315015"
-    secret_arn = aws_secretsmanager_secret.app_db_user.arn
-  }
+JSON
+1
+[
+2
+{
+3
+"AuthScheme": "SECRETS",
+4
+"SecretArn": "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh",
+5
+"IAMAuth": "REQUIRED"
+6
 }
+7
+]
+Show more lines
 
-Alex suggested the module create the secret itself with an optional name input. That's cleaner long-term, but for unblocking DEV I'd reference an existing secret first, confirm the connection works, then refactor ownership into the module in a follow-up.
+Meaning:
 
-5. Verify before retesting the Lambda
-powershell
-# Confirm both auth entries are registered
-aws rds describe-db-proxies `
-  --db-proxy-name realtimeinsurance-dev-aurora-proxy `
-  --profile L2-Development --region us-east-1 `
-  --query "DBProxies[0].Auth"
+Plain Text
+1
+Proxy has exactly ONE secret configured.
+2
+No application-user secret configured.
+Show more lines
+2. We proved the current Proxy secret belongs to kfb_aurora_admin
 
-# Confirm the target is AVAILABLE, not one of the UNAVAILABLE reasons
-aws rds describe-db-proxy-targets `
-  --db-proxy-name realtimeinsurance-dev-aurora-proxy `
-  --profile L2-Development --region us-east-1 `
-  --query "Targets[].{Endpoint:Endpoint,State:TargetHealth.State,Reason:TargetHealth.Reason,Desc:TargetHealth.Description}"
+Command:
 
-describe-db-proxy-targets is the fastest signal — if the proxy still can't authenticate to Aurora with the new secret, the target health description says so directly, without needing to trigger a SOAP request.
+PowerShell
+1
+aws secretsmanager get-secret-value `
+2
+--secret-id arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--query SecretString `
+6
+--output text
+Show more lines
 
-Then re-run your Lambda invoke and tail both log groups. The InterfaceError: network error you saw is the proxy dropping the connection when it fails to borrow a backend session at first query — so a clean query result is your confirmation.
+Result:
 
-One thing worth double-checking
+JSON
+1
+{
+2
+"username": "kfb_aurora_admin",
+3
+"password": "..."
+4
+}
+Show more lines
 
-Your handoff says the Lambda generates an IAM token, but confirm it's generating that token against the proxy endpoint hostname and port, not the cluster writer endpoint. The token is scoped to the host it was signed for; a token signed for the cluster endpoint will be rejected by the proxy. Worth a quick look at the generate_db_auth_token call in the Lambda source before you spend a deploy cycle on it.
+Meaning:
+
+Plain Text
+1
+Proxy authenticates using:
+2
+kfb_aurora_admin
+Show more lines
+3. We discovered an existing application secret
+
+Command:
+
+PowerShell
+1
+aws secretsmanager list-secrets `
+2
+--profile L2-Development `
+3
+--region us-east-1 `
+4
+--query "SecretList[?contains(Name,'realtimeinsurance')].[Name,ARN]" `
+5
+--output table
+Show more lines
+
+Result:
+
+Plain Text
+1
+realtimeinsurance
+Show more lines
+4. We opened the application secret
+
+Command:
+
+PowerShell
+1
+aws secretsmanager get-secret-value `
+2
+--secret-id realtimeinsurance `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--query SecretString `
+6
+--output text
+Show more lines
+
+Result:
+
+JSON
+1
+{
+2
+"username":"pgsi_ans00315015",
+3
+"password":"W{z/E783XuA%",
+4
+"engine":"postgres",
+5
+"host":"realtimeinsurance-dev-aurora-cluster.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com",
+6
+"port":5432
+7
+}
+Show more lines
+
+Meaning:
+
+✅ Application secret exists
+
+✅ Application password exists
+
+✅ User is:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+✅ We do NOT need to create a new secret
+
+5. We proved the application secret is actively rotated
+
+Command:
+
+PowerShell
+1
+aws secretsmanager describe-secret `
+2
+--secret-id realtimeinsurance `
+3
+--profile L2-Development `
+4
+--region us-east-1
+Show more lines
+
+Result included:
+
+Plain Text
+1
+RotationEnabled = true
+Show more lines
+
+Rotation Lambda:
+
+Plain Text
+1
+SecretsManagerrealtimeinsurance-dev-rotation
+Show more lines
+
+Description:
+
+Plain Text
+1
+Rotates a Secrets Manager secret for Amazon RDS PostgreSQL credentials using the single user rotation strategy
+Show more lines
+
+Meaning:
+
+Plain Text
+1
+This is a legitimate Aurora credential.
+2
+This is not some abandoned secret.
+Show more lines
+6. We proved the Proxy role only has access to the admin secret
+
+Command:
+
+PowerShell
+1
+aws iam get-role-policy `
+2
+--role-name realtimeinsurance-dev-rds-proxy-role `
+3
+--policy-name realtimeinsurance-dev-rds-proxy-secret-access `
+4
+--profile L2-Development
+Show more lines
+
+Result:
+
+JSON
+1
+{
+2
+"Action": [
+3
+"secretsmanager:GetSecretValue",
+4
+"secretsmanager:DescribeSecret"
+5
+],
+6
+"Resource": "arn:aws:secretsmanager:...:rds!cluster..."
+7
+}
+Show more lines
+
+and:
+
+JSON
+1
+{
+2
+"Action": "rds-db:connect",
+3
+"Resource": ".../kfb_aurora_admin"
+4
+}
+Show more lines
+
+Meaning:
+
+Plain Text
+1
+Proxy only knows about:
+2
+kfb_aurora_admin
+3
+ 
+4
+Proxy does NOT know about:
+5
+pgsi_ans00315015
+Show more lines
+7. We verified RDS Proxy health
+
+Command:
+
+PowerShell
+1
+aws rds describe-db-proxy-targets ...
+Show more lines
+
+Result:
+
+Plain Text
+1
+AVAILABLE
+2
+AVAILABLE
+Show more lines
+
+Meaning:
+
+✅ Proxy healthy
+
+✅ Aurora healthy
+
+✅ Network healthy
+
+Not a networking problem.
+
+8. Strong evidence from source code comments
+
+File:
+
+Plain Text
+1
+apps/realtimeinsurance/main.tf
+Show more lines
+
+Contains:
+
+Terraform
+1
+# previously ran its own proxy
+2
+# against a custom secret/db-user
+3
+# now consolidated onto this module's proxy
+4
+# which authenticates as var.master_username
+Show more lines
+
+This may describe the regression itself.
+
+Old design:
+
+Plain Text
+1
+Proxy
+2
+↓
+3
+Application User Secret
+4
+↓
+5
+pgsi_ans00315015
+Show more lines
+
+New design:
+
+Plain Text
+1
+Proxy
+2
+↓
+3
+Master User Secret
+4
+↓
+5
+kfb_aurora_admin
+Show more lines
+Things We Still DO NOT Know
+
+These remain unproven.
+
+Unknown #1
+
+Does:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+have:
+
+SQL
+1
+GRANT rds_iam
+Show more lines
+
+?
+
+This is still unknown.
+
+The other AI's theory is possible.
+
+Not yet proven.
+
+Unknown #2
+
+Does the password inside:
+
+Plain Text
+1
+realtimeinsurance
+Show more lines
+
+still match the database user?
+
+We do not know yet.
+
+Rotation suggests it probably does.
+
+Not guaranteed.
+
+Unknown #3
+
+Should the proxy use:
+
+Plain Text
+1
+cluster resource id
+Show more lines
+
+or
+
+Plain Text
+1
+proxy resource id
+Show more lines
+
+for:
+
+Plain Text
+1
+rds-db:connect
+Show more lines
+
+Not yet verified.
+
+Needs validation.
+
+My Current Best Assessment
+
+Most likely root cause ranking:
+
+#1
+
+Proxy only configured with:
+
+Plain Text
+1
+kfb_aurora_admin
+Show more lines
+
+while application uses:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+Confidence: VERY HIGH
+
+#2
+
+Original application-user secret configuration was removed during migration
+
+Confidence: VERY HIGH
+
+#3
+
+User has:
+
+SQL
+1
+rds_iam
+Show more lines
+
+and Aurora rejects proxy password authentication
+
+Confidence: MEDIUM
+
+Needs verification.
+
+Current State of the Terraform Change
+
+Your code now supports:
+
+Terraform
+1
+rds_proxy_application_auth = {
+2
+username = "pgsi_ans00315015"
+3
+secret_arn = "..."
+4
+}
+Show more lines
+
+Validation succeeded:
+
+PowerShell
+1
+tofu validate
+Show more lines
+
+Result:
+
+Plain Text
+1
+Success! The configuration is valid.
+Show more lines
+
+Commit:
+
+Plain Text
+1
+f3cab8f
+Show more lines
+
+Branch:
+
+Plain Text
+1
+feature/T012SP/CPE-250-perf-output-fix
+Show more lines
+
+Pushed successfully.
+
+The Single Most Important Thing We Learned
+
+Before the additional investigation, we only knew:
+
+Plain Text
+1
+PAM authentication failed
+Show more lines
+
+After the additional investigation, we now know:
+
+Plain Text
+1
+The application secret for pgsi_ans00315015 already exists.
+2
+It is actively rotated.
+3
+The Proxy is NOT using it.
+4
+The Proxy only uses the admin secret.
+Show more lines
+
+That is the strongest evidence currently available for the root cause.
