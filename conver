@@ -1,41 +1,639 @@
-Good — that's a solid haul, and it changes the next step.
+New Findings After the Additional Investigation
+1. Current RDS Proxy has only ONE auth entry
 
-You found the secret already exists and is actively rotated. That gives us a way to answer Unknown #1 without needing database access at all.
+Command:
 
-The one thing to check next
+PowerShell
+1
+aws rds describe-db-proxies `
+2
+--db-proxy-name realtimeinsurance-dev-aurora-proxy `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--query "DBProxies[0].Auth"
+Show more lines
 
-The rotation Lambda uses the single-user strategy. That means every rotation it:
+Result:
 
-Connects to Aurora as pgsi_ans00315015 using the current password
-Runs ALTER USER ... WITH PASSWORD
-Reconnects with the new password to verify
+JSON
+1
+[
+2
+{
+3
+"AuthScheme": "SECRETS",
+4
+"SecretArn": "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh",
+5
+"IAMAuth": "REQUIRED"
+6
+}
+7
+]
+Show more lines
+What this proves
+Plain Text
+1
+Proxy only has ONE authentication configuration.
+2
+No application-user authentication is configured.
+Show more lines
+2. Current Proxy Secret belongs to kfb_aurora_admin
 
-Step 1 and step 3 are plain password logins. If rds_iam were granted to that role, Aurora would force PAM and both would fail — rotation would be erroring out, not succeeding.
+Command:
 
-So: if the secret rotated successfully and recently, that's near-proof that password auth works for this user, rds_iam is not granted, and Unknown #1 is closed.
+PowerShell
+1
+aws secretsmanager get-secret-value `
+2
+--secret-id arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--query SecretString `
+6
+--output text
+Show more lines
 
-Run this:
+Result:
 
-powershell
+JSON
+1
+{
+2
+"username": "kfb_aurora_admin",
+3
+"password": "..."
+4
+}
+Show more lines
+What this proves
+Plain Text
+1
+Proxy currently authenticates using:
+2
+kfb_aurora_admin
+Show more lines
+3. We found an existing application secret
+
+Command:
+
+PowerShell
+1
+aws secretsmanager list-secrets `
+2
+--profile L2-Development `
+3
+--region us-east-1 `
+4
+--query "SecretList[?contains(Name,'realtimeinsurance')].[Name,ARN]" `
+5
+--output table
+Show more lines
+
+Result:
+
+Plain Text
+1
+realtimeinsurance
+Show more lines
+4. We opened the application secret
+
+Command:
+
+PowerShell
+1
+aws secretsmanager get-secret-value `
+2
+--secret-id realtimeinsurance `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--query SecretString `
+6
+--output text
+Show more lines
+
+Result:
+
+JSON
+1
+{
+2
+"username":"pgsi_ans00315015",
+3
+"password":"W{z/E783XuA%",
+4
+"engine":"postgres",
+5
+"host":"realtimeinsurance-dev-aurora-cluster.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com",
+6
+"port":5432,
+7
+"dbClusterIdentifier":"realtimeinsurance-dev-aurora-cluster"
+8
+}
+Show more lines
+What this proves
+
+✅ Application secret already exists
+
+✅ Secret is for:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+✅ No need to create a new secret
+
+5. Secret is configured for rotation
+
+Command:
+
+PowerShell
+1
 aws secretsmanager describe-secret `
-  --secret-id realtimeinsurance `
-  --profile L2-Development `
-  --region us-east-1 `
-  --query "{LastRotated:LastRotatedDate,LastChanged:LastChangedDate,NextRotation:NextRotationDate,Rules:RotationRules}"
+2
+--secret-id realtimeinsurance `
+3
+--profile L2-Development `
+4
+--region us-east-1
+Show more lines
 
-Then confirm the rotation Lambda isn't quietly failing:
+Result:
 
-powershell
-aws logs tail "/aws/lambda/SecretsManagerrealtimeinsurance-dev-rotation" `
-  --since 30d `
-  --profile L2-Development `
-  --region us-east-1 `
-  --format short
-How to read the result
-Recent LastRotatedDate + clean rotation logs → password auth works, no rds_iam, Unknown #1 and #2 both resolved in one shot. We go straight to wiring the secret into the proxy.
-Rotation logs show failures → we've found a second broken thing, and it very likely shares a root cause with your SOAP issue.
-LastRotatedDate is null or ancient → rotation was configured but never actually succeeded. Back to needing a direct DB check.
+JSON
+1
+{
+2
+"RotationEnabled": true,
+3
+"RotationLambdaARN": "SecretsManagerrealtimeinsurance-dev-rotation"
+4
+}
+Show more lines
+Rotation Lambda
 
-That last case is also the one where Unknown #2 stays open, since the stored password may never have been applied to the actual role.
+Command:
 
-Paste back what you get.
+PowerShell
+1
+aws lambda get-function-configuration `
+2
+--function-name SecretsManagerrealtimeinsurance-dev-rotation `
+3
+--profile L2-Development `
+4
+--region us-east-1
+5
+ 
+Show more lines
+
+Description:
+
+Plain Text
+1
+Rotates a Secrets Manager secret for Amazon RDS PostgreSQL credentials using the single user rotation strategy.
+2
+ 
+Show more lines
+However
+
+Command:
+
+PowerShell
+1
+aws secretsmanager describe-secret `
+2
+--secret-id realtimeinsurance `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--query "{LastRotated:LastRotatedDate,LastChanged:LastChangedDate,NextRotation:NextRotationDate}"
+Show more lines
+
+Result:
+
+JSON
+1
+{
+2
+"LastRotated": null,
+3
+"LastChanged": "2026-07-08",
+4
+"NextRotation": null
+5
+}
+Show more lines
+What this means
+
+✅ Rotation is configured
+
+❌ We do NOT know whether rotation ever succeeded
+
+❌ We cannot use successful rotation as proof that password authentication works
+
+6. Proxy role only has access to admin secret
+
+Command:
+
+PowerShell
+1
+aws iam get-role-policy `
+2
+--role-name realtimeinsurance-dev-rds-proxy-role `
+3
+--policy-name realtimeinsurance-dev-rds-proxy-secret-access `
+4
+--profile L2-Development
+Show more lines
+
+Result:
+
+JSON
+1
+{
+2
+"Action": [
+3
+"secretsmanager:GetSecretValue",
+4
+"secretsmanager:DescribeSecret"
+5
+],
+6
+"Resource": "arn:aws:secretsmanager:...:rds!cluster..."
+7
+}
+Show more lines
+
+and:
+
+JSON
+1
+{
+2
+"Action": "rds-db:connect",
+3
+"Resource": ".../kfb_aurora_admin"
+4
+}
+Show more lines
+What this proves
+Plain Text
+1
+Proxy only knows about:
+2
+kfb_aurora_admin
+Show more lines
+
+and
+
+Plain Text
+1
+Proxy does NOT know about:
+2
+pgsi_ans00315015
+Show more lines
+7. Proxy and Aurora health are GOOD
+
+Command:
+
+PowerShell
+1
+aws rds describe-db-proxy-targets `
+2
+--db-proxy-name realtimeinsurance-dev-aurora-proxy `
+3
+--profile L2-Development `
+4
+--region us-east-1
+5
+ 
+Show more lines
+
+Result:
+
+Plain Text
+1
+AVAILABLE
+2
+AVAILABLE
+Show more lines
+What this proves
+
+✅ Proxy healthy
+
+✅ Aurora healthy
+
+✅ Network healthy
+
+Not a networking issue.
+
+8. We found the original migration clue
+
+File:
+
+Plain Text
+1
+apps/realtimeinsurance/main.tf
+Show more lines
+
+Contains:
+
+Terraform
+1
+# previously ran its own proxy
+2
+# against a custom secret/db-user
+3
+# now consolidated onto this module's proxy
+4
+# which authenticates as var.master_username
+Show more lines
+Why important
+
+This strongly suggests:
+
+Old design:
+
+Plain Text
+1
+Application User Secret
+2
++
+3
+Application User
+Show more lines
+
+New design:
+
+Plain Text
+1
+Master Secret Only
+Show more lines
+
+Potentially introducing the regression.
+
+9. We discovered the ACTUAL deployed Lambda configuration
+
+This was one of the biggest findings.
+
+Command:
+
+PowerShell
+1
+aws lambda get-function-configuration `
+2
+--function-name realtimeinsurance-dev-soap-verification-lambda `
+3
+--profile L2-Development `
+4
+--region us-east-1 `
+5
+--query "Environment.Variables"
+Show more lines
+
+Result:
+
+JSON
+1
+{
+2
+"db_user": "pgsi_ans00315015",
+3
+"db_endpoint": "realtimeinsurance-dev-aurora-proxy.proxy-cx08iswmk3mr.us-east-1.rds.amazonaws.com",
+4
+"db_region": "us-east-1",
+5
+"db_name": "realtimeinsurance_dev"
+6
+}
+Show more lines
+What this proves
+
+The deployed Lambda is actually using:
+
+Plain Text
+1
+db_user = pgsi_ans00315015
+Show more lines
+
+This matches:
+
+Plain Text
+1
+realtimeinsurance secret
+Show more lines
+
+and explains why the logs show:
+
+Plain Text
+1
+PAM authentication failed for user "pgsi_ans00315015"
+Show more lines
+10. Terraform changes already completed
+Module Change
+
+Added:
+
+Terraform
+1
+variable "rds_proxy_application_auth" {
+2
+description = "Optional application database user authentication for RDS Proxy"
+3
+ 
+4
+type = object({
+5
+username = string
+6
+secret_arn = string
+7
+})
+8
+ 
+9
+default = null
+10
+nullable = true
+11
+}
+Show more lines
+
+Added support for:
+
+Terraform
+1
+dynamic "auth"
+Show more lines
+
+and:
+
+Terraform
+1
+additional secret access
+Show more lines
+
+and:
+
+Terraform
+1
+additional rds-db:connect permissions
+Show more lines
+Consumer Change
+
+Added to:
+
+Plain Text
+1
+apps/realtimeinsurance/main.tf
+Show more lines
+Terraform
+1
+rds_proxy_application_auth = {
+2
+username = "pgsi_ans00315015"
+3
+secret_arn = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
+4
+}
+Show more lines
+Validation
+
+Command:
+
+PowerShell
+1
+tofu validate
+Show more lines
+
+Result:
+
+Plain Text
+1
+Success! The configuration is valid.
+Show more lines
+Current State Right Now
+Proven Facts
+
+✅ Lambda uses:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+✅ Application secret exists
+
+✅ Application secret contains:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+✅ Proxy currently uses:
+
+Plain Text
+1
+kfb_aurora_admin
+Show more lines
+
+✅ Proxy does not use:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+✅ PAM authentication failures occur for:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+✅ Terraform now supports attaching the application secret
+
+✅ Consumer configuration updated
+
+✅ Validation passed
+
+Things Still Unknown
+
+We still do NOT know:
+
+Unknown #1
+Plain Text
+1
+Does pgsi_ans00315015 have rds_iam granted?
+Show more lines
+Unknown #2
+Plain Text
+1
+Does secret password still match DB password?
+Show more lines
+Unknown #3
+Plain Text
+1
+Has secret rotation ever succeeded?
+Show more lines
+Most Likely Root Cause (Current Best Assessment)
+
+Current probability ranking:
+
+#1 Most Likely
+Plain Text
+1
+Proxy only configured with admin secret
+Show more lines
+
+while application uses:
+
+Plain Text
+1
+pgsi_ans00315015
+Show more lines
+
+Confidence: Very High
+
+#2
+Plain Text
+1
+Migration removed application-user secret configuration
+Show more lines
+
+Confidence: Very High
+
+#3
+Plain Text
+1
+rds_iam granted on pgsi_ans00315015
+Show more lines
+
+Confidence: Possible but not proven
+
+Current Recommendation
+
+Before applying anything:
+
+PowerShell
+1
+tofu plan -var-file=envs/dev.tfvars
+Show more lines
+
+Review the exact RDS Proxy changes Terraform wants to make.
