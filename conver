@@ -1,8 +1,17 @@
-Good call. Step one: find out whether pgsi_ans00315015 has the rds_iam role granted.
+The short version
 
-This is the highest-value check because if it does, no amount of secret-wiring will fix DEV — Aurora will keep rejecting the proxy's password login for that user, which is exactly the PAM error you're seeing.
+Your module change is the right shape, but there are two things that will still bite you after you wire the secret in. Handle all three:
 
-Connect to Aurora as kfb_aurora_admin (bastion, psql, or whatever you normally use) and run:
+Register an application-user secret with the proxy (what you built).
+Check whether pgsi_ans00315015 has the rds_iam role granted in Postgres — this is very likely the actual cause of the PAM error.
+Fix the rds-db:connect ARN — it must reference the proxy resource ID, not the cluster resource ID.
+1. The rds_iam gotcha (check this first)
+
+PAM authentication failed for user "..." is an Aurora-side error. PAM is what Aurora PostgreSQL uses for IAM authentication. With auth_scheme = "SECRETS", the proxy is supposed to connect to Aurora with the password from the secret — password auth, not PAM. The fact that Aurora is invoking PAM at all means that role is flagged for IAM-only auth.
+
+In Aurora PostgreSQL, once you GRANT rds_iam TO <role>, password authentication for that role is disabled — Aurora forces PAM. RDS Proxy then cannot log in with the secret, and you get exactly this error. Given the comment you found ("it previously ran its own proxy against a custom secret/db-user"), it's plausible the legacy stack used direct IAM auth and someone granted rds_iam to this user.
+
+Connect as kfb_aurora_admin and check:
 
 sql
 SELECT r.rolname AS member, g.rolname AS granted_role
@@ -11,19 +20,90 @@ JOIN pg_roles r ON r.oid = m.member
 JOIN pg_roles g ON g.oid = m.roleid
 WHERE r.rolname = 'pgsi_ans00315015';
 
-Three possible outcomes:
+-- also confirm the role even exists and can log in
+SELECT rolname, rolcanlogin, rolvaliduntil FROM pg_roles WHERE rolname = 'pgsi_ans00315015';
 
-rds_iam appears in the results → that's your culprit. We revoke it and set a password.
-Query returns zero rows → the user exists but has no role grants; rds_iam isn't the issue and we move to the secret.
-You get nothing because the role doesn't exist → different problem entirely, and worth knowing now.
-
-To cover that last case, run this too:
+If rds_iam shows up:
 
 sql
-SELECT rolname, rolcanlogin, rolvaliduntil
-FROM pg_roles
-WHERE rolname = 'pgsi_ans00315015';
+REVOKE rds_iam FROM pgsi_ans00315015;
+ALTER ROLE pgsi_ans00315015 WITH LOGIN PASSWORD '<new-strong-password>';
 
-Paste back what both queries return and we'll take the next step from there.
+The IAM half still works — the Lambda authenticates to the proxy with an IAM token; the proxy authenticates to Aurora with the password. The DB user does not need rds_iam when going through a proxy, and having it actively breaks things.
 
-If you don't currently have a path to connect to Aurora as the admin user, tell me and we'll sort that out first instead.
+2. Find or create the secret
+
+Look for the legacy one first:
+
+powershell
+aws secretsmanager list-secrets `
+  --profile L2-Development --region us-east-1 `
+  --query "SecretList[?contains(Name,'pgsi') || contains(Name,'realtimeinsurance')].{Name:Name,ARN:ARN}" `
+  --output table
+
+Also grep the old real-time-insurance-infra repo (or its state) for the secret it referenced before consolidation.
+
+If nothing usable exists, create one. The password inside must match what you just set with ALTER ROLE:
+
+powershell
+aws secretsmanager create-secret `
+  --name "realtimeinsurance/dev/aurora/pgsi_ans00315015" `
+  --secret-string '{\"username\":\"pgsi_ans00315015\",\"password\":\"<new-strong-password>\"}' `
+  --profile L2-Development --region us-east-1
+
+The proxy requires the JSON keys to be exactly username and password. If the secret is KMS-encrypted with a CMK, the proxy role needs kms:Decrypt on that key — add that alongside the secretsmanager:GetSecretValue grant you already extended.
+
+3. Fix the rds-db:connect resource ARN
+
+This is a bug in both the original and your updated code. When connecting through a proxy, the IAM policy resource must use the proxy's resource ID (prx-...), not the cluster's (cluster-...):
+
+arn:aws:rds-db:<region>:<account>:dbuser:<proxy-resource-id>/<db-user>
+
+Get it with:
+
+powershell
+aws rds describe-db-proxies `
+  --db-proxy-name realtimeinsurance-dev-aurora-proxy `
+  --profile L2-Development --region us-east-1 `
+  --query "DBProxies[0].DBProxyArn"
+
+The resource ID is the trailing prx-xxxxxxxx segment of the ARN. In Terraform, aws_db_proxy.<name>.arn gives you the full ARN — you can split(":", ...) it, or just expose the ID and interpolate.
+
+Also confirm which role needs this permission. The rds-db:connect grant belongs to the identity generating the token — that's the Lambda execution role, not the proxy role. The proxy role needs Secrets Manager + KMS. If your module only put rds-db:connect on the proxy role, the Lambda's role is missing it entirely, and that alone produces an auth failure at the proxy.
+
+4. Wire it into the app stack
+
+apps/realtimeinsurance/main.tf:
+
+hcl
+module "aurora" {
+  # ...
+  rds_proxy_application_auth = {
+    username   = "pgsi_ans00315015"
+    secret_arn = aws_secretsmanager_secret.app_db_user.arn
+  }
+}
+
+Alex suggested the module create the secret itself with an optional name input. That's cleaner long-term, but for unblocking DEV I'd reference an existing secret first, confirm the connection works, then refactor ownership into the module in a follow-up.
+
+5. Verify before retesting the Lambda
+powershell
+# Confirm both auth entries are registered
+aws rds describe-db-proxies `
+  --db-proxy-name realtimeinsurance-dev-aurora-proxy `
+  --profile L2-Development --region us-east-1 `
+  --query "DBProxies[0].Auth"
+
+# Confirm the target is AVAILABLE, not one of the UNAVAILABLE reasons
+aws rds describe-db-proxy-targets `
+  --db-proxy-name realtimeinsurance-dev-aurora-proxy `
+  --profile L2-Development --region us-east-1 `
+  --query "Targets[].{Endpoint:Endpoint,State:TargetHealth.State,Reason:TargetHealth.Reason,Desc:TargetHealth.Description}"
+
+describe-db-proxy-targets is the fastest signal — if the proxy still can't authenticate to Aurora with the new secret, the target health description says so directly, without needing to trigger a SOAP request.
+
+Then re-run your Lambda invoke and tail both log groups. The InterfaceError: network error you saw is the proxy dropping the connection when it fails to borrow a backend session at first query — so a clean query result is your confirmation.
+
+One thing worth double-checking
+
+Your handoff says the Lambda generates an IAM token, but confirm it's generating that token against the proxy endpoint hostname and port, not the cluster writer endpoint. The token is scoped to the host it was signed for; a token signed for the cluster endpoint will be rejected by the proxy. Worth a quick look at the generate_db_auth_token call in the Lambda source before you spend a deploy cycle on it.
