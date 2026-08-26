@@ -1,43 +1,41 @@
-Apply succeeded and the proxy now shows both auth entries. Admin secret preserved, application secret added, no replacement.
+Context
 
-Also useful: the outputs give you the proxy resource ID — prx-05af88b21156e01ae. Note that for later; it's what the rds-db:connect ARN should reference if we end up needing to fix that.
+I'm working on a DEV SOAP API on AWS. Recently fixed a root-cause issue and now need to map the end-to-end request workflow and measure execution time at each hop.
 
-Next: confirm the proxy can actually authenticate
+Architecture
 
-The auth entry existing doesn't mean it works. The proxy has to fetch the secret and log in to Aurora as pgsi_ans00315015. Given LastRotated: null, there's a real chance the stored password never matched the DB role.
+Client (mTLS)
+  → Custom domain: realtimeinsurance-soap-api-dev.devkyfb.com
+  → API Gateway REST API: q51dqcsrw5, stage "default"
+  → Lambda: realtimeinsurance-dev-soap-verification-lambda
+  → RDS Proxy: realtimeinsurance-dev-aurora-proxy (prx-05af88b21156e01ae)
+  → Aurora PostgreSQL: realtimeinsurance_dev
 
-Check target health first — it's the fastest signal:
+Environment
 
-powershell
-aws rds describe-db-proxy-targets `
-  --db-proxy-name realtimeinsurance-dev-aurora-proxy `
-  --profile L2-Development --region us-east-1 `
-  --query "Targets[].{State:TargetHealth.State,Reason:TargetHealth.Reason,Desc:TargetHealth.Description}"
+AWS CLI profile: L2-Development, region us-east-1
+Shell: PowerShell on Windows (use backtick line continuation, not backslash)
+Lambda env vars: db_user=pgsi_ans00315015, db_endpoint=realtimeinsurance-dev-aurora-proxy.proxy-cx08iswmk3mr.us-east-1.rds.amazonaws.com, db_name=realtimeinsurance_dev
+Log groups: /aws/lambda/realtimeinsurance-dev-soap-verification-lambda and /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy
+The Lambda already emits sequential log markers: SOAP parsed → VIN extracted → IAM token generated → DB connection established → cursor created → executing query
 
-Both should still be AVAILABLE. Give the proxy a minute after the apply if it looks unsettled.
+Recent change (for context)
 
-Then the real test — invoke the Lambda:
+The RDS Proxy previously had only the Aurora master-user secret registered, while the Lambda connects as pgsi_ans00315015. I added a second auth entry for the application secret (realtimeinsurance-NNrdwU) via Terraform/OpenTofu. Applied successfully; describe-db-proxies now shows both auth entries.
 
-powershell
-aws lambda invoke `
-  --region us-east-1 `
-  --function-name realtimeinsurance-dev-soap-verification-lambda `
-  --profile L2-Development `
-  --cli-binary-format raw-in-base64-out `
-  --payload file://event.json `
-  response.json
+What I want
 
-Get-Content .\response.json
+Commands to confirm the full workflow wiring — domain mapping, API resources and methods, the Lambda integration, Lambda config, and proxy targets.
+Commands to measure execution time at each hop:
+Lambda total duration and cold-start init time
+Per-stage breakdown inside the Lambda, computed from the deltas between the existing log markers
+API Gateway overhead, derived from Latency minus IntegrationLatency
+Client-side timing for an mTLS curl request
 
-And tail the proxy log:
+Constraints
 
-powershell
-aws logs tail "/aws/rds/proxy/realtimeinsurance-dev-aurora-proxy" `
-  --since 5m `
-  --profile L2-Development --region us-east-1 --format short
-How to read what comes back
-Query succeeds → done, root cause confirmed and fixed.
-Still PAM authentication failed for user "pgsi_ans00315015" → that's Unknown #1 answering yes. The role has rds_iam granted, Aurora is forcing PAM, and the proxy's password login can't work. Fix is REVOKE rds_iam plus setting the password to match the secret.
-A different error mentioning credentials/password → Unknown #2. The secret's password doesn't match the DB role. Same fix path, minus the revoke.
+Give me runnable PowerShell commands, not descriptions
+Flag any command that requires a value I have to fill in first, and tell me which prior command produces it
+Note any prerequisite that has to be enabled (e.g. detailed CloudWatch metrics on the stage, X-Ray tracing)
 
-Either of the last two needs a psql session as kfb_aurora_admin. Worth lining up how you'd get one now, so you're not blocked if it comes to that.
+One thing worth adding at the top if it applies: whether the Lambda invoke actually succeeds now. If it's still failing at the DB, say so explicitly — otherwise the other AI will hand you timing numbers for a broken path, and fast failures look deceptively good.
