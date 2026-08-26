@@ -1,639 +1,140 @@
-New Findings After the Additional Investigation
-1. Current RDS Proxy has only ONE auth entry
-
-Command:
-
-PowerShell
-1
-aws rds describe-db-proxies `
-2
---db-proxy-name realtimeinsurance-dev-aurora-proxy `
-3
---profile L2-Development `
-4
---region us-east-1 `
-5
---query "DBProxies[0].Auth"
-Show more lines
-
-Result:
-
-JSON
-1
-[
-2
-{
-3
-"AuthScheme": "SECRETS",
-4
-"SecretArn": "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh",
-5
-"IAMAuth": "REQUIRED"
-6
-}
-7
-]
-Show more lines
-What this proves
-Plain Text
-1
-Proxy only has ONE authentication configuration.
-2
-No application-user authentication is configured.
-Show more lines
-2. Current Proxy Secret belongs to kfb_aurora_admin
-
-Command:
-
-PowerShell
-1
-aws secretsmanager get-secret-value `
-2
---secret-id arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh `
-3
---profile L2-Development `
-4
---region us-east-1 `
-5
---query SecretString `
-6
---output text
-Show more lines
-
-Result:
-
-JSON
-1
-{
-2
-"username": "kfb_aurora_admin",
-3
-"password": "..."
-4
-}
-Show more lines
-What this proves
-Plain Text
-1
-Proxy currently authenticates using:
-2
-kfb_aurora_admin
-Show more lines
-3. We found an existing application secret
-
-Command:
-
-PowerShell
-1
-aws secretsmanager list-secrets `
-2
---profile L2-Development `
-3
---region us-east-1 `
-4
---query "SecretList[?contains(Name,'realtimeinsurance')].[Name,ARN]" `
-5
---output table
-Show more lines
-
-Result:
-
-Plain Text
-1
-realtimeinsurance
-Show more lines
-4. We opened the application secret
-
-Command:
-
-PowerShell
-1
-aws secretsmanager get-secret-value `
-2
---secret-id realtimeinsurance `
-3
---profile L2-Development `
-4
---region us-east-1 `
-5
---query SecretString `
-6
---output text
-Show more lines
-
-Result:
-
-JSON
-1
-{
-2
-"username":"pgsi_ans00315015",
-3
-"password":"W{z/E783XuA%",
-4
-"engine":"postgres",
-5
-"host":"realtimeinsurance-dev-aurora-cluster.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com",
-6
-"port":5432,
-7
-"dbClusterIdentifier":"realtimeinsurance-dev-aurora-cluster"
-8
-}
-Show more lines
-What this proves
-
-✅ Application secret already exists
-
-✅ Secret is for:
-
-Plain Text
-1
-pgsi_ans00315015
-Show more lines
-
-✅ No need to create a new secret
-
-5. Secret is configured for rotation
-
-Command:
-
-PowerShell
-1
-aws secretsmanager describe-secret `
-2
---secret-id realtimeinsurance `
-3
---profile L2-Development `
-4
---region us-east-1
-Show more lines
-
-Result:
-
-JSON
-1
-{
-2
-"RotationEnabled": true,
-3
-"RotationLambdaARN": "SecretsManagerrealtimeinsurance-dev-rotation"
-4
-}
-Show more lines
-Rotation Lambda
-
-Command:
-
-PowerShell
-1
-aws lambda get-function-configuration `
-2
---function-name SecretsManagerrealtimeinsurance-dev-rotation `
-3
---profile L2-Development `
-4
---region us-east-1
-5
- 
-Show more lines
-
-Description:
-
-Plain Text
-1
-Rotates a Secrets Manager secret for Amazon RDS PostgreSQL credentials using the single user rotation strategy.
-2
- 
-Show more lines
-However
-
-Command:
-
-PowerShell
-1
-aws secretsmanager describe-secret `
-2
---secret-id realtimeinsurance `
-3
---profile L2-Development `
-4
---region us-east-1 `
-5
---query "{LastRotated:LastRotatedDate,LastChanged:LastChangedDate,NextRotation:NextRotationDate}"
-Show more lines
-
-Result:
-
-JSON
-1
-{
-2
-"LastRotated": null,
-3
-"LastChanged": "2026-07-08",
-4
-"NextRotation": null
-5
-}
-Show more lines
-What this means
-
-✅ Rotation is configured
-
-❌ We do NOT know whether rotation ever succeeded
-
-❌ We cannot use successful rotation as proof that password authentication works
-
-6. Proxy role only has access to admin secret
-
-Command:
-
-PowerShell
-1
-aws iam get-role-policy `
-2
---role-name realtimeinsurance-dev-rds-proxy-role `
-3
---policy-name realtimeinsurance-dev-rds-proxy-secret-access `
-4
---profile L2-Development
-Show more lines
-
-Result:
-
-JSON
-1
-{
-2
-"Action": [
-3
-"secretsmanager:GetSecretValue",
-4
-"secretsmanager:DescribeSecret"
-5
-],
-6
-"Resource": "arn:aws:secretsmanager:...:rds!cluster..."
-7
-}
-Show more lines
-
-and:
-
-JSON
-1
-{
-2
-"Action": "rds-db:connect",
-3
-"Resource": ".../kfb_aurora_admin"
-4
-}
-Show more lines
-What this proves
-Plain Text
-1
-Proxy only knows about:
-2
-kfb_aurora_admin
-Show more lines
-
-and
-
-Plain Text
-1
-Proxy does NOT know about:
-2
-pgsi_ans00315015
-Show more lines
-7. Proxy and Aurora health are GOOD
-
-Command:
-
-PowerShell
-1
-aws rds describe-db-proxy-targets `
-2
---db-proxy-name realtimeinsurance-dev-aurora-proxy `
-3
---profile L2-Development `
-4
---region us-east-1
-5
- 
-Show more lines
-
-Result:
-
-Plain Text
-1
-AVAILABLE
-2
-AVAILABLE
-Show more lines
-What this proves
-
-✅ Proxy healthy
-
-✅ Aurora healthy
-
-✅ Network healthy
-
-Not a networking issue.
-
-8. We found the original migration clue
-
-File:
-
-Plain Text
-1
-apps/realtimeinsurance/main.tf
-Show more lines
-
-Contains:
-
-Terraform
-1
-# previously ran its own proxy
-2
-# against a custom secret/db-user
-3
-# now consolidated onto this module's proxy
-4
-# which authenticates as var.master_username
-Show more lines
-Why important
-
-This strongly suggests:
-
-Old design:
-
-Plain Text
-1
-Application User Secret
-2
-+
-3
-Application User
-Show more lines
-
-New design:
-
-Plain Text
-1
-Master Secret Only
-Show more lines
-
-Potentially introducing the regression.
-
-9. We discovered the ACTUAL deployed Lambda configuration
-
-This was one of the biggest findings.
-
-Command:
-
-PowerShell
-1
-aws lambda get-function-configuration `
-2
---function-name realtimeinsurance-dev-soap-verification-lambda `
-3
---profile L2-Development `
-4
---region us-east-1 `
-5
---query "Environment.Variables"
-Show more lines
-
-Result:
-
-JSON
-1
-{
-2
-"db_user": "pgsi_ans00315015",
-3
-"db_endpoint": "realtimeinsurance-dev-aurora-proxy.proxy-cx08iswmk3mr.us-east-1.rds.amazonaws.com",
-4
-"db_region": "us-east-1",
-5
-"db_name": "realtimeinsurance_dev"
-6
-}
-Show more lines
-What this proves
-
-The deployed Lambda is actually using:
-
-Plain Text
-1
-db_user = pgsi_ans00315015
-Show more lines
-
-This matches:
-
-Plain Text
-1
-realtimeinsurance secret
-Show more lines
-
-and explains why the logs show:
-
-Plain Text
-1
-PAM authentication failed for user "pgsi_ans00315015"
-Show more lines
-10. Terraform changes already completed
-Module Change
-
-Added:
-
-Terraform
-1
-variable "rds_proxy_application_auth" {
-2
-description = "Optional application database user authentication for RDS Proxy"
-3
- 
-4
-type = object({
-5
-username = string
-6
-secret_arn = string
-7
-})
-8
- 
-9
-default = null
-10
-nullable = true
-11
-}
-Show more lines
-
-Added support for:
-
-Terraform
-1
-dynamic "auth"
-Show more lines
-
-and:
-
-Terraform
-1
-additional secret access
-Show more lines
-
-and:
-
-Terraform
-1
-additional rds-db:connect permissions
-Show more lines
-Consumer Change
-
-Added to:
-
-Plain Text
-1
-apps/realtimeinsurance/main.tf
-Show more lines
-Terraform
-1
-rds_proxy_application_auth = {
-2
-username = "pgsi_ans00315015"
-3
-secret_arn = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
-4
-}
-Show more lines
-Validation
-
-Command:
-
-PowerShell
-1
-tofu validate
-Show more lines
-
-Result:
-
-Plain Text
-1
-Success! The configuration is valid.
-Show more lines
-Current State Right Now
-Proven Facts
-
-✅ Lambda uses:
-
-Plain Text
-1
-pgsi_ans00315015
-Show more lines
-
-✅ Application secret exists
-
-✅ Application secret contains:
-
-Plain Text
-1
-pgsi_ans00315015
-Show more lines
-
-✅ Proxy currently uses:
-
-Plain Text
-1
-kfb_aurora_admin
-Show more lines
-
-✅ Proxy does not use:
-
-Plain Text
-1
-pgsi_ans00315015
-Show more lines
-
-✅ PAM authentication failures occur for:
-
-Plain Text
-1
-pgsi_ans00315015
-Show more lines
-
-✅ Terraform now supports attaching the application secret
-
-✅ Consumer configuration updated
-
-✅ Validation passed
-
-Things Still Unknown
-
-We still do NOT know:
-
-Unknown #1
-Plain Text
-1
-Does pgsi_ans00315015 have rds_iam granted?
-Show more lines
-Unknown #2
-Plain Text
-1
-Does secret password still match DB password?
-Show more lines
-Unknown #3
-Plain Text
-1
-Has secret rotation ever succeeded?
-Show more lines
-Most Likely Root Cause (Current Best Assessment)
-
-Current probability ranking:
-
-#1 Most Likely
-Plain Text
-1
-Proxy only configured with admin secret
-Show more lines
-
-while application uses:
-
-Plain Text
-1
-pgsi_ans00315015
-Show more lines
-
-Confidence: Very High
-
-#2
-Plain Text
-1
-Migration removed application-user secret configuration
-Show more lines
-
-Confidence: Very High
-
-#3
-Plain Text
-1
-rds_iam granted on pgsi_ans00315015
-Show more lines
-
-Confidence: Possible but not proven
-
-Current Recommendation
-
-Before applying anything:
-
-PowerShell
-1
-tofu plan -var-file=envs/dev.tfvars
-Show more lines
-
-Review the exact RDS Proxy changes Terraform wants to make.
+Run set +e
+  set +e
+  test -f "envs/dev.tfvars" || { echo "ERROR: Missing tfvars file: envs/dev.tfvars"; exit 1; }
+  tofu plan -no-color -var-file="envs/dev.tfvars" -out=tfplan &> tofu_plan_stdout
+  tofu_plan_exit_code="$?"
+  cat tofu_plan_stdout
+  if [[ "$tofu_plan_exit_code" -ne 0 ]]; then
+      grep -i Error tofu_plan_stdout || true
+      echo "OpenTofu plan failed"
+      exit 1
+  fi
+      
+  shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+  env:
+    TF_IN_AUTOMATION: true
+    TF_INPUT: false
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_REGION: us-east-1
+    AWS_ACCESS_KEY_ID: ***
+    AWS_SECRET_ACCESS_KEY: ***
+    AWS_SESSION_TOKEN: ***
+    TOFU_CLI_PATH: /home/runner/work/_temp/c0b67286-02bb-41ac-a504-30d66e68a0c8
+module.aurora.aws_db_subnet_group.aurora: Refreshing state... [id=realtimeinsurance-dev-db-subnet-group]
+module.aurora.data.aws_caller_identity.current: Reading...
+module.aurora.data.aws_iam_policy_document.rds_proxy_assume[0]: Reading...
+module.aurora.data.aws_region.current: Reading...
+module.aurora.module.rds_proxy_security_group[0].aws_security_group.this: Refreshing state... [id=sg-064a4f97c64e1d064]
+module.aurora.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.aurora.data.aws_iam_policy_document.rds_proxy_assume[0]: Read complete after 0s [id=2562693050]
+module.aurora.aws_iam_role.rds_proxy[0]: Refreshing state... [id=realtimeinsurance-dev-rds-proxy-role]
+module.aurora.module.aurora_security_group.aws_security_group.this: Refreshing state... [id=sg-08b96e7fab8870702]
+module.aurora.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.215.0.0/16-5432"]: Refreshing state... [id=sgr-076869e29d37bd8f4]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-aurora-sg-egress-0.0.0.0/0-all"]: Refreshing state... [id=sgr-0e6b9aafc7c3b5a97]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.236.1.0/24-5432"]: Refreshing state... [id=sgr-02b81759c70210181]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.12.0/24-5432"]: Refreshing state... [id=sgr-0e664ecbd56fb4892]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.217.3.0/24-5432"]: Refreshing state... [id=sgr-07ddbdd4ec277bc28]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.218.17.0/24-5432"]: Refreshing state... [id=sgr-054f3ae1f327c5b7c]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.212.0.0/16-5432"]: Refreshing state... [id=sgr-02a43ab8e01d8defc]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.235.1.0/24-5432"]: Refreshing state... [id=sgr-0c8e19d44d347ed91]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.225.0.0/16-5432"]: Refreshing state... [id=sgr-0ad33a0e922da0b66]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.238.1.0/24-5432"]: Refreshing state... [id=sgr-0d72aa32ac0ea0477]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-aurora-sg-ingress-10.214.0.0/16-5432"]: Refreshing state... [id=sgr-012a1a482efe49940]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_egress_rule.this["realtimeinsurance-dev-rds-proxy-sg-egress-0.0.0.0/0-all"]: Refreshing state... [id=sgr-0302a17b9b4dbc769]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.215.0.0/16-5432"]: Refreshing state... [id=sgr-022df8c89e3fd1078]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.218.12.0/24-5432"]: Refreshing state... [id=sgr-055555eec412211a0]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.238.1.0/24-5432"]: Refreshing state... [id=sgr-0b40f97fb578db906]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.217.3.0/24-5432"]: Refreshing state... [id=sgr-05f952976738300fd]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.212.0.0/16-5432"]: Refreshing state... [id=sgr-098aaeb3dcfe71a30]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.235.1.0/24-5432"]: Refreshing state... [id=sgr-05b44551972516191]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.214.0.0/16-5432"]: Refreshing state... [id=sgr-0147460f8eba37d86]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.225.0.0/16-5432"]: Refreshing state... [id=sgr-0397763084fc3a783]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.236.1.0/24-5432"]: Refreshing state... [id=sgr-089f3eb8e19b2a045]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-dev-rds-proxy-sg-ingress-10.218.17.0/24-5432"]: Refreshing state... [id=sgr-0734d973ef7c14d96]
+module.aurora.aws_rds_cluster.aurora: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster]
+module.aurora.aws_vpc_security_group_ingress_rule.aurora_from_proxy[0]: Refreshing state... [id=sgr-0d5ba80ba2148b45c]
+module.aurora.aws_db_proxy.aurora[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-proxy]
+module.aurora.aws_rds_cluster_instance.reader[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-reader-1]
+module.aurora.aws_rds_cluster_instance.writer: Refreshing state... [id=realtimeinsurance-dev-aurora-cluster-writer]
+module.aurora.data.aws_iam_policy_document.rds_proxy_secret_access[0]: Reading...
+module.aurora.data.aws_iam_policy_document.rds_proxy_secret_access[0]: Read complete after 0s [id=3197161942]
+module.aurora.aws_iam_role_policy.rds_proxy_secret_access[0]: Refreshing state... [id=realtimeinsurance-dev-rds-proxy-role:realtimeinsurance-dev-rds-proxy-secret-access]
+module.aurora.aws_db_proxy_default_target_group.aurora[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-proxy]
+module.aurora.aws_db_proxy_endpoint.aurora_reader[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-proxy/realtimeinsurance-dev-aurora-proxy-reader]
+module.aurora.aws_db_proxy_target.aurora[0]: Refreshing state... [id=realtimeinsurance-dev-aurora-proxy/default/TRACKED_CLUSTER/realtimeinsurance-dev-aurora-cluster]
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  ~ update in-place
+
+OpenTofu will perform the following actions:
+
+  # module.aurora.aws_db_proxy.aurora[0] will be updated in-place
+  ~ resource "aws_db_proxy" "aurora" {
+        id                             = "realtimeinsurance-dev-aurora-proxy"
+        name                           = "realtimeinsurance-dev-aurora-proxy"
+        tags                           = {
+            "Name" = "realtimeinsurance-dev-aurora-proxy"
+        }
+        # (14 unchanged attributes hidden)
+
+      - auth {
+          - auth_scheme               = "SECRETS" -> null
+          - client_password_auth_type = "POSTGRES_SCRAM_SHA_256" -> null
+          - iam_auth                  = "REQUIRED" -> null
+          - secret_arn                = "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh" -> null
+        }
+      + auth {
+          + auth_scheme               = "SECRETS"
+          + client_password_auth_type = "POSTGRES_SCRAM_SHA_256"
+          + iam_auth                  = "REQUIRED"
+          + secret_arn                = "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh"
+        }
+      + auth {
+          + auth_scheme               = "SECRETS"
+          + client_password_auth_type = (known after apply)
+          + iam_auth                  = "REQUIRED"
+          + secret_arn                = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
+        }
+    }
+
+  # module.aurora.aws_iam_role_policy.rds_proxy_secret_access[0] will be updated in-place
+  ~ resource "aws_iam_role_policy" "rds_proxy_secret_access" {
+        id     = "realtimeinsurance-dev-rds-proxy-role:realtimeinsurance-dev-rds-proxy-secret-access"
+        name   = "realtimeinsurance-dev-rds-proxy-secret-access"
+      ~ policy = jsonencode(
+          ~ {
+              ~ Statement = [
+                  ~ {
+                      ~ Resource = "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh" -> [
+                          + "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU",
+                          + "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh",
+                        ]
+                        # (2 unchanged attributes hidden)
+                    },
+                  ~ {
+                      ~ Resource = "arn:aws:rds-db:us-east-1:058264370150:dbuser:cluster-FZCKYUP5O32DEWMAHJFEAXOG64/kfb_aurora_admin" -> [
+                          + "arn:aws:rds-db:us-east-1:058264370150:dbuser:cluster-FZCKYUP5O32DEWMAHJFEAXOG64/pgsi_ans00315015",
+                          + "arn:aws:rds-db:us-east-1:058264370150:dbuser:cluster-FZCKYUP5O32DEWMAHJFEAXOG64/kfb_aurora_admin",
+                        ]
+                        # (2 unchanged attributes hidden)
+                    },
+                ]
+                # (1 unchanged attribute hidden)
+            }
+        )
+        # (1 unchanged attribute hidden)
+    }
+
+Plan: 0 to add, 2 to change, 0 to destroy.
+
+Warning: Deprecated attribute
+
+  on ../../modules/aurora-postgres/rds_proxy.tf line 81, in data "aws_iam_policy_document" "rds_proxy_secret_access":
+  81:         "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.master_username}"
+
+The attribute "name" is deprecated. Refer to the provider documentation for
+details.
+
+(and 3 more similar warnings elsewhere)
