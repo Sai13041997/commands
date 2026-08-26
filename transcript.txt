@@ -1,0 +1,386 @@
+MEETING TRANSCRIPT
+=================
+
+Speaker 1  00:11
+Did everything migrated. We got tools everybody.
+
+00:34
+I know because I updated.
+
+00:53
+A Google phone. Yeah, you struck me as an iPhone. You're a Google guy. Yeah. All right.
+
+01:07
+Who's got news? Who's got what?
+
+01:12
+Uh, I'm trying to deploy the infrastructure into the profession.
+
+01:18
+Trying to play the perfect infrastructure into the pre-product count? Exactly. For me, I know. Sounds good. Yeah. Sorry, I cut you off. Did you? I had lots of questions, but I should hold my questions. Go ahead, please. Well, uh, I did create a ticket to sign it to you.
+
+01:35
+Didn't I say to say, can we start looking into what we're going to do with counts? I don't know if we want to. I was explaining to Jeff and Chris. I'm trying to remember if they had an opinion on the matter.
+
+Speaker 2  01:47
+Um, but to me, the things that really matter is as long as we can put it on it, especially when we already have a mapping that, like everything else, it's not uncommon for us to say, look. We don't have enough licenses to go around for this application, so we'll just switch it here and there.
+
+02:02
+If we want to just kind of shrink down our account to just say, QA, and you're going to be one and qa2 in there, you're going to have definitely have one def two. I don't have
+
+Speaker 1  02:11
+A preference. I
+
+Speaker 2  02:11
+Would just say you come up with what you think is. And then we need to share it with everybody and see if everybody's on board, sure. But
+
+Speaker 3  02:17
+Some things
+
+Speaker 1  02:18
+You
+
+Speaker 2  02:18
+Might not know. Some environments are going to have production data okay, and performance is going to be wonderful. And when it has performance data you need to treat it, like production. It has to have production level security on it, so I don't know. How we accomplish that with this?
+
+02:35
+But anyway, you might not have known that some environments we do sometimes production data perf in another environment called MKT. Only places we typically put production data, and we treat them like production. There are no test accounts. Okay,
+
+Speaker 1  02:47
+You can set them
+
+Speaker 3  02:48
+Up the production client records, and I think from your perspective, all that means is we would want a separate like JWT audience configuration for pre-crowd as we do for fraud so that technically PC is using a different user for the integration and pre-produce and non-prod. Probably the same prod, I guess.
+
+Speaker 2  03:08
+I wonder if she's doing some stuff with a Debbies like that? Yeah, I
+
+Speaker 3  03:11
+Mean, I'm sure they have. I mean, like, we have parallels well, so that's interesting. Actually, this pre-prod database creating a network like that they've always used. We use the same database ventils and non-prod as pre-prod. Only production is different. For applications, what developers have read, write access to approved database?
+
+03:29
+Oh, I don't know about that. I'm telling you what they have to do that. Developers would? Yes. For production controlled environments.
+
+Speaker 2  03:39
+It's like, perfect npt, where we put production data into the databases. Yes,
+
+Speaker 4  03:44
+We only apply when directly on databases that are used in production, right? We don't have any kind of audit. Rule about non-production. Yeah.
+
+Speaker 1  03:58
+I thought we were
+
+Speaker 2  03:58
+Making the distinction though, like when you go to ADT and Persh. Managers are under the impression that their production controls are in place.
+
+Speaker 4  04:09
+You know, we've never. We've never done that.
+
+Speaker 1  04:11
+I think I think
+
+Speaker 3  04:12
+What we're, I think, the often referenced initiative that we're doing is trying to actually categorize and Mark what environments do have production data, not necessarily enforcing. The controls on. On the app side, we have tried to do that. I don't know that the security team has any policy or like statement.
+
+04:32
+I'm contradicting what you just said go. I think I think they are worried that. Hey, if you have prod data, make sure it goes in a pre-prod account.
+
+Speaker 4  04:38
+There's a difference between proud use and proud data produce is in production use. Non-production use can have data, but it's still non-production use.
+
+Speaker 3  04:47
+He's saying, today, we, a lot developers out of crowd
+
+Speaker 1  04:49
+Databases and use the in production are protected against changes by numbers.
+
+Speaker 4  04:56
+Databases used by development in all the cycle are not protected. Now, whether they should have production derived diabetes or production equivalent values in those databases, those controls need to come from somebody's else I.E.D security, which says, you can't have the Aldi basket and replace it. You need to do whatever with those systems, yeah, right?
+
+05:19
+Just having production data doesn't make any conduction system. No, and I just kept using the phrase I'm trying to keep up with your terminology. I always use the termology protection production controls, but uh. Well, production controls to provide to production environments.
+
+Speaker 1  05:35
+Yeah,
+
+Speaker 4  05:36
+Not non-production environments, but we managers test managers if I'm dealing one when you go to MPT.
+
+Speaker 2  05:43
+I can't log in with. I'm supposed to be able to log in with a test account. You have to log in with a production on the app. That's true. I don't. I'm trying to think through it doesn't matter, because if we ever read, only access who cares if we have right x's.
+
+06:01
+You do have right access in a non-production environment. Thinking, people are thinking that we don't have access. It
+
+Speaker 4  06:10
+For the people who think that they don't have access. What's the damage done if they do have right access? Improved non-production investments, nothing. That's what I'm trying to think through. Yeah,
+
+Speaker 5  06:19
+Unless you tell me, like, you know, a Mainframe? There are areas where you're not supposed to let anybody see stuff unless they have special access. Like, we're putting bank account routing numbers. Yeah, but see we, we never over the yeah 18 years been here. It's always been an issue with.
+
+Speaker 4  06:37
+How are we going to control access to production data? Then we bring some vendor that talks to us about how to mask it and do this, and then them. That's all that Project's too expensively too long. We're not going to do that now. Yeah, and it's, uh, every. It's like blockchain sponsoring popped up every few years, and somebody asked the question.
+
+06:53
+And people get scared, and they run like, and so we don't have any mechanisms to do what you want to do, which is to control access to production systems. So, just those mechanisms are not in place, and they're not going to get in place until we take a. Approach towards doing that.
+
+07:12
+And since we don't have approach to doing that, we don't do that. So, call the database yes.
+
+Speaker 3  07:20
+So, you're mentioning your counts, and I'm here. As a member part-time of the cloud office team, how does the CSG teach because I'm trying to pick up on what she's learning because we are each other's cover so. That's why I'm here today. Okay, so, but you mentioned. Now, I'm going to take off a cloud outside covering that there is a stand.
+
+07:41
+There is a. There is governance around council. And organizations out there. So I don't know what boundaries are we in the cloud when we are the ccoe team? I don't know what you're writing for your standards for accounts, but we went round around on trying to set boundaries on what makes this account different from that account and?
+
+08:01
+Um, good luck to you. That's all I'd say, I mean, participate. You know, if you want to many huge discussions, many discussions about what makes? L1 and L2. Sure. And environment, maybe? We know what the labels are. We don't know how to set the boundaries on from. If you want to start setting boundaries, then start setting boundaries.
+
+08:27
+So, if you want to do start, do things like data, no production data below. Perth,
+
+Speaker 1  08:33
+Right?
+
+Speaker 3  08:36
+More power too. Yeah, let's get the processes in place. Some people don't ask call steps. Hey, I need to restore of production into death, right? Because That that we we used to get those a lot. And now, we're not getting them quite much. But, uh, it's still. I don't think it's known out in the government world that, hey, if any data, uh, QA database, I just get production restored over there, whether it should be or not.
+
+09:01
+Since we have Dan
+
+Speaker 2  09:03
+Approved in place, he pretty much controls what is happening, where with data?
+
+Speaker 5  09:09
+To some degree. Like, if a developer asked that, he's probably gonna say what the heck are you doing? We don't do that. We only do production restores in nft and in person, so that probably cut down on that.
+
+Speaker 1  09:19
+Yeah,
+
+Speaker 4  09:19
+I don't know. I don't know that he refused.
+
+Speaker 3  09:22
+Yeah, I don't think he gets visited if anybody.
+
+Speaker 1  09:27
+Yeah, so I don't think I think he's looking at that stuff the same way. Let's say somebody goes. Hey man, Danny, sorry, Danny. I want to restore production policy Center into QA. We've done that.
+
+Speaker 3  09:38
+What policy Center is a bad example, but
+
+Speaker 4  09:40
+The policy Center
+
+Speaker 3  09:41
+Indicative database that's actually on premise? And that way
+
+Speaker 2  09:44
+On premise,
+
+Speaker 3  09:45
+Policy integration, or whatever. I mean, I'm saying they call it policy. It gives you a good one and then a controversial one. So, the good one is like agency goals. I want to restore production agency goals to QA. All right under our current model.
+
+Speaker 4  09:58
+We would probably say, well, we need to move QA to our pre-pride market, because if it's in the cloud, yeah, right, if? If it's not in the cloud? We'll do it. Okay. Nobody gets involved in that decision other than the developers making a request in us, right? If it's in the cloud.
+
+10:19
+We might get some. We might push back and say, hey, you know, do you really need this in? Qaqa is not in an environment. That we wrote the rules on, it says.
+
+10:32
+Production data shouldn't go into non-production account.
+
+Speaker 1  10:36
+Yeah, I
+
+Speaker 2  10:37
+Mean, in those instances, if you did reach out to, maybe Dan doesn't get everyone, maybe Dan's not plugged in, but if you all were to Luke Dan Brew into the conversation, Dan would be absolutely not.
+
+Speaker 3  10:47
+Well, if you brought this up to that, he might say, oh, I'd love to be a part of that process going forward, but I'm saying, operationally, no one knows to ask him about it. No one thinks he cares about it. I don't think, and these two
+
+Speaker 2  10:58
+Would be the people that would do the restore, right? Yeah, before I get going because I had something new that I want to show. You all, um, that may fix all of this. Okay.
+
+Speaker 4  11:11
+Did you want
+
+Speaker 2  11:11
+To jump in on it before we switched topics?
+
+Speaker 1  11:13
+I'm just trying to ask, like, because we've gotten multiple requests with to restore production into. A non-profit party base that was not EBT corporate. Yeah, you
+
+Speaker 2  11:26
+Can give an example.
+
+Speaker 4  11:27
+There's too many good friends. Here's there's like, I went to lunch today. I went to lunch Thursday. Last week, I went to lunch.
+
+Speaker 2  11:36
+That's right,
+
+Speaker 1  11:37
+I didn't know that, that it was, uh, like something, blockchain, that something done. It's a new cons new error concept. Yeah, not everybody's playing that rule. I would say if it's a big frag. I can't tell you what they're doing, you know, the? Purple things would be like? If somebody says I want the VIN symbol database restored from production into a test region?
+
+Speaker 2  11:59
+That I would say that makes total sense because thin numbers on your car, something that you can't like, oh, I don't want that in QA in different ones production. That's literally a database of every single Min number in every single number, but it's just public information. Same thing with our website.
+
+12:16
+If somebody goes, I need a copy of the production website duplicated into QA or Dev. That's a public fixing website. At those instances, they're like read only or they're things that are publicly facing
+
+Speaker 4  12:30
+You're asking your level of sophistication knowledge I've needed. You don't have to, so then
+
+Speaker 2  12:35
+You can always reach out to managers deaf or anybody, and we continue that.
+
+Speaker 4  12:39
+We insist that we've never, I mean, not that we're not going to do that, but that is such a bottleneck in the process that,
+
+Speaker 1  12:45
+Yeah,
+
+Speaker 4  12:46
+It's almost like getting a change request, and we can do this. We can do this if you want to. We can have. We can change it so this informal reach out to. Guy on this instance, but not this instant. If you want to initiate a review of all the database requests?
+
+13:05
+And the formula review by somebody who's more knowledge. We can start telling people, hey, it's going to have a request you got to fill out a change ticket, I go to the change process if that's what you want to do,
+
+Speaker 3  13:15
+Because I mean what we do for the the non-profit deployments is, it's not a change ticket, but it does require, and it didn't fill out an approval phase on it from Denver and Denver approves anything that we do outside of debt.
+
+Speaker 2  13:26
+Yeah,
+
+Speaker 4  13:26
+I mean, we can do this. I'm
+
+Speaker 3  13:28
+Not saying
+
+Speaker 4  13:28
+We're trying to get I got that request still about my brain to make that more formal that he doesn't have to. See, I'm based on these conditions it does right now. Yeah. So, if you have other topics to come out within this topic here, I don't know at the meantime.
+
+13:48
+Is there any list or something that says?
+
+Speaker 5  13:54
+That account has the production data. Yes, yes, there is, uh, well, that's absolutely. Yeah, on that, uh, going elsewhere, um? That's what I was sharing. Yeah, you got it here and give it to him.
+
+Speaker 2  14:09
+Yeah, there's a whole SharePoint site that dance Dan Bruce stood up. That talks you through what environment's going what
+
+Speaker 3  14:15
+Is about, like AWS accounts yes, oh, okay? Well, I have kind of task. I asked him to do, but if you already got it, doctor then his job's gonna get a lot easier.
+
+Speaker 5  14:24
+Well,
+
+Speaker 3  14:24
+No, you're gonna make a plan. He's asking about the current map of what's the correction data, and what does it okay, but you're asking him to make a plan for L2 accounts and a structure going forward. Yeah, account structure is the same thing as environment structure, unless you choose a make an account for every time.
+
+14:38
+Well, that's that's.
+
+Speaker 4  14:40
+Yeah, I mean, we already have that, right? No,
+
+Speaker 3  14:42
+No, we don't, because that's why it came up because we had L2, Dev, l2qway, L2 u a t l. Two probably do not have L2 curve L2 and
+
+Speaker 2  14:49
+Bt
+
+Speaker 3  14:50
+So,
+
+Speaker 6  14:51
+But is the same?
+
+Speaker 2  14:53
+What else
+
+Speaker 3  14:54
+If we made an MPT environment, it would also go into L2 pre-prod with it. Which is, if we want to do it that way, that's fine. I guess it's? Strange. To me, that's a strange departure from just doing non-prod, pre-prod and prod. If you're going to split further from non-profit prefront prod, I almost feel like it's weird to not do an account for environment, otherwise.
+
+15:15
+Let's just keep three counts. That's how I feel, but I, I think
+
+Speaker 6  15:19
+You probably feel like that, is that on the crime we do have EPT and non-part and pre-part
+
+Speaker 3  15:24
+Well, all I'm saying is, like, it's, it's a more complicated mapping. Yeah, you're going to group your environments according to some larger category, or you're not is what you're saying. They're going to group chemist these accounts. These environments are considered pre-producted, they.
+
+Speaker 4  15:41
+That definition of what you're calling. Yeah, it's protected. I
+
+Speaker 7  15:45
+Want a counselor doing it one way or two. Accounts are starting to do it a different ways, and
+
+Speaker 1  15:49
+I think the way that they're doing it right now
+
+Speaker 3  15:50
+Is done. I think they'll too. What we have now is Dom. In my opinion, I mean, it, like, creates this arbitrary category account where, like, qas, QA, and QA2, but pre-prod is perf and MPT, and there's not like any real, like logical mapping there. It's like a weird, arbitrary thing we're doing, and I think it's not good.
+
+16:06
+Let's keep John pre-product fraud or do an account account. In my opinion, but I, I
+
+Speaker 4  16:12
+Don't know where those accounts came from. Well, I made them, and I don't know who informed them on what parameters. I don't think there was a lot of good. Well, the other aspect of it is. The primary aspect of the current design. Was cloud maturity? So, not focusing on just environments, but other aspects about the cloud that would delineate the difference between the environment, the the L1s, and the twos L1.
+
+16:41
+Was designated as migration and compute-based service. Right now, we kind of got away from it well. Uh, so that was the that was the initial idea. It was L2 being more the next maturity in the cloud.
+
+16:58
+More native Services. Yeah, and
+
+Speaker 7  17:00
+We had all these rules. We had all these rules around what we were going to do until you you satisfy these requirements from every application. Yeah,
+
+Speaker 4  17:07
+Stop. When we did something in L2, what did we meet those requirements and he was, like, right, yeah, you know, if they're not gonna be firm requirements, then?
+
+Speaker 7  17:21
+Yeah, but that what I'm getting at. If you're going to look at account structure, don't just say, oh, wait, we need. We need something based upon environments you have the into other aspects of cloud management than just in splitting off environments. Because
+
+Speaker 4  17:34
+What we're just talking about, I
+
+Speaker 7  17:36
+Understand. But
+
+Speaker 1  17:36
+Yeah,
+
+Speaker 7  17:37
+L2 was designed to be more to be more reflective after migration and that planned.
+
+Speaker 4  17:43
+Yeah, that's not even really about the account question. That's about what, what goes inside of the account, how it gets there, right? But no, I'm getting is, you're saying? What is one of the factors that goes into either? You're going to separate by environment right, or you're going to take some of these environments along together into a common category.
+
+18:04
+There's going to be some preprogue. There's going to be some div, and there's going to be production. That's one aspect. How are you going to manage your environment? The second aspect of it is. Do we even need l2s if we're? Do all our maturity within the ones, right? Well, I think we've decided
+
+Speaker 3  18:21
+That we are not going to do that. I mean, we we haven't as this group, but I think it's been inside of this company very repeatedly, and it's been very much referenced in our plans for the cloud that we are going to do the these L accounts and whether we've.
+
+18:36
+Don't throw Dillard's adjusting with that plant, I think, is relevant, I mean.
+
+Speaker 2  18:41
+I,
+
+Speaker 3  18:41
+I'm not going to be the one that said, let's not do L2 accounts after all the discussion and everything like that that went into it. I'm just saying, I think, the current structure of L2 accounts is done. I, I? I don't know, I. Which, I mean, if it's? It's not.
+
+18:55
+It's not unworkably dumb either. I mean, we could leave it it. Wouldn't, it would be fine, I don't know. I just. I know what we would do. We kept it Devin Dev2 in development2 and uat. Account boundaries.
+
+Speaker 4  19:41
+Boundaries, and that's
+
+Speaker 3  19:42
+The thing is, we have no actual difference. Like, there is nothing
