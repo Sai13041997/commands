@@ -135,3 +135,24 @@ rds_proxy_reader_endpoint = "realtimeinsurance-dev-aurora-proxy-reader.endpoint.
 rds_proxy_security_group_id = "sg-064a4f97c64e1d064"
 reader_endpoint = "realtimeinsurance-dev-aurora-cluster.cluster-ro-cx08iswmk3mr.us-east-1.rds.amazonaws.com"
 security_group_id = "sg-08b96e7fab8870702"
+
+
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> aws rds describe-db-proxies `
+>>   --db-proxy-name realtimeinsurance-dev-aurora-proxy `
+>>   --profile L2-Development `
+>>   --region us-east-1 `
+>>   --query "DBProxies[0].Auth"
+[                                                                                                                                         
+    {
+        "AuthScheme": "SECRETS",
+        "SecretArn": "arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh",
+        "IAMAuth": "REQUIRED"
+    },
+    {
+        "AuthScheme": "SECRETS",
+        "SecretArn": "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU",
+        "IAMAuth": "REQUIRED"
+    }
+]
+
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> 
