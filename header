@@ -1,219 +1,301 @@
+ 
 
-Date
-Fri, 05 Jun 2026 00:12:10 GMT
-Content-Type
-application/json
-Connection
-keep-alive
-x-amzn-RequestId
-71b62a02-36b5-4518-81f5-ed7e08f495a9
-x-amzn-ErrorType
-ForbiddenException
-x-amz-apigw-id
-edgeMEJXoAMECdQ=
-Content-Length
-23
+ 
 
+Cloud Platform Standard – AWS Account Management 
 
+ 
 
+ 
 
-curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
+ 
 
+ 
 
-C:\Users\T012sp>curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
-Note: Unnecessary use of -X or --request, POST is already inferred.
-* Host q51dqcsrw5.execute-api.us-east-1.amazonaws.com:443 was resolved.
-* IPv6: (none)
-* IPv4: 108.139.47.36, 108.139.47.119, 108.139.47.107, 108.139.47.115
-*   Trying 108.139.47.36:443...
-* schannel: disabled automatic use of client certificate
-* ALPN: curl offers http/1.1
-* ALPN: server did not agree on a protocol. Uses default.
-* Established connection to q51dqcsrw5.execute-api.us-east-1.amazonaws.com (108.139.47.36 port 443) from 10.214.100.171 port 60049
-* using HTTP/1.x
-> POST /default/soap HTTP/1.1
-> Host: q51dqcsrw5.execute-api.us-east-1.amazonaws.com
-> User-Agent: curl/8.18.0
-> Accept: */*
-> Content-Type: application/soap+xml
-> Content-Length: 7
->
-* upload completely sent off: 7 bytes
-* schannel: remote party requests renegotiation
-* schannel: renegotiating SSL/TLS connection
-* schannel: SSL/TLS connection renegotiated
-* schannel: remote party requests renegotiation
-* schannel: renegotiating SSL/TLS connection
-* schannel: SSL/TLS connection renegotiated
-< HTTP/1.1 403 Forbidden
-< Content-Type: application/json
-< Connection: keep-alive
-< Date: Fri, 05 Jun 2026 00:03:39 GMT
-< x-amz-apigw-id: edfOUGaNIAMEmMg=
-< x-amzn-RequestId: 5f4bd330-6287-49fa-ad12-9587fb860cae
-< x-amzn-ErrorType: ForbiddenException
-< X-Cache: Error from cloudfront
-< Via: 1.1 4b0dd366e44414a4e7e6ed6970080d58.cloudfront.net (CloudFront)
-< X-Amz-Cf-Pop: IAD89-P2
-< X-Amz-Cf-Id: EV35mxd5oxL7wKD08gtRIuUIEQJ6q09SYomNJTWAK_N0xVUd1khlNA==
-< Content-Length: 23
-<
-{"message":"Forbidden"}* Connection #0 to host q51dqcsrw5.execute-api.us-east-1.amazonaws.com:443 left intact
+ 
 
+ 
 
+ 
 
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "DenyNotWhitelisted",
-      "Effect": "Deny",
-      "Principal": "*",
-      "Action": "execute-api:Invoke",
-      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*",
-      "Condition": {
-        "NotIpAddress": {
-          "aws:SourceIp": "0.0.0.0/0"
-        }
-      }
-    },
-    {
-      "Sid": "AllowInvoke",
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": "execute-api:Invoke",
-      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*"
-    }
-  ]
-}
+ 
 
+ 
 
+ 
 
+ 
 
-{
-  "Version": "2012-10-17",
-  "Statement": [
-    {
-      "Sid": "AllowInvoke",
-      "Effect": "Allow",
-      "Principal": "*",
-      "Action": "execute-api:Invoke",
-      "Resource": "arn:aws:execute-api:us-east-1:058264370150:*/*/*/*"
-    }
+Author/Maintainer 
 
+Date of change 
 
-Successfully created deployment for realtimeinsurance-dev-soap-api-gateway. This deployment is active for default.
-  ]
-}
+Reason for change 
 
+Alex Schoborg 
 
+05/12/26 
 
-curl -v -X POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap -H "Content-Type: application/soap+xml" -d "<test/>" --ssl-no-revoke
+Initial draft 
 
+ 
 
-POST https://q51dqcsrw5.execute-api.us-east-1.amazonaws.com/default/soap
-403
-124 ms
-Warning: Self signed certificate in certificate chain
-Network
-addresses: {…}
-tls: {…}
-Request Headers
-Content-Type: text/xml;charset=UTF-8
-SOAPAction: "http://www.iicmva.com/VerifyInsurance"
-User-Agent: PostmanRuntime/7.53.0
-Accept: */*
-Cache-Control: no-cache
-Postman-Token: 555f944d-e818-4237-b89d-dd6c5f1e41bd
-Host: q51dqcsrw5.execute-api.us-east-1.amazonaws.com
-Accept-Encoding: gzip, deflate, br
-Connection: keep-alive
-Content-Length: 1390
-Request Body
-<?xml version="1.0" encoding="UTF-8"?>
-<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
-                  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <soapenv:Body>
-    <CoverageRequest xmlns="http://www.iicmva.com/CoverageVerification/"
-                     PublicationVersion="00200809"
-                     PublicationDate="2008-11-05">
-      <RequestorInformation>
-        <Organization>
-          <Name>KentuckyIVS</Name>
-        </Organization>
-        <ReasonDetails>
-          <ReasonCode>BIVER</ReasonCode>
-          <TrackingNumber>CTTRK-150219-144041-4-31-101-85-1</TrackingNumber>
-        </ReasonDetails>
-      </RequestorInformation>
-      <Detail>
-        <PolicyInformation>
-          <OrganizationDetails>
-            <NAIC>12345</NAIC>
-          </OrganizationDetails>
-          <PolicyDetails>
-            <VerificationDate>2025-02-19T00:00:00.000</VerificationDate>
-            <PolicyKey>UNKNOWN</PolicyKey>
-            <PolicyState>KY</PolicyState>
-          </PolicyDetails>
-        </PolicyInformation>
-        <VehicleInformation>
-          <VehicleDetails>
-            <VIN>VINTEST123</VIN>
-          </VehicleDetails>
-        </VehicleInformation>
-      </Detail>
-    </CoverageRequest>
-  </soapenv:Body>
-</soapenv:Envelope>
-Response Headers
-Date: Fri, 05 Jun 2026 00:46:20 GMT
-Content-Type: application/json
-Connection: keep-alive
-x-amzn-RequestId: d26f5c76-eaa7-4acd-8ca6-c614ffe2af98
-x-amzn-ErrorType: ForbiddenException
-x-amz-apigw-id: edlekElKIAMERTA=
-Content-Length: 23
-Response Body
-{"message":"Forbidden"}
+ 
 
+ 
 
+ 
 
-Network
-addresses: {…}
-local: {…}
-address: "10.214.100.171"
-family: "IPv4"
-port: 56644
-remote: {…}
-address: "35.169.170.135"
-family: "IPv4"
-port: 443
-tls: {…}
-reused: false
-authorized: false
-authorizationError: "SELF_SIGNED_CERT_IN_CHAIN"
-cipher: {…}
-protocol: "TLSv1.3"
-ephemeralKeyInfo: {}
-peerCertificate: {…}
-subject: {…}
-country: null
-stateOrProvince: null
-locality: null
-organization: null
-organizationalUnit: null
-commonName: "*.execute-api.us-east-1.amazonaws.com"
-alternativeNames: "DNS:*.execute-api.us-east-1.amazonaws.com, DNS:execute-api.us-east-1.amazonaws.com"
-issuer: {…}
-country: "US"
-stateOrProvince: "KY"
-locality: "Louisville"
-organization: "Kentucky Farm Bureau Mutual Insurance Company"
-organizationalUnit: "1e2d9e535ee0f09e25481d7629194dcf"
-commonName: "ns-swg.ca.kyfb.goskope.com"
-validFrom: "May  5 16:16:12 2026 GMT"
-validTo: "Jun  4 16:16:12 2027 GMT"
-fingerprint: "2F:A1:27:94:30:20:6C:F9:F9:6D:28:B4:E5:AC:0A:12:0A:AF:07:5F"
-serialNumber: "df4044e3e9e84161b8432bab51a10368"
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+ 
+
+1. Background 
+
+AWS accounts are a foundational construct for organizing and governing cloud workloads, providing hard boundaries for security, billing, access control, and operational responsibility. As KFB’s cloud footprint has expanded, AWS accounts have been created to support shared environments, centralized services, and experimentation while cloud operating practices mature. 
+
+Without clearly defined account purpose and usage expectations, AWS accounts can become overloaded, repurposed informally, or used inconsistently, increasing security risk and operational complexity. These challenges are amplified in centrally managed environments where multiple workloads may coexist within shared accounts. 
+
+This standard establishes a consistent framework for defining why AWS accounts exist, what they are intended to host, and how accountability is assigned, while remaining aligned with KFB’s current centralized cloud operating model. 
+
+ 
+
+2. Purpose and Scope 
+
+2.1 Purpose 
+
+The purpose of this standard is to define clear, consistent, and enforceable expectations for the intended purpose and usage of AWS accounts at KFB. It establishes approved account classifications, usage boundaries, and accountability principles to support secure, scalable cloud adoption. 
+
+This standard focuses on account intent and responsibility, not on technical enforcement mechanisms or implementation detail. 
+
+2.2 Scope 
+
+This standard applies to: 
+
+All AWS accounts managed under KFB AWS Organizations 
+
+All new and existing AWS accounts, regardless of workload maturity 
+
+All teams deploying or operating workloads within AWS accounts owned by KFB 
+
+This standard does not define: 
+
+AWS Organizations or Organizational Unit (OU) structure 
+
+Service Control Policies (SCPs) or IAM implementation 
+
+Detailed application architecture or service configuration 
+
+Those topics are defined in separate Cloud Platform Standards. 
+
+ 
+
+3. Standard Definition 
+
+3.1 Account Classification Requirements 
+
+Each AWS account MUST be created with a clearly defined primary purpose. Accounts represent long‑lived security, billing, and operational boundaries and MUST NOT be treated as general‑purpose environments. 
+
+3.1.1 Approved Account Types 
+
+All AWS accounts MUST be classified into exactly one approved account type at creation time, such as production environment, non‑production environment, shared services, infrastructure automation, end‑user compute, security, networking, or sandbox. 
+
+Account classification MUST reflect the account’s primary reason for existence and MUST NOT be expanded to justify unrelated secondary uses. 
+
+ 
+
+3.1.2 Purpose and Intent Boundaries 
+
+Account classification defines intent, not implementation detail. Accordingly: 
+
+Each account MUST have a documented purpose aligned to its classification. 
+
+Accounts MUST NOT evolve into uses that conflict with their original intent. 
+
+Accounts MUST NOT be repurposed to bypass governance, security, or operational controls. 
+
+Where needs change materially, migration to a more appropriate account SHOULD be preferred over redefining an existing account. 
+
+ 
+
+3.2 Workload and Data Placement Requirements 
+
+Workloads and data deployed to an AWS account MUST align with the account’s documented purpose and classification. Account boundaries are a primary mechanism for limiting risk and enforcing environment separation. 
+
+3.2.1 Environment Separation 
+
+Production workloads and production data MUST reside only in production‑classified accounts. 
+
+Non‑production accounts MUST NOT process, store, or depend on production data. 
+
+Development, testing, staging, and validation workloads MUST be isolated from production workloads at the account boundary. 
+
+ 
+
+3.2.2 Data Sensitivity Alignment 
+
+Data stored or processed in an account MUST align with the account’s intended risk posture. 
+
+Accounts not designated for sensitive or regulated data MUST NOT host such data. 
+
+The highest sensitivity of data processed SHOULD determine the minimum acceptable account classification. 
+
+ 
+
+3.2.3 Shared and Cross‑Account Usage 
+
+Shared services accounts SHOULD host only platform or cross‑environment capabilities. 
+
+Application‑specific workloads SHOULD NOT be deployed into shared services accounts without explicit review and approval. 
+
+Cross‑account access MUST be intentional, documented, and consistent with the purpose of both accounts. 
+
+ 
+
+3.2.4 Sandbox Constraints 
+
+Sandbox accounts MUST NOT host business‑critical or long‑running workloads. 
+
+Workloads transitioning beyond experimentation MUST be migrated to an appropriately classified account. 
+
+ 
+
+3.3 Ownership and Accountability Requirements 
+
+AWS accounts and the workloads deployed within them MUST have clear and documented accountability. This standard supports KFB’s current centralized cloud operating model while enabling future evolution. 
+
+3.3.1 Account‑Level Ownership 
+
+At the current stage of cloud adoption, AWS accounts are treated as platform‑owned environments. 
+
+Core environment accounts, shared services accounts, infrastructure automation accounts, networking accounts, and end‑user compute accounts MUST be owned and operated by Cloud Platform teams. 
+
+Platform ownership includes responsibility for baseline security controls, networking, access management, and operational stability. 
+
+Platform ownership DOES NOT imply responsibility for application correctness, data quality, or business outcomes. 
+
+ 
+
+3.3.2 Workload‑Level Accountability 
+
+Each workload deployed within an AWS account MUST have an identified accountable owner, even when deployment and access are centrally managed. 
+
+Workload accountability includes responsibility for: 
+
+Business purpose and lifecycle 
+
+Data handled by the workload 
+
+Change requirements and impact assessment 
+
+Workload accountability MAY exist without direct AWS console access. 
+
+ 
+
+3.3.3 Separation of Responsibilities 
+
+Where accounts host multiple workloads: 
+
+Account‑level ownership MUST remain with Cloud Platform teams 
+
+Workload‑level accountability MUST remain with the owning application or business teams 
+
+Centralized operation MUST NOT be interpreted as transferring application‑level risk ownership to platform teams 
+
+ 
+
+3.4 Account Provisioning and Change Control 
+
+All AWS accounts MUST be provisioned and managed through an approved, centralized account creation process to ensure consistency, security, and auditability. 
+
+3.4.1 Standard Account Provisioning Mechanism 
+
+AWS accounts MUST be created using the organization’s approved Terraform‑based account factory implementation. 
+
+Account definitions are maintained in the tf-kfb-aws-mgmt-account repository. 
+
+Account creation logic resides in the account-factory subdirectory. 
+
+Accounts are provisioned using a standardized Terraform module that manages controltower_aws_account resources. 
+
+Manual account creation outside of this process MUST NOT be performed. 
+
+ 
+
+3.4.2 Deployment Pipeline Controls 
+
+Account provisioning changes MUST be deployed through the approved account factory pipeline: 
+
+The tf-kfb-aws-account-factory-pipeline deploys changes from the master branch of the account factory configuration. 
+
+Changes merged into master MUST undergo pull request review and approval. 
+
+Approval by the designated Terraform security review group (TF-Sec-Team-Access) is REQUIRED prior to merge. 
+
+ 
+
+3.4.3 Execution and Access Restrictions 
+
+Execution of the account factory pipeline is restricted and MUST be performed only by authorized security personnel. 
+
+The pipeline is treated as a protected resource and MUST NOT be executed by unauthorized users. 
+
+Direct modification of deployed accounts outside the account factory process MUST NOT be used to introduce new accounts or materially alter account purpose. 
+
+ 
+
+3.4.4 Change Intent and Accountability 
+
+Changes to account definitions MUST clearly state: 
+
+The purpose of the new or modified account 
+
+Intended account classification 
+
+Justification for creation or change 
+
+This ensures that account creation remains aligned with the purpose and usage requirements defined in this standard. 
+
+ 
+
+4. Rationale 
+
+AWS accounts function as hard boundaries for security, cost, and operational control. Clear definition of account purpose, workload placement, and accountability reduces risk and complexity, particularly in centrally managed environments where multiple workloads may coexist. 
+
+This standard deliberately separates account intent, workload and data placement, and accountability to reflect current operating reality while enabling future maturation. Centralized account ownership provides consistency and control, while workload‑level accountability ensures responsibility for business outcomes remains clear. 
+
+This approach supports incremental cloud maturity without enforcing unrealistic ownership or access models. 
+
+ 
+
+5. Compliance and Enforcement 
+
+Compliance with this standard may be validated through documentation review, platform processes, or automated controls. Identified non‑compliance requires remediation or an approved exception. 
+
+ 
+
+6. Exceptions and Deviations 
+
+Exceptions to this standard require documented justification, defined scope and duration, and appropriate approval. Exceptions are reviewed periodically. 
+
+ 
+
+7. References 
+
+ 
+
+AWS Organization and OU Structure Standard 
+
+Service Control Policy (SCP) Standard 
+
+AWS Account List 
+
+ 
