@@ -1,23 +1,133 @@
-variable "mtls_truststore_version" {
-  type        = string
-  description = "S3 object version ID of the mTLS truststore. Required when the truststore content is updated so AWS knows exactly which version to trust."
-  default     = null
-}
+AWS Account & Organization Governance
+Status: Approved
+Owner: Cloud Strategy and Governance Team (CSGT)
+Classification: Internal – Governance
+Technology Category: AWS Accounts and Organizations
+1. PURPOSE
+This document defines the strategic guardrails, minimum requirements, and approval criteria for the governance of AWS accounts and organizational structures within the enterprise cloud environment. 
+This Governance ensures:
+•	Alignment to the enterprise-defined AWS Account & Organization Cloud Plan
+•	Consistent application of the account model
+•	Controlled evolution of account structure over time
+•	Prevention of unmanaged structural drift
+This document defines what must be true for governance approval. It does not define the account model, lifecycle model, or organizational structure.   AWS accounts may serve different roles, including workload and non-workload purposes.  Governance requirements apply consistently across all account roles unless explicitly exempted through formal exception processes.
+2. SCOPE
+This Governance applies to:
+•	All AWS accounts within the enterprise AWS Organization
+•	All account structures, classifications, and segmentation constructs
+•	All teams designing, provisioning, operating, or governing AWS accounts
+This document does not define:
+•	Account model structure or dimensions
+•	Lifecycle stage definitions
+•	Organizational unit (OU) hierarchy
+•	Account provisioning implementation
+These are defined in the enterprise AWS Account & Organization Cloud Plan and implemented through Standards and Run Books.
+3. ROLES & RESPONSIBILITIES
+3.1 Cloud Strategy and Governance (CSGT)
+•	Owns this Governance document
+•	Defines and approves governance guardrails
+•	Ensures alignment to the Cloud Plan
+•	Serves as exception authority
+3.2 Platform Engineering
+•	Develops Standards to implement Cloud Plan and Governance
+3.3 Cloud Operations (CloudOps)
+•	Enforces compliance through platform controls
+3.4 Security
+•	Defines security, identity, and compliance requirements
+3.5 Financial Governance (FinOps)
+•	Ensures account structure supports cost visibility and allocation
+•	Reviews structural changes impacting financial reporting
+4. GOVERNANCE REQUIREMENTS
+All requirements represent mandatory approval conditions.
+4.1 Account Model Alignment 
+AWS accounts must align to the enterprise-defined AWS Account Model.
+Minimum Requirements
+•	AWS accounts must conform to all classification dimensions defined in the Cloud Plan
+•	AWS accounts must be consistently classified across all required dimensions
+•	AWS account structure must enable consistent governance application
+•	All AWS accounts must adhere to the defined account model unless an approved exception exists
+4.2 Controlled Flexibility and Exceptions
+The account model must allow controlled deviation without enabling unmanaged divergence.
+Minimum Requirements
+•	Exceptions to model alignment must require formal approval
+•	Exceptions must be documented, tracked, and visible
+•	Exceptions must include defined scope, risk, duration, and exit conditions
+•	Transitional states defined in the Cloud Plan must be explicitly governed and tracked
+•	Non-standard states must not persist without periodic review
+4.3 Lifecycle Alignment
+AWS accounts and workloads must align to the lifecycle model defined in the Cloud Plan.
+Minimum Requirements
+•	All AWS accounts and workloads must be associated with a lifecycle state defined in the Cloud Plan
+•	Lifecycle state must be explicitly tracked and visible
+•	Workloads must progress in alignment with the lifecycle model
+•	Transitional or migration states must not persist indefinitely without justification
+•	Accounts reaching end-of-life must be retired in a controlled manner
+4.4 Target State Alignment for Net-New Workloads
+New workloads must align to the target state defined in the Cloud Plan.
+Minimum Requirements
+•	Net-new workloads must align to the target maturity state defined in the Cloud Plan
+•	Deviations must require formal exception approval
+•	Exceptions must define transition intent where applicable
+4.5 Structural Evolution Governance (Theme E)
+Changes to the account model must be controlled and governed.
+Minimum Requirements
+•	Changes to account structure or classification must align to the Cloud Plan
+•	Introduction of new segmentation dimensions must require governance approval
+•	Introduction of new lifecycles or maturity states must align to Cloud Plan evolution strategy
+•	Structural changes must be evaluated for impact on governance and consistency
+4.6 Progressive Enforcement Model
+Governance enforcement must align to the adoption and maturity model defined in the Cloud Plan.
+Minimum Requirements
+•	Enforcement must evolve based on organizational maturity
+•	Early stages may emphasize visibility and tracking
+•	Mature stages must enforce standardized compliance controls
+•	Enforcement alignment must reflect defined adoption phases in the Cloud Plan
+4.7 Account Provisioning Alignment
+New AWS accounts must align to the Cloud Plan at creation.
+Minimum Requirements
+•	New AWS accounts must be created in alignment with the defined account model
+•	Required classification and lifecycle assignment must be established at account creation
+4.8 Security & Compliance
+AWS accounts must support enterprise security and compliance requirements.
+Minimum Requirements
+•	AWS accounts must support enterprise security monitoring and compliance assessment
+•	Data must be protected according to enterprise classification requirements
+•	Accounts must integrate with enterprise identity and access management mechanisms
+4.9 Authentication & Identity
+Minimum Requirements
+•	Access must be centrally managed
+•	Privileged access must be restricted and auditable
+•	Identity usage must align with least-privilege principles
+4.10 Backup & Data Protection
+Minimum Requirements
+•	Workloads must support backup and recovery aligned to enterprise requirements
+•	Data retention and deletion must be controllable and auditable
+4.11 Supportability
+Minimum Requirements
+•	Each AWS account must have a defined support model
+•	Support ownership must be clearly assigned
+4.12 Financial Governance
+Minimum Requirements
+•	AWS account structure must support cost visibility and allocation
+•	Account classification must enable financial accountability
+5. CONTROLS & ENFORCEMENT
+Governance is enforced through organizational policy and platform controls. 
+Noncompliance may result in:
+•	Restricted account capabilities
+•	Required remediation
+•	Denied account usage or creation
+6. EXCEPTIONS
+Exceptions require formal approval. 
+Documentation must include:
+•	Scope
+•	Risk
+•	Duration
+•	Exit plan
+7. ENFORCEMENT OUTCOMES
+Failure to comply may result in:
+•	Denied deployment approval
+•	Mandatory remediation
+•	Restriction or decommissioning
+8. REVIEW CYCLE
+This Governance is reviewed annually or upon significant changes to strategy or Cloud Plan.
 
-
-
-dynamic "mutual_tls_authentication" { 
-  for_each = var.mtls_truststore_uri != null ? [1] : [] 
-  content { 
-    truststore_uri     = var.mtls_truststore_uri
-    truststore_version = var.mtls_truststore_version
-  } 
-}
-
-
-mtls_truststore_version = "PASTE_THE_VERSION_ID_HERE"
-
-Yeah fair, provisioned concurrency does feel heavy — happy to avoid it if we can.
-RDS Proxy is a good shout, hadn't thought about that. A big chunk of the cold time is the fresh DB connection + IAM token per invocation, so proxy would knock that down without needing any app-code changes.
-Thinking I'd try RDS Proxy first, then a warmer if we still need it, and only go to provisioned concurrency as a last resort. Sound good?
- 
