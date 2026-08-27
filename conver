@@ -1,41 +1,70 @@
-Context
+Evaluate existing aws accounts and determine how they map to KFB's existing environment mappings
 
-I'm working on a DEV SOAP API on AWS. Recently fixed a root-cause issue and now need to map the end-to-end request workflow and measure execution time at each hop.
 
-Architecture
 
-Client (mTLS)
-  → Custom domain: realtimeinsurance-soap-api-dev.devkyfb.com
-  → API Gateway REST API: q51dqcsrw5, stage "default"
-  → Lambda: realtimeinsurance-dev-soap-verification-lambda
-  → RDS Proxy: realtimeinsurance-dev-aurora-proxy (prx-05af88b21156e01ae)
-  → Aurora PostgreSQL: realtimeinsurance_dev
 
-Environment
+Description
 
-AWS CLI profile: L2-Development, region us-east-1
-Shell: PowerShell on Windows (use backtick line continuation, not backslash)
-Lambda env vars: db_user=pgsi_ans00315015, db_endpoint=realtimeinsurance-dev-aurora-proxy.proxy-cx08iswmk3mr.us-east-1.rds.amazonaws.com, db_name=realtimeinsurance_dev
-Log groups: /aws/lambda/realtimeinsurance-dev-soap-verification-lambda and /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy
-The Lambda already emits sequential log markers: SOAP parsed → VIN extracted → IAM token generated → DB connection established → cursor created → executing query
+Today we have close to 21 accounts in aws which include:
 
-Recent change (for context)
+classroom
 
-The RDS Proxy previously had only the Aurora master-user secret registered, while the Lambda connects as pgsi_ans00315015. I added a second auth entry for the application secret (realtimeinsurance-NNrdwU) via Terraform/OpenTofu. Applied successfully; describe-db-proxies now shows both auth entries.
+KFB-sandbox
 
-What I want
+L1-Tooling
 
-Commands to confirm the full workflow wiring — domain mapping, API resources and methods, the Lambda integration, Lambda config, and proxy targets.
-Commands to measure execution time at each hop:
-Lambda total duration and cold-start init time
-Per-stage breakdown inside the Lambda, computed from the deltas between the existing log markers
-API Gateway overhead, derived from Latency minus IntegrationLatency
-Client-side timing for an mTLS curl request
+L2-Development
 
-Constraints
+L2-Pre-Prod
 
-Give me runnable PowerShell commands, not descriptions
-Flag any command that requires a value I have to fill in first, and tell me which prior command produces it
-Note any prerequisite that has to be enabled (e.g. detailed CloudWatch metrics on the stage, X-Ray tracing)
+L2-Prod
 
-One thing worth adding at the top if it applies: whether the Lambda invoke actually succeeds now. If it's still failing at the DB, say so explicitly — otherwise the other AI will hand you timing numbers for a broken path, and fast failures look deceptively good.
+L2-QA
+
+L2-Tooling
+
+L2-UAT
+
+Local-Dev
+
+Non-Production
+
+Pre-Production
+
+Production
+
+TFRepository
+
+… that’s all I can see but I know there are others
+
+How do these map to our other environments: https://kyfbmscloud.sharepoint.com/:x:/r/sites/ProjectServices-ITReleaseMGMT/_layouts/15/Doc.aspx?sourcedoc=%7Becc67038-8856-43b5-ad58-3447224a2f19%7D&action=viewConnect your OneDrive account 
+
+ 
+
+If a developer requests code be deployed to Perf/Performance region which aws account does that go under? When it goes to Staging, Dev1 vs Dev2, etc… same with production…does it run under Production, L2-Prod…..
+
+ 
+
+There is a document that explains accounts but I still couldn’t figure it out… here’s a Copilot response that links out to a number of documents that should help us. 
+
+Yes. I found a document that appears to be exactly in the area you're describing:
+
+KFBStandard - AWS Accounts.docx authored by Alex Schoborg (initial draft dated 05/12/26). The document is specifically about AWS account management and account purpose/classification. [KFBStandar...S Accounts | Word]
+
+In the References section, it points to an AWS Account List SharePoint list, which is likely the inventory of AWS accounts and their intended purposes that you're looking for. [KFBStandar...S Accounts | Word]
+
+From the document:
+
+"Each AWS account MUST be created with a clearly defined primary purpose" and "Each account MUST have a documented purpose aligned to its classification." [KFBStandar...S Accounts | Word]
+
+The referenced AWS account inventory is:
+
+AWS Account List (SharePoint List) [KFBStandar...S Accounts | Word]
+
+There are also several related AWS governance documents authored by Alex Schoborg, including:
+
+KFBStandard - AWS OUs.docx [KFBStandar...- AWS OUs | Word]
+
+KFBStandard - AWS SCP.docx [KFBStandar...- AWS SCP | Word]
+
+If you'd like, I can open the AWS Account List itself and extract the actual account names, account numbers, and stated purposes.
