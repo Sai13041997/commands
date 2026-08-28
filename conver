@@ -1,21 +1,4 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:aws_profile = "L2-Pre-Prod"
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws sts get-caller-identity
-{                                                                                                                            
-    "UserId": "AROAQ3EGSZCQYV3MCTQPR:T012SP@kyfb.com",
-    "Account": "058264307873",
-    "Arn": "arn:aws:sts::058264307873:assumed-role/AWSReservedSSO_Cloud-Ops-Production_9f7b21e37516f367/T012SP@kyfb.com"
-}
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws iam get-role --role-name apigateway-cloudwatch-role
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws apigateway get-account
-{                                                                                                                            
-    "throttleSettings": {
-        "burstLimit": 5000,
-        "rateLimit": 10000.0
-    },
-    "features": [
-        "UsagePlans"
-    ],
-    "apiKeyVersion": "4"
-}
-                                                                                                                             
+An error occurred (NoSuchEntity) when calling the GetRole operation: The role with name apigateway-cloudwatch-role cannot be found.
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
