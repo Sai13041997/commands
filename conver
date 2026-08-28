@@ -1,4 +1,14 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws iam get-role --role-name apigateway-cloudwatch-role
+Hey — looks like the PERF account (058264307873) is missing the account-level API Gateway CloudWatch Logs role. DEV (058264370150) has it as `apigateway-cloudwatch-role`, but PERF has nothing set:
 
-An error occurred (NoSuchEntity) when calling the GetRole operation: The role with name apigateway-cloudwatch-role cannot be found.
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
+  aws apigateway get-account   # us-east-1, PERF
+  -> no cloudwatchRoleArn in the response
+
+It's blocking us from enabling access logging on the PERF REST API. The apply fails with:
+
+  BadRequestException: CloudWatch Logs role ARN must be set in account settings to enable logging
+
+We need it to debug a 403 on POST /default/policy-graph-ingest — without stage logs we can't tell whether it's the resource policy, the authorizer, or a path mismatch.
+
+Could you create the equivalent role in PERF and set it via the API Gateway account settings? It's a role trusting apigateway.amazonaws.com with AmazonAPIGatewayPushToCloudWatchLogs attached, then referenced as cloudwatch_role_arn on the account.
+
+Happy to raise a ticket if that's the preferred route — just wanted to check whether this belongs in the account baseline first, since I'd rather not manage an account-wide singleton from the app stack.
