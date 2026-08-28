@@ -1,7 +1,14 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> tofu fmt
-main.tf
-outputs.tf
-permissions.tf
-policy.tf
-variables.tf
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git diff --stat
+ main.tf        | 22 +++++++++++-----------
+ outputs.tf     |  2 +-
+ permissions.tf |  2 +-
+ policy.tf      |  2 +-
+ variables.tf   | 30 +++++++++++++++++++++++++++++-
+ 5 files changed, 43 insertions(+), 15 deletions(-)
 PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git checkout -- main.tf output.tf permission.tf policy.tf
+error: pathspec 'output.tf' did not match any file(s) known to git
+error: pathspec 'permission.tf' did not match any file(s) known to git
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git checkout -- main.tf outputs.tf permissions.tf policy.tf
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
