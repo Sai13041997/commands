@@ -1,6 +1,8 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git status -s 
- M main.tf
- M variables.tf
-?? .terraform.lock.hcl
-?? .terraform/
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
+.gitignore
+
+
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
