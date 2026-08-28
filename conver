@@ -1,28 +1,7 @@
-# ---------------------------------------------------------------------------
-# Stage logging â€” defaults to false so existing callers (api_gateway and
-# soap_api_gateway) are completely unaffected until they opt in. When enabled,
-# the module creates a CloudWatch log group for access logs and turns on
-# execution logging for all methods on the stage.
-# ---------------------------------------------------------------------------
-variable "enable_stage_logging" {
-  type        = bool
-  description = "When true, enable API Gateway access logging and execution logging on the stage. Requires an account-level CloudWatch role, which is already set in this account."
-  default     = false
-}
-
-variable "log_retention_days" {
-  type        = number
-  description = "Retention in days for the API Gateway access log group. Only used when enable_stage_logging is true."
-  default     = 30
-}
-
-variable "execution_logging_level" {
-  type        = string
-  description = "Execution logging level for all methods on the stage: OFF, ERROR, or INFO. Only used when enable_stage_logging is true."
-  default     = "INFO"
-
-  validation {
-    condition     = contains(["OFF", "ERROR", "INFO"], var.execution_logging_level)
-    error_message = "execution_logging_level must be one of OFF, ERROR, or INFO."
-  }
-}
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> tofu fmt
+main.tf
+outputs.tf
+permissions.tf
+policy.tf
+variables.tf
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
