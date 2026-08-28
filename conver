@@ -1,5 +1,15 @@
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git add .gitignore
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git commit -m "Add .gitignore for opentofu artifacts"
+[feature/T012SP/CPE-178 e17ca01] Add .gitignore for opentofu artifacts
+ 1 file changed, 5 insertions(+)
+ create mode 100644 .gitignore
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git add main.tf variables.tf
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git commit -m "Add optional stage access and execution logging"
+[feature/T012SP/CPE-178 1bce2e9] Add optional stage access and execution logging
+ 2 files changed, 82 insertions(+), 12 deletions(-)
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git log --oneline -3
+1bce2e9 (HEAD -> feature/T012SP/CPE-178) Add optional stage access and execution logging
+e17ca01 Add .gitignore for opentofu artifacts
+393778a (tag: v1.2.0, origin/feature/T012SP/CPE-178) Fix JWKS endpoint error
 PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git status -s
- M main.tf
- M variables.tf
-?? .gitignore
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
