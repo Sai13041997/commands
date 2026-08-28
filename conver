@@ -1,30 +1,14 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git diff
-diff --git a/rest_api.tf b/rest_api.tf
-index 68a52f3..bd027a8 100644
---- a/rest_api.tf
-+++ b/rest_api.tf
-@@ -1,9 +1,11 @@
- module "api_gateway" {
--  source = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.2.0"
-+  source = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178"
- 
-   name          = "${var.application_name}-${var.env_tier}-api-gateway"
-   is_production = false
- 
-+  enable_stage_logging = true
-+
-   jwt_audience = ["${var.entra_audience}"]
- 
-   routes = [
-diff --git a/soap_api.tf b/soap_api.tf
-index 7801154..3395080 100644
---- a/soap_api.tf
-+++ b/soap_api.tf
-@@ -1,5 +1,5 @@
- module "soap_api_gateway" {
--  source        = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.2.0"
-+  source        = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178"
-   name          = "${var.application_name}-${var.env_tier}-soap-api-gateway"
-   is_production = false
-   jwt_audience  = null #["${var.entra_audience}"]
-(END)
+
+enable_stage_logging is being passed to a module input that does not exist in the module version at:
+
+git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178
+
+In OpenTofu/Terraform, module calls are strict: unknown inputs fail with exactly this error.
+
+What to check
+Open that module’s variables.tf at the same ref.
+Confirm the exact input name (it may be different, e.g. renamed).
+Either:
+rename to the supported variable name, or
+remove it, or
+update module ref to a version that supports it.
