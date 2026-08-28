@@ -1,48 +1,50 @@
-resource "aws_cloudwatch_log_group" "access_logs" {
-  count             = var.enable_stage_logging ? 1 : 0
-  name              = "/aws/apigateway/${var.name}/${var.stage_name}"
-  retention_in_days = var.log_retention_days
-}
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> tofu fmt variables.tf main.tf
+main.tf
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> tofu validate
+╷
+│ Error: Missing required provider
+│ 
+│ This configuration requires provider registry.opentofu.org/hashicorp/aws, but that provider isn't available. You may be
+│ able to install it automatically by running:
+│   tofu init
+╵
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> tofu init
 
-resource "aws_api_gateway_stage" "this" {
-  rest_api_id   = aws_api_gateway_rest_api.this.id
-  deployment_id = aws_api_gateway_deployment.this.id
-  stage_name    = var.stage_name
+Initializing the backend...
 
-  dynamic "access_log_settings" {
-    for_each = var.enable_stage_logging ? [1] : []
-    content {
-      destination_arn = aws_cloudwatch_log_group.access_logs[0].arn
-      format = jsonencode({
-        requestId         = "$context.requestId"
-        extendedRequestId = "$context.extendedRequestId"
-        sourceIp          = "$context.identity.sourceIp"
-        httpMethod        = "$context.httpMethod"
-        path              = "$context.path"
-        resourcePath      = "$context.resourcePath"
-        status            = "$context.status"
-        responseType      = "$context.error.responseType"
-        errorMessage      = "$context.error.message"
-        authorizerError   = "$context.authorizer.error"
-        authorizerStatus  = "$context.authorizer.status"
-        authorizerLatency = "$context.authorizer.latency"
-        integrationStatus = "$context.integration.status"
-        integrationError  = "$context.integration.error"
-        requestTime       = "$context.requestTime"
-      })
-    }
-  }
-}
+Initializing provider plugins...
+- Finding hashicorp/aws versions matching ">= 5.0.0"...
+- Installing hashicorp/aws v6.62.0...
+- Installed hashicorp/aws v6.62.0 (signed, key ID 0C0AF313E5FD9F80)
 
-resource "aws_api_gateway_method_settings" "this" {
-  count       = var.enable_stage_logging ? 1 : 0
-  rest_api_id = aws_api_gateway_rest_api.this.id
-  stage_name  = aws_api_gateway_stage.this.stage_name
-  method_path = "*/*"
+Providers are signed by their developers.
+If you'd like to know more about provider signing, you can read about it here:
+https://opentofu.org/docs/cli/plugins/signing/
 
-  settings {
-    metrics_enabled    = true
-    logging_level      = var.execution_logging_level
-    data_trace_enabled = false
-  }
-}
+OpenTofu has created a lock file .terraform.lock.hcl to record the provider
+selections it made above. Include this file in your version control repository
+so that OpenTofu can guarantee to make the same selections by default when
+you run "tofu init" in the future.
+
+OpenTofu has been successfully initialized!
+
+You may now begin working with OpenTofu. Try running "tofu plan" to see
+any changes that are required for your infrastructure. All OpenTofu commands
+should now work.
+
+If you ever set or change modules or backend configuration for OpenTofu,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> tofu validate
+╷
+│ Warning: Deprecated attribute
+│ 
+│   on main.tf line 186, in resource "aws_api_gateway_authorizer" "jwt":
+│  186:   authorizer_uri                   = "arn:aws:apigateway:${data.aws_region.current.name}:lambda:path/2015-03-31/functions/${aws_lambda_function.jwt_authorizer[0].arn}/invocations"
+│ 
+│ The attribute "name" is deprecated. Refer to the provider documentation for details.
+│ 
+│ (and 5 more similar warnings elsewhere)
+╵
+Success! The configuration is valid, but there were some validation warnings as shown above.
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
