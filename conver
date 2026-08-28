@@ -1,18 +1,21 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git status -s
- M rest_api.tf
- M soap_api.tf
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git diff
 diff --git a/rest_api.tf b/rest_api.tf
-index 68a52f3..d8f37aa 100644
+index 68a52f3..bd027a8 100644
 --- a/rest_api.tf
 +++ b/rest_api.tf
-@@ -1,5 +1,5 @@
+@@ -1,9 +1,11 @@
  module "api_gateway" {
 -  source = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.2.0"
 +  source = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178"
  
    name          = "${var.application_name}-${var.env_tier}-api-gateway"
    is_production = false
+ 
++  enable_stage_logging = true
++
+   jwt_audience = ["${var.entra_audience}"]
+ 
+   routes = [
 diff --git a/soap_api.tf b/soap_api.tf
 index 7801154..3395080 100644
 --- a/soap_api.tf
@@ -24,4 +27,4 @@ index 7801154..3395080 100644
    name          = "${var.application_name}-${var.env_tier}-soap-api-gateway"
    is_production = false
    jwt_audience  = null #["${var.entra_audience}"]
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
+(END)
