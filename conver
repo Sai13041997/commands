@@ -1,5 +1,16 @@
-Get-ChildItem -Recurse -Filter *.tf |
-  Select-String "aws_api_gateway_account|AmazonAPIGatewayPushToCloudWatchLogs"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Get-ChildItem -Recurse -Filter *.tf |
+>>   Select-String "aws_api_gateway_account|AmazonAPIGatewayPushToCloudWatchLogs"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws apigateway get-account
+{                                                                                                                            
+    "cloudwatchRoleArn": "arn:aws:iam::058264370150:role/apigateway-cloudwatch-role",
+    "throttleSettings": {
+        "burstLimit": 5000,
+        "rateLimit": 10000.0
+    },
+    "features": [
+        "UsagePlans"
+    ],
+    "apiKeyVersion": "4"
+}
 
-
-aws apigateway get-account
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
