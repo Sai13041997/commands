@@ -1,13 +1,14 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Get-ChildItem -Recurse -Filter *.tf | Select-String "aws_api_gateway_stage|tf_api_gateway_module|api_gateway_module"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Get-ChildItem -Recurse -Filter *.tf | Select-String "aws_api_gateway_stage|tf_api_gateway_module|api_gateway_module" |
+>> Format-Table Path, LineNumber, Line -AutoSize
 
-.terraform\modules\api_gateway\main.tf:246:resource "aws_api_gateway_stage" "this" {
-.terraform\modules\api_gateway\main.tf:291:  stage_name  = aws_api_gateway_stage.this.stage_name
-.terraform\modules\api_gateway\outputs.tf:7:  value       = "https://${aws_api_gateway_rest_api.this.id}.execute-api.${data.a
-ws_region.current.name}.amazonaws.com/${aws_api_gateway_stage.this.stage_name}"
-.terraform\modules\soap_api_gateway\main.tf:246:resource "aws_api_gateway_stage" "this" {
-.terraform\modules\soap_api_gateway\main.tf:291:  stage_name  = aws_api_gateway_stage.this.stage_name
-.terraform\modules\soap_api_gateway\outputs.tf:7:  value       = "https://${aws_api_gateway_rest_api.this.id}.execute-api.${d
-ata.aws_region.current.name}.amazonaws.com/${aws_api_gateway_stage.this.stage_name}"
+Path                                                                                              LineNumber Line            
+----                                                                                              ---------- ----            
+C:\Users\T012sp\Git repo\real-time-insurance-infra\.terraform\modules\api_gateway\main.tf                246 resource "aws...
+C:\Users\T012sp\Git repo\real-time-insurance-infra\.terraform\modules\api_gateway\main.tf                291   stage_name ...
+C:\Users\T012sp\Git repo\real-time-insurance-infra\.terraform\modules\api_gateway\outputs.tf               7   value      ...
+C:\Users\T012sp\Git repo\real-time-insurance-infra\.terraform\modules\soap_api_gateway\main.tf           246 resource "aws...
+C:\Users\T012sp\Git repo\real-time-insurance-infra\.terraform\modules\soap_api_gateway\main.tf           291   stage_name ...
+C:\Users\T012sp\Git repo\real-time-insurance-infra\.terraform\modules\soap_api_gateway\outputs.tf          7   value      ...
 
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
