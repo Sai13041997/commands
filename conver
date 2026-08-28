@@ -1,14 +1,5 @@
+Select-String -Path ".terraform\modules\api_gateway\variables.tf" -Pattern "enable_stage_logging"
 
-enable_stage_logging is being passed to a module input that does not exist in the module version at:
 
-git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178
-
-In OpenTofu/Terraform, module calls are strict: unknown inputs fail with exactly this error.
-
-What to check
-Open that module’s variables.tf at the same ref.
-Confirm the exact input name (it may be different, e.g. renamed).
-Either:
-rename to the supported variable name, or
-remove it, or
-update module ref to a version that supports it.
+git checkout -- soap_api.tf
+git diff
