@@ -1,54 +1,8 @@
-403 Error Findings
+Hey Zach — digging into the 403 on the PERF policy-graph-ingest endpoint. Could you send me four things from a failing call?
 
-A 403 error is being reported for the PERF API Gateway stage:
+1. The exact full URL you're hitting
+2. The HTTP method
+3. The complete response body (the literal text, not your app's error message)
+4. The response headers, specifically x-amzn-ErrorType and x-amzn-RequestId
 
-PERF API Gateway
-
-The configured API endpoint is:
-
-Plain Text
-1
-POST /default/policy-graph-ingest
-Show more lines
-
-The root stage /default has no method configured. The only configured resource is /policy-graph-ingest, and it supports only POST.
-
-The POST /policy-graph-ingest method:
-
-Exists in API Gateway.
-Uses an AWS_PROXY Lambda integration.
-Points to realtimeinsurance-perf-policy-graph-ingest-lambda.
-Does not require an API key.
-Requires a custom authorizer.
-
-The custom authorizer is configured as:
-
-Plain Text
-1
-Name: realtimeinsurance-perf-api-gateway-entra-jwt
-2
-Type: TOKEN
-3
-Authorizer ID: m26eu6
-4
-Identity source: method.request.header.Authorization
-5
-Authorizer Lambda: realtimeinsurance-perf-api-gateway-entra-jwt-authorizer
-6
-Cache TTL: 300 seconds
-Show more lines
-
-This confirms that API Gateway checks the Authorization header through the custom Entra JWT authorizer before allowing the request to reach the policy-graph-ingest Lambda.
-
-Both the authorizer Lambda and policy-graph-ingest Lambda exist. However, neither currently has a CloudWatch log group:
-
-Plain Text
-1
-/aws/lambda/realtimeinsurance-perf-api-gateway-entra-jwt-authorizer
-2
-/aws/lambda/realtimeinsurance-perf-policy-graph-ingest-lambda
-Show more lines
-
-Both Lambda execution roles have AWSLambdaBasicExecutionRole, so they have standard CloudWatch logging permissions. The shared Lambda Terraform module attaches this policy but does not explicitly create CloudWatch log-group resources.
-
-An API Gateway test-invoke-method command could not be completed because the current SSO role does not have permission to perform the API Gateway management action apigateway:POST. This access-denied result applies to the engineer’s AWS CLI role and does not establish the cause of Zach’s application-level 403.
+API Gateway returns 403 for a few different reasons and the body text tells us which one it is, so that'll likely narrow it down straight away.
