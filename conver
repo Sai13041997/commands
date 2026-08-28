@@ -1,8 +1,1 @@
-Hey Zach — digging into the 403 on the PERF policy-graph-ingest endpoint. Could you send me four things from a failing call?
-
-1. The exact full URL you're hitting
-2. The HTTP method
-3. The complete response body (the literal text, not your app's error message)
-4. The response headers, specifically x-amzn-ErrorType and x-amzn-RequestId
-
-API Gateway returns 403 for a few different reasons and the body text tells us which one it is, so that'll likely narrow it down straight away.
+grep -rn "aws_api_gateway_stage\|tf_api_gateway_module\|api_gateway_module" --include="*.tf" .
