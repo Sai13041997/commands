@@ -1,5 +1,32 @@
-Select-String -Path ".terraform\modules\api_gateway\variables.tf" -Pattern "enable_stage_logging"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Select-String -Path ".terraform\modules\api_gateway\variables.tf" -Pattern "enable_stage_logging"
+
+.terraform\modules\api_gateway\variables.tf:96:variable "enable_stage_logging" {
+.terraform\modules\api_gateway\variables.tf:104:  description = "Retention in days for 
+the API Gateway access log group. Only used when enable_stage_logging is true."
+.terraform\modules\api_gateway\variables.tf:110:  description = "Execution logging level 
+for all methods on the stage: OFF, ERROR, or INFO. Only used when enable_stage_logging 
+is true."
 
 
-git checkout -- soap_api.tf
-git diff
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git checkout -- soap_api.tf
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git diff 
+diff --git a/rest_api.tf b/rest_api.tf
+index 68a52f3..bd027a8 100644
+--- a/rest_api.tf
++++ b/rest_api.tf
+@@ -1,9 +1,11 @@
+ module "api_gateway" {
+-  source = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.2.0"
++  source = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178"
+ 
+   name          = "${var.application_name}-${var.env_tier}-api-gateway"
+   is_production = false
+ 
++  enable_stage_logging = true
++
+   jwt_audience = ["${var.entra_audience}"]
+ 
+   routes = [
+(END)
