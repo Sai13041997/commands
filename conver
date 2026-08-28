@@ -1,2 +1,22 @@
-git log --oneline -1
-Get-ChildItem *.tf
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git log --oneline -1
+>> Get-ChildItem *.tf
+d541a08 (HEAD -> feature/T012SP/CPE-250, origin/feature/T012SP/CPE-250) Add enable_commercial_auto environment variable
+
+
+    Directory: C:\Users\T012sp\Git repo\real-time-insurance-infra
+
+
+Mode                 LastWriteTime         Length Name                                                                       
+----                 -------------         ------ ----                                                                       
+-a----         8/17/2026  12:54 PM            486 aurora.tf                                                                  
+-a----          7/8/2026  10:00 AM            135 data.tf                                                                    
+-a----         8/28/2026   9:06 AM           2535 lambda.tf                                                                  
+-a----          7/8/2026  10:00 AM            273 locals.tf                                                                  
+-a----          7/8/2026  10:00 AM           1494 main.tf                                                                    
+-a----         8/17/2026  12:54 PM            432 rest_api.tf                                                                
+-a----         8/25/2026   9:18 AM           1344 soap_api.tf                                                                
+-a----         8/19/2026  11:06 PM           3527 soap_mtls.tf                                                               
+-a----         8/17/2026  12:54 PM           1138 variables.tf                                                               
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
