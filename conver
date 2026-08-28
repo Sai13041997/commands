@@ -1,15 +1,11 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git add .gitignore
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git commit -m "Add .gitignore for opentofu artifacts"
-[feature/T012SP/CPE-178 e17ca01] Add .gitignore for opentofu artifacts
- 1 file changed, 5 insertions(+)
- create mode 100644 .gitignore
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git add main.tf variables.tf
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git commit -m "Add optional stage access and execution logging"
-[feature/T012SP/CPE-178 1bce2e9] Add optional stage access and execution logging
- 2 files changed, 82 insertions(+), 12 deletions(-)
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git log --oneline -3
-1bce2e9 (HEAD -> feature/T012SP/CPE-178) Add optional stage access and execution logging
-e17ca01 Add .gitignore for opentofu artifacts
-393778a (tag: v1.2.0, origin/feature/T012SP/CPE-178) Fix JWKS endpoint error
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git status -s
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git push
+Enumerating objects: 10, done.
+Counting objects: 100% (10/10), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (7/7), done.
+Writing objects: 100% (7/7), 1.86 KiB | 237.00 KiB/s, done.
+Total 7 (delta 4), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (4/4), completed with 3 local objects.
+To https://github.com/kfbmic/tf-module-api-gateway.git
+   393778a..1bce2e9  feature/T012SP/CPE-178 -> feature/T012SP/CPE-178
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
