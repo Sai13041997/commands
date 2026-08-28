@@ -1,14 +1,48 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git diff --stat
- main.tf        | 22 +++++++++++-----------
- outputs.tf     |  2 +-
- permissions.tf |  2 +-
- policy.tf      |  2 +-
- variables.tf   | 30 +++++++++++++++++++++++++++++-
- 5 files changed, 43 insertions(+), 15 deletions(-)
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git checkout -- main.tf output.tf permission.tf policy.tf
-error: pathspec 'output.tf' did not match any file(s) known to git
-error: pathspec 'permission.tf' did not match any file(s) known to git
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git checkout -- main.tf outputs.tf permissions.tf policy.tf
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
+resource "aws_cloudwatch_log_group" "access_logs" {
+  count             = var.enable_stage_logging ? 1 : 0
+  name              = "/aws/apigateway/${var.name}/${var.stage_name}"
+  retention_in_days = var.log_retention_days
+}
+
+resource "aws_api_gateway_stage" "this" {
+  rest_api_id   = aws_api_gateway_rest_api.this.id
+  deployment_id = aws_api_gateway_deployment.this.id
+  stage_name    = var.stage_name
+
+  dynamic "access_log_settings" {
+    for_each = var.enable_stage_logging ? [1] : []
+    content {
+      destination_arn = aws_cloudwatch_log_group.access_logs[0].arn
+      format = jsonencode({
+        requestId         = "$context.requestId"
+        extendedRequestId = "$context.extendedRequestId"
+        sourceIp          = "$context.identity.sourceIp"
+        httpMethod        = "$context.httpMethod"
+        path              = "$context.path"
+        resourcePath      = "$context.resourcePath"
+        status            = "$context.status"
+        responseType      = "$context.error.responseType"
+        errorMessage      = "$context.error.message"
+        authorizerError   = "$context.authorizer.error"
+        authorizerStatus  = "$context.authorizer.status"
+        authorizerLatency = "$context.authorizer.latency"
+        integrationStatus = "$context.integration.status"
+        integrationError  = "$context.integration.error"
+        requestTime       = "$context.requestTime"
+      })
+    }
+  }
+}
+
+resource "aws_api_gateway_method_settings" "this" {
+  count       = var.enable_stage_logging ? 1 : 0
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  stage_name  = aws_api_gateway_stage.this.stage_name
+  method_path = "*/*"
+
+  settings {
+    metrics_enabled    = true
+    logging_level      = var.execution_logging_level
+    data_trace_enabled = false
+  }
+}
