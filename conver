@@ -1,162 +1,54 @@
-AWS access portal
+403 Error Findings
 
-Accounts
+A 403 error is being reported for the PERF API Gateway stage:
 
-Applications
-AWS accounts (24)
+PERF API Gateway
 
-Create shortcut
+The configured API endpoint is:
 
+Plain Text
 1
-
-
-Account Name
-	
-Account ID
-	
-Email
-
-
-Classroom
-
-591664430615
-
-aws_infra+sndbx@kyfb.com
-
-Clients
-
-903905634705
-
-AWS_Infra+SharedClients@kyfb.com
-
-DR-NonProd-01
-
-322097347741
-
-AWS_Infra+NonProdDR01@kyfb.com
-
-DR-Shared-Services-01
-
-562914265219
-
-AWS_Infra+sharedProdDR01@kyfb.com
-
-KFB-Reporting
-
-917151957280
-
-aws_infra+kfbreport@kyfb.com
-
-KFB-Sandbox
-
-332504859566
-
-aws_infra+kfbsandbox@kyfb.com
-
-KFB-Terraform-Modules
-
-590183874368
-
-aws_infra+tfmodules@kyfb.com
-
-KFBMIC AWS Root
-
-648757933066
-
-aws_root@kyfb.com
-
-L1-Tooling
-
-471112655725
-
-aws_infra+l1tooling@kyfb.com
-
-L2-Development
-
-058264370150
-
-aws_infra+l2-development@kyfb.com
-
-L2-Pre-Prod
-
-058264307873
-
-aws_infra+l2-pre-prod@kyfb.com
-
-L2-Prod
-
-339712702314
-
-aws_infra+l2-prod@kyfb.com
-
-L2-QA
-
-851725278890
-
-aws_infra+l2-qa@kyfb.com
-
-L2-Tooling
-
-061051220870
-
-aws_infra+l2tooling@kyfb.com
-
-L2-UAT
-
-590183719623
-
-aws_infra+l2-uat@kyfb.com
-
-Local-Dev
-
-133409251179
-
-aws_infra+kfblocaldevx@kyfb.com
-
-Log Archive
-
-409402213673
-
-AWS_Security+Log@kyfb.com
-
-Network-Services
-
-988597495512
-
-AWS_Network+Shared@kyfb.com
-
-Non-Production
-
-078949964453
-
-aws_busops+np-edr001@kyfb.com
-
-Pre-Production
-
-245850334946
-
-AWS_Infra+NonProd@kyfb.com
-
-Production
-
-970423649404
-
-aws_infra+prod@kyfb.com
-
-Shared-Services
-
-929382004481
-
-AWS_Infra+Shared@kyfb.com
-
-Slalom-Dev
-
-324873681501
-
-john.wright@kyfb.com
-
-TFRepository
-
-672332099264
-
-AWS_Infra+TFRepo@kyfb.com
+POST /default/policy-graph-ingest
+Show more lines
+
+The root stage /default has no method configured. The only configured resource is /policy-graph-ingest, and it supports only POST.
+
+The POST /policy-graph-ingest method:
+
+Exists in API Gateway.
+Uses an AWS_PROXY Lambda integration.
+Points to realtimeinsurance-perf-policy-graph-ingest-lambda.
+Does not require an API key.
+Requires a custom authorizer.
+
+The custom authorizer is configured as:
+
+Plain Text
+1
+Name: realtimeinsurance-perf-api-gateway-entra-jwt
+2
+Type: TOKEN
+3
+Authorizer ID: m26eu6
+4
+Identity source: method.request.header.Authorization
+5
+Authorizer Lambda: realtimeinsurance-perf-api-gateway-entra-jwt-authorizer
+6
+Cache TTL: 300 seconds
+Show more lines
+
+This confirms that API Gateway checks the Authorization header through the custom Entra JWT authorizer before allowing the request to reach the policy-graph-ingest Lambda.
+
+Both the authorizer Lambda and policy-graph-ingest Lambda exist. However, neither currently has a CloudWatch log group:
+
+Plain Text
+1
+/aws/lambda/realtimeinsurance-perf-api-gateway-entra-jwt-authorizer
+2
+/aws/lambda/realtimeinsurance-perf-policy-graph-ingest-lambda
+Show more lines
+
+Both Lambda execution roles have AWSLambdaBasicExecutionRole, so they have standard CloudWatch logging permissions. The shared Lambda Terraform module attaches this policy but does not explicitly create CloudWatch log-group resources.
+
+An API Gateway test-invoke-method command could not be completed because the current SSO role does not have permission to perform the API Gateway management action apigateway:POST. This access-denied result applies to the engineer’s AWS CLI role and does not establish the cause of Zach’s application-level 403.
