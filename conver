@@ -1,5 +1,2 @@
-curl -i -X POST \
-  -H "Authorization: Bearer <real-entra-jwt>" \
-  -H "Content-Type: application/json" \
-  -d '{}' \
-  https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest
+$env:AWS_PROFILE = "L2-Pre-Prod"
+aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follow --region us-east-1
