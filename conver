@@ -1,8 +1,7 @@
-variable "jwt_issuer" {
-  type        = list(string)
-  description = "Accepted JWT issuers. Entra v1 tokens use sts.windows.net; v2 tokens use login.microsoftonline.com/<tenant>/v2.0."
-  default = [
-    "https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/",
-    "https://login.microsoftonline.com/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/v2.0",
-  ]
-}
+  # Joined for the authorizer, which splits JWT_ISSUER on commas like JWT_AUDIENCE.
+  jwt_issuer = join(",", var.jwt_issuer)
+
+
+tofu fmt main.tf variables.tf
+tofu validate
+git diff
