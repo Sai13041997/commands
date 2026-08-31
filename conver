@@ -1,7 +1,1 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --since 30m --region us-east-1
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs describe-log-streams --log-group-name /aws/apigateway/realtimeinsurance-perf-api-gateway/default --region us-east-1
-{                                                                                                                                                                                
-    "logStreams": []
-}
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
+curl.exe -i -X POST -H "Authorization: Bearer test" -H "Content-Type: application/json" -d "{}" https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest
