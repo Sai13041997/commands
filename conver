@@ -1,4 +1,21 @@
-git log --oneline -3
-git add authorizer.zip authorizerSrc/package-lock.json
-git commit -m "Rebuild authorizer zip with multi-issuer support"
-git push
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git log --oneline -3
+a739787 (HEAD -> feature/T012SP/CPE-178, origin/feature/T012SP/CPE-178) Accept both V1 and V2 Entra issuers
+1bce2e9 Add optional stage access and execution logging
+e17ca01 Add .gitignore for opentofu artifacts
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git add authorizer.zip authorizerSrc/package-lock.json
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git commit -m "Rebuild authorizer zip with multi-issuer support"
+[feature/T012SP/CPE-178 5ca836c] Rebuild authorizer zip with multi-issuer support
+ 2 files changed, 266 insertions(+)
+ create mode 100644 authorizerSrc/package-lock.json
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git push
+Enumerating objects: 8, done.
+Counting objects: 100% (8/8), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (5/5), done.
+Writing objects: 100% (5/5), 13.11 KiB | 383.00 KiB/s, done.
+Total 5 (delta 2), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (2/2), completed with 2 local objects.
+To https://github.com/kfbmic/tf-module-api-gateway.git
+   a739787..5ca836c  feature/T012SP/CPE-178 -> feature/T012SP/CPE-178
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway>         
