@@ -1,5 +1,23 @@
-$env:AWS_PROFILE = "L2-Development"
-aws lambda get-function-configuration --function-name realtimeinsurance-dev-api-gateway-entra-jwt-authorizer --region us-east-1 --query "{Env:Environment.Variables,Sha:CodeSha256,Modified:LastModified}"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:AWS_PROFILE = "L2-Development"
+>> aws lambda get-function-configuration --function-name realtimeinsurance-dev-api-gateway-entra-jwt-authorizer --region us-east-1 --query "{Env:Environment.Variables,Sha:CodeSha256,Modified:LastModified}"
+{                                                                                                                                                                                
+    "Env": {
+        "JWT_AUDIENCE": "api://585f3a95-8bf5-4df4-b80b-585ca5ca2071,585f3a95-8bf5-4df4-b80b-585ca5ca2071",
+        "JWT_ISSUER": "https://login.microsoftonline.com/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/v2.0"
+    },
+    "Sha": "nCbSauYJRxPL+YNBm89MVmq749kEM3ReJEli+EKZ1lo=",
+    "Modified": "2026-08-10T13:35:05.000+0000"
+}
 
-$env:AWS_PROFILE = "L2-Pre-Prod"
-aws lambda get-function-configuration --function-name realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --region us-east-1 --query "{Env:Environment.Variables,Sha:CodeSha256,Modified:LastModified}"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:AWS_PROFILE = "L2-Pre-Prod"
+>> aws lambda get-function-configuration --function-name realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --region us-east-1 --query "{Env:Environment.Variables,Sha:CodeSha256,Modified:LastModified}"
+{                                                                                                                                                                                
+    "Env": {
+        "JWT_AUDIENCE": "api://585f3a95-8bf5-4df4-b80b-585ca5ca2071,585f3a95-8bf5-4df4-b80b-585ca5ca2071",
+        "JWT_ISSUER": "https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/"
+    },
+    "Sha": "TqJax4DW1xXKx7YrBt0A7EkXoBYRWJGQclGOivTArfk=",
+    "Modified": "2026-08-31T20:02:33.000+0000"
+}
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
