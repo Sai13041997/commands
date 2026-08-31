@@ -1,28 +1,8 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-Content authorizerSrc\index.js | Select-Object -Skip 81 -First 12
->> 
-        getKey,
-        {
-          issuer,
-          audience: audList.length ? audList : undefined,
-          algorithms: ["RS256"],
-          clockTolerance: 60,
-        },
-        (err, payload) => (err ? reject(err) : resolve(payload))
-      );
-    });
+          issuer: issList.length ? issList : undefined,
 
-    const principalId = decoded.oid || decoded.sub || "user";
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-Content authorizerSrc\index.js | Select-Object -Skip 110 -First 12
-      name: e?.name,
-      code: e?.code,
-      message: e?.message,
-      jwksUri,
-      headerKid,
-      issuer,
-      audiences: audList,
-      now: new Date().toISOString(),
-    });
 
-    return deny("unauthorized", event.methodArn);
-  }
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
+      issuers: issList,
+
+
+node --check authorizerSrc\index.js
+Select-String -Path authorizerSrc\index.js -Pattern "issuer|issList"
