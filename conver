@@ -1,16 +1,4 @@
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git log --online -1
-fatal: unrecognized argument: --online
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function> Get-ChildItem *.tf
-
-
-    Directory: C:\Users\T012sp\Git repo\tf-module-lambda-function
-
-
-Mode                 LastWriteTime         Length Name                                                                                                                           
-----                 -------------         ------ ----                                                                                                                           
--a----         7/23/2026   8:50 AM          11299 main.tf                                                                                                                        
--a----         7/23/2026   8:50 AM           1369 outputs.tf                                                                                                                     
--a----         7/23/2026   8:50 AM           4042 variables.tf                                                                                                                   
-
-
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git log --oneline -1
+c1e22c3 (HEAD -> main, tag: v1.3.0, origin/main, origin/HEAD) Merge pull request #4 from kfbmic/feature/T012SP/CPE-240
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git status -s
 PS C:\Users\T012sp\Git repo\tf-module-lambda-function>
