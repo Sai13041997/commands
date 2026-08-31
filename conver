@@ -1,1 +1,33 @@
-aws logs describe-log-groups --region us-east-1 --query "logGroups[].[logGroupName,retentionInDays]" --output table
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:aws_Profile = "L2-Development"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws sts get-caller-identity
+{                                                                                                                                                                                
+    "UserId": "AROAQ3EGTXPTFPAA33AOX:T012SP@kyfb.com",
+    "Account": "058264370150",
+    "Arn": "arn:aws:sts::058264370150:assumed-role/AWSReservedSSO_Cloud-Ops-Admin_715e8133d1c66ed2/T012SP@kyfb.com"
+}
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs describe-log-groups --region us-east-1 --query "logGroups[].[logGroupName,retentionInDays]" --output table
+--------------------------------------------------------------------------------                                                                                                 
+|                               DescribeLogGroups                              |
++----------------------------------------------------------------------+-------+
+|  /aws-dynamodb/imports                                               |  90   |
+|  /aws/apigateway/realtimeinsurance-dev-access-logs                   |  None |
+|  /aws/apigateway/welcome                                             |  None |
+|  /aws/lambda/SecretsManagerrealtimeinsurance-dev-rotation            |  None |
+|  /aws/lambda/aws-controltower-NotificationForwarder                  |  14   |
+|  /aws/lambda/cs-horizon-sensor-installation-orchestrator             |  1    |
+|  /aws/lambda/ddaftest1                                               |  None |
+|  /aws/lambda/ddaftest2                                               |  None |
+|  /aws/lambda/fbco-s3-transfer-dev                                    |  None |
+|  /aws/lambda/realtimeinsurance-dev-api-gateway-entra-jwt-authorizer  |  None |
+|  /aws/lambda/realtimeinsurance-dev-hello-lambda                      |  None |
+|  /aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda        |  None |
+|  /aws/lambda/realtimeinsurance-dev-soap-verification-lambda          |  None |
+|  /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy                   |  None |
+|  /aws/route53/DNSqueries                                             |  None |
+|  /ecs/agencygoals-task                                               |  None |
+|  API-Gateway-Execution-Logs_q51dqcsrw5/default                       |  None |
+|  kfb-vpc-flow-logs                                                   |  None |
++----------------------------------------------------------------------+-------+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
