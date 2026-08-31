@@ -1,2 +1,3 @@
-cd "C:\Users\T012sp\Git repo\real_time_insurance_src"
-Get-ChildItem -Recurse -Filter *.js | Select-String "JWT_ISSUER" -List
+PS C:\Users\T012sp\Git repo> cd .\real-time-insurance-src\  
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> Get-ChildItem -Recurse -Filter *.js | Select-String "JWT_ISSUER" -List
+PS C:\Users\T012sp\Git repo\real-time-insurance-src>
