@@ -1,19 +1,4 @@
-C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc\index.js
+Get-Content authorizerSrc\index.js | Select-Object -Skip 81 -First 12
 
 
-Get-Content authorizerSrc\index.js | Select-Object -Skip 70 -First 12
-
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-Content authorizerSrc\index.js | Select-Object -Skip 70 -First 12
-  const getKey = (header, cb) => {
-    client.getSigningKey(header.kid, (err, key) => {
-      if (err) return cb(err);
-      cb(null, key.getPublicKey());
-    });
-  };
-
-  try {
-    const decoded = await new Promise((resolve, reject) => {
-      jwt.verify(
-        token,
-        getKey,
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
+Get-Content authorizerSrc\index.js | Select-Object -Skip 110 -First 12
