@@ -1,4 +1,7 @@
-aws iam get-role --role-name apigateway-cloudwatch-role --query "Role.[RoleName,Arn,CreateDate]" --output text
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws iam get-role --role-name apigateway-cloudwatch-role --query "Role.[RoleName,Arn,CreateDate]" --output text
+apigateway-cloudwatch-role      arn:aws:iam::058264307873:role/apigateway-cloudwatch-role       2026-08-31T12:49:52+00:00                                                        
 
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws apigateway update-account --patch-operations op=replace,path=/cloudwatchRoleArn,value=arn:aws:iam::058264307873:role/apigateway-cloudwatch-role
 
-aws apigateway update-account --patch-operations op=replace,path=/cloudwatchRoleArn,value=arn:aws:iam::058264307873:role/apigateway-cloudwatch-role
+An error occurred (AccessDeniedException) when calling the UpdateAccount operation: User: arn:aws:sts::058264307873:assumed-role/AWSReservedSSO_Cloud-Ops-Production_9f7b21e37516f367/T012SP@kyfb.com is not authorized to perform: apigateway:PATCH on resource: arn:aws:apigateway:us-east-1::/account because no identity-based policy allows the apigateway:PATCH action
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
