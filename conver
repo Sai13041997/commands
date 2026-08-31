@@ -1,11 +1,6 @@
-Hey Zach — tracked down the 403. Your URL is missing the resource path.
+$env:AWS_PROFILE = "L2-Pre-Prod"
+aws apigateway get-resources --rest-api-id he9tkof025 --region us-east-1
 
-The logs show you're hitting /default (the stage root), but the only configured route is POST /default/policy-graph-ingest. Try:
 
-  https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest
 
-Second thing worth checking: the Authorization header is coming through malformed — API Gateway is trying to parse it as an AWS SigV4 signature rather than a bearer token. If your client has AWS credentials configured it may be signing automatically. Should just be `Authorization: Bearer <entra jwt>`, nothing else.
-
-Your IP is fine, by the way — you're on the allowlist, so nothing's blocking you at the network level.
-
-Let me know when you retry and I'll watch the logs.
+aws apigateway get-stages --rest-api-id he9tkof025 --region us-east-1 --query "item[].stageName"
