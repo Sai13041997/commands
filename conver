@@ -1,2 +1,26 @@
-aws iam get-role --role-name apigateway-cloudwatch-role --query "Role.AssumeRolePolicyDocument"
-aws iam list-attached-role-policies --role-name apigateway-cloudwatch-role
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws iam get-role --role-name apigateway-cloudwatch-role --query "Role.AssumeRolePolicyDocument"
+>> 
+{                                                                                                                                                                                
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Principal": {
+                "Service": "apigateway.amazonaws.com"
+            },
+            "Action": "sts:AssumeRole"
+        }
+    ]
+}
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws iam list-attached-role-policies --role-name apigateway-cloudwatch-role
+{                                                                                                                                                                                
+    "AttachedPolicies": [
+        {
+            "PolicyName": "api_gateway_cloudwatch_access",
+            "PolicyArn": "arn:aws:iam::058264307873:policy/api_gateway_cloudwatch_access"
+        }
+    ]
+}
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
