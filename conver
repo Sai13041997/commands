@@ -1,3 +1,96 @@
-Select-String -Path main.tf -Pattern 'resource "aws_lambda_function"' -Context 0,6
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> Select-String -Path main.tf -Pattern 'resource "aws_lambda_function"' -Context 0,6
 
-Select-String -Path main.tf -Pattern '^  lifecycle \{' -Context 2,8
+> main.tf:162:resource "aws_lambda_function" "placeholder" {
+  main.tf:163:  count = var.code_managed_elsewhere ? 1 : 0
+  main.tf:164:
+  main.tf:165:  function_name = var.name
+  main.tf:166:  description   = var.description
+  main.tf:167:  role          = aws_iam_role.this.arn
+  main.tf:168:
+> main.tf:225:resource "aws_lambda_function" "from_source_file" {
+  main.tf:226:  count = (!var.code_managed_elsewhere && var.source_file != null && var.source_file != "") ? 1 : 0
+  main.tf:227:
+  main.tf:228:  function_name = var.name
+  main.tf:229:  description   = var.description
+  main.tf:230:  role          = aws_iam_role.this.arn
+  main.tf:231:
+> main.tf:278:resource "aws_lambda_function" "from_filename" {
+  main.tf:279:  count = (!var.code_managed_elsewhere && var.filename != null && var.filename != "") ? 1 : 0
+  main.tf:280:
+  main.tf:281:  function_name = var.name
+  main.tf:282:  description   = var.description
+  main.tf:283:  role          = aws_iam_role.this.arn
+  main.tf:284:
+
+
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> Select-String -Path main.tf -Pattern '^  lifecycle \{' -Context 2,8
+
+  main.tf:3:# ---------------------------
+  main.tf:4:resource "terraform_data" "validate_single_code_mode" {
+> main.tf:5:  lifecycle {
+  main.tf:6:    precondition {
+  main.tf:7:      condition = (
+  main.tf:8:        (var.code_managed_elsewhere ? 1 : 0) +
+  main.tf:9:        ((var.source_file != null && var.source_file != "") ? 1 : 0) +
+  main.tf:10:        ((var.filename != null && var.filename != "") ? 1 : 0)
+  main.tf:11:      ) == 1
+  main.tf:12:      error_message = "Choose exactly one: code_managed_elsewhere=true OR source_file OR filename."
+  main.tf:13:    }
+  main.tf:134:  tags = var.tags
+  main.tf:135:
+> main.tf:136:  lifecycle {
+  main.tf:137:    precondition {
+  main.tf:138:      condition     = (var.vpc_id != null && var.vpc_id != "")
+  main.tf:139:      error_message = "When creating a security group, vpc_id must be set."
+  main.tf:140:    }
+  main.tf:141:  }
+  main.tf:142:}
+  main.tf:143:
+  main.tf:144:# ---------------------------
+  main.tf:201:  # Key change: once created, Terraform will stop trying to update code-related fields
+  main.tf:202:  # for the placeholder lambda.
+> main.tf:203:  lifecycle {
+  main.tf:204:    ignore_changes = [
+  main.tf:205:      filename,
+  main.tf:206:      source_code_hash,
+  main.tf:207:      last_modified,
+  main.tf:208:      qualified_arn,
+  main.tf:209:      version,
+  main.tf:210:    ]
+  main.tf:211:
+  main.tf:262:  tags = var.tags
+  main.tf:263:
+> main.tf:264:  lifecycle {
+  main.tf:265:    precondition {
+  main.tf:266:      condition     = var.vpc_enabled ? (length(var.subnet_ids) > 0) : true
+  main.tf:267:      error_message = "When vpc_enabled=true, subnet_ids must be non-empty."
+  main.tf:268:    }
+  main.tf:269:
+  main.tf:270:    precondition {
+  main.tf:271:      condition     = var.vpc_enabled ? (length(var.security_group_ids) > 0 || length(aws_security_group.this) > 0) : true
+  main.tf:272:      error_message = "When vpc_enabled=true, provide security_group_ids or enable create_security_group."
+  main.tf:315:  tags = var.tags
+  main.tf:316:
+> main.tf:317:  lifecycle {
+  main.tf:318:    precondition {
+  main.tf:319:      condition     = var.vpc_enabled ? (length(var.subnet_ids) > 0) : true
+  main.tf:320:      error_message = "When vpc_enabled=true, subnet_ids must be non-empty."
+  main.tf:321:    }
+  main.tf:322:
+  main.tf:323:    precondition {
+  main.tf:324:      condition     = var.vpc_enabled ? (length(var.security_group_ids) > 0 || length(aws_security_group.this) > 0) : true
+  main.tf:325:      error_message = "When vpc_enabled=true, provide security_group_ids or enable create_security_group."
+  main.tf:348:  ))
+  main.tf:349:
+> main.tf:350:  lifecycle {
+  main.tf:351:    ignore_changes = [function_version]
+  main.tf:352:  }
+  main.tf:353:}
+  main.tf:354:
+  main.tf:355:# ---------------------------
+  main.tf:356:# Provisioned Concurrency
+  main.tf:357:# ---------------------------
+  main.tf:358:resource "aws_lambda_provisioned_concurrency_config" "this" {
+
+
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function>
