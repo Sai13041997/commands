@@ -1,4 +1,23 @@
-Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authzip" -Force
-Get-ChildItem "$env:TEMP\authzip" | Select-Object Name, Length
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authzip" -Force
+>> Get-ChildItem "$env:TEMP\authzip" | Select-Object Name, Length
 
-Get-ChildItem "$env:TEMP\authzip" -Recurse -Directory | Select-Object -First 5 FullName
+Name              Length
+----              ------
+node_modules            
+index.js          3131  
+package-lock.json 10564 
+package.json      172   
+
+
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-ChildItem "$env:TEMP\authzip" -Recurse -Directory | Select-Object -First 5 FullName
+
+FullName                                                                          
+--------                                                                          
+C:\Users\T012sp\AppData\Local\Temp\authzip\node_modules                           
+C:\Users\T012sp\AppData\Local\Temp\authzip\node_modules\.bin                      
+C:\Users\T012sp\AppData\Local\Temp\authzip\node_modules\@types                    
+C:\Users\T012sp\AppData\Local\Temp\authzip\node_modules\buffer-equal-constant-time
+C:\Users\T012sp\AppData\Local\Temp\authzip\node_modules\debug                     
+
+
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
