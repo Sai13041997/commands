@@ -1,2 +1,4 @@
-$env:AWS_PROFILE = "L2-Pre-Prod"
-aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follow --region us-east-1
+aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --since 30m --region us-east-1
+
+
+aws logs describe-log-streams --log-group-name /aws/apigateway/realtimeinsurance-perf-api-gateway/default --region us-east-1
