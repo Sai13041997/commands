@@ -1,32 +1,5 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws lambda get-function-configuration --function-name realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --region us-east-1 --query "Environment.Variables"
-{                                                                                                                                                                                
-    "JWT_AUDIENCE": "api://585f3a95-8bf5-4df4-b80b-585ca5ca2071,585f3a95-8bf5-4df4-b80b-585ca5ca2071",
-    "JWT_ISSUER": "https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/"
-}
+$env:AWS_PROFILE = "L2-Development"
+aws lambda get-function-configuration --function-name realtimeinsurance-dev-api-gateway-entra-jwt-authorizer --region us-east-1 --query "{Env:Environment.Variables,Sha:CodeSha256,Modified:LastModified}"
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Select-String -Path "C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf" -Pattern "jwt_issuer" -Context 3,3
-
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:9:
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:10:locals {
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:11:  # Hardcoded issuer
-> C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:12:  jwt_issuer = "https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/"
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:13:
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:14:  routes_by_key = {
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:15:    for r in var.routes :
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:169:
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:170:  environment {
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:171:    variables = {
-> C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:172:      JWT_ISSUER   = local.jwt_issuer
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:173:      JWT_AUDIENCE = join(",", var.jwt_audience)
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:174:    }
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:175:  }
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:225:    redeploy = sha1(jsonencode({
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:226:      routes    = var.routes
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:227:      audience  = var.jwt_audience
-> C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:228:      issuer    = local.jwt_issuer
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:229:      is_prod   = var.is_production
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:230:      whitelist = local.selected_whitelist
-  C:\Users\T012sp\Git repo\tf-module-api-gateway\main.tf:231:    }))
-
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra
+$env:AWS_PROFILE = "L2-Pre-Prod"
+aws lambda get-function-configuration --function-name realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --region us-east-1 --query "{Env:Environment.Variables,Sha:CodeSha256,Modified:LastModified}"
