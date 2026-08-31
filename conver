@@ -1,4 +1,12 @@
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git log --oneline -1
-c1e22c3 (HEAD -> main, tag: v1.3.0, origin/main, origin/HEAD) Merge pull request #4 from kfbmic/feature/T012SP/CPE-240
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git status -s
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function>
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git branch
+  feature/T012SP/CPE-240
+* main
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git checkout feature/T012SP/CPE-240
+Switched to branch 'feature/T012SP/CPE-240'
+Your branch is up to date with 'origin/feature/T012SP/CPE-240'.
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git branch                         
+* feature/T012SP/CPE-240
+  main
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git status -sb
+## feature/T012SP/CPE-240...origin/feature/T012SP/CPE-240
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function
