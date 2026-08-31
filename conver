@@ -3,5 +3,11 @@ aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follo
 
 
 
-cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
-Select-String -Path variables.tf,envs\perf.tfvars,envs\dev.tfvars -Pattern "entra_audience"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Select-String -Path variables.tf,envs\perf.tfvars,envs\dev.tfvars -Pattern "entra_audience"
+
+variables.tf:22:variable "entra_audience" {
+envs\perf.tfvars:1:entra_audience = "api://585f3a95-8bf5-4df4-b80b-585ca5ca2071"
+envs\dev.tfvars:1:entra_audience = "api://585f3a95-8bf5-4df4-b80b-585ca5ca2071"
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
