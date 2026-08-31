@@ -6,3 +6,66 @@ PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu state show module.so
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
 
   create_log_group = true
+
+
+
+module "policy_graph_ingest_lambda" {
+  source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=feature/T012SP/CPE-240"
+  name                   = "${var.application_name}-${var.env_tier}-policy-graph-ingest-lambda"
+  runtime                = "python3.13"
+  handler                = "main.lambda_handler"
+  timeout                = 10
+  memory_size            = 128
+  code_managed_elsewhere = true
+  vpc_enabled            = true
+  vpc_id                 = var.vpc_id
+  subnet_ids             = var.lambda_subnet_ids
+  environment_variables = {
+    db_endpoint   = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
+    db_user       = data.terraform_remote_state.aurora.outputs.master_username
+    db_region     = "us-east-1"
+    db_name       = "${var.application_name}_${var.env_tier}"
+    debug_logging = "false"
+  }
+  extra_policy_statements = [
+    {
+      Effect   = "Allow"
+      Action   = ["rds-db:connect"]
+      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_state.aurora.outputs.master_username}"]
+    }
+  ]
+
+  tags = {}
+}
+
+module "soap_verification_lambda" {
+  source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=feature/T012SP/CPE-240"
+  name                   = "${var.application_name}-${var.env_tier}-soap-verification-lambda"
+  runtime                = "python3.13"
+  handler                = "main.lambda_handler"
+  timeout                = 10
+  memory_size            = 512
+  code_managed_elsewhere = true
+  vpc_enabled            = true
+  vpc_id                 = var.vpc_id
+  subnet_ids             = var.lambda_subnet_ids
+  environment_variables = {
+    db_endpoint   = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
+    db_user       = data.terraform_remote_state.aurora.outputs.master_username
+    db_region     = "us-east-1"
+    db_name       = "${var.application_name}_${var.env_tier}"
+    debug_logging = "true"
+    NAIC          = "22993"
+    enable_commercial_auto = "false"
+  }
+  extra_policy_statements = [
+    {
+      Effect   = "Allow"
+      Action   = ["rds-db:connect"]
+      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_state.aurora.outputs.master_username}"]
+    }
+  ]
+  provisioned_concurrency = 1
+
+  tags = {}
+}
