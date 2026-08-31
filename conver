@@ -2,12 +2,10 @@ $env:AWS_PROFILE = "L2-Pre-Prod"
 aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follow --region us-east-1
 
 
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Select-String -Path variables.tf,envs\perf.tfvars,envs\dev.tfvars -Pattern "entra_audience"
-
-variables.tf:22:variable "entra_audience" {
-envs\perf.tfvars:1:entra_audience = "api://585f3a95-8bf5-4df4-b80b-585ca5ca2071"
-envs\dev.tfvars:1:entra_audience = "api://585f3a95-8bf5-4df4-b80b-585ca5ca2071"
-
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
+  # Accept both the v2 audience format (api://<guid>) and the v1 bare GUID.
+  # Entra v1 tokens carry aud as the bare app ID; v2 tokens use the api:// URI.
+  # Both are accepted until clients migrate to v2 tokens.
+  jwt_audience = [
+    var.entra_audience,
+    replace(var.entra_audience, "api://", ""),
+  ]
