@@ -1,72 +1,32 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Get-ChildItem .github\workflows\*.yml | Select-String "backend-config|workspace|terraform.tfstate" -Context 2,2
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:aws_profile = "TFRepository"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu init
 
-  .github\workflows\tofu-apply.yml:4:  workflow_dispatch:
-  .github\workflows\tofu-apply.yml:5:    inputs:
-> .github\workflows\tofu-apply.yml:6:      workspace:
-> .github\workflows\tofu-apply.yml:7:        description: "Workspace to apply (must match envs/<workspace>.tfvars)"
-  .github\workflows\tofu-apply.yml:8:        required: true
-  .github\workflows\tofu-apply.yml:9:        type: string
-  .github\workflows\tofu-apply.yml:17:    runs-on: ubuntu-latest
-  .github\workflows\tofu-apply.yml:18:
-> .github\workflows\tofu-apply.yml:19:    # Map workspace name directly to GitHub Environment name
-> .github\workflows\tofu-apply.yml:20:    environment: ${{ inputs.workspace }}
-  .github\workflows\tofu-apply.yml:21:
-  .github\workflows\tofu-apply.yml:22:    permissions:
-  .github\workflows\tofu-apply.yml:66:        run: tofu init
-  .github\workflows\tofu-apply.yml:67:
-> .github\workflows\tofu-apply.yml:68:      - name: Select/Create workspace
-  .github\workflows\tofu-apply.yml:69:        shell: bash
-  .github\workflows\tofu-apply.yml:70:        run: |
-  .github\workflows\tofu-apply.yml:71:          set -euo pipefail
-> .github\workflows\tofu-apply.yml:72:          WS="${{ inputs.workspace }}"
-> .github\workflows\tofu-apply.yml:73:          tofu workspace select "$WS" 2>/dev/null || tofu workspace new "$WS"
-  .github\workflows\tofu-apply.yml:74:
-  .github\workflows\tofu-apply.yml:75:      - name: Tofu apply
-  .github\workflows\tofu-apply.yml:77:        run: |
-  .github\workflows\tofu-apply.yml:78:          set -euo pipefail
-> .github\workflows\tofu-apply.yml:79:          WS="${{ inputs.workspace }}"
-  .github\workflows\tofu-apply.yml:80:          VARFILE="envs/${WS}.tfvars"
-  .github\workflows\tofu-apply.yml:81:          test -f "$VARFILE" || { echo "ERROR: Missing tfvars file: $VARFILE"; exit 1; }
-  .github\workflows\tofu-plan.yml:5:  workflow_dispatch:
-  .github\workflows\tofu-plan.yml:6:    inputs:
-> .github\workflows\tofu-plan.yml:7:      workspace:
-> .github\workflows\tofu-plan.yml:8:        description: "Workspace to plan (must match envs/<workspace>.tfvars). Defaults to dev."
-  .github\workflows\tofu-plan.yml:9:        required: false
-  .github\workflows\tofu-plan.yml:10:        type: string
-  .github\workflows\tofu-plan.yml:19:    runs-on: ubuntu-latest
-  .github\workflows\tofu-plan.yml:20:
-> .github\workflows\tofu-plan.yml:21:    # Use dev environment for push, otherwise use the selected workspace name.
-> .github\workflows\tofu-plan.yml:22:    environment: ${{ github.event_name == 'push' && 'dev' || inputs.workspace }}
-  .github\workflows\tofu-plan.yml:23:
-  .github\workflows\tofu-plan.yml:24:    permissions:
-  .github\workflows\tofu-plan.yml:65:          git config --global url."https://x-access-token:${{ steps.get_workflow_token.outputs.token }}@github.com/".insteadOf 
-"https://github.com/"
-  .github\workflows\tofu-plan.yml:66:
-> .github\workflows\tofu-plan.yml:67:      - name: Resolve workspace
-  .github\workflows\tofu-plan.yml:68:        id: ws
-  .github\workflows\tofu-plan.yml:69:        shell: bash
-  .github\workflows\tofu-plan.yml:71:          set -euo pipefail
-  .github\workflows\tofu-plan.yml:72:          if [[ "${{ github.event_name }}" == "push" ]]; then
-> .github\workflows\tofu-plan.yml:73:            echo "workspace=dev" >> "$GITHUB_OUTPUT"
-  .github\workflows\tofu-plan.yml:74:          else
-> .github\workflows\tofu-plan.yml:75:            echo "workspace=${{ inputs.workspace }}" >> "$GITHUB_OUTPUT"
-  .github\workflows\tofu-plan.yml:76:          fi
-  .github\workflows\tofu-plan.yml:77:
-  .github\workflows\tofu-plan.yml:79:        run: tofu init -upgrade
-  .github\workflows\tofu-plan.yml:80:
-> .github\workflows\tofu-plan.yml:81:      - name: Select/Create workspace
-  .github\workflows\tofu-plan.yml:82:        shell: bash
-  .github\workflows\tofu-plan.yml:83:        run: |
-  .github\workflows\tofu-plan.yml:84:          set -euo pipefail
-> .github\workflows\tofu-plan.yml:85:          WS="${{ steps.ws.outputs.workspace }}"
-> .github\workflows\tofu-plan.yml:86:          tofu workspace select "$WS" 2>/dev/null || tofu workspace new "$WS"
-  .github\workflows\tofu-plan.yml:87:
-  .github\workflows\tofu-plan.yml:88:      - name: Tofu plan
-  .github\workflows\tofu-plan.yml:90:        run: |
-  .github\workflows\tofu-plan.yml:91:          set -euo pipefail
-> .github\workflows\tofu-plan.yml:92:          WS="${{ steps.ws.outputs.workspace }}"
-  .github\workflows\tofu-plan.yml:93:          VARFILE="envs/${WS}.tfvars"
-  .github\workflows\tofu-plan.yml:94:          test -f "$VARFILE" || { echo "ERROR: Missing tfvars file: $VARFILE"; exit 1; }
+Initializing the backend...
+Initializing modules...
+Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=feature/T012SP/CPE-240 for policy_graph_ingest_lambda...
+- policy_graph_ingest_lambda in .terraform\modules\policy_graph_ingest_lambda
+Downloading git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=feature/T012SP/CPE-240 for soap_verification_lambda...
+- soap_verification_lambda in .terraform\modules\soap_verification_lambda
 
+Initializing provider plugins...
+- terraform.io/builtin/terraform is built in to OpenTofu
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Reusing previous version of hashicorp/archive from the dependency lock file
+- Using previously-installed hashicorp/aws v6.62.0
+- Using previously-installed hashicorp/archive v2.8.0
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
+OpenTofu has been successfully initialized!
+
+You may now begin working with OpenTofu. Try running "tofu plan" to see
+any changes that are required for your infrastructure. All OpenTofu commands
+should now work.
+
+If you ever set or change modules or backend configuration for OpenTofu,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu workspace list
+* default
+  dev
+  perf
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra
