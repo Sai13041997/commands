@@ -1,5 +1,13 @@
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git status -s
- M main.tf
- M variables.tf
-?? .gitignore
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function
+Select-String -Path main.tf -Pattern 'depends_on = \[aws_cloudwatch_log_group.this\]'
+
+
+git add .gitignore
+git commit -m "Add .gitignore for opentofu artifacts"
+
+
+git add main.tf variables.tf
+git commit -m "Add optional managed CloudWatch log group"
+
+
+git log --oneline -3
+git status -s
