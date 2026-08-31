@@ -451,3 +451,196 @@ quiet this warning.
 
 Note: You didn't use the -out option to save this plan, so OpenTofu can't
 guarantee to take exactly these actions if you run "tofu apply" now.
+
+
+Run set -euo pipefail
+  set -euo pipefail
+  WS="perf"
+  VARFILE="envs/${WS}.tfvars"
+  test -f "$VARFILE" || { echo "ERROR: Missing tfvars file: $VARFILE"; exit 1; }
+  tofu plan -no-color -var-file="$VARFILE" 
+  shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+  env:
+    TOFU_CLI_PATH: /home/runner/work/_temp/aba4dee6-d29e-4c84-8e23-6dec4731b6bd
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_REGION: us-east-1
+    AWS_ACCESS_KEY_ID: ***
+    AWS_SECRET_ACCESS_KEY: ***
+    AWS_SESSION_TOKEN: ***
+data.terraform_remote_state.aurora: Reading...
+module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Reading...
+module.policy_graph_ingest_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=a1901f7a-eb4a-5994-8c27-98c9b52dd0f9]
+module.soap_verification_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=912293d2-b329-83c0-cea7-155fdaf902cb]
+module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Reading...
+module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
+module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
+data.terraform_remote_state.aurora: Read complete after 0s
+data.aws_route53_zone.kyfb: Reading...
+module.soap_api_gateway.data.aws_region.current: Reading...
+aws_s3_bucket.soap_api_truststore: Refreshing state... [id=realtimeinsurance-perf-soap-api-truststore]
+module.soap_api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.api_gateway.aws_cloudwatch_log_group.access_logs[0]: Refreshing state... [id=/aws/apigateway/realtimeinsurance-perf-api-gateway/default]
+module.soap_verification_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-perf-soap-verification-lambda-role]
+module.api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=he9tkof025]
+module.soap_api_gateway.data.aws_caller_identity.current: Reading...
+module.soap_verification_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-08ccc9258865b5e79]
+module.soap_api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=6rjxwpqvp4]
+module.policy_graph_ingest_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-078d595bfe6310298]
+module.api_gateway.data.aws_caller_identity.current: Reading...
+module.api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264307873]
+module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
+data.aws_route53_zone.kyfb: Read complete after 0s [id=Z103234617AI2YZ9F4ZTH]
+module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
+module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
+aws_acm_certificate.soap_api: Refreshing state... [id=arn:aws:acm:us-east-1:058264307873:certificate/4abf06f1-242f-4501-8aeb-923a66ee7540]
+module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
+module.soap_api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264307873]
+module.policy_graph_ingest_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-perf-policy-graph-ingest-lambda-role]
+module.api_gateway.data.aws_region.current: Reading...
+module.api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-perf-api-gateway-authorizer-role]
+module.soap_api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-perf-soap-api-gateway-authorizer-role]
+module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
+module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=1595388233]
+module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
+module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=161564859]
+module.api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-perf-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.api_gateway.aws_lambda_function.jwt_authorizer[0]: Refreshing state... [id=realtimeinsurance-perf-api-gateway-entra-jwt-authorizer]
+module.soap_verification_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-perf-soap-verification-lambda-role:realtimeinsurance-perf-soap-verification-lambda-vpc-networking]
+module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-perf-soap-verification-lambda-role:realtimeinsurance-perf-soap-verification-lambda-extra]
+module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-perf-soap-verification-lambda]
+module.soap_verification_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-perf-soap-verification-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.soap_api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=6rjxwpqvp4]
+module.api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=he9tkof025]
+module.policy_graph_ingest_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-perf-policy-graph-ingest-lambda]
+module.policy_graph_ingest_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-perf-policy-graph-ingest-lambda-role:realtimeinsurance-perf-policy-graph-ingest-lambda-extra]
+module.policy_graph_ingest_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-perf-policy-graph-ingest-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+module.policy_graph_ingest_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-perf-policy-graph-ingest-lambda-role:realtimeinsurance-perf-policy-graph-ingest-lambda-vpc-networking]
+aws_route53_record.cert_validation["realtimeinsurance-soap-api-perf.kyfb.com"]: Refreshing state... [id=Z103234617AI2YZ9F4ZTH__aa98abd1d4c08f97c0b32c14be3ea8ce.realtimeinsurance-soap-api-perf.kyfb.com._CNAME]
+module.soap_api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-perf-soap-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+aws_acm_certificate_validation.cert: Refreshing state... [id=2026-08-19 19:43:45.404 +0000 UTC]
+aws_s3_bucket_public_access_block.soap_api_truststore: Refreshing state... [id=realtimeinsurance-perf-soap-api-truststore]
+aws_s3_bucket_versioning.soap_api_truststore: Refreshing state... [id=realtimeinsurance-perf-soap-api-truststore]
+module.api_gateway.aws_api_gateway_authorizer.jwt[0]: Refreshing state... [id=m26eu6]
+module.api_gateway.aws_lambda_permission.allow_apigw_invoke_authorizer[0]: Refreshing state... [id=AllowAPIGatewayInvokeAuthorizer]
+module.api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /policy-graph-ingest"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__policy-graph-ingest]
+module.api_gateway.aws_api_gateway_resource.path_level_1["/policy-graph-ingest"]: Refreshing state... [id=9pdrnh]
+module.soap_verification_lambda.aws_lambda_alias.live[0]: Refreshing state... [id=arn:aws:lambda:us-east-1:058264307873:function:realtimeinsurance-perf-soap-verification-lambda:live]
+module.api_gateway.aws_api_gateway_method.this["POST /policy-graph-ingest"]: Refreshing state... [id=agm-he9tkof025-9pdrnh-POST]
+module.soap_verification_lambda.aws_lambda_provisioned_concurrency_config.this[0]: Refreshing state... [id=realtimeinsurance-perf-soap-verification-lambda,live]
+module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__soap]
+module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"]: Refreshing state... [id=cnrwil]
+module.api_gateway.aws_api_gateway_integration.this["POST /policy-graph-ingest"]: Refreshing state... [id=agi-he9tkof025-9pdrnh-POST]
+module.soap_api_gateway.aws_api_gateway_method.this["POST /soap"]: Refreshing state... [id=agm-6rjxwpqvp4-cnrwil-POST]
+module.api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=817q5p]
+module.soap_api_gateway.aws_api_gateway_integration.this["POST /soap"]: Refreshing state... [id=agi-6rjxwpqvp4-cnrwil-POST]
+module.api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-he9tkof025-default]
+module.soap_api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=vbg7e1]
+module.soap_api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-6rjxwpqvp4-default]
+aws_s3_object.soap_api_truststore: Refreshing state... [id=realtimeinsurance-perf-soap-api-truststore/soap-truststore/truststore.pem]
+module.soap_api_gateway.aws_api_gateway_domain_name.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-perf.kyfb.com]
+module.soap_api_gateway.aws_api_gateway_base_path_mapping.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-perf.kyfb.com/]
+aws_route53_record.soap_api_dns: Refreshing state... [id=Z103234617AI2YZ9F4ZTH_realtimeinsurance-soap-api-perf.kyfb.com_CNAME]
+
+OpenTofu used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  + create
+  ~ update in-place (current -> planned)
+-/+ destroy and then create replacement
+
+OpenTofu will perform the following actions:
+
+  # module.api_gateway.aws_api_gateway_method_settings.this[0] will be created
+  + resource "aws_api_gateway_method_settings" "this" {
+      + id          = (known after apply)
+      + method_path = "*/*"
+      + region      = "us-east-1"
+      + rest_api_id = "he9tkof025"
+      + stage_name  = "default"
+
+      + settings {
+          + cache_data_encrypted                       = (known after apply)
+          + cache_ttl_in_seconds                       = (known after apply)
+          + caching_enabled                            = (known after apply)
+          + data_trace_enabled                         = false
+          + logging_level                              = "INFO"
+          + metrics_enabled                            = true
+          + require_authorization_for_cache_control    = (known after apply)
+          + throttling_burst_limit                     = -1
+          + throttling_rate_limit                      = -1
+          + unauthorized_cache_control_header_strategy = (known after apply)
+        }
+    }
+
+  # module.api_gateway.aws_api_gateway_stage.this will be updated in-place
+  ~ resource "aws_api_gateway_stage" "this" {
+        id                    = "ags-he9tkof025-default"
+        tags                  = {}
+        # (11 unchanged attributes hidden)
+
+      + access_log_settings {
+          + destination_arn = "arn:aws:logs:us-east-1:058264307873:log-group:/aws/apigateway/realtimeinsurance-perf-api-gateway/default"
+          + format          = jsonencode(
+                {
+                  + authorizerError   = "$context.authorizer.error"
+                  + authorizerLatency = "$context.authorizer.latency"
+                  + authorizerStatus  = "$context.authorizer.status"
+                  + errorMessage      = "$context.error.message"
+                  + extendedRequestId = "$context.extendedRequestId"
+                  + httpMethod        = "$context.httpMethod"
+                  + integrationError  = "$context.integration.error"
+                  + integrationStatus = "$context.integration.status"
+                  + path              = "$context.path"
+                  + requestId         = "$context.requestId"
+                  + requestTime       = "$context.requestTime"
+                  + resourcePath      = "$context.resourcePath"
+                  + responseType      = "$context.error.responseType"
+                  + sourceIp          = "$context.identity.sourceIp"
+                  + status            = "$context.status"
+                }
+            )
+        }
+    }
+
+  # module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"] must be replaced
+-/+ resource "aws_lambda_permission" "allow_apigw_invoke_backend" {
+      ~ function_name       = "arn:aws:lambda:us-east-1:058264307873:function:realtimeinsurance-perf-soap-verification-lambda" -> "arn:aws:lambda:us-east-1:058264307873:function:realtimeinsurance-perf-soap-verification-lambda:live" # forces replacement
+      ~ id                  = "AllowAPIGatewayInvoke-POST__soap" -> (known after apply)
+      - qualifier           = "live" -> null # forces replacement
+      + statement_id_prefix = (known after apply)
+        # (5 unchanged attributes hidden)
+    }
+
+Plan: 2 to add, 1 to change, 1 to destroy.
+
+Warning: Value derived from a deprecated source
+
+  with module.api_gateway.aws_api_gateway_authorizer.jwt,
+  on .terraform/modules/api_gateway/main.tf line 183, in resource "aws_api_gateway_authorizer" "jwt":
+ 183:   type            = "TOKEN"
+
+This value is derived from data.aws_region.current.name, which is deprecated
+with the following message:
+
+name is deprecated. Use region instead.
+
+Warning: Redundant ignore_changes element
+
+  on .terraform/modules/policy_graph_ingest_lambda/main.tf line 162, in resource "aws_lambda_function" "placeholder":
+ 162: resource "aws_lambda_function" "placeholder" {
+
+Adding an attribute name to ignore_changes tells OpenTofu to ignore future
+changes to the argument in configuration after the object has been created,
+retaining the value originally configured.
+
+The attribute last_modified is decided by the provider alone and therefore
+there can be no configured value to compare with. Including this attribute in
+ignore_changes has no effect. Remove the attribute from ignore_changes to
+quiet this warning.
+
+(and 5 more similar warnings elsewhere)
+
+─────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so OpenTofu can't
+guarantee to take exactly these actions if you run "tofu apply" now.
