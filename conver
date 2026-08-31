@@ -1,1 +1,5 @@
-Hey Zach — had a look at the logs after your retry and the requests coming in haven't actually changed. Still hitting /default rather than /default/policy-graph-ingest, and the Authorization header is identical to before, so I don't think the update took effect on the Guidewire side. Two things worth checking there: whether the URL is split across a base URL and a path field (sounds like only one got updated), and whether AWS request signing is switched on for this endpoint — the header we're seeing is a SigV4 signature rather than a bearer token, which would explain why the authorizer never runs. Might be quickest to try the endpoint with Postman or curl first to confirm it works outside Guidewire, then work back from there.
+curl -i -X POST \
+  -H "Authorization: Bearer <real-entra-jwt>" \
+  -H "Content-Type: application/json" \
+  -d '{}' \
+  https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest
