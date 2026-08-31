@@ -1,1 +1,19 @@
-aws logs tail /aws/lambda/realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --since 10m --region us-east-1
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs tail /aws/lambda/realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --since 10m --region us-east-1
+2026-08-31T20:27:08.297000+00:00 2026/08/31/[$LATEST]ca38fc79fd0245ebbaaccdcc81b5a4c5 INIT_START Runtime Version: nodejs:20.v101        Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:18671876e7cc385452255180c58ca50cf8763398a4248ae92ed14410d196b942
+2026-08-31T20:27:08.591000+00:00 2026/08/31/[$LATEST]ca38fc79fd0245ebbaaccdcc81b5a4c5 START RequestId: 08f53e05-e9f3-4dd2-a13d-a3111a74a787 Version: $LATEST
+2026-08-31T20:27:09.467000+00:00 2026/08/31/[$LATEST]ca38fc79fd0245ebbaaccdcc81b5a4c5 2026-08-31T20:27:09.467Z  08f53e05-e9f3-4dd2-a13d-a3111a74a787    ERROR   AUTHZ_DENY verify failed {
+  name: 'JsonWebTokenError',
+  code: undefined,
+  message: 'jwt issuer invalid. expected: https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/',
+  jwksUri: 'https://login.microsoftonline.com/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/discovery/v2.0/keys',
+  headerKid: 'T5h40q7G0x49qn41lM9-kKjpD98',
+  issuer: 'https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/',
+  audiences: [
+    'api://585f3a95-8bf5-4df4-b80b-585ca5ca2071',
+    '585f3a95-8bf5-4df4-b80b-585ca5ca2071'
+  ],
+  now: '2026-08-31T20:27:09.410Z'
+}
+2026-08-31T20:27:09.508000+00:00 2026/08/31/[$LATEST]ca38fc79fd0245ebbaaccdcc81b5a4c5 END RequestId: 08f53e05-e9f3-4dd2-a13d-a3111a74a787
+2026-08-31T20:27:09.508000+00:00 2026/08/31/[$LATEST]ca38fc79fd0245ebbaaccdcc81b5a4c5 REPORT RequestId: 08f53e05-e9f3-4dd2-a13d-a3111a74a787    Duration: 916.19 ms     Billed Duration: 1207 ms  Memory Size: 128 MB     Max Memory Used: 85 MB  Init Duration: 290.27 ms
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
