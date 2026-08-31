@@ -1,8 +1,10 @@
-Copy-Item authorizerSrc\index.js "$env:TEMP\authzip\index.js" -Force
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Copy-Item authorizerSrc\index.js "$env:TEMP\authzip\index.js" -Force
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Select-String -Path "$env:TEMP\authzip\index.js" -Pattern "issList" | Select-Object -First 2
+
+C:\Users\T012sp\AppData\Local\Temp\authzip\index.js:27:  const issList = (process.env.JWT_ISSUER || "")
+C:\Users\T012sp\AppData\Local\Temp\authzip\index.js:47:  const tenantMatch = issList
 
 
-Select-String -Path "$env:TEMP\authzip\index.js" -Pattern "issList" | Select-Object -First 2
-
-
-Remove-Item authorizer.zip
-Compress-Archive -Path "$env:TEMP\authzip\*" -DestinationPath authorizer.zip
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Remove-Item authorizer.zip
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Compress-Archive -Path "$env:TEMP\authzip\*" -DestinationPath authorizer.zip
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
