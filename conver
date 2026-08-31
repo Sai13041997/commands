@@ -1,1 +1,11 @@
-aws apigateway get-domain-names --region us-east-1 --query "items[].[domainName,regionalDomainName]" --output table
+Zach:
+see any difference?
+ 
+Updated that url
+ 
+and hit it again
+Me: 
+same error ?
+Zach:  
+yes I am seeing a 403 error
+ 
