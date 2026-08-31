@@ -1,7 +1,3 @@
-$env:AWS_PROFILE = "L2-Pre-Prod"
 aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --since 15m --region us-east-1
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs describe-log-streams --log-group-name /aws/lambda/realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --region us-east-1
-
-An error occurred (ResourceNotFoundException) when calling the DescribeLogStreams operation: The specified log group does not exist.
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
+aws logs describe-log-streams --log-group-name /aws/lambda/realtimeinsurance-perf-policy-graph-ingest-lambda --region us-east-1
