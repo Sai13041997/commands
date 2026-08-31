@@ -1,2 +1,31 @@
-cd "C:\Users\T012sp\Git repo\tf-module-api-gateway"
-Select-String -Path authorizerSrc\index.js -Pattern "issuer|audList|JWT_ISSUER|JWT_AUDIENCE" -Context 2,2
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> Get-ChildItem -Recurse -Filter *.js | Select-String "JWT_ISSUER" -List
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> cd "C:\Users\T012sp\Git repo\tf-module-api-gateway"
+>> Select-String -Path authorizerSrc\index.js -Pattern "issuer|audList|JWT_ISSUER|JWT_AUDIENCE" -Context 2,2
+
+  authorizerSrc\index.js:22:
+  authorizerSrc\index.js:23:exports.handler = async (event) => {
+> authorizerSrc\index.js:24:  const issuer = process.env.JWT_ISSUER; // https://sts.windows.net/<tenant>/
+> authorizerSrc\index.js:25:  const audList = (process.env.JWT_AUDIENCE || "")
+  authorizerSrc\index.js:26:    .split(",")
+  authorizerSrc\index.js:27:    .map((s) => s.trim())
+  authorizerSrc\index.js:37:  const token = m[1];
+  authorizerSrc\index.js:38:
+> authorizerSrc\index.js:39:  const tenantMatch = issuer.match(/sts\.windows\.net\/([^/]+)\//i);
+  authorizerSrc\index.js:40:  const tenantId = tenantMatch ? tenantMatch[1] : null;
+  authorizerSrc\index.js:41:
+  authorizerSrc\index.js:68:        getKey,
+  authorizerSrc\index.js:69:        {
+> authorizerSrc\index.js:70:          issuer,
+> authorizerSrc\index.js:71:          audience: audList.length ? audList : undefined,
+  authorizerSrc\index.js:72:          algorithms: ["RS256"],
+  authorizerSrc\index.js:73:          clockTolerance: 60,
+  authorizerSrc\index.js:100:      jwksUri,
+  authorizerSrc\index.js:101:      headerKid,
+> authorizerSrc\index.js:102:      issuer,
+> authorizerSrc\index.js:103:      audiences: audList,
+  authorizerSrc\index.js:104:      now: new Date().toISOString(),
+  authorizerSrc\index.js:105:    });
+
+
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
