@@ -1,53 +1,15 @@
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function> Select-String -Path main.tf -Pattern 'resource "aws_lambda_function"|^resource|tags ' -Context 0,2
+# ---------------------------
+# CloudWatch Logs
+# ---------------------------
+resource "aws_cloudwatch_log_group" "this" {
+  count             = var.create_log_group ? 1 : 0
+  name              = "/aws/lambda/${var.name}"
+  retention_in_days = var.log_retention_days
 
-> main.tf:4:resource "terraform_data" "validate_single_code_mode" {
-  main.tf:5:  lifecycle {
-  main.tf:6:    precondition {
-> main.tf:56:resource "aws_iam_role" "this" {
-  main.tf:57:  name = "${var.name}-role"
-  main.tf:58:
-> main.tf:68:  tags = var.tags
-  main.tf:69:}
-  main.tf:70:
-> main.tf:72:resource "aws_iam_role_policy_attachment" "basic_execution" {
-  main.tf:73:  role       = aws_iam_role.this.name
-  main.tf:74:  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
-> main.tf:78:resource "aws_iam_role_policy" "vpc_networking" {
-  main.tf:79:  count = var.vpc_enabled ? 1 : 0
-  main.tf:80:  name  = "${var.name}-vpc-networking"
-> main.tf:103:resource "aws_iam_role_policy" "extra" {
-  main.tf:104:  count = length(var.extra_policy_statements) > 0 ? 1 : 0
-  main.tf:105:  name  = "${var.name}-extra"
-> main.tf:117:resource "aws_security_group" "this" {
-  main.tf:118:  count = (var.vpc_enabled && var.create_security_group && length(var.security_group_ids) == 0) ? 1 : 0
-  main.tf:119:
-> main.tf:134:  tags = var.tags
-  main.tf:135:
-  main.tf:136:  lifecycle {
-> main.tf:152:resource "aws_lambda_function" "placeholder" {
-  main.tf:153:  count = var.code_managed_elsewhere ? 1 : 0
-  main.tf:154:
-> main.tf:189:  tags = var.tags
-  main.tf:190:
-  main.tf:191:  # Key change: once created, Terraform will stop trying to update code-related fields
-> main.tf:215:resource "aws_lambda_function" "from_source_file" {
-  main.tf:216:  count = (!var.code_managed_elsewhere && var.source_file != null && var.source_file != "") ? 1 : 0
-  main.tf:217:
-> main.tf:252:  tags = var.tags
-  main.tf:253:
-  main.tf:254:  lifecycle {
-> main.tf:268:resource "aws_lambda_function" "from_filename" {
-  main.tf:269:  count = (!var.code_managed_elsewhere && var.filename != null && var.filename != "") ? 1 : 0
-  main.tf:270:
-> main.tf:305:  tags = var.tags
-  main.tf:306:
-  main.tf:307:  lifecycle {
-> main.tf:323:resource "aws_lambda_alias" "live" {
-  main.tf:324:  count = var.provisioned_concurrency > 0 ? 1 : 0
-  main.tf:325:
-> main.tf:348:resource "aws_lambda_provisioned_concurrency_config" "this" {
-  main.tf:349:  count = var.provisioned_concurrency > 0 ? 1 : 0
-  main.tf:350:
+  tags = var.tags
+}
 
 
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function>
+tofu fmt main.tf
+tofu init -backend=false
+tofu validate
