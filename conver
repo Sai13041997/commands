@@ -3,4 +3,33 @@ aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follo
 
 
 
-aws logs tail /aws/lambda/realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --since 15m --region us-east-1
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs tail /aws/lambda/realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --since 15m --region us-east-1
+2026-08-31T19:42:50.330000+00:00 2026/08/31/[$LATEST]d36c8f86cdd84a8b8e10358fbaa95b6b INIT_START Runtime Version: nodejs:20.v101        Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:18671876e7cc385452255180c58ca50cf8763398a4248ae92ed14410d196b942
+2026-08-31T19:42:50.632000+00:00 2026/08/31/[$LATEST]d36c8f86cdd84a8b8e10358fbaa95b6b START RequestId: 83fbd5a2-2fb3-463c-8af5-4a85437858dc Version: $LATEST
+2026-08-31T19:42:51.507000+00:00 2026/08/31/[$LATEST]d36c8f86cdd84a8b8e10358fbaa95b6b 2026-08-31T19:42:51.507Z  83fbd5a2-2fb3-463c-8af5-4a85437858dc    ERROR   AUTHZ_DENY verify failed {
+  name: 'JsonWebTokenError',
+  code: undefined,
+  message: 'jwt audience invalid. expected: api://585f3a95-8bf5-4df4-b80b-585ca5ca2071',
+  jwksUri: 'https://login.microsoftonline.com/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/discovery/v2.0/keys',
+  headerKid: 'T5h40q7G0x49qn41lM9-kKjpD98',
+  issuer: 'https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/',
+  audiences: [ 'api://585f3a95-8bf5-4df4-b80b-585ca5ca2071' ],
+  now: '2026-08-31T19:42:51.468Z'
+}
+2026-08-31T19:42:51.568000+00:00 2026/08/31/[$LATEST]d36c8f86cdd84a8b8e10358fbaa95b6b END RequestId: 83fbd5a2-2fb3-463c-8af5-4a85437858dc
+2026-08-31T19:42:51.568000+00:00 2026/08/31/[$LATEST]d36c8f86cdd84a8b8e10358fbaa95b6b REPORT RequestId: 83fbd5a2-2fb3-463c-8af5-4a85437858dc    Duration: 935.73 ms     Billed Duration: 1234 ms  Memory Size: 128 MB     Max Memory Used: 85 MB  Init Duration: 297.86 ms
+2026-08-31T19:48:49.411000+00:00 2026/08/31/[$LATEST]24ee5cafb226445b9f1926e85f4844cf INIT_START Runtime Version: nodejs:20.v101        Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:18671876e7cc385452255180c58ca50cf8763398a4248ae92ed14410d196b942
+2026-08-31T19:48:49.724000+00:00 2026/08/31/[$LATEST]24ee5cafb226445b9f1926e85f4844cf START RequestId: e2b17c29-858e-4e30-8022-5d76888e8f9c Version: $LATEST
+2026-08-31T19:48:50.490000+00:00 2026/08/31/[$LATEST]24ee5cafb226445b9f1926e85f4844cf 2026-08-31T19:48:50.490Z  e2b17c29-858e-4e30-8022-5d76888e8f9c    ERROR   AUTHZ_DENY verify failed {
+  name: 'JsonWebTokenError',
+  code: undefined,
+  message: 'jwt audience invalid. expected: api://585f3a95-8bf5-4df4-b80b-585ca5ca2071',
+  jwksUri: 'https://login.microsoftonline.com/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/discovery/v2.0/keys',
+  headerKid: 'T5h40q7G0x49qn41lM9-kKjpD98',
+  issuer: 'https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/',
+  audiences: [ 'api://585f3a95-8bf5-4df4-b80b-585ca5ca2071' ],
+  now: '2026-08-31T19:48:50.450Z'
+}
+2026-08-31T19:48:50.551000+00:00 2026/08/31/[$LATEST]24ee5cafb226445b9f1926e85f4844cf END RequestId: e2b17c29-858e-4e30-8022-5d76888e8f9c
+2026-08-31T19:48:50.551000+00:00 2026/08/31/[$LATEST]24ee5cafb226445b9f1926e85f4844cf REPORT RequestId: e2b17c29-858e-4e30-8022-5d76888e8f9c    Duration: 826.64 ms     Billed Duration: 1136 ms  Memory Size: 128 MB     Max Memory Used: 85 MB  Init Duration: 308.45 ms
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
