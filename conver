@@ -2,10 +2,26 @@ $env:AWS_PROFILE = "L2-Pre-Prod"
 aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follow --region us-east-1
 
 
-  # Accept both the v2 audience format (api://<guid>) and the v1 bare GUID.
-  # Entra v1 tokens carry aud as the bare app ID; v2 tokens use the api:// URI.
-  # Both are accepted until clients migrate to v2 tokens.
-  jwt_audience = [
-    var.entra_audience,
-    replace(var.entra_audience, "api://", ""),
-  ]
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu fmt rest_api.tf
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git diff
+diff --git a/rest_api.tf b/rest_api.tf
+index bd027a8..c861cd3 100644
+--- a/rest_api.tf
++++ b/rest_api.tf
+@@ -6,7 +6,13 @@ module "api_gateway" {
+ 
+   enable_stage_logging = true
+ 
+-  jwt_audience = ["${var.entra_audience}"]
++  # Accept both the v2 audience format (api://<guid>) and the v1 bare GUID.
++  # Entra v1 tokens carry aud as the bare app ID; v2 tokens use the api:// URI.
++  # Both are accepted until clients migrate to v2 tokens.
++  jwt_audience = [
++    var.entra_audience,
++    replace(var.entra_audience, "api://", ""),
++  ]
+ 
+   routes = [
+     {
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
