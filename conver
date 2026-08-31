@@ -1,1 +1,29 @@
-aws iam get-policy-version --policy-arn arn:aws:iam::058264307873:policy/api_gateway_cloudwatch_access --version-id (aws iam get-policy --policy-arn arn:aws:iam::058264307873:policy/api_gateway_cloudwatch_access --query "Policy.DefaultVersionId" --output text)
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws iam get-policy-version --policy-arn arn:aws:iam::058264307873:policy/api_gateway_cloudwatch_access --version-id (aws iam get-policy --policy-arn arn:aws:iam::058264307873:policy/api_gateway_cloudwatch_access --query "Policy.DefaultVersionId" --output text)
+{                                                                                                                                                                                
+    "PolicyVersion": {
+        "Document": {
+            "Statement": [
+                {
+                    "Action": [
+                        "logs:PutLogEvents",
+                        "logs:GetLogEvents",
+                        "logs:FilterLogEvents",
+                        "logs:DescribeLogStreams",
+                        "logs:DescribeLogGroups",
+                        "logs:CreateLogStream",
+                        "logs:CreateLogGroup"
+                    ],
+                    "Effect": "Allow",
+                    "Resource": "*",
+                    "Sid": "Stmt"
+                }
+            ],
+            "Version": "2012-10-17"
+        },
+        "VersionId": "v1",
+        "IsDefaultVersion": true,
+        "CreateDate": "2026-08-31T12:49:52+00:00"
+    }
+}
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
