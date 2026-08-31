@@ -1,33 +1,21 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:aws_Profile = "L2-Development"
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws sts get-caller-identity
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:aws_Profile = "L2-Pre-Prod"                                                                                   
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws sts get-caller-identity                                                                                        
 {                                                                                                                                                                                
-    "UserId": "AROAQ3EGTXPTFPAA33AOX:T012SP@kyfb.com",
-    "Account": "058264370150",
-    "Arn": "arn:aws:sts::058264370150:assumed-role/AWSReservedSSO_Cloud-Ops-Admin_715e8133d1c66ed2/T012SP@kyfb.com"
+    "UserId": "AROAQ3EGSZCQYV3MCTQPR:T012SP@kyfb.com",
+    "Account": "058264307873",
+    "Arn": "arn:aws:sts::058264307873:assumed-role/AWSReservedSSO_Cloud-Ops-Production_9f7b21e37516f367/T012SP@kyfb.com"
 }
 
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs describe-log-groups --region us-east-1 --query "logGroups[].[logGroupName,retentionInDays]" --output table
---------------------------------------------------------------------------------                                                                                                 
-|                               DescribeLogGroups                              |
-+----------------------------------------------------------------------+-------+
-|  /aws-dynamodb/imports                                               |  90   |
-|  /aws/apigateway/realtimeinsurance-dev-access-logs                   |  None |
-|  /aws/apigateway/welcome                                             |  None |
-|  /aws/lambda/SecretsManagerrealtimeinsurance-dev-rotation            |  None |
-|  /aws/lambda/aws-controltower-NotificationForwarder                  |  14   |
-|  /aws/lambda/cs-horizon-sensor-installation-orchestrator             |  1    |
-|  /aws/lambda/ddaftest1                                               |  None |
-|  /aws/lambda/ddaftest2                                               |  None |
-|  /aws/lambda/fbco-s3-transfer-dev                                    |  None |
-|  /aws/lambda/realtimeinsurance-dev-api-gateway-entra-jwt-authorizer  |  None |
-|  /aws/lambda/realtimeinsurance-dev-hello-lambda                      |  None |
-|  /aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda        |  None |
-|  /aws/lambda/realtimeinsurance-dev-soap-verification-lambda          |  None |
-|  /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy                   |  None |
-|  /aws/route53/DNSqueries                                             |  None |
-|  /ecs/agencygoals-task                                               |  None |
-|  API-Gateway-Execution-Logs_q51dqcsrw5/default                       |  None |
-|  kfb-vpc-flow-logs                                                   |  None |
-+----------------------------------------------------------------------+-------+
+-------------------------------------------------------------------------                                                                                                        
+|                           DescribeLogGroups                           |
++---------------------------------------------------------------+-------+
+|  /aws/apigateway/realtimeinsurance-perf-api-gateway/default   |  30   |
+|  /aws/lambda/aws-controltower-NotificationForwarder           |  14   |
+|  /aws/lambda/cs-horizon-sensor-installation-orchestrator      |  1    |
+|  /aws/lambda/realtimeinsurance-perf-soap-verification-lambda  |  None |
+|  /aws/rds/proxy/realtimeinsurance-perf-aurora-proxy           |  None |
+|  kfb-vpc-flow-logs                                            |  None |
++---------------------------------------------------------------+-------+
 
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
