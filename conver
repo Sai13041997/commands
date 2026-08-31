@@ -1,29 +1,4 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-Content authorizerSrc\index.js | Select-Object -Skip 21 -First 25
+C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc\index.js
 
-exports.handler = async (event) => {
-  const issuer = process.env.JWT_ISSUER; // https://sts.windows.net/<tenant>/
-  const audList = (process.env.JWT_AUDIENCE || "")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
 
-  const auth = event.authorizationToken || "";
-  const m = auth.match(/^Bearer\s+(.+)$/i);
-  if (!m) {
-    console.warn("AUTHZ_DENY: missing/invalid Authorization header format (expected Bearer)");
-    return deny("anonymous", event.methodArn);
-  }
-
-  const token = m[1];
-
-  const tenantMatch = issuer.match(/sts\.windows\.net\/([^/]+)\//i);
-  const tenantId = tenantMatch ? tenantMatch[1] : null;
-
-  // FIX: use v2.0 keys endpoint (matches your well-known config jwks_uri)
-  const jwksUri = tenantId
-    ? `https://login.microsoftonline.com/${tenantId}/discovery/v2.0/keys`
-    : "https://login.microsoftonline.com/common/discovery/v2.0/keys";            
-
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git status -sb
-## feature/T012SP/CPE-178...origin/feature/T012SP/CPE-178
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
+Get-Content authorizerSrc\index.js | Select-Object -Skip 70 -First 12
