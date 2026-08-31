@@ -1,13 +1,4 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> cd "C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc"
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc> cd "C:\Users\T012sp\Git repo\tf-module-api-gateway"
->> Get-ChildItem -Recurse -Include *.md,*.yml,*.yaml,*.sh,package.json | Where-Object { $_.FullName -notlike "*\.git\*" } | Select-Object FullName
+Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authzip" -Force
+Get-ChildItem "$env:TEMP\authzip" | Select-Object Name, Length
 
-FullName                                                                                                                                 
---------                                                                                                                                 
-C:\Users\T012sp\Git repo\tf-module-api-gateway\.terraform\providers\registry.opentofu.org\hashicorp\aws\6.62.0\windows_amd64\CHANGELOG.md
-C:\Users\T012sp\Git repo\tf-module-api-gateway\.terraform\providers\registry.opentofu.org\hashicorp\aws\6.62.0\windows_amd64\README.md   
-C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc\package.json                                                                
-C:\Users\T012sp\Git repo\tf-module-api-gateway\README.md                                                                                 
-
-
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
+Get-ChildItem "$env:TEMP\authzip" -Recurse -Directory | Select-Object -First 5 FullName
