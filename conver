@@ -1,1 +1,11 @@
-git show --stat HEAD
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git show --stat HEAD
+commit 5ca836c8c79e2d0cae57dbdac08e0f7fee3166ac (HEAD -> feature/T012SP/CPE-178, origin/feature/T012SP/CPE-178)
+Author: t012sp <sai.praneeth@kyfb.com>
+Date:   Mon Aug 31 17:16:07 2026 -0400
+
+    Rebuild authorizer zip with multi-issuer support
+
+ authorizer.zip                  | Bin 975093 -> 975283 bytes
+ authorizerSrc/package-lock.json | 266 ++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 266 insertions(+)
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
