@@ -1,13 +1,22 @@
-Select-String -Path main.tf -Pattern 'depends_on = \[aws_cloudwatch_log_group.this\]'
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> Select-String -Path main.tf -Pattern 'depends_on = \[aws_cloudwatch_log_group.this\]'
+   
+main.tf:164:  depends_on = [aws_cloudwatch_log_group.this]
+main.tf:228:  depends_on = [aws_cloudwatch_log_group.this]
+main.tf:282:  depends_on = [aws_cloudwatch_log_group.this]
 
 
-git add .gitignore
-git commit -m "Add .gitignore for opentofu artifacts"
-
-
-git add main.tf variables.tf
-git commit -m "Add optional managed CloudWatch log group"
-
-
-git log --oneline -3
-git status -s
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git add .gitignore
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git commit -m "Add .gitignore for opentofu artifacts"
+[feature/T012SP/CPE-240 185f163] Add .gitignore for opentofu artifacts
+ 1 file changed, 7 insertions(+)
+ create mode 100644 .gitignore
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git add main.tf variables.tf
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git commit -m "Add optional managed CloudWatch log group"
+[feature/T012SP/CPE-240 9ec569c] Add optional managed CloudWatch log group
+ 2 files changed, 48 insertions(+), 6 deletions(-)
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git log --oneline -3
+9ec569c (HEAD -> feature/T012SP/CPE-240) Add optional managed CloudWatch log group
+185f163 Add .gitignore for opentofu artifacts
+cb3ed6a (origin/feature/T012SP/CPE-240) Potential fix for pull request finding
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git status -s
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function
