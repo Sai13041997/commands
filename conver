@@ -1,7 +1,21 @@
-Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authcheck" -Force
-Get-ChildItem "$env:TEMP\authcheck" | Select-Object Name, Length
-Select-String -Path "$env:TEMP\authcheck\index.js" -Pattern "issList" | Select-Object -First 1
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authcheck" -Force
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-ChildItem "$env:TEMP\authcheck" | Select-Object Name, Length
+
+Name              Length
+----              ------
+node_modules            
+index.js          3694  
+package-lock.json 10564 
+package.json      172   
 
 
-Copy-Item "$env:TEMP\authzip\package-lock.json" authorizerSrc\package-lock.json
-git status -s
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Select-String -Path "$env:TEMP\authcheck\index.js" -Pattern "issList" | Select-Object -First 1
+
+C:\Users\T012sp\AppData\Local\Temp\authcheck\index.js:27:  const issList = (process.env.JWT_ISSUER || "")
+
+
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Copy-Item "$env:TEMP\authzip\package-lock.json" authorizerSrc\package-lock.json
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git status -s
+ M authorizer.zip
+?? authorizerSrc/package-lock.json
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
