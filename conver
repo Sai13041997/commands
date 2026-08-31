@@ -1,3 +1,8 @@
-tofu state show module.soap_verification_lambda.aws_lambda_function.placeholder[0] | Select-String "function_name"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu state show module.soap_verification_lambda.aws_lambda_function.placeholder[0] | Select-String "function_name"
+   
+    function_name                  = "realtimeinsurance-perf-soap-verification-lambda"
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
 
   create_log_group = true
