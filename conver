@@ -1,14 +1,5 @@
-Select-String -Path main.tf -Pattern 'depends_on = \[aws_cloudwatch_log_group.this\]'
-
-
-.gitignore
-
-@"
-.terraform/
-.terraform.lock.hcl
-*.tfstate
-*.tfstate.*
-crash.log
-"@ | Set-Content -Path .gitignore -Encoding utf8
-
-git status -s
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git status -s
+ M main.tf
+ M variables.tf
+?? .gitignore
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function
