@@ -1,1 +1,3 @@
-curl.exe -i -X POST -H "Authorization: Bearer test" -H "Content-Type: application/json" -d "{}" https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> curl.exe -i -X POST -H "Authorization: Bearer test" -H "Content-Type: application/json" -d "{}" https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest
+curl: (35) schannel: next InitializeSecurityContext failed: CRYPT_E_NO_REVOCATION_CHECK (0x80092012) - The revocation function was unable to check revocation for the certificate.
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
