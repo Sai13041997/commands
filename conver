@@ -1,20 +1,56 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> node --check authorizerSrc\index.js
-node : The term 'node' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, verify 
-that the path is correct and try again.
-At line:1 char:1
-+ node --check authorizerSrc\index.js
-+ ~~~~
-    + CategoryInfo          : ObjectNotFound: (node:String) [], CommandNotFoundException
-    + FullyQualifiedErrorId : CommandNotFoundException
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git diff
+diff --git a/authorizerSrc/index.js b/authorizerSrc/index.js
+index 4d743fc..4542774 100644
+--- a/authorizerSrc/index.js
++++ b/authorizerSrc/index.js
+@@ -21,7 +21,13 @@ function allow(principalId, resource, context) {
+ }
  
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Select-String -Path authorizerSrc\index.js -Pattern "issuer|issList"
-
-authorizerSrc\index.js:24:  // Accepts one or more comma-separated issuers, mirroring JWT_AUDIENCE.
-authorizerSrc\index.js:27:  const issList = (process.env.JWT_ISSUER || "")
-authorizerSrc\index.js:45:  // Tenant ID appears in both issuer formats; match either so the JWKS URI is
-authorizerSrc\index.js:47:  const tenantMatch = issList
-authorizerSrc\index.js:84:          issuer: issList.length ? issList : undefined,
-authorizerSrc\index.js:116:      issuers: issList,
-
-
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
+ exports.handler = async (event) => {
+-  const issuer = process.env.JWT_ISSUER; // https://sts.windows.net/<tenant>/
++  // Accepts one or more comma-separated issuers, mirroring JWT_AUDIENCE.
++  // Entra v1 tokens use https://sts.windows.net/<tenant>/ and v2 tokens use
++  // https://login.microsoftonline.com/<tenant>/v2.0
++  const issList = (process.env.JWT_ISSUER || "")
++    .split(",")
++    .map((s) => s.trim())
++    .filter(Boolean);
+   const audList = (process.env.JWT_AUDIENCE || "")
+     .split(",")
+     .map((s) => s.trim())
+@@ -36,7 +42,15 @@ exports.handler = async (event) => {
+ 
+   const token = m[1];
+ 
+-  const tenantMatch = issuer.match(/sts\.windows\.net\/([^/]+)\//i);
++  // Tenant ID appears in both issuer formats; match either so the JWKS URI is
++  // always tenant-scoped rather than falling back to /common.
++  const tenantMatch = issList
++    .map((iss) =>
++      iss.match(
++        /(?:sts\.windows\.net|login\.microsoftonline\.com)\/([0-9a-f-]{36})/i
++      )
++    )
++    .find(Boolean);
+   const tenantId = tenantMatch ? tenantMatch[1] : null;
+ 
+   // FIX: use v2.0 keys endpoint (matches your well-known config jwks_uri)
+@@ -67,7 +81,7 @@ exports.handler = async (event) => {
+         token,
+         getKey,
+         {
+-          issuer,
++          issuer: issList.length ? issList : undefined,
+           audience: audList.length ? audList : undefined,
+           algorithms: ["RS256"],
+           clockTolerance: 60,
+@@ -99,7 +113,7 @@ exports.handler = async (event) => {
+       message: e?.message,
+       jwksUri,
+       headerKid,
+-      issuer,
++      issuers: issList,
+       audiences: audList,
+       now: new Date().toISOString(),
+     });
+(END)
