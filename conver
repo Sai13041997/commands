@@ -1,21 +1,16 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:aws_Profile = "L2-Pre-Prod"                                                                                   
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws sts get-caller-identity                                                                                        
-{                                                                                                                                                                                
-    "UserId": "AROAQ3EGSZCQYV3MCTQPR:T012SP@kyfb.com",
-    "Account": "058264307873",
-    "Arn": "arn:aws:sts::058264307873:assumed-role/AWSReservedSSO_Cloud-Ops-Production_9f7b21e37516f367/T012SP@kyfb.com"
-}
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> git log --online -1
+fatal: unrecognized argument: --online
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function> Get-ChildItem *.tf
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs describe-log-groups --region us-east-1 --query "logGroups[].[logGroupName,retentionInDays]" --output table
--------------------------------------------------------------------------                                                                                                        
-|                           DescribeLogGroups                           |
-+---------------------------------------------------------------+-------+
-|  /aws/apigateway/realtimeinsurance-perf-api-gateway/default   |  30   |
-|  /aws/lambda/aws-controltower-NotificationForwarder           |  14   |
-|  /aws/lambda/cs-horizon-sensor-installation-orchestrator      |  1    |
-|  /aws/lambda/realtimeinsurance-perf-soap-verification-lambda  |  None |
-|  /aws/rds/proxy/realtimeinsurance-perf-aurora-proxy           |  None |
-|  kfb-vpc-flow-logs                                            |  None |
-+---------------------------------------------------------------+-------+
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
+    Directory: C:\Users\T012sp\Git repo\tf-module-lambda-function
+
+
+Mode                 LastWriteTime         Length Name                                                                                                                           
+----                 -------------         ------ ----                                                                                                                           
+-a----         7/23/2026   8:50 AM          11299 main.tf                                                                                                                        
+-a----         7/23/2026   8:50 AM           1369 outputs.tf                                                                                                                     
+-a----         7/23/2026   8:50 AM           4042 variables.tf                                                                                                                   
+
+
+PS C:\Users\T012sp\Git repo\tf-module-lambda-function>
