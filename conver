@@ -1,19 +1,14 @@
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function> tofu fmt main.tf
-main.tf
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function> tofu validate
-╷
-│ Warning: Redundant ignore_changes element
-│ 
-│   on main.tf line 162, in resource "aws_lambda_function" "placeholder":
-│  162: resource "aws_lambda_function" "placeholder" {
-│ 
-│ Adding an attribute name to ignore_changes tells OpenTofu to ignore future changes to the argument in configuration after the object has been created, retaining the value
-│ originally configured.
-│ 
-│ The attribute last_modified is decided by the provider alone and therefore there can be no configured value to compare with. Including this attribute in ignore_changes has no
-│ effect. Remove the attribute from ignore_changes to quiet this warning.
-│ 
-│ (and 2 more similar warnings elsewhere)
-╵
-Success! The configuration is valid, but there were some validation warnings as shown above.
-PS C:\Users\T012sp\Git repo\tf-module-lambda-function>
+Select-String -Path main.tf -Pattern 'depends_on = \[aws_cloudwatch_log_group.this\]'
+
+
+.gitignore
+
+@"
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+"@ | Set-Content -Path .gitignore -Encoding utf8
+
+git status -s
