@@ -1,1 +1,47 @@
-tofu import -var-file="envs/perf.tfvars" 'module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]' /aws/lambda/realtimeinsurance-perf-soap-verification-lambda
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu import -var-file="envs/perf.tfvars" 'module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]' /aws/lambda/realtimeinsurance-perf-soap-verification-lambda
+data.terraform_remote_state.aurora: Reading...
+module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Reading...
+module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Reading...
+module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=d76678ba03b413c197d6d4e9499ddec6c9d85ba4]
+module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=d76678ba03b413c197d6d4e9499ddec6c9d85ba4]
+data.aws_route53_zone.kyfb: Reading...
+data.terraform_remote_state.aurora: Read complete after 1s
+module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
+module.soap_api_gateway.data.aws_caller_identity.current: Reading...
+module.api_gateway.data.aws_region.current: Reading...
+module.soap_api_gateway.data.aws_region.current: Reading...
+module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
+module.api_gateway.data.aws_caller_identity.current: Reading...
+module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]: Importing from ID "/aws/lambda/realtimeinsurance-perf-soap-verification-lambda"...
+module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
+module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
+module.api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.soap_api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
+module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]: Import prepared!
+  Prepared aws_cloudwatch_log_group for import
+module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]: Refreshing state... [id=/aws/lambda/realtimeinsurance-perf-soap-verification-lambda]
+module.soap_api_gateway.data.aws_caller_identity.current: Read complete after 1s [id=058264307873]
+module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
+data.aws_route53_zone.kyfb: Read complete after 1s [id=Z103234617AI2YZ9F4ZTH]
+module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=1595388233]
+module.api_gateway.data.aws_caller_identity.current: Read complete after 1s [id=058264307873]
+module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
+module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=161564859]
+
+Import successful!
+
+The resources that were imported are shown above. These resources are now in
+your OpenTofu state and will henceforth be managed by OpenTofu.
+
+╷
+│ Warning: Deprecated attribute
+│ 
+│   on .terraform\modules\api_gateway\outputs.tf line 7, in output "invoke_url":
+│    7:   value       = "https://${aws_api_gateway_rest_api.this.id}.execute-api.${data.aws_region.current.name}.amazonaws.com/${aws_api_gateway_stage.this.stage_name}"
+│ 
+│ The attribute "name" is deprecated. Refer to the provider documentation for details.
+│ 
+│ (and 3 more similar warnings elsewhere)
+╵
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra
