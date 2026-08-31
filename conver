@@ -1,6 +1,25 @@
-$env:AWS_PROFILE = "L2-Pre-Prod"
-aws apigateway get-resources --rest-api-id he9tkof025 --region us-east-1
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws apigateway get-resources --rest-api-id he9tkof025 --region us-east-1
+{                                                                                                                                                                                
+    "items": [
+        {
+            "id": "9pdrnh",
+            "parentId": "i6m83w9090",
+            "pathPart": "policy-graph-ingest",
+            "path": "/policy-graph-ingest",
+            "resourceMethods": {
+                "POST": {}
+            }
+        },
+        {
+            "id": "i6m83w9090",
+            "path": "/"
+        }
+    ]
+}
 
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws apigateway get-stages --rest-api-id he9tkof025 --region us-east-1 --query "item[].stageName"
+[                                                                                                                                                                                
+    "default"
+]
 
-
-aws apigateway get-stages --rest-api-id he9tkof025 --region us-east-1 --query "item[].stageName"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
