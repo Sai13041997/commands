@@ -1,5 +1,4 @@
-/aws/apigateway/realtimeinsurance-perf-api-gateway/default
+realtimeinsurance-perf-policy-graph-ingest-lambda
 
-/aws/lambda/realtimeinsurance-perf-soap-verification-lambda
-
-/aws/rds/proxy/realtimeinsurance-perf-aurora-proxy
+	
+realtimeinsurance-perf-api-gateway
