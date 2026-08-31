@@ -3,23 +3,17 @@ C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc\index.js
 
 Get-Content authorizerSrc\index.js | Select-Object -Skip 70 -First 12
 
-  // Accepts one or more comma-separated issuers, mirroring JWT_AUDIENCE.
-  // Entra v1 tokens use https://sts.windows.net/<tenant>/ and v2 tokens use
-  // https://login.microsoftonline.com/<tenant>/v2.0
-  const issList = (process.env.JWT_ISSUER || "")
-    .split(",")
-    .map((s) => s.trim())
-    .filter(Boolean);
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Get-Content authorizerSrc\index.js | Select-Object -Skip 70 -First 12
+  const getKey = (header, cb) => {
+    client.getSigningKey(header.kid, (err, key) => {
+      if (err) return cb(err);
+      cb(null, key.getPublicKey());
+    });
+  };
 
-
-
-  // Tenant ID appears in both issuer formats; match either so the JWKS URI is
-  // always tenant-scoped rather than falling back to /common.
-  const tenantMatch = issList
-    .map((iss) =>
-      iss.match(
-        /(?:sts\.windows\.net|login\.microsoftonline\.com)\/([0-9a-f-]{36})/i
-      )
-    )
-    .find(Boolean);
-  const tenantId = tenantMatch ? tenantMatch[1] : null;
+  try {
+    const decoded = await new Promise((resolve, reject) => {
+      jwt.verify(
+        token,
+        getKey,
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
