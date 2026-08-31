@@ -1,11 +1,4 @@
-Zach:
-see any difference?
- 
-Updated that url
- 
-and hit it again
-Me: 
-same error ?
-Zach:  
-yes I am seeing a 403 error
- 
+$env:AWS_PROFILE = "L2-Pre-Prod"
+aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --since 10m --region us-east-1
+
+aws logs describe-log-streams --log-group-name /aws/lambda/realtimeinsurance-perf-api-gateway-entra-jwt-authorizer --region us-east-1
