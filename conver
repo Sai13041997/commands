@@ -1,4 +1,19 @@
-curl.exe --ssl-no-revoke -i -X POST -H "Authorization: Bearer test" -H "Content-Type: application/json" -d "{}" https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> curl.exe --ssl-no-revoke -i -X POST -H "Authorization: Bearer test" -H "Content-Type: application/json" -d "{}" https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest
+HTTP/1.1 403 Forbidden
+Content-Type: application/json
+Connection: keep-alive
+Date: Mon, 31 Aug 2026 14:19:37 GMT
+x-amzn-RequestId: 99015c71-7ab8-4553-90f8-9e07730a3984
+x-amzn-ErrorType: AccessDeniedException
+x-amz-apigw-id: C-MLDFwdIAMEAUA=
+X-Cache: Error from cloudfront
+Via: 1.1 8d260504510dc66e11b489b69c10cb8e.cloudfront.net (CloudFront)
+X-Amz-Cf-Pop: IAD55-P6
+X-Amz-Cf-Id: tuJM4u_RBV2Or47qPyo2-hyNLH_auVVyNWedEWA-9tyiItr7UpQhYA==
+Content-Length: 227
 
-
-try { Invoke-WebRequest -Uri "https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest" -Method POST -Headers @{Authorization="Bearer test"} -ContentType "application/json" -Body "{}" } catch { $_.Exception.Response.StatusCode.value__; $_.ErrorDetails.Message }
+{"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********7873:he9tkof025/default/POST/policy-graph-ingest with an explicit deny in a resource-based policy"}
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> try { Invoke-WebRequest -Uri "https://he9tkof025.execute-api.us-east-1.amazonaws.com/default/policy-graph-ingest" -Method POST -Headers @{Authorization="Bearer test"} -ContentType "application/json" -Body "{}" } catch { $_.Exception.Response.StatusCode.value__; $_.ErrorDetails.Message }
+403
+{"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: arn:aws:execute-api:us-east-1:********7873:he9tkof025/default/POST/policy-graph-ingest with an explicit deny in a resource-based policy"}
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
