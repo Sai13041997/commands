@@ -3,5 +3,18 @@ aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follo
 
 
 
-cd "C:\Users\T012sp\Git repo\tf-module-api-gateway"
-Select-String -Path main.tf -Pattern "JWT_AUDIENCE|jwt_audience" -Context 2,2
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Select-String -Path main.tf -Pattern "JWT_AUDIENCE|jwt_audience" -Context 2,2
+
+  main.tf:171:    variables = {
+  main.tf:172:      JWT_ISSUER   = local.jwt_issuer
+> main.tf:173:      JWT_AUDIENCE = join(",", var.jwt_audience)
+  main.tf:174:    }
+  main.tf:175:  }
+  main.tf:225:    redeploy = sha1(jsonencode({
+  main.tf:226:      routes    = var.routes
+> main.tf:227:      audience  = var.jwt_audience
+  main.tf:228:      issuer    = local.jwt_issuer
+  main.tf:229:      is_prod   = var.is_production
+
+
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
