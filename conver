@@ -1,2 +1,20 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follow --region us-east-1
-2026-08-31T21:15:03.618000+00:00 0f030c297050bcd31b2d353201365d23 {"authorizerError":"-","authorizerLatency":"-","authorizerStatus":"-","errorMessage":"Missing Authentication Token","extendedRequestId":"C_JBxGwkoAMEkFg=","httpMethod":"GET","integrationError":"-","integrationStatus":"-","path":"/default/policy-graph-ingest","requestId":"189df9dc-cf7f-4af2-a458-3cc242cb69b7","requestTime":"31/Aug/2026:21:15:03 +0000","resourcePath":"/default/policy-graph-ingest","responseType":"MISSING_AUTHENTICATION_TOKEN","sourceIp":"23.23.253.54","status":"403"}
+Ahead of writing up the design review, I've got a set of questions I'd like answered first. Several of the findings depend on how these land, and I'd rather not recommend something that doesn't fit a constraint I'm not aware of.
+
+*ODS / reporting copy*
+1. Which Db2 is the ODS — Db2 for z/OS on the mainframe, Db2 LUW, or RDS for Db2? This one changes the most for us.
+2. Does the ODS have to live on the mainframe, or is it there because existing mainframe programs read the data? If it's the latter, the mainframe may be better treated as a consumer than as a replication target.
+3. How fresh does the ODS need to be — seconds, or is hourly / overnight acceptable? The answer changes the options significantly.
+
+*Downstream consumers*
+4. Do consumers need strict ordering of changes, or is last-write-wins acceptable?
+5. Which systems will consume this today, and which do we expect over the next year?
+6. Is any consumer doing something non-repeatable — charging a card, sending an email, triggering a notification? That affects how hard we need to push on duplicate handling.
+
+*Source side*
+7. Can the app teams write an explicit event record alongside the data change, and on what timeline? This determines whether we own the message contract or inherit the Aurora schema.
+8. What's the expected peak change rate and typical payload size?
+
+*Ownership*
+9. Who owns the message format and its versioning once this is live?
+
+Happy to take these on a call if that's faster than answering inline. I'll post the full review once I have them.
