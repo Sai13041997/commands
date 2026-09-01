@@ -1,0 +1,266 @@
+PERF API Gateway 403 Investigation — Handoff Summary
+
+Date: 2026-08-31
+Endpoint: POST /default/policy-graph-ingest (PERF)
+Reported by: Zach (calling from Guidewire)
+
+---
+
+Environment
+
+Repos
+
+Local root: C:\Users\T012sp\Git repo\
+
+| Repo | Purpose | Branch |
+|---|---|---|
+| real-time-insurance-infra | Root config | feature/T012SP/CPE-250 |
+| tf-module-api-gateway | API Gateway module | feature/T012SP/CPE-178 |
+| tf-module-lambda-function | Lambda module | feature/T012SP/CPE-240 |
+| real-time-insurance-src | App code (not involved) | — |
+
+Tooling
+
+- OpenTofu, not Terraform (tofu commands)
+- AWS provider 6.62.0
+- GitHub Actions for plan/apply (tofu-plan.yml, tofu-apply.yml)
+- S3 backend kfb-github-terraform-state, key real-time-insurance-infra/terraform.tfstate
+- Workspaces: default, dev, perf — pipeline runs tofu workspace select "$WS"
+- Account selected via var.destination_account_id from envs/<ws>.tfvars
+- Node.js is NOT installed on the engineer's machine
+
+Accounts
+
+Note the near-identical account numbers — this caused a misdiagnosis earlier in the investigation.
+
+| Env | Account | Profile |
+|---|---|---|
+| DEV | 058264370150 | L2-Development / TFRepository |
+| PERF | 058264307873 | L2-Pre-Prod |
+
+PERF Resources
+
+- REST API he9tkof025, stage default
+- Resource /policy-graph-ingest, POST only; root / has no methods
+- Authorizer m26eu6 (TOKEN type, 300s cache TTL, identity source method.request.header.Authorization)
+- SOAP API 6rjxwpqvp4 with custom domain realtimeinsurance-soap-api-perf.kyfb.com
+- No custom domain on the REST API — execute-api hostname is the only entry point
+
+---
+
+The Problem
+
+Zach reported a 403 on POST /default/policy-graph-ingest in PERF, called from Guidewire.
+
+Initial finding: neither the authorizer Lambda nor the ingest Lambda had CloudWatch log groups, indicating neither had ever been invoked. This meant the 403 originated in API Gateway before reaching either function.
+
+---
+
+Work Completed
+
+1. API Gateway stage logging (tf-module-api-gateway)
+
+Variables added: enable_stage_logging (default false), log_retention_days (default 30), execution_logging_level (default INFO, validated against OFF/ERROR/INFO)
+
+Resources added:
+- aws_cloudwatch_log_group.access_logs — name /aws/apigateway/${var.name}/${var.stage_name}
+- dynamic "access_log_settings" block on aws_api_gateway_stage.this
+- aws_api_gateway_method_settings.this with method_path = "*/*"
+
+Log format fields: requestId, extendedRequestId, sourceIp, httpMethod, path, resourcePath, status, responseType, errorMessage, authorizerError, authorizerStatus, authorizerLatency, integrationStatus, integrationError, requestTime
+
+data_trace_enabled = false deliberately — it would write JWTs to CloudWatch in plaintext.
+
+Blocker encountered: PERF had no account-level API Gateway CloudWatch role. Apply failed with:
+
+
+BadRequestException: CloudWatch Logs role ARN must be set in account settings to enable logging
+
+
+Alex created apigateway-cloudwatch-role, then separately ran:
+
+bash
+aws apigateway update-account --region us-east-1 \
+  --patch-operations op=replace,path=/cloudwatchRoleArn,value=arn:aws:iam::058264307873:role/apigateway-cloudwatch-role
+
+
+Important: creating the IAM role and setting it on the API Gateway account are two separate operations. aws apigateway get-account must show cloudwatchRoleArn before logging works.
+
+2. Lambda log groups (tf-module-lambda-function)
+
+Variables added: create_log_group (default false), log_retention_days (default 30)
+
+Resource added: aws_cloudwatch_log_group.this, name /aws/lambda/${var.name}
+
+depends_on = [aws_cloudwatch_log_group.this] added to all three function resources (placeholder, from_source_file, from_filename) — the module has three mutually exclusive code modes.
+
+Import required for the pre-existing PERF SOAP log group:
+
+powershell
+tofu workspace select perf
+tofu import -var-file="envs/perf.tfvars" 
+  'module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]' 
+  /aws/lambda/realtimeinsurance-perf-soap-verification-lambda
+
+
+Then create_log_group = true set on both Lambda blocks in lambda.tf. Import produced an in-place update (retention_in_days 0 -> 30), not a replacement — log history preserved.
+
+3. Audience fix (real-time-insurance-infra/rest_api.tf)
+
+hcl
+jwt_audience = [
+  var.entra_audience,
+  replace(var.entra_audience, "api://", ""),
+]
+
+
+Produces JWT_AUDIENCE = "api://585f3a95-...,585f3a95-..." — matching what DEV already had from a manual console edit.
+
+4. Issuer fix (tf-module-api-gateway)
+
+Critical detail: the authorizer source is authorizerSrc/index.js, but it deploys via a committed pre-built authorizer.zip:
+
+hcl
+filename         = "${path.module}/authorizer.zip"
+source_code_hash = filebase64sha256("${path.module}/authorizer.zip")
+
+
+Editing the source alone changes nothing — the zip must be rebuilt. This was missed on the first attempt, producing a plan with the env var change but no source_code_hash change, which would have broken all token validation.
+
+Code changes in index.js:
+
+| Before | After |
+|---|---|
+| const issuer = process.env.JWT_ISSUER | issList — comma-split array, mirroring audList |
+| issuer.match(/sts\.windows\.net\/([^/]+)\//i) | Regex matching both sts.windows.net and login.microsoftonline.com |
+| issuer, passed to jwt.verify | issuer: issList.length ? issList : undefined |
+| issuer, in error log | issuers: issList |
+
+The tenant-ID regex previously matched only the v1 issuer format. DEV, configured with the v2 issuer, was therefore falling back to https://login.microsoftonline.com/common/discovery/v2.0/keys instead of the tenant-scoped JWKS endpoint. This was a latent bug, fixed as part of this work.
+
+Terraform changes:
+
+hcl
+variable "jwt_issuer" {
+  type = list(string)
+  default = [
+    "https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/",
+    "https://login.microsoftonline.com/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/v2.0",
+  ]
+}
+
+
+local.jwt_issuer changed from a hardcoded string to join(",", var.jwt_issuer).
+
+Zip rebuilt without Node (not installed locally). The existing zip contained node_modules, index.js, package.json, and package-lock.json, and only index.js changed:
+
+powershell
+Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authzip" -Force
+Copy-Item authorizerSrc\index.js "$env:TEMP\authzip\index.js" -Force
+Remove-Item authorizer.zip
+Compress-Archive -Path "$env:TEMP\authzip\*" -DestinationPath authorizer.zip
+
+
+Verified: index.js 3131 → 3694 bytes; zip 975093 → 975283 bytes. Also committed authorizerSrc/package-lock.json, which existed inside the zip but not in the repo.
+
+---
+
+Diagnostic Findings
+
+Resource policy blocks corporate IPs
+
+PERF's aws_api_gateway_rest_api_policy contains a DenyNotWhitelisted statement with NotIpAddress on aws:SourceIp, listing nine AWS-owned addresses and no corporate CIDRs:
+
+
+34.198.225.1, 54.221.87.192, 3.222.223.37, 18.210.200.207,
+54.145.132.232, 34.236.28.139, 3.211.191.4, 3.213.167.172, 34.196.59.136
+
+
+A curl from the engineer's workstation returns:
+
+json
+{"Message":"User: anonymous is not authorized to perform: execute-api:Invoke on resource: ... with an explicit deny in a resource-based policy"}
+
+
+Consequence: PERF endpoints cannot be tested from a workstation. Only Zach's IP 3.211.191.4 is allowlisted.
+
+DEV has corporate IPs (163.116.249.48/32) added manually in the console and never codified — DEV's plan attempts to revert this on every run.
+
+Resource policy denials produce no access log entries
+
+The deny is evaluated before the access log is written. An empty log group does not mean logging is broken.
+
+Log noise from link scanners
+
+GET/HEAD requests from Microsoft IPs (52.112.x, 52.123.x) are Teams link-preview scans, triggered by pasting the endpoint URL into chat. Also observed from 23.23.253.54. Only POST from 3.211.191.4 is Zach.
+
+Error progression
+
+1. resourcePath: /default + Invalid key=value pair (missing equal-sign) in Authorization header — wrong URL (stage root, not the resource), and Guidewire appears to be AWS SigV4-signing the request rather than sending Authorization: Bearer <jwt>
+2. After URL correction: responseType: ACCESS_DENIED, authorizerStatus: 200 — authorizer ran and returned a Deny
+3. Authorizer log: jwt audience invalid. expected: api://585f3a95-... — v1 token carrying the bare GUID audience
+4. After audience fix: jwt issuer invalid where expected and actual appeared identical — because jwt.verify received the comma-joined string as a single issuer value
+
+Zach's token is Entra v1:
+- iss: https://sts.windows.net/50bb1d9e-7174-4e06-aecd-e87b1b8c211d/
+- aud: bare GUID (no api:// prefix)
+
+The authorizer expected v2 formats for both.
+
+Curl on Windows
+
+curl.exe (not the PowerShell curl alias) with --ssl-no-revoke, otherwise schannel fails with CRYPT_E_NO_REVOCATION_CHECK behind the corporate TLS proxy.
+
+---
+
+Current State
+
+All four changes applied to PERF. Final apply: 3 added, 3 changed, 3 destroyed.
+
+- Authorizer source_code_hash → ESfDadkZIHe7MlC/szU6WvHe9HF7wZdBzqDzThXhoGQ=
+- JWT_ISSUER → both issuer forms, comma-separated
+- JWT_AUDIENCE → both audience forms, comma-separated
+- New API Gateway deployment bf2873
+
+Awaiting Zach's retry. Must wait 5 minutes after apply for the 300s authorizer cache to expire. authorizerLatency: 0 indicates a cached response; non-zero indicates a fresh Lambda invocation.
+
+Monitor with:
+
+powershell
+$env:AWS_PROFILE = "L2-Pre-Prod"
+aws logs tail /aws/apigateway/realtimeinsurance-perf-api-gateway/default --follow --region us-east-1
+
+
+- Success: status: 200, integrationStatus: 200
+- Confirmation new code is live: authorizer log prints issuers as an array rather than issuer as a string
+
+---
+
+Outstanding Items
+
+Immediate
+
+- Zach's Guidewire configuration — his last observed requests still showed resourcePath: /default and the SigV4 header. Both need fixing on the Guidewire side regardless of the AWS changes. Likely a base-URL/path split where only one field was updated, plus AWS request signing enabled on the endpoint.
+
+Short term
+
+- DEV rollout — DEV still runs the old authorizer code with a single v2 issuer and the /common JWKS fallback. Enabling create_log_group in DEV requires four imports first (all four Lambda log groups already exist there).
+- DEV drift — unrelated pending changes on that branch: aws_vpc_security_group_ingress_rule.proxy_from_lambda destroy (SOAP Lambda → RDS Proxy on 5432), db_user pgsi_ans00315015 → kfb_aurora_admin, authorizer env var reverts. Needs review before anyone applies to DEV.
+- Merge and tag both modules — infra currently points at moving branch refs (feature/T012SP/CPE-178, feature/T012SP/CPE-240). Fragile; should be merged, tagged, and repinned.
+- PERF IP allowlist — no corporate CIDRs, preventing manual testing of PERF endpoints. Should be added via custom_ip_whitelist in Terraform, not the console.
+
+Longer term
+
+- v2 token migration — the proper fix. Requires changing accessTokenAcceptedVersion on the Entra app registration, which affects every client of that app and needs the identity team. The dual-format acceptance implemented here is a prerequisite for a safe migration, not a detour from it.
+- Authorizer build process — the deployment zip is hand-built and committed to the repo with no build script or CI step. Should use an archive_file data source or a pipeline build.
+- data.aws_region.current.name deprecation — pre-existing warnings across both modules; should be .region in AWS provider 6.x.
+
+---
+
+Key Lessons
+
+1. Check the account ID. aws apigateway get-account was run against DEV while diagnosing PERF, leading to a wrong conclusion that the CloudWatch role was configured.
+2. A raw curl with full headers would have identified the cause faster than building logging infrastructure — the response body names the failure mode directly.
+3. Resource policy denials are invisible in access logs. Absence of log entries is itself a diagnostic signal.
+4. Console fixes that aren't codified reappear as failures in the next environment. The audience fix existed in DEV for weeks and was the direct cause of the PERF failure.
+5. Pre-built artifacts break the assumption that editing source changes behaviour. Always confirm source_code_hash appears in the plan when changing Lambda code.
