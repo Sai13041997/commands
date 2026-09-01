@@ -1,20 +1,13 @@
-Ahead of writing up the design review, I've got a set of questions I'd like answered first. Several of the findings depend on how these land, and I'd rather not recommend something that doesn't fit a constraint I'm not aware of.
+1. Which type of Db2 is planned for the ODS: Db2 for z/OS on the mainframe, Db2 LUW, or Amazon RDS for Db2?
 
-*ODS / reporting copy*
-1. Which Db2 is the ODS — Db2 for z/OS on the mainframe, Db2 LUW, or RDS for Db2? This one changes the most for us.
-2. Does the ODS have to live on the mainframe, or is it there because existing mainframe programs read the data? If it's the latter, the mainframe may be better treated as a consumer than as a replication target.
-3. How fresh does the ODS need to be — seconds, or is hourly / overnight acceptable? The answer changes the options significantly.
+2. Does the ODS have to be on the mainframe, or is it there because existing mainframe applications use the data? If the mainframe only consumes the data, could it be treated as another downstream system instead of a database copy?
 
-*Downstream consumers*
-4. Do consumers need strict ordering of changes, or is last-write-wins acceptable?
-5. Which systems will consume this today, and which do we expect over the next year?
-6. Is any consumer doing something non-repeatable — charging a card, sending an email, triggering a notification? That affects how hard we need to push on duplicate handling.
+3. Can multiple changes happen quickly for the same customer, policy, or mortgagee? If so, must those changes be processed in the same order they occurred?
 
-*Source side*
-7. Can the app teams write an explicit event record alongside the data change, and on what timeline? This determines whether we own the message contract or inherit the Aurora schema.
-8. What's the expected peak change rate and typical payload size?
+4. Which downstream systems will receive these messages? Are any additional systems already planned?
 
-*Ownership*
-9. Who owns the message format and its versioning once this is live?
+5. Will DMS capture changes directly from the existing Aurora tables, or will the application write separate business-event records for DMS to capture?
 
-Happy to take these on a call if that's faster than answering inline. I'll post the full review once I have them.
+6. What is the expected average and peak number of database changes per second, and what is the typical message size?
+
+7. Who will own the message format and manage future changes to it once the solution is live?
