@@ -1,67 +1,62 @@
-Amazon SNS — Data Limitations
+[Speaker 1]
+Manage certain aspects of different events that we have. The in everything works. The issue that we run into is so one of the features of the of it is. Um, users of our events app are able to upload photos from the event, and then our staff goes in and has to approve those.
 
-Scope: Message data constraints for application-to-application use. Excludes throughput quotas and SMS/email/push channels.
-Verified: September 2026, against AWS General Reference and SNS Developer Guide.
+Uh, before they actually get displayed in our apps. Um, but? On. Kfb imaged machine. The images are blocked, um, so any access to the Firebase storage API is blocked, um, everything else works, and we have a couple other uses for images, um, in the web app. So it's, we do like venue layouts and things like that, um, that, that our staff upload, um?
 
-Payload size
+But all of that, anything that hits that storage API is broken, um. So? Really, if we can? Just move. That peace. To AWS to an S3 bucket. I think that would resolve everything. Um, so I mean, really. I just need to know what information I need so that I can make those calls and and.
 
-Maximum message size is 262,144 bytes (256 KiB); maximum header size is 16,384 bytes (16 KiB). Neither is adjustable.
+Remove all the data over,
 
-The limit is measured in bytes, not characters. Multi-byte UTF-8 characters consume 2–4 bytes each, so payloads that appear within limits by character count may still be rejected.
+[Speaker 2]
+Sure? Uh, so we are not just planning to move to S3, but we also are moving the existing files from Firehouse to S3. Um, yeah, so I would be moving all of anything that's already been uploaded. Um, to the Firebase storage would be moved over as well. Okay, got it.
 
-Payloads up to 2 GB are possible via the SNS Extended Client Libraries, which store the message in S3 and publish a pointer. This is not native SNS — every subscriber must use the corresponding library to resolve the pointer.
+And, uh. So people are trying to sign in with this. Alligator files are public or the private. No, so, so the um? The piece that we're talking about is.
 
-Billing is per 64 KB chunk, on both publish and delivery. A 256 KB message bills as four requests each way.
+[Speaker 1]
+It's, it's kind of both. So, the the public piece of it is just reading files. They don't have, well, no, I take that back, there is a file upload component, too. There's a right component, um? For babies. So, yeah, we, we, they just have different access levels, right? Like, so, the the users?
 
-Encoding and content
+Can write, read, and write the the photo data. But they can't approve it, so we have. So there is a um. There's a firestore database being used also that tracks. Whether or not a photo has been approved. Um, so users don't even read the photo data. In the app in the mobile app.
 
-Messages must be UTF-8 encoded strings. Permitted content is XML, JSON, or unformatted text.
+Unless it's got an approved status by staff.
 
-Binary is not supported in the message body and must be base64-encoded, adding roughly 33% to size against the 256 KiB limit. Binary is supported natively only as a message attribute with DataType: Binary.
+Okay. So, users are so. The flow is users take a picture. They upload it. Um, and then staff can view it. Um, and staff can approve it, delete it, um. Even after they've approved it, they can go in and change their mind and delete it.
 
-Message attributes
+And then users can. Can read those back as well. Any approved photos back as well.
 
-Attributes are metadata sent alongside the body, but they count against the same 256 KiB limit — name, type, and value all included. Supported types are String, String.Array, Number, and Binary. Each must be non-empty and non-null.
+[Speaker 2]
+Got it okay, and uh, right now. Firehouse is, uh, just used for the file storage or is doing anything else like? Uh posting or any other functions. Yeah, so I'm using, um. Firebase hosting, okay? Uh, um, that's where the site is now, um. And I can send you the URL if you want it.
 
-Three behaviors matter:
+Um, but um? But yes, so it is, so we're using.
 
-Attributes are transmitted only when MessageStructure is String, not JSON.
-For SQS subscriptions with Raw Message Delivery enabled, the maximum is 10 attributes. Messages exceeding this are discarded as client-side errors with no failure indication to the publisher. Disable raw delivery to send more.
-When an attribute is used for filtering, its value must be a valid JSON string.
-Structural field limits
+[Speaker 1]
+I'm trying to think of every piece of Firebase that we're using. We're using the authentication, oh, for staff. We're using Firebase authentication for staff and then. You're also using, um, the anonymous. Authentication for the consumer side of the user side, um of the of the mobile apps. So we have Anonymous, um.
 
-Topic names are 1–256 characters, ASCII letters/numbers/underscores/hyphens only, and FIFO names must end in .fifo. Subject must be UTF-8, under 100 characters, with no line breaks or control characters.
+Vindication as well just for that piece. Okay, um? And then we're using the firestore database. Um, and then we're using the, and we're using hosting, and we're using storage, and I've got. I'm also using Firebase functions, but that doesn't, necessarily, well. No, that, well, no, I take that back.
 
-On FIFO topics, MessageGroupId (max 128 characters) is required on every message — publish fails without it. MessageDeduplicationId (max 128 characters) is required unless ContentBasedDeduplication is enabled.
+There is a function for. Notifying staff. When a when photos have been uploaded for approval? Got it, and uh so.
 
-PublishBatch accepts 10 entries; each batch entry Id is max 80 characters and must be unique within the batch.
+[Speaker 2]
+The Firebase is, uh, is it connected with any backend applications or just a API is connected to that? It's just using the Firebase, um. Sdk SDK. And it'd be honest. Yeah, okay. That makes sense. Okay, and just one last question, uh. So, are you looking like? Anything like Firebase setup that must like, stay continued when we move to S3.
 
-When MessageStructure is json, the object must contain a default key and protocol keys must map to simple JSON string values. Nested objects are not permitted at the top level.
+Like, anything particular. Um.
 
-Filter policy limits
+[Speaker 1]
+I mean, really, I think. What I'm going to end up doing is let me find. Okay. Yeah, I mean. Basically, what's going to happen is. Anywhere that is using photos, like any of the um. Uh, documents in the firestore database. Those. Those all have a URL value associated with them, so those URLs will just change.
 
-Maximum policy size 256 KB, maximum five keys, and total combination of values capped at 150 (multiply the number of values in each array). Numeric matching ranges from -1 billion to 1 billion with five decimal places; values outside this range fail to match silently rather than erroring. String matching is case-sensitive. Wildcard complexity is capped at 100 points.
+Um, for the existing ones. Um, so everything else should. Pretty much stay the same.
 
-Defaults are 200 filter policies per topic and 10,000 per account, both adjustable. The per-topic limit does not block subscription creation — the call fails only when the policy is attached via Subscribe or SetSubscriptionAttributes.
+[Speaker 2]
+Okay, um,
 
-Policies must be valid UTF-8 JSON containing only quoted strings, numbers, and the unquoted keywords true, false, and null.
+[Speaker 1]
+I shouldn't really have to do much else other than update those URLs. Okay.
 
-Data retention
+[Speaker 2]
+Uh, so probably, uh, I think we need, uh, some authentication here. When we just move that to S3, because uh, S3 doesn't do any authentication, so we might need some API in front of the history to do the authentication process. And. Yeah, I'll just look into that. And, uh, I'll make a proper plan for that, and I will just share you some document before, like, you know, with the clear details of that?
 
-Standard topics retain nothing. There is no storage, no replay, and no consumer polling. A message exists only for the duration of its delivery attempts, then is discarded.
+And yeah, if you're happy, then we'll just go forward with that. Yeah, yeah, we can do that, um? Yep, I'm good about that sure. And anything else that I need to know about this. I don't think so. If I think of anything that I forgot, I'll let, you know, but I think I've pretty much covered everything.
 
-Retry budgets before discard: 100,015 attempts over 23 days for SQS and Lambda; 50 attempts over 6 hours for SMTP, SMS, and mobile push; customer-defined for HTTP/S, with total retry time capped at 3,600 seconds.
+It's not. It's not a super complicated back end. Yeah, but yeah. Sure, sure. And, uh, if I just need any other details, or even if I'm missing something, then I'll just get back to you. And, uh, like, get some information about that. All right, sounds good, sure.
 
-If all attempts fail and no dead-letter queue is attached, the message is permanently lost. DLQs attach at the subscription level, not the topic level.
-
-FIFO topics are the only exception — archive and replay policies retain messages for a configurable window and allow replay to subscriptions.
-
-Encryption and deduplication
-
-Server-side encryption uses AWS KMS with an AWS managed or customer managed key. Data protection policies can scan and redact PII in transit, though PutDataProtectionPolicy is throttled to 1 TPS in all commercial regions.
-
-Content-based deduplication on FIFO topics hashes the message body only, excluding attributes. Two messages with identical bodies but different attributes are treated as duplicates, and only one is delivered.
-
-Design implications
-
-Attach a DLQ to every subscription carrying data you cannot afford to lose — there is no other safety net on standard topics. Delivery is at-least-once with no ordering guarantee, so consumers must be idempotent. For payloads above 256 KiB, prefer an explicit claim-check pattern over the Extended Client Library unless every consumer can adopt it. Validate attribute count before publishing to raw-delivery SQS subscriptions, since failures are silent. And treat payload size as a cost lever, not just a technical ceiling, given the 64 KB billing chunks.
+[Speaker 1]
+Yeah, I think that's all information I need, and I'll just start working on that and see what happens. All right. Thank you. Yeah, sure. Thank you so much. Bye bye!
