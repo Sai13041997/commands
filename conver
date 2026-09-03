@@ -1,103 +1,90 @@
 Amazon SNS — Data Limitations
 
-Scope: Constraints on message data (payload, encoding, structure, retention) for application-to-application use of Amazon SNS. Does not cover throughput quotas, resource quotas, or A2P (SMS/email/push) channels.
-
-Last verified: September 2026, against the AWS General Reference and the Amazon SNS Developer Guide.
+Scope: Constraints on message data for application-to-application use of Amazon SNS. Excludes throughput quotas and A2P channels (SMS, email, push).
+Last verified: September 2026, against the AWS General Reference and SNS Developer Guide.
 
 1. Payload size
-Limit	Value	Adjustable
-Maximum message size	262,144 bytes (256 KiB)	No
-Maximum header size	16,384 bytes (16 KiB)	No
-Extended payload maximum	2 GB	N/A
-Billing unit	64 KB per request	N/A
+Limit	Value
+Maximum message size	262,144 bytes (256 KiB)
+Maximum header size	16,384 bytes (16 KiB)
+Extended payload maximum	2 GB
+Billing unit	64 KB per request
 
-Notes
+The 256 KiB limit is measured in bytes, not characters. Multi-byte UTF-8 characters consume 2–4 bytes each, so payloads within limits by character count may still be rejected.
 
-The 256 KiB limit is measured in bytes, not characters. Multi-byte UTF-8 characters (CJK, emoji, accented Latin) consume 2–4 bytes each, so payloads that appear within limits by character count may still be rejected.
-The 2 GB maximum is not native to SNS. It is provided by the Amazon SNS Extended Client Libraries, which store the payload in Amazon S3 and publish a pointer. All subscribers must use the corresponding client library to resolve the pointer.
-Billing is per 64 KB chunk. A single 256 KB publish is billed as four requests, and this applies to both publishes and deliveries.
-2. Encoding and content type
-Messages must be UTF-8 encoded strings.
-Permitted content: XML, JSON, or unformatted text.
-Binary data is not supported in the message body. Binary content must be base64-encoded before publishing, which increases size by approximately 33% against the 256 KiB limit.
+The 2 GB maximum is not native to SNS. It is provided by the Extended Client Libraries, which store the payload in S3 and publish a pointer — every subscriber must use the corresponding library to resolve it.
+
+Billing is per 64 KB chunk, applied to both publishes and deliveries. A 256 KB message is billed as four requests on each.
+
+2. Encoding and content
+Messages must be UTF-8 encoded strings. Permitted content: XML, JSON, or unformatted text.
+Binary is not supported in the message body. It must be base64-encoded first, adding roughly 33% to size against the 256 KiB limit.
 Binary is supported natively only as a message attribute with DataType: Binary.
 3. Message attributes
 
-Message attributes are optional structured metadata sent alongside — but separate from — the message body.
+Optional structured metadata sent alongside — but separate from — the body.
 
 Constraint	Value
-Counts against message size limit	Yes — name, type, and value all included in the 256 KiB total
+Counts toward message size	Yes — name, type, and value included in the 256 KiB total
 Supported data types	String, String.Array, Number, Binary
-Maximum attributes (SQS + Raw Message Delivery)	10
-Maximum attributes (all other cases)	No fixed count; bounded by the 256 KiB size limit
+Maximum count (SQS with Raw Message Delivery)	10
+Maximum count (all other cases)	Bounded only by the 256 KiB size limit
 
-Notes
+Critical behaviors
 
-Attribute name, type, and value must each be non-empty and non-null.
 Attributes are transmitted only when MessageStructure is String, not JSON.
-For Amazon SQS subscriptions with Raw Message Delivery enabled, messages carrying more than 10 attributes are discarded as client-side errors. The publisher receives no failure indication. To send more than 10 attributes, disable Raw Message Delivery.
-When an attribute is used for subscription filtering, its value must be a valid JSON string.
+For SQS subscriptions with Raw Message Delivery enabled, messages carrying more than 10 attributes are discarded as client-side errors with no failure indication to the publisher. Disable raw delivery to send more.
+When an attribute is used for filtering, its value must be a valid JSON string.
+Name, type, and value must each be non-empty and non-null.
 4. Structural field limits
 Field	Constraint
-Topic name	1–256 characters. ASCII letters, numbers, underscores, and hyphens only. FIFO topic names must end with the .fifo suffix.
-Subject	UTF-8 text, fewer than 100 characters, no line breaks or control characters.
-MessageGroupId (FIFO only)	Maximum 128 characters. Alphanumeric and punctuation. Required on every message; publish fails if omitted.
-MessageDeduplicationId (FIFO only)	Maximum 128 characters. Same character set. Required unless ContentBasedDeduplication is enabled.
-Batch entry Id	Maximum 80 characters. Must be unique within the batch.
-Messages per PublishBatch request	10 entries.
+Topic name	1–256 characters; ASCII letters, numbers, underscores, hyphens only; FIFO must end in .fifo
+Subject	UTF-8, under 100 characters, no line breaks or control characters
+MessageGroupId (FIFO)	Max 128 characters; required on every message — publish fails if omitted
+MessageDeduplicationId (FIFO)	Max 128 characters; required unless ContentBasedDeduplication is enabled
+Batch entry Id	Max 80 characters, unique within the batch
+Messages per PublishBatch	10 entries
 
-JSON message structure
+When MessageStructure is json, the object must contain a default key, and protocol keys must map to simple JSON string values. Nested objects are not permitted at the top level.
 
-When MessageStructure is set to json, the JSON object must contain a default key. Keys corresponding to supported transport protocols must map to simple JSON string values; nested objects are not permitted at the top level.
-
-5. Subscription filter policy limits
+5. Filter policy limits
 Constraint	Value
 Maximum policy size	256 KB
-Maximum number of keys	5
+Maximum keys per policy	5
 Maximum combination of values	150
 Numeric matching range	-1,000,000,000 to 1,000,000,000
-Numeric precision	5 digits after the decimal point
+Numeric precision	5 decimal places
 Wildcard complexity ceiling	100 points
-Filter policies per topic	200 (adjustable)
-Filter policies per account	10,000 (adjustable)
+Policies per topic / per account	200 / 10,000 (both adjustable)
 
-Notes
+Total combination of values is calculated by multiplying the number of values in each array. String matching is case-sensitive. Numeric values outside the supported range fail to match silently rather than raising an error. The policy must be valid UTF-8 JSON containing only quoted strings, numbers, and the unquoted keywords true, false, null.
 
-Total combination of values is calculated by multiplying the number of values in each array in the policy.
-String matching is case-sensitive.
-Numeric values outside the supported range fail to match silently rather than raising an error.
-The policy must be a valid UTF-8 JSON string containing only quoted strings, numbers, and the unquoted keywords true, false, and null.
-The per-topic policy limit does not block subscription creation via Subscribe; the call fails only when the filter policy is attached (via Subscribe or SetSubscriptionAttributes).
+The per-topic limit does not block subscription creation; the call fails only when the policy is attached via Subscribe or SetSubscriptionAttributes.
+
 6. Data retention
 
-Standard topics do not retain data. There is no storage, no replay capability, and no consumer polling model. A message exists only for the duration of its delivery attempts and is discarded thereafter.
+Standard topics retain nothing. There is no storage, no replay, and no consumer polling. A message exists only for the duration of its delivery attempts, then is discarded.
 
 Endpoint type	Retry budget before discard
-Amazon SQS, AWS Lambda	100,015 attempts over 23 days
-HTTP/S	Customer-defined; total policy retry time capped at 3,600 seconds
+SQS, Lambda	100,015 attempts over 23 days
+HTTP/S	Customer-defined; total retry time capped at 3,600 seconds
 SMTP, SMS, mobile push	50 attempts over 6 hours
 
-If all delivery attempts fail and no dead-letter queue is attached to the subscription, the message is permanently lost. DLQs attach at the subscription level, not the topic level.
+If all attempts fail and no dead-letter queue is attached, the message is permanently lost. DLQs attach at the subscription level, not the topic level.
 
-FIFO topics are the sole exception. Archive and replay policies retain messages for a configurable retention window and allow replay to new or existing subscriptions. No equivalent exists for standard topics.
+FIFO topics are the sole exception: archive and replay policies retain messages for a configurable window and allow replay to subscriptions. No equivalent exists for standard topics.
 
-7. Encryption and data protection
-Server-side encryption is available using AWS KMS with either an AWS managed or customer managed key.
-Data protection policies can scan and redact PII from message bodies in transit.
-PutDataProtectionPolicy is throttled to 1 transaction per second in all commercial regions.
-Content-based deduplication on FIFO topics generates a SHA-256 hash from the message body only, excluding message attributes. Two messages with identical bodies but different attributes are treated as duplicates, and only one is delivered.
+7. Encryption and deduplication
+Server-side encryption via AWS KMS, using an AWS managed or customer managed key.
+Data protection policies can scan and redact PII in transit. PutDataProtectionPolicy is throttled to 1 TPS in all commercial regions.
+Content-based deduplication on FIFO topics hashes the body only, excluding attributes. Two messages with identical bodies and different attributes are treated as duplicates and only one is delivered.
 8. Design implications
 Constraint	Implication
-No retention on standard topics	Attach a DLQ to every subscription that carries data you cannot afford to lose.
-At-least-once delivery, no ordering	Consumers must be idempotent and tolerant of out-of-order arrival.
-256 KiB ceiling	Use claim-check (S3 pointer) for larger payloads rather than relying on the Extended Client Library, unless all consumers can adopt it.
-Silent discard at >10 attributes with raw delivery	Validate attribute count before publish; failures are not surfaced to the publisher.
-64 KB billing chunks	Large payloads cost 4× per publish and per delivery. Payload size is a cost lever, not just a technical limit.
-Body-only deduplication hash	Do not rely on attributes to differentiate otherwise-identical FIFO messages.
+No retention on standard topics	Attach a DLQ to every subscription carrying data you cannot lose
+At-least-once delivery, no ordering	Consumers must be idempotent and tolerate out-of-order arrival
+256 KiB ceiling	Use a claim-check pattern (S3 pointer) for larger payloads unless all consumers can adopt the Extended Client Library
+Silent discard above 10 attributes	Validate attribute count before publish — failures are not surfaced
+64 KB billing chunks	Payload size is a cost lever, not just a technical limit
+Body-only dedup hash	Do not rely on attributes to differentiate otherwise-identical FIFO messages
 
-References
-
-Amazon Simple Notification Service endpoints and quotas — AWS General Reference
-Amazon SNS message attributes — Amazon SNS Developer Guide
-Filter policy constraints in Amazon SNS — Amazon SNS Developer Guide
-Amazon SNS message delivery retries — Amazon SNS Developer Guide
+References: AWS General Reference — SNS endpoints and quotas; SNS Developer Guide — message attributes, filter policy constraints, message delivery retries.
