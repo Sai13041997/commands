@@ -1,36 +1,5 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc> Select-String -Path (Get-PSReadLineOption).HistorySavePath -Pattern "zip|archive|npm|node|7z" | Select-Object -ExpandProperty Line -Unique
-https://curl.se/windows/dl-8.20.0_5/curl-8.20.0_5-win64-mingw.zip
-curl.exe -L -o curl-ossl.zip https://curl.se/windows/dl-8.20.0_5/curl-8.20.0_5-win64-mingw.zip
-curl.exe --ssl-no-revoke -L -o curl-ossl.zip https://curl.se/windows/dl-8.20.0_5/curl-8.20.0_5-win64-mingw.zip
-Expand-Archive -Path curl-ossl.zip -DestinationPath curl-ossl -Force
-cd ~ && aws lambda get-function --function-name realtimeinsurance-dev-api-gateway-entra-jwt-authorizer --region us-east-1 --query "Code.Location" --output text | xargs curl -s -o authorizer.zip && mkdir -p authorizer_src && cd authorizer_src && unzip -o ../authorizer.zip && ls -la
-Invoke-WebRequest -Uri $url -OutFile authorizer.zip
-Expand-Archive -Path authorizer.zip -DestinationPath authorizer_src -Force
-$src = "$PWD\authorizer_src"; $zip = "$PWD\authorizer_new.zip"; if (Test-Path $zip) { Remove-Item $zip }; Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::CreateFromDirectory($src, $zip); "zip created: $zip"
-aws lambda update-function-code --function-name realtimeinsurance-dev-api-gateway-entra-jwt-authorizer --region us-east-1 --profile L2-Development --zip-file fileb://authorizer_new.zip --query "{Status:LastUpdateStatus,SHA:CodeSha256,Modified:LastModified}"
-$src="$PWD\authorizer_src"; $zip="$PWD\authorizer_restore.zip"; if(Test-Path $zip){Remove-Item $zip}; Add-Type -AssemblyName System.IO.Compression.FileSystem; [System.IO.Compression.ZipFile]::CreateFromDirectory($src,$zip); aws lambda update-function-code --function-name realtimeinsurance-dev-api-gateway-entra-jwt-authorizer --region us-east-1 --profile L2-Development --zip-file fileb://authorizer_restore.zip --query "LastUpdateStatus"
-Get-Content (Get-PSReadlineOption).HistorySavePath | Select-String -Pattern "lambda|deploy|update-function|zip|aws "
-Select-String -Path *.tf -Pattern "artifact|\.zip|filename|package|source_dir|source_path"
-Get-ChildItem -Recurse -Filter *.zip
-Get-ChildItem -Recurse | Select-String "placeholder.zip"
-node --check authorizerSrc\index.js
-Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authzip" -Force`
-Get-ChildItem "$env:TEMP\authzip" | Select-Object Name, Length
-Get-ChildItem "$env:TEMP\authzip" -Recurse -Directory | Select-Object -First 5 FullName
-Copy-Item authorizerSrc\index.js "$env:TEMP\authzip\index.js" -Force
-Select-String -Path "$env:TEMP\authzip\index.js" -Pattern "issList" | Select-Object -First 2
-Remove-Item authorizer.zip
-Compress-Archive -Path "$env:TEMP\authzip\*" -DestinationPath authorizer.zip
-Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authcheck" -Force
-Copy-Item "$env:TEMP\authzip\package-lock.json" authorizerSrc\package-lock.json
-git add authorizer.zip authorizerSrc/package-lock.json
-git commit -m "Rebuild authorizer zip with multi-issuer support"
-npm install
-node --version
-npm --version
-npm ci --omit=dev
-node -v
-Get-ChildItem "C:\Program Files\nodejs", "C:\Program Files (x86)\nodejs", "$env:LOCALAPPDATA\nodejs", "$env:APPDATA\npm" -ErrorAction SilentlyContinue | Select-Object -First 5 FullName
-winget install OpenJS.NodeJS.LTS --scope user
-Select-String -Path (Get-PSReadLineOption).HistorySavePath -Pattern "zip|archive|npm|node|7z" | Select-Object -ExpandProperty Line -Unique
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc>
+cd ..
+git log --oneline -3 -- authorizer.zip
+Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authverify" -Force
+(Get-FileHash "$env:TEMP\authverify\index.js").Hash
+(Get-FileHash authorizerSrc\index.js).Hash
