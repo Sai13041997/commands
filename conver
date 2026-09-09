@@ -1,9 +1,10 @@
-Issue 1: Authorizer Lambda Source Code Changes Are Not Deployed
-Problem:
-Changes to authorizerSrc/index.js and the new package-lock.json won't actually affect the deployed Lambda function. The module deploys from a committed authorizer.zip file (lines 174-175 in main.tf), not from the source directory. The code changes exist in the repo but are unused.
-
-Resolution:
-Either:
-
-Rebuild and update authorizer.zip to include the new source code
-Modify the module packaging to build Lambda functions directly from authorizerSrc/ instead of using a pre-built zip
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc> npn ci --omit=dev
+npn : The term 'npn' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was 
+included, verify that the path is correct and try again.
+At line:1 char:1
++ npn ci --omit=dev
++ ~~~
+    + CategoryInfo          : ObjectNotFound: (npn:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc>
