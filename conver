@@ -1,1 +1,1 @@
-winget install OpenJS.NodeJS.LTS --source winget --scope user
+Select-String -Path (Get-PSReadLineOption).HistorySavePath -Pattern "zip|archive|npm|node|7z" | Select-Object -ExpandProperty Line -Unique
