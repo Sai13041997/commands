@@ -1,1 +1,1 @@
-Get-ChildItem "C:\Program Files\nodejs", "C:\Program Files (x86)\nodejs", "$env:LOCALAPPDATA\nodejs", "$env:APPDATA\npm" -ErrorAction SilentlyContinue | Select-Object -First 5 FullName
+winget install OpenJS.NodeJS.LTS --scope user
