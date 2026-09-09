@@ -1,10 +1,1 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc> npm ci --omit=dev
-npm : The term 'npm' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was 
-included, verify that the path is correct and try again.
-At line:1 char:1
-+ npm ci --omit=dev
-+ ~~~
-    + CategoryInfo          : ObjectNotFound: (npm:String) [], CommandNotFoundException
-    + FullyQualifiedErrorId : CommandNotFoundException
- 
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc> 
+Get-ChildItem "C:\Program Files\nodejs", "C:\Program Files (x86)\nodejs", "$env:LOCALAPPDATA\nodejs", "$env:APPDATA\npm" -ErrorAction SilentlyContinue | Select-Object -First 5 FullName
