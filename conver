@@ -1,1 +1,7 @@
-Select-String -Path main.tf -Pattern "source_code_hash|filename|authorizer.zip"
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Select-String -Path main.tf -Pattern "source_code_hash|filename|authorizer.zip"
+
+main.tf:167:  filename         = "${path.module}/authorizer.zip"
+main.tf:168:  source_code_hash = filebase64sha256("${path.module}/authorizer.zip")
+
+
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
