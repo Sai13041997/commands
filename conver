@@ -1,1 +1,11 @@
-winget install OpenJS.NodeJS.LTS --scope user
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc> winget install OpenJS.NodeJS.LTS --scope user
+Failed when searching source: msstore
+An unexpected error occurred while executing the command: 
+0x8a15005e : The server certificate did not match any of the expected values.
+
+The following packages were found among the working sources.
+Please specify one of them using the --source option to proceed.
+Name          Id                Source
+--------------------------------------
+Node.js (LTS) OpenJS.NodeJS.LTS winget
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc> 
