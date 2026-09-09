@@ -1,5 +1,10 @@
-cd ..
-git log --oneline -3 -- authorizer.zip
-Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authverify" -Force
-(Get-FileHash "$env:TEMP\authverify\index.js").Hash
-(Get-FileHash authorizerSrc\index.js).Hash
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway\authorizerSrc> cd ..
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> git log --oneline -3 -- authorizer.zip
+5ca836c (HEAD -> feature/T012SP/CPE-178, origin/feature/T012SP/CPE-178) Rebuild authorizer zip with multi-issuer support                                           
+4b82735 add terraform initial commit                                                                                                                               
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Expand-Archive -Path authorizer.zip -DestinationPath "$env:TEMP\authverify" -Force                              
+>> (Get-FileHash "$env:TEMP\authverify\index.js").Hash                                                                                                             
+>> (Get-FileHash authorizerSrc\index.js).Hash                                                                                                                      
+7ED4E3D50D72573CA9B651EB6740DAC62F1AD09F53684BA3D9BB78B5760830AD
+7ED4E3D50D72573CA9B651EB6740DAC62F1AD09F53684BA3D9BB78B5760830AD
+PS C:\Users\T012sp\Git repo\tf-module-api-gateway>
