@@ -1,7 +1,1 @@
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> Select-String -Path main.tf -Pattern "source_code_hash|filename|authorizer.zip"
-
-main.tf:167:  filename         = "${path.module}/authorizer.zip"
-main.tf:168:  source_code_hash = filebase64sha256("${path.module}/authorizer.zip")
-
-
-PS C:\Users\T012sp\Git repo\tf-module-api-gateway> 
+The zip is current. authorizer.zip was rebuilt in 5ca836c alongside the source change — verified the index.js inside it is byte-identical to authorizerSrc/index.js. main.tf:168 sets source_code_hash = filebase64sha256(...) on the zip, so Terraform detects the change and redeploys. Agreed the pre-built-artifact pattern is fragile long term; tracking a move to a CI-built artifact separately.
