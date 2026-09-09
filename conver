@@ -1,62 +1,9 @@
-[Speaker 1]
-Manage certain aspects of different events that we have. The in everything works. The issue that we run into is so one of the features of the of it is. Um, users of our events app are able to upload photos from the event, and then our staff goes in and has to approve those.
+Issue 1: Authorizer Lambda Source Code Changes Are Not Deployed
+Problem:
+Changes to authorizerSrc/index.js and the new package-lock.json won't actually affect the deployed Lambda function. The module deploys from a committed authorizer.zip file (lines 174-175 in main.tf), not from the source directory. The code changes exist in the repo but are unused.
 
-Uh, before they actually get displayed in our apps. Um, but? On. Kfb imaged machine. The images are blocked, um, so any access to the Firebase storage API is blocked, um, everything else works, and we have a couple other uses for images, um, in the web app. So it's, we do like venue layouts and things like that, um, that, that our staff upload, um?
+Resolution:
+Either:
 
-But all of that, anything that hits that storage API is broken, um. So? Really, if we can? Just move. That peace. To AWS to an S3 bucket. I think that would resolve everything. Um, so I mean, really. I just need to know what information I need so that I can make those calls and and.
-
-Remove all the data over,
-
-[Speaker 2]
-Sure? Uh, so we are not just planning to move to S3, but we also are moving the existing files from Firehouse to S3. Um, yeah, so I would be moving all of anything that's already been uploaded. Um, to the Firebase storage would be moved over as well. Okay, got it.
-
-And, uh. So people are trying to sign in with this. Alligator files are public or the private. No, so, so the um? The piece that we're talking about is.
-
-[Speaker 1]
-It's, it's kind of both. So, the the public piece of it is just reading files. They don't have, well, no, I take that back, there is a file upload component, too. There's a right component, um? For babies. So, yeah, we, we, they just have different access levels, right? Like, so, the the users?
-
-Can write, read, and write the the photo data. But they can't approve it, so we have. So there is a um. There's a firestore database being used also that tracks. Whether or not a photo has been approved. Um, so users don't even read the photo data. In the app in the mobile app.
-
-Unless it's got an approved status by staff.
-
-Okay. So, users are so. The flow is users take a picture. They upload it. Um, and then staff can view it. Um, and staff can approve it, delete it, um. Even after they've approved it, they can go in and change their mind and delete it.
-
-And then users can. Can read those back as well. Any approved photos back as well.
-
-[Speaker 2]
-Got it okay, and uh, right now. Firehouse is, uh, just used for the file storage or is doing anything else like? Uh posting or any other functions. Yeah, so I'm using, um. Firebase hosting, okay? Uh, um, that's where the site is now, um. And I can send you the URL if you want it.
-
-Um, but um? But yes, so it is, so we're using.
-
-[Speaker 1]
-I'm trying to think of every piece of Firebase that we're using. We're using the authentication, oh, for staff. We're using Firebase authentication for staff and then. You're also using, um, the anonymous. Authentication for the consumer side of the user side, um of the of the mobile apps. So we have Anonymous, um.
-
-Vindication as well just for that piece. Okay, um? And then we're using the firestore database. Um, and then we're using the, and we're using hosting, and we're using storage, and I've got. I'm also using Firebase functions, but that doesn't, necessarily, well. No, that, well, no, I take that back.
-
-There is a function for. Notifying staff. When a when photos have been uploaded for approval? Got it, and uh so.
-
-[Speaker 2]
-The Firebase is, uh, is it connected with any backend applications or just a API is connected to that? It's just using the Firebase, um. Sdk SDK. And it'd be honest. Yeah, okay. That makes sense. Okay, and just one last question, uh. So, are you looking like? Anything like Firebase setup that must like, stay continued when we move to S3.
-
-Like, anything particular. Um.
-
-[Speaker 1]
-I mean, really, I think. What I'm going to end up doing is let me find. Okay. Yeah, I mean. Basically, what's going to happen is. Anywhere that is using photos, like any of the um. Uh, documents in the firestore database. Those. Those all have a URL value associated with them, so those URLs will just change.
-
-Um, for the existing ones. Um, so everything else should. Pretty much stay the same.
-
-[Speaker 2]
-Okay, um,
-
-[Speaker 1]
-I shouldn't really have to do much else other than update those URLs. Okay.
-
-[Speaker 2]
-Uh, so probably, uh, I think we need, uh, some authentication here. When we just move that to S3, because uh, S3 doesn't do any authentication, so we might need some API in front of the history to do the authentication process. And. Yeah, I'll just look into that. And, uh, I'll make a proper plan for that, and I will just share you some document before, like, you know, with the clear details of that?
-
-And yeah, if you're happy, then we'll just go forward with that. Yeah, yeah, we can do that, um? Yep, I'm good about that sure. And anything else that I need to know about this. I don't think so. If I think of anything that I forgot, I'll let, you know, but I think I've pretty much covered everything.
-
-It's not. It's not a super complicated back end. Yeah, but yeah. Sure, sure. And, uh, if I just need any other details, or even if I'm missing something, then I'll just get back to you. And, uh, like, get some information about that. All right, sounds good, sure.
-
-[Speaker 1]
-Yeah, I think that's all information I need, and I'll just start working on that and see what happens. All right. Thank you. Yeah, sure. Thank you so much. Bye bye!
+Rebuild and update authorizer.zip to include the new source code
+Modify the module packaging to build Lambda functions directly from authorizerSrc/ instead of using a pre-built zip
