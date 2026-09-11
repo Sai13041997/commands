@@ -1,1 +1,31 @@
-Select-String -Path ".github\workflows\deploy.yml" -Pattern "role-to-assume|configure-aws-credentials|secrets\.|vars\." -Context 3,3
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> Select-String -Path ".github\workflows\deploy.yml" -Pattern "role-to-assume|configure-aws-credentials|secrets\.|vars\." -Context 3,3
+
+  .github\workflows\deploy.yml:81:    if: ${{ needs.detect-changes.outputs.matrix != '[]' }}
+  .github\workflows\deploy.yml:82:    environment: ${{ needs.detect-changes.outputs.env }}
+  .github\workflows\deploy.yml:83:    env:
+> .github\workflows\deploy.yml:84:      ARTIFACT_BUCKET: ${{ vars.ARTIFACT_BUCKET_NAME }}
+> .github\workflows\deploy.yml:85:      ARTIFACT_ROLE_ARN: ${{ secrets.ARTIFACT_ROLE }}
+  .github\workflows\deploy.yml:86:
+  .github\workflows\deploy.yml:87:    strategy:
+  .github\workflows\deploy.yml:88:      fail-fast: false
+  .github\workflows\deploy.yml:107:          ./scripts/package_lambda.sh "${{ matrix.lambda }}"
+  .github\workflows\deploy.yml:108:
+  .github\workflows\deploy.yml:109:      - name: Configure AWS credentials for artifact upload (OIDC)
+> .github\workflows\deploy.yml:110:        uses: aws-actions/configure-aws-credentials@v4
+  .github\workflows\deploy.yml:111:        with:
+> .github\workflows\deploy.yml:112:          role-to-assume: ${{ env.ARTIFACT_ROLE_ARN }}
+  .github\workflows\deploy.yml:113:          aws-region: us-east-1
+  .github\workflows\deploy.yml:114:
+  .github\workflows\deploy.yml:115:      - name: Upload lambda artifact to durable storage
+  .github\workflows\deploy.yml:130:          echo "Uploaded durable artifact: s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
+  .github\workflows\deploy.yml:131:
+  .github\workflows\deploy.yml:132:      - name: Configure AWS credentials for lambda deploy (OIDC)
+> .github\workflows\deploy.yml:133:        uses: aws-actions/configure-aws-credentials@v4
+  .github\workflows\deploy.yml:134:        with:
+> .github\workflows\deploy.yml:135:          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+  .github\workflows\deploy.yml:136:          aws-region: us-east-1
+  .github\workflows\deploy.yml:137:
+  .github\workflows\deploy.yml:138:      - name: Deploy lambda code
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
