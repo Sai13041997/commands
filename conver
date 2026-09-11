@@ -1,30 +1,58 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-src> Get-Content config\environments.yml
-environments:
-  dev:
-    aws_region: "us-east-1"
-    apigws:
-      - rest_api_id: "6h5fz78wz0"
-        stage_name: "default"
-  perf:
-    aws_region: "us-east-1"
-    apigws:
-      - rest_api_id: "6rjxwpqvp4"
-        stage_name: "default"
-      - rest_api_id: "he9tkof025"
-        stage_name: "default"
-  nonprod:
-    aws_region: "us-east-1"
-    apigws:
-      - rest_api_id: "<NONPROD_REST_API_ID>"
-        stage_name: "default"
-      - rest_api_id: "<NONPROD_SOAP_API_ID>"
-        stage_name: "default"
+src code deployment failed please check:
 
-  prod:
-    aws_region: "us-east-1"
-    apigws:
-      - rest_api_id: "<PROD_REST_API_ID>"
-        stage_name: "default"
-      - rest_api_id: "<PROD_SOAP_API_ID>"
-        stage_name: "default"
-PS C:\Users\T012sp\Git repo\real-time-insurance-src>
+deploy (policy_graph_ingest)
+failed 5 minutes ago in 18s
+
+Run chmod +x scripts/deploy_lambda.sh
+  chmod +x scripts/deploy_lambda.sh
+  ./scripts/deploy_lambda.sh "staging" "policy_graph_ingest" "${ARTIFACT_BUCKET}" "${ARTIFACT_KEY}"
+  shell: /usr/bin/bash -e {0}
+  env:
+    ARTIFACT_BUCKET: kfb-github-artifacts
+    ARTIFACT_ROLE_ARN: ***
+    pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+    PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+    Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_REGION: us-east-1
+    AWS_ACCESS_KEY_ID: ***
+    AWS_SECRET_ACCESS_KEY: ***
+    AWS_SESSION_TOKEN: ***
+    ARTIFACT_KEY: real-time-insurance-src/staging/policy_graph_ingest/Build119/policy_graph_ingest.zip
+Deploying policy_graph_ingest -> realtimeinsurance-staging-policy-graph-ingest-lambda (env=staging, region=us-east-1)
+Using durable artifact: s3://kfb-github-artifacts/real-time-insurance-src/staging/policy_graph_ingest/Build119/policy_graph_ingest.zip
+
+aws: [ERROR]: An error occurred (AccessDeniedException) when calling the UpdateFunctionCode operation: User: arn:aws:sts::929382004481:assumed-role/kfbartifacts-github-oidc/GitHubActions is not authorized to perform: lambda:UpdateFunctionCode on resource: arn:aws:lambda:us-east-1:929382004481:function:realtimeinsurance-staging-policy-graph-ingest-lambda because no identity-based policy allows the lambda:UpdateFunctionCode action
+Error: Process completed with exit code 254.
+
+
+deploy (soap_verification)
+failed 6 minutes ago in 19s:
+
+Run chmod +x scripts/deploy_lambda.sh
+  chmod +x scripts/deploy_lambda.sh
+  ./scripts/deploy_lambda.sh "staging" "soap_verification" "${ARTIFACT_BUCKET}" "${ARTIFACT_KEY}"
+  shell: /usr/bin/bash -e {0}
+  env:
+    ARTIFACT_BUCKET: kfb-github-artifacts
+    ARTIFACT_ROLE_ARN: ***
+    pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+    PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+    Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_REGION: us-east-1
+    AWS_ACCESS_KEY_ID: ***
+    AWS_SECRET_ACCESS_KEY: ***
+    AWS_SESSION_TOKEN: ***
+    ARTIFACT_KEY: real-time-insurance-src/staging/soap_verification/Build119/soap_verification.zip
+Deploying soap_verification -> realtimeinsurance-staging-soap-verification-lambda (env=staging, region=us-east-1)
+Using durable artifact: s3://kfb-github-artifacts/real-time-insurance-src/staging/soap_verification/Build119/soap_verification.zip
+
+aws: [ERROR]: An error occurred (AccessDeniedException) when calling the UpdateFunctionCode operation: User: arn:aws:sts::929382004481:assumed-role/kfbartifacts-github-oidc/GitHubActions is not authorized to perform: lambda:UpdateFunctionCode on resource: arn:aws:lambda:us-east-1:929382004481:function:realtimeinsurance-staging-soap-verification-lambda because no identity-based policy allows the lambda:UpdateFunctionCode action
+Error: Process completed with exit code 254.
