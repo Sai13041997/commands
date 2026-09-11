@@ -1,27 +1,2 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws iam get-role --role-name real-time-insurance-src-github-oidc `
->>   --profile L2-UAT --query "Role.AssumeRolePolicyDocument"
-{                                                                                                                                                                                  
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Effect": "Allow",
-            "Principal": {
-                "Federated": "arn:aws:iam::590183719623:oidc-provider/token.actions.githubusercontent.com"
-            },
-            "Action": "sts:AssumeRoleWithWebIdentity",
-            "Condition": {
-                "StringEquals": {
-                    "token.actions.githubusercontent.com:aud": "sts.amazonaws.com"
-                },
-                "StringLike": {
-                    "token.actions.githubusercontent.com:sub": [
-                        "repo:kfbmic/real-time-insurance-src*",
-                        "repo:kfbmic@*/real-time-insurance-src@*"
-                    ]
-                }
-            }
-        }
-    ]
-}
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
+aws iam list-attached-role-policies --role-name real-time-insurance-src-github-oidc --profile L2-UAT
+aws iam list-role-policies --role-name real-time-insurance-src-github-oidc --profile L2-UAT
