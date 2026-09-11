@@ -1,3 +1,10 @@
-aws iam list-roles --profile L2-UAT `
-  --query "Roles[?contains(RoleName,'github') || contains(RoleName,'oidc') || contains(RoleName,'deploy')].[RoleName,Arn]" `
-  --output table
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws iam list-roles --profile L2-UAT `
+>>   --query "Roles[?contains(RoleName,'github') || contains(RoleName,'oidc') || contains(RoleName,'deploy')].[RoleName,Arn]" `
+>>   --output table
+---------------------------------------------------------------------------------------------------------------                                                                    
+|                                                  ListRoles                                                  |
++--------------------------------------+----------------------------------------------------------------------+
+|  real-time-insurance-src-github-oidc |  arn:aws:iam::590183719623:role/real-time-insurance-src-github-oidc  |
++--------------------------------------+----------------------------------------------------------------------+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-src>
