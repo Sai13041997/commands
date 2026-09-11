@@ -1,1 +1,30 @@
-Get-Content config\environments.yml
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> Get-Content config\environments.yml
+environments:
+  dev:
+    aws_region: "us-east-1"
+    apigws:
+      - rest_api_id: "6h5fz78wz0"
+        stage_name: "default"
+  perf:
+    aws_region: "us-east-1"
+    apigws:
+      - rest_api_id: "6rjxwpqvp4"
+        stage_name: "default"
+      - rest_api_id: "he9tkof025"
+        stage_name: "default"
+  nonprod:
+    aws_region: "us-east-1"
+    apigws:
+      - rest_api_id: "<NONPROD_REST_API_ID>"
+        stage_name: "default"
+      - rest_api_id: "<NONPROD_SOAP_API_ID>"
+        stage_name: "default"
+
+  prod:
+    aws_region: "us-east-1"
+    apigws:
+      - rest_api_id: "<PROD_REST_API_ID>"
+        stage_name: "default"
+      - rest_api_id: "<PROD_SOAP_API_ID>"
+        stage_name: "default"
+PS C:\Users\T012sp\Git repo\real-time-insurance-src>
