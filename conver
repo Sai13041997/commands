@@ -1,8 +1,28 @@
-curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
-  -H "Content-Type: text/xml" --data "<test/>"
-
-
-
-curl.exe -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
-  --cert client.pem --key client.key `
-  -H "Content-Type: text/xml" --data-binary "@sample-request.xml"
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> cd ..
+PS C:\Users\T012sp\Git repo> cd ..
+PS C:\Users\T012sp> cd .\Downloads\
+PS C:\Users\T012sp\Downloads> cd .\Testing\
+PS C:\Users\T012sp\Downloads\Testing> curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+>>   -H "Content-Type: text/xml" --data "<test/>"
+>> 
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Could not resolve host: realtimeinsurance-soap-api-staging.kyfb.com
+* Could not resolve host: realtimeinsurance-soap-api-staging.kyfb.com
+* Could not resolve: realtimeinsurance-soap-api-staging.kyfb.com:443
+* closing connection #0
+curl: (6) Could not resolve host: realtimeinsurance-soap-api-staging.kyfb.com
+PS C:\Users\T012sp\Downloads\Testing> curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+>>   -H "Content-Type: text/xml" --data "<test/>"
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Could not resolve host: realtimeinsurance-soap-api-staging.kyfb.com
+* Could not resolve host: realtimeinsurance-soap-api-staging.kyfb.com
+* Could not resolve: realtimeinsurance-soap-api-staging.kyfb.com:443
+* closing connection #0
+curl: (6) Could not resolve host: realtimeinsurance-soap-api-staging.kyfb.com
+PS C:\Users\T012sp\Downloads\Testing> curl.exe -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+>>   --cert client.pem --key client.key `
+>>   -H "Content-Type: text/xml" --data-binary "@sample-request.xml"
+curl: Failed to open sample-request.xml
+curl: option --data-binary: error encountered when reading a file
+curl: try 'curl --help' for more information
+PS C:\Users\T012sp\Downloads\Testing> 
