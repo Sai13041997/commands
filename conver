@@ -1,17 +1,8 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws lambda list-provisioned-concurrency-configs `
->>   --function-name realtimeinsurance-staging-soap-verification-lambda `
->>   --profile L2-UAT
-{                                                                                                                                                                                  
-    "ProvisionedConcurrencyConfigs": [
-        {
-            "FunctionArn": "arn:aws:lambda:us-east-1:590183719623:function:realtimeinsurance-staging-soap-verification-lambda:live",
-            "RequestedProvisionedConcurrentExecutions": 1,
-            "AvailableProvisionedConcurrentExecutions": 1,
-            "AllocatedProvisionedConcurrentExecutions": 1,
-            "Status": "READY",
-            "LastModified": "2026-09-11T18:10:40+0000"
-        }
-    ]
-}
+curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+  -H "Content-Type: text/xml" --data "<test/>"
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
+
+
+curl.exe -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+  --cert client.pem --key client.key `
+  -H "Content-Type: text/xml" --data-binary "@sample-request.xml"
