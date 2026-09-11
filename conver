@@ -1,5 +1,12 @@
-aws logs get-log-events `
-  --log-group-name /aws/lambda/realtimeinsurance-staging-soap-verification-lambda `
-  --log-stream-name "2026/09/11/[1]769f803572c14fce84a11e799011edc8" `
-  --profile L2-UAT `
-  --query "events[].message" --output text
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws logs get-log-events `
+>>   --log-group-name /aws/lambda/realtimeinsurance-staging-soap-verification-lambda `
+>>   --log-stream-name "2026/09/11/[1]769f803572c14fce84a11e799011edc8" `
+>>   --profile L2-UAT `
+>>   --query "events[].message" --output text
+INIT_START Runtime Version: python:3.13.mainlinev2.v34  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:578c175c563851ccb278ecd73502dbf7cc8a1d5d0f639b98445d59fbd6da0803    
+        [WARNING]       2026-09-11T14:54:22.439Z                LAMBDA_WARNING: Unhandled exception. The most likely cause is an issue in the function code. However, in rare cases, a Lambda runtime update can cause unexpected function behavior. For functions using managed runtimes, runtime updates can be triggered by a function change, or can be applied automatically. To determine if the runtime has been updated, check the runtime version in the INIT_START log entry. If this error correlates with a change in the runtime version, you may be able to mitigate this error by temporarily rolling back to the previous runtime version. For more information, see https://docs.aws.amazon.com/lambda/latest/dg/runtimes-update.html
+        [ERROR] Runtime.ImportModuleError: Unable to import module 'main': No module named 'main'
+Traceback (most recent call last):      INIT_REPORT Init Duration: 375.39 ms    Phase: init     Status: error   Error Type: Runtime.ImportModuleError
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
