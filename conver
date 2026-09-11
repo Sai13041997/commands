@@ -1,13 +1,3 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws iam list-attached-role-policies --role-name real-time-insurance-src-github-oidc --profile L2-UAT
->> aws iam list-role-policies --role-name real-time-insurance-src-github-oidc --profile L2-UAT
-{                                                                                                                                                                                  
-    "AttachedPolicies": []
-}
-
-{                                                                                                                                                                                  
-    "PolicyNames": [
-        "real-time-insurance-src-github-oidc-custom"
-    ]
-}
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-src>
+aws iam get-role-policy --role-name real-time-insurance-src-github-oidc `
+  --policy-name real-time-insurance-src-github-oidc-custom `
+  --profile L2-UAT --query "PolicyDocument"
