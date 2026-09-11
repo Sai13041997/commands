@@ -1,10 +1,24 @@
-aws lambda invoke --function-name realtimeinsurance-staging-soap-verification-lambda \
-  --payload '{}' --cli-binary-format raw-in-base64-out /tmp/out.json
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws lambda invoke `
+>>   --function-name realtimeinsurance-staging-soap-verification-lambda `
+>>   --payload '{}' `
+>>   --cli-binary-format raw-in-base64-out `
+>>   --profile L2-UAT `
+>>   out.json
+
+An error occurred (AccessDeniedException) when calling the Invoke operation: User: arn:aws:sts::590183719623:assumed-role/AWSReservedSSO_Cloud-Ops-Production_9196e026e75ee046/T012SP@kyfb.com is not authorized to perform: lambda:InvokeFunction on resource: arn:aws:lambda:us-east-1:590183719623:function:realtimeinsurance-staging-soap-verification-lambda because no identity-based policy allows the lambda:InvokeFunction action
+PS C:\Users\T012sp\Git repo\real-time-insurance-src>
 
 
-aws lambda invoke --function-name realtimeinsurance-staging-soap-verification-lambda \
-  --payload '{}' --cli-binary-format raw-in-base64-out --log-type Tail \
-  --query LogResult --output text /tmp/out.json | base64 -d
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws lambda invoke --function-name realtimeinsurance-staging-soap-verification-lambda --payload '{}' --cli-binary-format raw-in-base64-out --profile L2-UAT --log-type Tail --query LogResult --output text /tmp/out.json | base64 -d                                 
+base64 : The term 'base64' is not recognized as the name of a cmdlet, function, script file, or operable program. Check the spelling of the name, or if a path was included, 
+verify that the path is correct and try again.
+At line:1 char:220     
++ ... g-type Tail --query LogResult --output text /tmp/out.json | base64 -d
++                                                                 ~~~~~~
+    + CategoryInfo          : ObjectNotFound: (base64:String) [], CommandNotFoundException
+    + FullyQualifiedErrorId : CommandNotFoundException
+ 
+PS C:\Users\T012sp\Git repo\real-time-insurance-src>
 
 $r = aws lambda invoke --function-name realtimeinsurance-staging-soap-verification-lambda `
   --payload '{}' --cli-binary-format raw-in-base64-out --log-type Tail `
