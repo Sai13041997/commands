@@ -1,33 +1,4 @@
-PS C:\Users\T012sp\Downloads\Testing> nslookup realtimeinsurance-soap-api-staging.kyfb.com
-Server:  sdrt240.kyfb.pri
-Address:  10.217.3.100
-
-*** sdrt240.kyfb.pri can't find realtimeinsurance-soap-api-staging.kyfb.com: Non-existent domain
-PS C:\Users\T012sp\Downloads\Testing> curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
->>   --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 `
->>   -H "Content-Type: text/xml" --data "<test/>"
-Note: Unnecessary use of -X or --request, POST is already inferred.
-* Added realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 to DNS cache
-* Hostname realtimeinsurance-soap-api-staging.kyfb.com was found in DNS cache
-* Host realtimeinsurance-soap-api-staging.kyfb.com:443 was resolved.
-* IPv6: (none)
-* IPv4: 18.209.74.244
-*   Trying 18.209.74.244:443...
-* schannel: disabled automatic use of client certificate
-* ALPN: curl offers http/1.1
-* ALPN: server accepted http/1.1
-* Established connection to realtimeinsurance-soap-api-staging.kyfb.com (18.209.74.244 port 443) from 10.214.100.171 port 59308 
-* using HTTP/1.x
-> POST /soap HTTP/1.1
-> Host: realtimeinsurance-soap-api-staging.kyfb.com
-> User-Agent: curl/8.21.0
-> Accept: */*
-> Content-Type: text/xml
-> Content-Length: 7
-> 
-* upload completely sent off: 7 bytes
-* Recv failure: Connection was reset
-* schannel: recv returned error 56
-* closing connection #0
-curl: (56) Recv failure: Connection was reset
-PS C:\Users\T012sp\Downloads\Testing>
+curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+  --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 `
+  --cert client.pem --key client.key `
+  -H "Content-Type: text/xml" --data "<test/>"
