@@ -1,71 +1,10 @@
-PS C:\Users\T012sp\Downloads\Testing> Get-ChildItem
+Get-Content test_mtls.py
 
 
-    Directory: C:\Users\T012sp\Downloads\Testing
 
 
-Mode                 LastWriteTime         Length Name                                                                                                                             
-----                 -------------         ------ ----                                                                                                                             
-d-----          8/5/2026   9:58 AM                authorizer_src                                                                                                                   
-d-----         8/26/2026  10:21 AM                Dev_test_cert                                                                                                                    
-d-----          8/5/2026  11:09 AM                POC                                                                                                                              
--a----          8/7/2026   8:43 AM           1424 api_event.json                                                                                                                   
--a----          8/7/2026   8:43 AM            535 api_out.json                                                                                                                     
--a----          8/5/2026   9:14 AM         975093 authorizer.zip                                                                                                                   
--a----          8/5/2026  10:00 AM         975079 authorizer_new.zip                                                                                                               
--a----         8/10/2026   9:34 AM         974997 authorizer_restore.zip                                                                                                           
--a----          8/5/2026   9:51 AM           1424 authz_event.json                                                                                                                 
--a----          8/5/2026   9:51 AM            535 authz_out.json                                                                                                                   
--a----          8/5/2026   9:54 AM            535 authz_out_1.json                                                                                                                 
--a----          8/5/2026   9:55 AM            535 authz_out_10.json                                                                                                                
--a----          8/5/2026   9:55 AM            535 authz_out_11.json                                                                                                                
--a----          8/5/2026   9:55 AM            535 authz_out_12.json                                                                                                                
--a----          8/5/2026   9:54 AM            535 authz_out_2.json                                                                                                                 
--a----          8/5/2026   9:54 AM            535 authz_out_3.json                                                                                                                 
--a----          8/5/2026   9:55 AM            535 authz_out_4.json                                                                                                                 
--a----          8/5/2026   9:55 AM            535 authz_out_5.json                                                                                                                 
--a----          8/5/2026   9:55 AM            535 authz_out_6.json                                                                                                                 
--a----          8/5/2026   9:55 AM            535 authz_out_7.json                                                                                                                 
--a----          8/5/2026   9:55 AM            535 authz_out_8.json                                                                                                                 
--a----          8/5/2026   9:55 AM            535 authz_out_9.json                                                                                                                 
--a----          8/5/2026  10:02 AM            535 authz_selftest.json                                                                                                              
--a----         6/29/2026  12:35 PM           2050 ca.crt                                                                                                                           
--a----         6/29/2026  12:35 PM           3324 ca.key                                                                                                                           
--a----         6/29/2026  12:36 PM           1580 client.crt                                                                                                                       
--a----         6/29/2026  12:36 PM           1580 client.crt.pem                                                                                                                   
--a----         6/29/2026  12:36 PM           1580 client.crt.pem2                                                                                                                  
--a----         6/29/2026  12:36 PM           1018 client.csr                                                                                                                       
--a----         6/29/2026  12:36 PM           1732 client.key                                                                                                                       
--a----         6/29/2026  12:36 PM           1732 client.key.pem                                                                                                                   
--a----         8/25/2026   3:58 PM           1251 event.json                                                                                                                       
--a----          8/7/2026   8:32 AM           2185 graph_event.json                                                                                                                 
--a----          8/7/2026   8:33 AM            247 graph_out.json                                                                                                                   
--a----         7/24/2026  10:02 AM         113278 payload.json                                                                                                                     
--a----          7/8/2026  12:06 PM           1736 payload.txt                                                                                                                      
--a----          8/4/2026   1:30 PM         107903 payload_clean.json                                                                                                               
--a----         8/24/2026   9:00 AM           1403 request.xml                                                                                                                      
--a----         8/25/2026  10:00 PM           1009 response.json                                                                                                                    
--a----         7/22/2026   8:34 AM             23 response.xml                                                                                                                     
--a----         8/24/2026  10:12 AM           1049 soap_body.txt                                                                                                                    
--a----         8/25/2026  10:03 PM             23 soap_response.xml                                                                                                                
--a----         8/26/2026  10:09 AM           3102 test_mtls.py                                                                                                                     
--a----         6/29/2026  12:44 PM           2050 truststore-from-s3.pem                                                                                                           
--a----         6/29/2026  12:35 PM           2050 truststore.pem                                                                                                                   
 
-
-PS C:\Users\T012sp\Downloads\Testing> 
->> cd /c/Users/T012sp/Downloads/Testing
->> curl -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap \
->>   --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 \
->>   --cert client.pem --key client.key \
->>   -H "Content-Type: text/xml" --data "<test/>"^C
-PS C:\Users\T012sp\Downloads\Testing> 
-PS C:\Users\T012sp\Downloads\Testing> curl -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 --cert client.pem --key client.key -H "Content-Type: text/xml" --data "<test/>"                                                                          
-Invoke-WebRequest : Cannot bind parameter 'Headers'. Cannot convert the "Content-Type: text/xml" value of type "System.String" to type "System.Collections.IDictionary".
-At line:1 char:184                                                            
-+ ... -cert client.pem --key client.key -H "Content-Type: text/xml" --data  ...
-+                                          ~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : InvalidArgument: (:) [Invoke-WebRequest], ParameterBindingException
-    + FullyQualifiedErrorId : CannotConvertArgumentNoMessage,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
- 
-PS C:\Users\T012sp\Downloads\Testing> 
+curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+  --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 `
+  --cert client.crt.pem --key client.key.pem `
+  -H "Content-Type: text/xml" --data-binary "@request.xml"
