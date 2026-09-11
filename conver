@@ -1,3 +1,17 @@
-aws lambda list-provisioned-concurrency-configs `
-  --function-name realtimeinsurance-staging-soap-verification-lambda `
-  --profile L2-UAT
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws lambda list-provisioned-concurrency-configs `
+>>   --function-name realtimeinsurance-staging-soap-verification-lambda `
+>>   --profile L2-UAT
+{                                                                                                                                                                                  
+    "ProvisionedConcurrencyConfigs": [
+        {
+            "FunctionArn": "arn:aws:lambda:us-east-1:590183719623:function:realtimeinsurance-staging-soap-verification-lambda:live",
+            "RequestedProvisionedConcurrentExecutions": 1,
+            "AvailableProvisionedConcurrentExecutions": 1,
+            "AllocatedProvisionedConcurrentExecutions": 1,
+            "Status": "READY",
+            "LastModified": "2026-09-11T18:10:40+0000"
+        }
+    ]
+}
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
