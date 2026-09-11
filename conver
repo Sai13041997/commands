@@ -1,3 +1,40 @@
-aws iam get-role-policy --role-name real-time-insurance-src-github-oidc `
-  --policy-name real-time-insurance-src-github-oidc-custom `
-  --profile L2-UAT --query "PolicyDocument"
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws iam get-role-policy --role-name real-time-insurance-src-github-oidc `
+>>   --policy-name real-time-insurance-src-github-oidc-custom `
+>>   --profile L2-UAT --query "PolicyDocument"
+{                                                                                                                                                                                  
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "lambda:UpdateFunctionCode",
+                "lambda:UpdateAlias",
+                "lambda:PublishVersion",
+                "lambda:GetFunctionConfiguration",
+                "lambda:GetFunction",
+                "lambda:GetAlias"
+            ],
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": "apigateway:POST",
+            "Effect": "Allow",
+            "Resource": "*"
+        },
+        {
+            "Action": [
+                "s3:PutObject",
+                "s3:ListBucket",
+                "s3:GetObject"
+            ],
+            "Effect": "Allow",
+            "Resource": [
+                "arn:aws:s3:::kfb-github-artifacts/*",                                                                                                                             
+                "arn:aws:s3:::kfb-github-artifacts"                                                                                                                                
+            ]                                                                                                                                                                      
+        }                                                                                                                                                                          
+    ]                                                                                                                                                                              
+}                                                                                                                                                                                  
+                                                                                                                                                                                   
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
