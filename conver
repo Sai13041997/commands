@@ -1,5 +1,33 @@
-Select-String -Path "envs\staging.tfvars","*.tf" -Pattern "handler"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Select-String -Path "envs\staging.tfvars","*.tf" -Pattern "handler"
+
+lambda.tf:5:  handler                = "main.lambda_handler"
+lambda.tf:36:  handler                = "main.lambda_handler"
 
 
-Select-String -Path ".terraform\modules\soap_verification_lambda\main.tf" `
-  -Pattern "aws_lambda_alias" -Context 2,12
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Select-String -Path ".terraform\modules\soap_verification_lambda\main.tf" `
+>>   -Pattern "aws_lambda_alias" -Context 2,12
+
+  .terraform\modules\soap_verification_lambda\main.tf:334:# Lambda Alias (for Provisioned Concurrency)
+  .terraform\modules\soap_verification_lambda\main.tf:335:# ---------------------------
+> .terraform\modules\soap_verification_lambda\main.tf:336:resource "aws_lambda_alias" "live" {
+  .terraform\modules\soap_verification_lambda\main.tf:337:  count = var.provisioned_concurrency > 0 ? 1 : 0
+  .terraform\modules\soap_verification_lambda\main.tf:338:
+  .terraform\modules\soap_verification_lambda\main.tf:339:  name = "live"
+  .terraform\modules\soap_verification_lambda\main.tf:340:
+  .terraform\modules\soap_verification_lambda\main.tf:341:  function_name = one(concat(
+  .terraform\modules\soap_verification_lambda\main.tf:342:    aws_lambda_function.placeholder[*].function_name,
+  .terraform\modules\soap_verification_lambda\main.tf:343:    aws_lambda_function.from_source_file[*].function_name,
+  .terraform\modules\soap_verification_lambda\main.tf:344:    aws_lambda_function.from_filename[*].function_name,
+  .terraform\modules\soap_verification_lambda\main.tf:345:  ))
+  .terraform\modules\soap_verification_lambda\main.tf:346:
+  .terraform\modules\soap_verification_lambda\main.tf:347:  function_version = one(concat(
+  .terraform\modules\soap_verification_lambda\main.tf:348:    aws_lambda_function.placeholder[*].version,
+  .terraform\modules\soap_verification_lambda\main.tf:362:  count = var.provisioned_concurrency > 0 ? 1 : 0
+  .terraform\modules\soap_verification_lambda\main.tf:363:
+> .terraform\modules\soap_verification_lambda\main.tf:364:  function_name                     = aws_lambda_alias.live[0].function_name
+> .terraform\modules\soap_verification_lambda\main.tf:365:  qualifier                         = aws_lambda_alias.live[0].name
+  .terraform\modules\soap_verification_lambda\main.tf:366:  provisioned_concurrent_executions = var.provisioned_concurrency
+  .terraform\modules\soap_verification_lambda\main.tf:367:}
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
