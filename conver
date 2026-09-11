@@ -1,4 +1,16 @@
-curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
-  --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 `
-  --cert client.pem --key client.key `
-  -H "Content-Type: text/xml" --data "<test/>"
+PS C:\Users\T012sp\Downloads\Testing> curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+>>   --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 `
+>>   --cert client.pem --key client.key `
+>>   -H "Content-Type: text/xml" --data "<test/>"
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Added realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 to DNS cache
+* Hostname realtimeinsurance-soap-api-staging.kyfb.com was found in DNS cache
+* Host realtimeinsurance-soap-api-staging.kyfb.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 18.209.74.244
+*   Trying 18.209.74.244:443...
+* schannel: disabled automatic use of client certificate
+* schannel: Failed to get certificate location or file for client.pem
+* closing connection #0
+curl: (58) schannel: Failed to get certificate location or file for client.pem
+PS C:\Users\T012sp\Downloads\Testing>
