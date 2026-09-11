@@ -1,7 +1,16 @@
-aws route53 list-resource-record-sets `
-  --hosted-zone-id Z103234617AI2YZ9F4ZTH `
-  --profile L2-UAT `
-  --query "ResourceRecordSets[?contains(Name,'soap-api-staging')]"
+PS C:\Users\T012sp\Downloads\Testing> aws route53 list-resource-record-sets `
+>>   --hosted-zone-id Z103234617AI2YZ9F4ZTH `
+>>   --profile L2-UAT `
+>>   --query "ResourceRecordSets[?contains(Name,'soap-api-staging')]"
 
+An error occurred (AccessDenied) when calling the ListResourceRecordSets operation: User: arn:aws:sts::590183719623:assumed-role/AWSReservedSSO_Cloud-Ops-Production_9196e026e75ee046/T012SP@kyfb.com is not authorized to access this resource
+PS C:\Users\T012sp\Downloads\Testing> nslookup realtimeinsurance-soap-api-staging.kyfb.com 8.8.8.8
+Server:  dns.google
+Address:  8.8.8.8
 
-nslookup realtimeinsurance-soap-api-staging.kyfb.com 8.8.8.8
+Non-authoritative answer:
+Name:    d-39qg0o7bze.execute-api.us-east-1.amazonaws.com
+Address:  18.209.74.244
+Aliases:  realtimeinsurance-soap-api-staging.kyfb.com
+
+PS C:\Users\T012sp\Downloads\Testing>
