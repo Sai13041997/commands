@@ -1,10 +1,122 @@
-Get-Content test_mtls.py
+PS C:\Users\T012sp\Downloads\Testing> Get-Content test_mtls.py
+>> 
+import requests
+import time
+import socket
+import urllib3
 
+urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+URL = "https://realtimeinsurance-soap-api-dev.devkyfb.com/soap"
+CLIENT_CERT = "client.crt.pem"
+CLIENT_KEY = "client.key.pem"
+PUBLIC_IP = "34.193.17.109"
 
+original_getaddrinfo = socket.getaddrinfo
 
+def patched_getaddrinfo(host, *args, **kwargs):
+    if "realtimeinsurance-soap-api-dev.devkyfb.com" in host:
+        return original_getaddrinfo(PUBLIC_IP, *args, **kwargs)
+    return original_getaddrinfo(host, *args, **kwargs)
 
-curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
-  --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 `
-  --cert client.crt.pem --key client.key.pem `
-  -H "Content-Type: text/xml" --data-binary "@request.xml"
+socket.getaddrinfo = patched_getaddrinfo
+
+soap_body = """<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:con="http://www.iicmva.com/CoverageVerification/">
+  <soapenv:Body>
+    <con:CoverageRequest PublicationVersion="00200809" PublicationDate="2008-11-05">
+      <con:RequestorInformation>
+        <con:Organization>
+          <con:Name>KentuckyIVS</con:Name>
+        </con:Organization>
+        <con:ReasonDetails>
+          <con:ReasonCode>BIVER</con:ReasonCode>
+          <con:TrackingNumber>CTTRK-150219-144041-4-31-101-85-1</con:TrackingNumber>
+        </con:ReasonDetails>
+      </con:RequestorInformation>
+      <con:Detail>
+        <con:PolicyInformation>
+          <con:OrganizationDetails>
+            <con:NAIC>12345</con:NAIC>
+          </con:OrganizationDetails>
+          <con:PolicyDetails>
+            <con:VerificationDate>2025-05-01T00:00:00Z</con:VerificationDate>
+            <con:PolicyKey>UNKNOWN</con:PolicyKey>
+            <con:PolicyState>KY</con:PolicyState>
+          </con:PolicyDetails>
+        </con:PolicyInformation>
+        <con:VehicleInformation>
+          <con:VehicleDetails>
+            <con:VIN>1C4RJFCT2CC174202</con:VIN>
+          </con:VehicleDetails>
+        </con:VehicleInformation>
+      </con:Detail>
+    </con:CoverageRequest>
+  </soapenv:Body>
+</soapenv:Envelope>"""
+
+headers = {
+    "Content-Type": "text/xml; charset=utf-8",
+    "SOAPAction": "\"\""
+}
+
+print("=" * 60)
+print("Testing mTLS to:", URL)
+print("=" * 60)
+
+try:
+    start_time = time.perf_counter()
+    response = requests.post(
+        URL,
+        data=soap_body,
+        headers=headers,
+        cert=(CLIENT_CERT, CLIENT_KEY),
+        verify=False,
+        timeout=30
+    )
+
+    elapsed_ms = (time.perf_counter() - start_time) * 1000
+
+    print(f"Total Time  : {elapsed_ms:.2f} ms")
+
+    print(f"Status Code : {response.status_code}")
+    print(f"Reason      : {response.reason}")
+
+    print("-" * 60)
+    print("Response Headers:")
+    for k, v in response.headers.items():
+        print(f"{k}: {v}")
+
+    print("-" * 60)
+    print("Response Body:")
+    print(response.text)
+
+except requests.exceptions.SSLError as e:
+    print("SSL/mTLS handshake failed:")
+    print(e)
+
+except requests.exceptions.ConnectionError as e:
+    print("Connection error:")
+    print(e)
+
+except Exception as e:
+    print("Unexpected error:")
+    print(e)
+
+PS C:\Users\T012sp\Downloads\Testing> curl.exe -v -X POST https://realtimeinsurance-soap-api-staging.kyfb.com/soap `
+>>   --resolve realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 `
+>>   --cert client.crt.pem --key client.key.pem `
+>>   -H "Content-Type: text/xml" --data-binary "@request.xml"
+Note: Unnecessary use of -X or --request, POST is already inferred.
+* Added realtimeinsurance-soap-api-staging.kyfb.com:443:18.209.74.244 to DNS cache
+* Hostname realtimeinsurance-soap-api-staging.kyfb.com was found in DNS cache
+* Host realtimeinsurance-soap-api-staging.kyfb.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 18.209.74.244
+*   Trying 18.209.74.244:443...
+* schannel: disabled automatic use of client certificate
+* schannel: Failed to import cert file client.crt.pem, last error is 0x80092002
+* closing connection #0
+curl: (58) schannel: Failed to import cert file client.crt.pem, last error is 0x80092002
+PS C:\Users\T012sp\Downloads\Testing> 
