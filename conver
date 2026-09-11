@@ -1,1 +1,448 @@
-The zip is current. authorizer.zip was rebuilt in 5ca836c alongside the source change — verified the index.js inside it is byte-identical to authorizerSrc/index.js. main.tf:168 sets source_code_hash = filebase64sha256(...) on the zip, so Terraform detects the change and redeploys. Agreed the pre-built-artifact pattern is fragile long term; tracking a move to a CI-built artifact separately.
+RTI Staging Infrastructure Deployment Summary
+Objective
+
+Deploy the new RTI Staging infrastructure including:
+
+Policy Graph API Gateway
+SOAP API Gateway
+SOAP custom domain
+mTLS configuration
+Truststore S3 bucket
+Route53 records
+Lambda functions
+Lambda provisioned concurrency
+API Gateway authorizers
+Initial Deployment
+
+Infrastructure deployment started in the staging workspace.
+
+Large first apply:
+
+Plain Text
+1
+Plan: 53 to add
+Show more lines
+
+Most resources deployed successfully including:
+
+API Gateway REST APIs
+Lambda IAM roles
+Lambda functions
+Route53 certificate validation record
+ACM certificate
+S3 truststore bucket
+CloudWatch log groups
+Security groups
+First Failure #1: API Gateway Custom Domain
+
+Deployment failed creating:
+
+Plain Text
+1
+module.soap_api_gateway.aws_api_gateway_domain_name.this[0]
+Show more lines
+
+Error:
+
+Plain Text
+1
+BadRequestException:
+2
+The provided certificate is not in state ISSUED
+Show more lines
+
+At the time:
+
+Plain Text
+1
+aws_acm_certificate.soap_api
+Show more lines
+
+was created but API Gateway attempted to use it before ACM fully issued the certificate.
+
+Certificate ARN:
+
+Plain Text
+1
+arn:aws:acm:us-east-1:590183719623:certificate/f9235a65-5221-41ab-9dfe-34f8e1132888
+Show more lines
+First Failure #2: Provisioned Concurrency
+
+Deployment also failed on:
+
+Plain Text
+1
+module.soap_verification_lambda.aws_lambda_provisioned_concurrency_config.this[0]
+Show more lines
+
+Error:
+
+Plain Text
+1
+FUNCTION_ERROR_INIT_FAILURE
+Show more lines
+
+Provisioned concurrency status:
+
+JSON
+1
+{
+2
+"Status": "FAILED",
+3
+"StatusReason": "FUNCTION_ERROR_INIT_FAILURE"
+4
+}
+Show more lines
+
+Resource:
+
+Plain Text
+1
+realtimeinsurance-staging-soap-verification-lambda
+Show more lines
+
+Alias:
+
+Plain Text
+1
+live
+Show more lines
+Temporary Recovery Changes
+
+To unblock the rest of infrastructure deployment, two temporary changes were made.
+
+Change #1
+
+In Lambda configuration:
+
+Terraform
+1
+provisioned_concurrency = 1
+Show more lines
+
+changed to:
+
+Terraform
+1
+provisioned_concurrency = 0
+Show more lines
+
+This prevented creation of:
+
+Plain Text
+1
+aws_lambda_alias.live
+2
+aws_lambda_provisioned_concurrency_config
+Show more lines
+
+because module logic contained:
+
+Terraform
+1
+count = var.provisioned_concurrency > 0 ? 1 : 0
+Show more lines
+Change #2
+
+In SOAP API configuration:
+
+changed from:
+
+Terraform
+1
+lambda_arn = module.soap_verification_lambda.lambda_alias_arn
+Show more lines
+
+to:
+
+Terraform
+1
+lambda_arn = module.soap_verification_lambda.lambda_function_arn
+Show more lines
+
+Reason:
+
+When provisioned concurrency was set to zero, alias output became:
+
+Terraform
+1
+null
+Show more lines
+
+because module output was:
+
+Terraform
+1
+output "lambda_alias_arn" {
+2
+value = length(aws_lambda_alias.live) > 0 ? aws_lambda_alias.live[0].arn : null
+3
+}
+Show more lines
+
+API Gateway could no longer use the alias ARN.
+
+Recovery Deployment
+
+After temporary changes, plan became:
+
+Plain Text
+1
+Plan: 5 to add, 3 to change, 4 to destroy
+Show more lines
+
+Changes included:
+
+Destroy:
+
+Plain Text
+1
+aws_lambda_provisioned_concurrency_config
+2
+aws_lambda_alias.live
+Show more lines
+
+Create:
+
+Plain Text
+1
+aws_api_gateway_domain_name
+2
+aws_api_gateway_base_path_mapping
+3
+aws_route53_record.soap_api_dns
+Show more lines
+
+Update:
+
+Plain Text
+1
+SOAP API integration URI
+Show more lines
+
+from:
+
+Plain Text
+1
+...soap-verification-lambda:live/invocations
+Show more lines
+
+to:
+
+Plain Text
+1
+...soap-verification-lambda/invocations
+Show more lines
+Successful Apply
+
+Apply completed successfully:
+
+Plain Text
+1
+Apply complete!
+2
+Resources: 5 added, 3 changed, 4 destroyed.
+Show more lines
+
+Successfully created:
+
+Custom Domain
+Plain Text
+1
+realtimeinsurance-soap-api-staging.kyfb.com
+Show more lines
+Base Path Mapping
+Plain Text
+1
+module.soap_api_gateway.aws_api_gateway_base_path_mapping
+Show more lines
+Route53 Record
+Plain Text
+1
+aws_route53_record.soap_api_dns
+Show more lines
+mTLS Truststore
+
+Already configured via:
+
+Plain Text
+1
+s3://realtimeinsurance-staging-soap-api-truststore/soap-truststore/truststore.pem
+Show more lines
+Post Deployment Validation
+
+Verified:
+
+PowerShell
+1
+aws apigateway get-domain-name \
+2
+--domain-name realtimeinsurance-soap-api-staging.kyfb.com
+Show more lines
+
+Returned:
+
+JSON
+1
+{
+2
+"domainNameStatus": "AVAILABLE"
+3
+}
+Show more lines
+
+Important values:
+
+JSON
+1
+{
+2
+"domainName": "realtimeinsurance-soap-api-staging.kyfb.com",
+3
+"regionalDomainName": "d-39qg0o7bze.execute-api.us-east-1.amazonaws.com",
+4
+"securityPolicy": "TLS_1_2"
+5
+}
+Show more lines
+
+mTLS:
+
+JSON
+1
+{
+2
+"truststoreUri": "s3://realtimeinsurance-staging-soap-api-truststore/soap-truststore/truststore.pem"
+3
+}
+Show more lines
+
+Result:
+
+✅ Custom domain healthy
+
+✅ ACM certificate issued
+
+✅ Route53 record created
+
+✅ Base path mapping created
+
+✅ mTLS configured
+
+✅ SOAP API Gateway healthy
+
+Current Situation
+
+Infrastructure is currently deployed successfully using the temporary workaround:
+
+Current state:
+
+Terraform
+1
+provisioned_concurrency = 0
+Show more lines
+Terraform
+1
+lambda_arn = module.soap_verification_lambda.lambda_function_arn
+Show more lines
+Next Planned Change
+
+Need to restore intended architecture:
+
+Change back to:
+
+Terraform
+1
+provisioned_concurrency = 1
+Show more lines
+
+and
+
+Terraform
+1
+lambda_arn = module.soap_verification_lambda.lambda_alias_arn
+Show more lines
+
+Current plan after reverting those changes:
+
+Plain Text
+1
+Plan: 4 to add, 3 to change, 2 to destroy
+Show more lines
+
+Terraform intends to:
+
+Create:
+
+Plain Text
+1
+aws_lambda_alias.live
+2
+aws_lambda_provisioned_concurrency_config
+Show more lines
+
+Update:
+
+Plain Text
+1
+SOAP API integration
+Show more lines
+
+back to alias-based invocation.
+
+Notable plan items:
+
+Plain Text
+1
+aws_lambda_alias.live[0] will be created
+Show more lines
+Plain Text
+1
+aws_lambda_provisioned_concurrency_config.this[0] will be created
+Show more lines
+Plain Text
+1
+publish = false -> true
+Show more lines
+
+for:
+
+Plain Text
+1
+realtimeinsurance-staging-soap-verification-lambda
+Show more lines
+
+This will publish a Lambda version and then create the alias pointing to version 1.
+
+Main Outstanding Risk
+
+Previously, provisioned concurrency creation failed with:
+
+Plain Text
+1
+FUNCTION_ERROR_INIT_FAILURE
+Show more lines
+
+The next apply will determine whether:
+
+Plain Text
+1
+realtimeinsurance-staging-soap-verification-lambda
+Show more lines
+
+can successfully initialize behind:
+
+Plain Text
+1
+alias = live
+Show more lines
+
+with:
+
+Plain Text
+1
+provisioned_concurrency = 1
+Show more lines
+
+Infrastructure components themselves (ACM, Route53, custom domain, mTLS, API Gateway) are already healthy and deployed.
