@@ -1,1 +1,19 @@
-Get-Content config\lambdas.yml
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> Get-Content config\lambdas.yml
+lambdas:
+  policy_graph_ingest:
+    folder: "policy_graph_ingest"
+    handler: "main.lambda_handler"
+    function_name:
+      dev: "realtimeinsurance-dev-policy-graph-ingest-lambda"
+      perf: "realtimeinsurance-perf-policy-graph-ingest-lambda"
+      nonprod: "realtimeinsurance-nonprod-policy-graph-ingest-lambda"
+      prod: "realtimeinsurance-prod-policy-graph-ingest-lambda"
+  soap_verification:
+    folder: "soap_verification"
+    handler: "main.lambda_handler"
+    function_name:
+      dev: "realtimeinsurance-dev-soap-verification-lambda"
+      perf: "realtimeinsurance-perf-soap-verification-lambda"
+      nonprod: "realtimeinsurance-nonprod-soap-verification-lambda"
+      prod: "realtimeinsurance-prod-soap-verification-lambda"
+PS C:\Users\T012sp\Git repo\real-time-insurance-src>
