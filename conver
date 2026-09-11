@@ -1,4 +1,61 @@
-aws logs describe-log-streams `
-  --log-group-name /aws/lambda/realtimeinsurance-staging-soap-verification-lambda `
-  --order-by LastEventTime --descending --max-items 5 `
-  --profile L2-UAT
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws logs describe-log-streams `
+>>   --log-group-name /aws/lambda/realtimeinsurance-staging-soap-verification-lambda `
+>>   --order-by LastEventTime --descending --max-items 5 `
+>>   --profile L2-UAT
+{                                                                                                                                                                                  
+    "logStreams": [
+        {
+            "logStreamName": "2026/09/11/[1]769f803572c14fce84a11e799011edc8",
+            "creationTime": 1789138462585,
+            "firstEventTimestamp": 1789138462206,
+            "lastEventTimestamp": 1789138462439,
+            "lastIngestionTime": 1789138462591,
+            "uploadSequenceToken": "49039859685881376279007733622065064201654327208350962908",
+            "arn": "arn:aws:logs:us-east-1:590183719623:log-group:/aws/lambda/realtimeinsurance-staging-soap-verification-lambda:log-stream:2026/09/11/[1]769f803572c14fce84a11e799011edc8",
+            "storedBytes": 0
+        },
+        {
+            "logStreamName": "2026/09/11/[1]dc8c9ea4adbd482897022dda7c6fa7cd",
+            "creationTime": 1789138462454,
+            "firstEventTimestamp": 1789138462021,
+            "lastEventTimestamp": 1789138462280,
+            "lastIngestionTime": 1789138462461,
+            "uploadSequenceToken": "49039859685881376106208094170026001648225995314294019205",
+            "arn": "arn:aws:logs:us-east-1:590183719623:log-group:/aws/lambda/realtimeinsurance-staging-soap-verification-lambda:log-stream:2026/09/11/[1]dc8c9ea4adbd482897022dda7c6fa7cd",
+            "storedBytes": 0
+        },
+        {
+            "logStreamName": "2026/09/11/[1]b15e762585e24845af2e85486ea5eb03",
+            "creationTime": 1789138345641,
+            "firstEventTimestamp": 1789138345233,
+            "lastEventTimestamp": 1789138345475,                                                                                                                                   
+            "lastIngestionTime": 1789138345649,                                                                                                                                    
+            "uploadSequenceToken": "49039859685881220836427450542433056373327095678598763765",                                                                                     
+            "arn": "arn:aws:logs:us-east-1:590183719623:log-group:/aws/lambda/realtimeinsurance-staging-soap-verification-lambda:log-stream:2026/09/11/[1]b15e762585e24845af2e85486ea5eb03",                                                                                                                                                                           
+            "storedBytes": 0                                                                                                                                                       
+        },                                                                                                                                                                         
+        {                                                                                                                                                                          
+            "logStreamName": "2026/09/11/[1]a77c32f2a4654dc1ac0858249800ab3b",                                                                                                     
+            "creationTime": 1789138345444,                                                                                                                                         
+            "firstEventTimestamp": 1789138345036,                                                                                                                                  
+            "lastEventTimestamp": 1789138345278,                                                                                                                                   
+            "lastIngestionTime": 1789138345451,                                                                                                                                    
+            "uploadSequenceToken": "49039859685881220573240307377019713877116047315389764863",                                                                                     
+            "arn": "arn:aws:logs:us-east-1:590183719623:log-group:/aws/lambda/realtimeinsurance-staging-soap-verification-lambda:log-stream:2026/09/11/[1]a77c32f2a4654dc1ac0858249800ab3b",                                                                                                                                                                           
+            "storedBytes": 0                                                                                                                                                       
+        },                                                                                                                                                                         
+        {                                                                                                                                                                          
+            "logStreamName": "2026/09/11/[1]de09dcfc9a91475695c08edcaf932e2a",                                                                                                     
+            "creationTime": 1789138280152,                                                                                                                                         
+            "firstEventTimestamp": 1789138279761,                                                                                                                                  
+            "lastEventTimestamp": 1789138279998,                                                                                                                                   
+            "lastIngestionTime": 1789138280160,                                                                                                                                    
+            "uploadSequenceToken": "49039859685881133786615234584077456454761118410431911081",                                                                                     
+            "arn": "arn:aws:logs:us-east-1:590183719623:log-group:/aws/lambda/realtimeinsurance-staging-soap-verification-lambda:log-stream:2026/09/11/[1]de09dcfc9a91475695c08edcaf932e2a",                                                                                                                                                                           
+            "storedBytes": 0                                                                                                                                                       
+        }                                                                                                                                                                          
+    ],                                                                                                                                                                             
+    "NextToken": "eyJuZXh0VG9rZW4iOiBudWxsLCAiYm90b190cnVuY2F0ZV9hbW91bnQiOiA1fQ=="                                                                                                
+}                                                                                                                                                                                  
+                                                                                                                                                                                   
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> 
