@@ -1,12 +1,82 @@
-Select-String -Path ".terraform\modules\soap_verification_lambda\main.tf" `
-  -Pattern "placeholder_zip" -Context 5,15
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws lambda list-provisioned-concurrency-configs `
+>>   --function-name realtimeinsurance-staging-soap-verification-lambda `
+>>   --profile L2-UAT
+{                                                                                                                                                                                  
+    "ProvisionedConcurrencyConfigs": [
+        {
+            "FunctionArn": "arn:aws:lambda:us-east-1:590183719623:function:realtimeinsurance-staging-soap-verification-lambda:live",
+            "RequestedProvisionedConcurrentExecutions": 1,
+            "AvailableProvisionedConcurrentExecutions": 0,
+            "AllocatedProvisionedConcurrentExecutions": 0,
+            "Status": "FAILED",
+            "StatusReason": "FUNCTION_ERROR_INIT_FAILURE",
+            "LastModified": "2026-09-11T14:51:18+0000"
+        }
+    ]
+}
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws lambda delete-provisioned-concurrency-config `
+>>   --function-name realtimeinsurance-staging-soap-verification-lambda `
+>>   --qualifier live --profile L2-UAT
+
+An error occurred (AccessDeniedException) when calling the DeleteProvisionedConcurrencyConfig operation: User: arn:aws:sts::590183719623:assumed-role/AWSReservedSSO_Cloud-Ops-Production_9196e026e75ee046/T012SP@kyfb.com is not authorized to perform: lambda:DeleteProvisionedConcurrencyConfig on resource: arn:aws:lambda:us-east-1:590183719623:function:realtimeinsurance-staging-soap-verification-lambda:live because no identity-based policy allows the lambda:DeleteProvisionedConcurrencyConfig action
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> Select-String -Path ".terraform\modules\soap_verification_lambda\main.tf" `
+>>   -Pattern "placeholder_zip" -Context 5,15
+Select-String : Cannot find path 'C:\Users\T012sp\Git repo\real-time-insurance-src\.terraform\modules\soap_verification_lambda\main.tf' because it does not exist.
+At line:1 char:1
++ Select-String -Path ".terraform\modules\soap_verification_lambda\main ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : ObjectNotFound: (C:\Users\T012sp..._lambda\main.tf:String) [Select-String], ItemNotFoundException
+    + FullyQualifiedErrorId : PathNotFound,Microsoft.PowerShell.Commands.SelectStringCommand
+ 
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> cd..
+PS C:\Users\T012sp\Git repo> cd .\real-time-insurance-infra\
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Select-String -Path ".terraform\modules\soap_verification_lambda\main.tf" `
+>>   -Pattern "placeholder_zip" -Context 5,15
+
+  .terraform\modules\soap_verification_lambda\main.tf:30:  }
+  .terraform\modules\soap_verification_lambda\main.tf:31:}
+  .terraform\modules\soap_verification_lambda\main.tf:32:
+  .terraform\modules\soap_verification_lambda\main.tf:33:# If code is managed elsewhere, deploy a placeholder hello-world zip.
+  .terraform\modules\soap_verification_lambda\main.tf:34:# This is intentionally python code; set runtime=python3.13 and handler=index.handler in the caller.
+> .terraform\modules\soap_verification_lambda\main.tf:35:data "archive_file" "placeholder_zip" {
+  .terraform\modules\soap_verification_lambda\main.tf:36:  count       = var.code_managed_elsewhere ? 1 : 0
+  .terraform\modules\soap_verification_lambda\main.tf:37:  type        = "zip"
+  .terraform\modules\soap_verification_lambda\main.tf:38:  output_path = "${path.module}/.build/${replace(var.name, "/", "-")}-placeholder.zip"
+  .terraform\modules\soap_verification_lambda\main.tf:39:
+  .terraform\modules\soap_verification_lambda\main.tf:40:  source {
+  .terraform\modules\soap_verification_lambda\main.tf:41:    filename = "index.py"
+  .terraform\modules\soap_verification_lambda\main.tf:42:    content  = <<-PY
+  .terraform\modules\soap_verification_lambda\main.tf:43:def handler(event, context):
+  .terraform\modules\soap_verification_lambda\main.tf:44:    return {
+  .terraform\modules\soap_verification_lambda\main.tf:45:        "statusCode": 200,
+  .terraform\modules\soap_verification_lambda\main.tf:46:        "headers": {"content-type": "application/json"},
+  .terraform\modules\soap_verification_lambda\main.tf:47:        "body": "{\"message\": \"hello from placeholder lambda (code_managed_elsewhere=true)\"}"
+  .terraform\modules\soap_verification_lambda\main.tf:48:    }
+  .terraform\modules\soap_verification_lambda\main.tf:49:PY
+  .terraform\modules\soap_verification_lambda\main.tf:50:  }
+  .terraform\modules\soap_verification_lambda\main.tf:171:  handler       = coalesce(var.handler, "index.handler")
+  .terraform\modules\soap_verification_lambda\main.tf:172:  timeout       = var.timeout
+  .terraform\modules\soap_verification_lambda\main.tf:173:  memory_size   = var.memory_size
+  .terraform\modules\soap_verification_lambda\main.tf:174:  architectures = var.architectures
+  .terraform\modules\soap_verification_lambda\main.tf:175:
+> .terraform\modules\soap_verification_lambda\main.tf:176:  filename         = data.archive_file.placeholder_zip[0].output_path
+> .terraform\modules\soap_verification_lambda\main.tf:177:  source_code_hash = data.archive_file.placeholder_zip[0].output_base64sha256
+  .terraform\modules\soap_verification_lambda\main.tf:178:
+  .terraform\modules\soap_verification_lambda\main.tf:179:  publish = var.provisioned_concurrency > 0
+  .terraform\modules\soap_verification_lambda\main.tf:180:
+  .terraform\modules\soap_verification_lambda\main.tf:181:  dynamic "vpc_config" {
+  .terraform\modules\soap_verification_lambda\main.tf:182:    for_each = var.vpc_enabled ? [1] : []
+  .terraform\modules\soap_verification_lambda\main.tf:183:    content {
+  .terraform\modules\soap_verification_lambda\main.tf:184:      subnet_ids = var.subnet_ids
+  .terraform\modules\soap_verification_lambda\main.tf:185:      security_group_ids = (
+  .terraform\modules\soap_verification_lambda\main.tf:186:        length(var.security_group_ids) > 0
+  .terraform\modules\soap_verification_lambda\main.tf:187:        ? var.security_group_ids
+  .terraform\modules\soap_verification_lambda\main.tf:188:        : [aws_security_group.this[0].id]
+  .terraform\modules\soap_verification_lambda\main.tf:189:      )
+  .terraform\modules\soap_verification_lambda\main.tf:190:    }
+  .terraform\modules\soap_verification_lambda\main.tf:191:  }
+  .terraform\modules\soap_verification_lambda\main.tf:192:
 
 
-
-aws lambda list-provisioned-concurrency-configs `
-  --function-name realtimeinsurance-staging-soap-verification-lambda `
-  --profile L2-UAT
-
-aws lambda delete-provisioned-concurrency-config `
-  --function-name realtimeinsurance-staging-soap-verification-lambda `
-  --qualifier live --profile L2-UAT
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
