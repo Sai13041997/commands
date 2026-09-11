@@ -1,1 +1,2 @@
-Select-String -Path ".github\workflows\*.yml" -Pattern "publish-version|update-alias|update-function-code"
+cd "C:\Users\T012sp\Git repo\real-time-insurance-src"
+Get-ChildItem -Recurse -Include *.yml,*.yaml -Path .github | Select-String -Pattern "lambda|serverless|sam deploy|s3 cp"
