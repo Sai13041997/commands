@@ -1,5 +1,196 @@
-on:
-  push:
+Skip to content
+GitHub Enterprise
+Users managed by Kentucky Farm Bureau
+kfbmic
+real-time-insurance-src
+Repository navigation
+Code
+Pull requests
+2
+ (2)
+Agents
+Actions
+Wiki
+Security and quality
+Insights
+Settings
+Feature/t012 sp/cpe 250- #28
+#28
+Open
+Praneeth, Sai (T012SP_kyfb)
+wants to merge 3 commits into
+release/initial-release
+from
+feature/T012SP/CPE-250
++74
+-33
+Lines changed: 74 additions & 33 deletions
+Conversation0 (0)
+Commits3 (3)
+Checks4 (4)
+Files changed4 (4)
+Open
+Feature/t012 sp/cpe 250#28
+Praneeth, Sai (T012SP_kyfb)
+wants to merge 3 commits into
+release/initial-release
+from
+feature/T012SP/CPE-250
+Conversation
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb)
+commented
+4 minutes ago
+This pull request introduces support for a new staging environment in the deployment pipeline, updates deployment workflows to better handle multiple environments, and improves the reliability of Lambda function deployments. The most important changes are grouped below by theme.
+
+Deployment Pipeline and Environment Support:
+
+Added a staging environment to the deployment workflow options in .github/workflows/deploy.yml, and updated the workflow to ignore pushes to the main branch. [1] [2]
+Defined staging configuration in config/environments.yml, including AWS region and API Gateway settings.
+Added staging Lambda function names to config/lambdas.yml for both policy_graph_ingest and soap_verification functions.
+Deployment Reliability Improvements:
+
+Enhanced scripts/deploy_lambda.sh to wait for the Lambda version to become active before updating the alias, and added retry logic to the alias update step for improved robustness.
+Mention @copilot in a comment to make changes to this pull request.
+Praneeth, Sai (T012SP_kyfb) added 3 commits 3 days ago
+@T012SP_kyfb
+Add staging env
+b026c80
+@T012SP_kyfb
+Fix alias update race condition
+1608ab0
+@T012SP_kyfb
+Stop auto-deploying main on push
+609641b
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb) requested a lite review from Copilot 4 minutes ago
+orca-security-us[bot]
+orca-security-us Bot reviewed 4 minutes ago
+orca-security-us Bot
+left a comment
+Orca Security Scan Summary
+Status	Check	Issues by priority	
+Passed Passed	Secrets	high 0   medium 0   low 0   info 0	View in Orca
+Copilot started reviewing on behalf of Praneeth, Sai (T012SP_kyfb) 4 minutes ago
+Copilot AI reviewed 2 minutes ago
+Copilot AI
+left a comment
+🟡 Changes recommended
+The alias retry logic can regress deployments under concurrent workflow runs.
+
+Get a fresh assessment by requesting another Copilot review.
+
+Pull request overview
+File summaries
+Review details
+💡 Add a code-review agent skill or configure MCP servers for context-aware, tailored reviews. Learn more in the docs.
+
+scripts/deploy_lambda.sh
+Comment on lines +80 to +85
+  for attempt in 1 2 3 4 5; do
+    if aws lambda update-alias \
+      --region "${AWS_REGION}" \
+      --function-name "${FUNCTION_NAME}" \
+      --name live \
+      --function-version "${VERSION}"; then
+Copilot commented 2 minutes ago
+Copilot
+Copilot
+AI
+2m ago
+High
+This retry loop can roll the live alias back to an older version when two workflow runs deploy the same Lambda concurrently: an earlier run that fails here can retry after a later run has successfully moved live to a newer version, and this unconditional update then overwrites it. The workflow has no per-Lambda concurrency control; serialize deployments or re-check/guard the alias version before retrying.
+
+Copilot uses AI. Check for mistakes.
+@T012SP_kyfb	Reply...
+.github/workflows/deploy.yml
+Comment on lines +5 to +6
     branches-ignore:
       - main
-  workflow_dispatch:
+Copilot commented 2 minutes ago
+Copilot
+Copilot
+AI
+2m ago
+Low
+This filter stops push-triggered deployments on main, but README.md:5 still states that merging to main deploys the lambdas. Please update the deployment documentation (including the newly supported staging environment) in this PR so the documented trigger and required environment setup match this workflow.
+
+Copilot uses AI. Check for mistakes.
+@T012SP_kyfb	Reply...
+This branch was successfully deployed
+1 active deployment
+Merge info
+All checks have passed
+7 successful checks
+
+
+successful checks
+Deploy / deploy (policy_graph_ingest) (push)
+Deploy / deploy (policy_graph_ingest) (push)Successful in 29s
+Deploy / deploy (soap_verification) (push)
+Deploy / deploy (soap_verification) (push)Successful in 31s
+Deploy / detect-changes (push)
+Deploy / detect-changes (push)Successful in 8s
+Orca Security - Secrets
+Orca Security - SecretsSuccessful in 8s — Orca Security Scan Summary
+PR / build-matrix (pull_request)
+PR / build-matrix (pull_request)Successful in 5s
+PR / package (policy_graph_ingest) (pull_request)
+PR / package (policy_graph_ingest) (pull_request)Successful in 25s
+PR / package (soap_verification) (pull_request)
+PR / package (soap_verification) (pull_request)Successful in 13s
+Merging is blocked
+A conversation must be resolved before this pull request can be merged.
+You can also merge this with the command line. 
+Still in progress?
+@T012SP_kyfb
+
+
+Add a comment
+Comment
+ 
+
+Add your comment here...
+Remember, contributions to this repository should follow our GitHub Community Guidelines.
+ ProTip! Add .patch or .diff to the end of URLs for Git’s plaintext views.
+Reviewers
+@orca-security-us
+orca-security-us[bot]
+Copilot code review
+Copilot
+Copilot review effort, defaults to Lite
+At least 2 approving reviews are required to merge this pull request.
+
+Still in progress?
+Assignees
+No one—
+Labels
+None yet
+Projects
+None yet
+Milestone
+No milestone
+Development
+Successfully merging this pull request may close these issues.
+
+None yet
+
+
+Notifications
+Customize
+You’re receiving notifications because you authored the thread.
+1 participant
+@T012SP_kyfb
+ Archive pull request
+Footer
+© 2026 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Community
+Docs
+Contact
+Manage cookies
+Do not share my personal information
