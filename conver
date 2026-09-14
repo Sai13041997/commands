@@ -1,5 +1,8 @@
-aws lambda update-alias `
-  --function-name realtimeinsurance-perf-soap-verification-lambda `
-  --name live `
-  --function-version 10 `
-  --profile L2-Pre-Prod
+PS C:\Users\T012sp\Downloads\Testing> aws lambda update-alias `
+>>   --function-name realtimeinsurance-perf-soap-verification-lambda `
+>>   --name live `
+>>   --function-version 10 ` 
+>>   --profile L2-Pre-Prod
+
+An error occurred (AccessDeniedException) when calling the UpdateAlias operation: User: arn:aws:sts::058264307873:assumed-role/AWSReservedSSO_Cloud-Ops-Production_9f7b21e37516f367/T012SP@kyfb.com is not authorized to perform: lambda:UpdateAlias on resource: arn:aws:lambda:us-east-1:058264307873:function:realtimeinsurance-perf-soap-verification-lambda because no identity-based policy allows the lambda:UpdateAlias action
+PS C:\Users\T012sp\Downloads\Testing> 
