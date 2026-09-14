@@ -1,1 +1,50 @@
-README update is out of scope for this PR; the exclusion is documented inline in the workflow.
+Copilot AI
+left a comment
+🟡 Changes recommended
+The Lambda alias update has a concurrency race, and transient alias-read failures are not safely retried.
+
+Get a fresh assessment by requesting another Copilot review.
+
+Review details
+Suppressed comments (1)
+scripts/deploy_lambda.sh:86
+
+This retry loop still exits immediately if the get-alias read fails transiently: with set -e, the failing command substitution in this assignment terminates the script before the next attempt. Handle this read inside a conditional and retry (or fail after attempt 5), otherwise the new alias-update retry does not cover a required AWS call.
+    CURRENT="$(aws lambda get-alias \
+      --region "${AWS_REGION}" \
+      --function-name "${FUNCTION_NAME}" \
+      --name live \
+      --query FunctionVersion \
+      --output text)"
+Files reviewed: 4/4 changed files
+Comments generated: 1
+Review effort level: Lite
+scripts/deploy_lambda.sh
+Comment on lines +81 to +97
+    CURRENT="$(aws lambda get-alias \
+      --region "${AWS_REGION}" \
+      --function-name "${FUNCTION_NAME}" \
+      --name live \
+      --query FunctionVersion \
+      --output text)"
+
+    if [[ "${CURRENT}" -gt "${VERSION}" ]]; then
+      echo "Alias live already at version ${CURRENT} (newer than ${VERSION}); leaving it alone."
+      break
+    fi
+
+    if aws lambda update-alias \
+      --region "${AWS_REGION}" \
+      --function-name "${FUNCTION_NAME}" \
+      --name live \
+      --function-version "${VERSION}"; then
+Copilot commented 1 minute ago
+Copilot
+Copilot
+AI
+1m ago
+High
+The get-alias check and update-alias call are separate requests, so a concurrent deployment can advance live after line 86 and this update can still move it back to the older ${VERSION}. The CURRENT > VERSION check does not close that race; read the alias RevisionId and pass it as --revision-id to make the update conditional (or serialize deployments).
+
+Suggested changeset 1 (1)
+scripts/deploy_lambda.sh
