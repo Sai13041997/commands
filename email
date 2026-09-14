@@ -1,8 +1,10 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:AWS_PROFILE = "TFRepository"                                      
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu workspace list
-* default
-  dev
-  perf
-  staging
+tofu workspace select dev
+tofu state list | Select-String -Pattern "aurora" -CaseSensitive:$false
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra
+
+tofu workspace select perf
+tofu state list | Select-String -Pattern "aurora" -CaseSensitive:$false
+
+
+tofu workspace select staging
+tofu state list | Select-String -Pattern "aurora" -CaseSensitive:$false
