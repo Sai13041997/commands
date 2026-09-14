@@ -1,4 +1,13 @@
-aws lambda get-alias `
-  --function-name realtimeinsurance-perf-soap-verification-lambda `
-  --name live `
-  --profile <perf-profile>
+PS C:\Users\T012sp\Downloads\Testing> aws lambda get-alias `
+>>   --function-name realtimeinsurance-perf-soap-verification-lambda `
+>>   --name live `
+>>   --profile L2-Pre-Prod   
+{                                                                                                                                                                           
+    "AliasArn": "arn:aws:lambda:us-east-1:058264307873:function:realtimeinsurance-perf-soap-verification-lambda:live",
+    "Name": "live",
+    "FunctionVersion": "9",
+    "Description": "",
+    "RevisionId": "357f5d4c-9838-4271-be1a-2a7d8714aa3d"
+}
+
+PS C:\Users\T012sp\Downloads\Testing
