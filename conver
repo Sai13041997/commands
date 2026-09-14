@@ -1,8 +1,4 @@
-release/initial-release merge into main- #23
-#23
-Open Ballard, Zach (ZBB3309_kyfb) wants to merge 89 commits into main from release/initial-release
-
-
-but it say it wants to main right ? 
-
-
+aws lambda get-alias `
+  --function-name realtimeinsurance-perf-soap-verification-lambda `
+  --name live `
+  --profile <perf-profile>
