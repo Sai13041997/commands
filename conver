@@ -1,141 +1,90 @@
-name: Deploy
+Run chmod +x scripts/deploy_lambda.sh
+  chmod +x scripts/deploy_lambda.sh
+  ./scripts/deploy_lambda.sh "perf" "soap_verification" "${ARTIFACT_BUCKET}" "${ARTIFACT_KEY}"
+  shell: /usr/bin/bash -e {0}
+  env:
+    ARTIFACT_BUCKET: kfb-github-artifacts
+    ARTIFACT_ROLE_ARN: ***
+    pythonLocation: /opt/hostedtoolcache/Python/3.12.14/x64
+    PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib/pkgconfig
+    Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.12.14/x64
+    LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.12.14/x64/lib
+    AWS_DEFAULT_REGION: us-east-1
+    AWS_REGION: us-east-1
+    AWS_ACCESS_KEY_ID: ***
+    AWS_SECRET_ACCESS_KEY: ***
+    AWS_SESSION_TOKEN: ***
+    ARTIFACT_KEY: real-time-insurance-src/perf/soap_verification/Build124/soap_verification.zip
+Deploying soap_verification -> realtimeinsurance-perf-soap-verification-lambda (env=perf, region=us-east-1)
+Using durable artifact: s3://kfb-github-artifacts/real-time-insurance-src/perf/soap_verification/Build124/soap_verification.zip
+{
+    "FunctionName": "realtimeinsurance-perf-soap-verification-lambda",
+    "FunctionArn": "arn:aws:lambda:us-east-1:058264307873:function:realtimeinsurance-perf-soap-verification-lambda",
+    "Runtime": "python3.13",
+    "Role": "arn:aws:iam::058264307873:role/realtimeinsurance-perf-soap-verification-lambda-role",
+    "Handler": "main.lambda_handler",
+    "CodeSize": 18245361,
+    "Description": "",
+    "Timeout": 10,
+    "MemorySize": 512,
+    "LastModified": "2026-09-14T18:12:57.000+0000",
+    "CodeSha256": "4w7yFqlipTF5W+qEaabxxYyiqZdKEwfl9uLTAlL0ycM=",
+    "Version": "$LATEST",
+    "VpcConfig": {
+        "SubnetIds": [
+            "subnet-0bdc114dd43e596b1",
+            "subnet-0708d4de7d3913cf4",
+            "subnet-0d7f64b0a610aa7f0"
+        ],
+        "SecurityGroupIds": [
+            "sg-08ccc9258865b5e79"
+        ],
+        "VpcId": "vpc-0111e09e8f3b7912d",
+        "Ipv6AllowedForDualStack": false
+    },
+    "Environment": {
+        "Variables": {
+            "debug_logging": "true",
+            "db_region": "us-east-1",
+            "db_name": "realtimeinsurance_perf",
+            "enable_commercial_auto": "true",
+            "db_user": "kfb_aurora_admin",
+            "NAIC": "22993",
+            "db_endpoint": "realtimeinsurance-perf-aurora-proxy.proxy-cvasw4c4ya26.us-east-1.rds.amazonaws.com"
+        }
+    },
+    "TracingConfig": {
+        "Mode": "PassThrough"
+    },
+    "RevisionId": "4116f306-0805-40b6-b941-18d267ca7439",
+    "State": "Active",
+    "LastUpdateStatus": "InProgress",
+    "LastUpdateStatusReason": "The function is being created.",
+    "LastUpdateStatusReasonCode": "Creating",
+    "PackageType": "Zip",
+    "Architectures": [
+        "x86_64"
+    ],
+    "EphemeralStorage": {
+        "Size": 512
+    },
+    "SnapStart": {
+        "ApplyOn": "None",
+        "OptimizationStatus": "Off"
+    },
+    "RuntimeVersionConfig": {
+        "RuntimeVersionArn": "arn:aws:lambda:us-east-1::runtime:578c175c563851ccb278ecd73502dbf7cc8a1d5d0f639b98445d59fbd6da0803"
+    },
+    "LoggingConfig": {
+        "LogFormat": "Text",
+        "LogGroup": "/aws/lambda/realtimeinsurance-perf-soap-verification-lambda"
+    }
+}
+Waiting for function update to complete...
+Alias live found. Publishing new version...
+Published version 10. Updating alias live...
 
-on:
-  push:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Environment to deploy"
-        required: true
-        type: choice
-        options:
-          - dev
-          - perf
-          - staging
-          - prod
-
-permissions:
-  id-token: write
-  contents: read
-  deployments: read
-
-jobs:
-  detect-changes:
-    runs-on: ubuntu-latest
-    outputs:
-      matrix: ${{ steps.matrix.outputs.matrix }}
-      env: ${{ steps.env.outputs.env }}
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - id: env
-        name: Determine environment
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-           echo "env=${{ inputs.environment }}" >> "$GITHUB_OUTPUT"
-
-          elif [[ "${{ github.ref_name }}" == "release/initial-release" ]]; then
-           echo "env=perf" >> "$GITHUB_OUTPUT"
-
-          else
-           echo "env=dev" >> "$GITHUB_OUTPUT"
-          fi
-
-      - id: matrix
-        name: Detect changed lambdas and build matrix
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          REPO="${{ github.repository }}"
-          TARGET_ENV="${{ steps.env.outputs.env }}"
-
-          # Always deploy all lambdas. Change detection was removed because
-          # deployment tooling changes (deploy_lambda.sh, config files) were
-          # not picked up, causing merged changes to never execute.
-          CHANGED_LINES="$(find lambdas -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort || true)"
-
-          if [[ -z "${CHANGED_LINES}" ]]; then
-            echo "No lambdas found under ./lambdas."
-            echo 'matrix=[]' >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          json='[]'
-          while IFS= read -r line; do
-            [[ -z "${line}" ]] && continue
-            json="$(jq -c --arg v "${line}" '. + [$v]' <<< "${json}")"
-          done <<< "${CHANGED_LINES}"
-
-          echo "Matrix JSON: ${json}"
-          echo "matrix=${json}" >> "$GITHUB_OUTPUT"
-
-  deploy:
-    runs-on: ubuntu-latest
-    needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.matrix != '[]' }}
-    environment: ${{ needs.detect-changes.outputs.env }}
-    env:
-      ARTIFACT_BUCKET: ${{ vars.ARTIFACT_BUCKET_NAME }}
-      ARTIFACT_ROLE_ARN: ${{ secrets.ARTIFACT_ROLE }}
-
-    strategy:
-      fail-fast: false
-      matrix:
-        lambda: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.12"
-
-      - name: Install tooling
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install pyyaml
-
-      - name: Package lambda
-        run: |
-          chmod +x scripts/package_lambda.sh
-          ./scripts/package_lambda.sh "${{ matrix.lambda }}"
-
-      - name: Configure AWS credentials for artifact upload (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ env.ARTIFACT_ROLE_ARN }}
-          aws-region: us-east-1
-
-      - name: Upload lambda artifact to durable storage
-        run: |
-          set -euo pipefail
-
-          if [[ -z "${ARTIFACT_BUCKET:-}" || -z "${ARTIFACT_ROLE_ARN:-}" ]]; then
-            echo "ARTIFACT_BUCKET_NAME and ARTIFACT_ROLE org vars are required." >&2
-            exit 1
-          fi
-
-          ARTIFACT_KEY="${{ github.event.repository.name }}/${{ needs.detect-changes.outputs.env }}/${{ matrix.lambda }}/Build${{ github.run_number }}/${{ matrix.lambda }}.zip"
-          LOCAL_ZIP=".artifacts/${{ matrix.lambda }}.zip"
-
-          aws s3 cp "${LOCAL_ZIP}" "s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
-
-          echo "ARTIFACT_KEY=${ARTIFACT_KEY}" >> "$GITHUB_ENV"
-          echo "Uploaded durable artifact: s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
-
-      - name: Configure AWS credentials for lambda deploy (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1
-
-      - name: Deploy lambda code
-        run: |
-          chmod +x scripts/deploy_lambda.sh
-          ./scripts/deploy_lambda.sh "${{ needs.detect-changes.outputs.env }}" "${{ matrix.lambda }}" "${ARTIFACT_BUCKET}" "${ARTIFACT_KEY}"
+aws: [ERROR]: An error occurred (InvalidParameterValueException) when calling the UpdateAlias operation: Additional version weight must be less than 100 %
+Error: Process completed with exit code 254.
