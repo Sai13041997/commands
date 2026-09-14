@@ -1,31 +1,8 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws sso login --profile L2-UAT
-Attempting to automatically open the SSO authorization page in your default browser.
-If the browser does not open or you wish to use a different device to authorize this request, open the following URL:
-
-https://kyfb.awsapps.com/start/#/device
-
-Then enter the code:
-
-CLQG-JLSH
-Successfully logged into Start URL: https://kyfb.awsapps.com/start/
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu workspace select dev
-╷
-│ Error: validating provider credentials: retrieving caller identity from STS: operation error STS: GetCallerIdentity, https response error StatusCode: 403, RequestID: 01bc3c4d-b776-4b31-8140-8ea6d666e24a, api error InvalidClientTokenId: The security token included in the request is invalid.
-│ 
-│ 
-╵
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:AWS_PROFILE = "L2-Development"
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu workspace select dev          
-
-Workspace "dev" doesn't exist.
-
-You can create this workspace with the "new" subcommand 
-or include the "-or-create" flag with the "select" subcommand.
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu state list | Select-String -Pattern "aurora" -CaseSensitive:$false
-Failed to load state: operation error S3: HeadObject, https response error StatusCode: 403, RequestID: BQNEKVCQCVG13V4X, HostID: hgULZfn+/XPrM7Pcyid4E5O7QxkAGLs9yolodY/MUhZ6r8KDa/JvlhO9eN9o8yzhz969dif1cpksWjY/3NgKQY0XJJvBg0pF, api error Forbidden: Forbidden
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> $env:AWS_PROFILE = "TFRepository"                                      
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu workspace list
 * default
+  dev
+  perf
+  staging
 
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra
