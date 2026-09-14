@@ -1,32 +1,98 @@
-Copilot AI
-left a comment
-🟡 Changes recommended
-The Lambda alias update has a concurrency race, and transient alias-read failures are not safely retried.
+#!/usr/bin/env bash
+set -euo pipefail
 
-Get a fresh assessment by requesting another Copilot review.
+ENV_NAME="${1:?env required (e.g. dev/perf)}"
+LAMBDA="${2:?lambda folder name required}"
+ARTIFACT_BUCKET="${3:?artifact bucket required}"
+ARTIFACT_KEY="${4:?artifact key required}"
 
-Review details
-Suppressed comments (1)
-scripts/deploy_lambda.sh:86
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+CONFIG_LAMBDAS="${ROOT}/config/lambdas.yml"
+CONFIG_ENVS="${ROOT}/config/environments.yml"
 
-This retry loop still exits immediately if the get-alias read fails transiently: with set -e, the failing command substitution in this assignment terminates the script before the next attempt. Handle this read inside a conditional and retry (or fail after attempt 5), otherwise the new alias-update retry does not cover a required AWS call.
-    CURRENT="$(aws lambda get-alias \
+read -r FUNCTION_NAME AWS_REGION < <(
+  python3 -c '
+import yaml
+from pathlib import Path
+
+LAMBDA = "'"${LAMBDA}"'"
+ENV = "'"${ENV_NAME}"'"
+
+lambdas = yaml.safe_load(Path("'"${CONFIG_LAMBDAS}"'").read_text())
+envs = yaml.safe_load(Path("'"${CONFIG_ENVS}"'").read_text())
+
+if LAMBDA not in lambdas["lambdas"]:
+    raise SystemExit(f"Lambda {LAMBDA!r} not found in config/lambdas.yml")
+
+fn = lambdas["lambdas"][LAMBDA]["function_name"].get(ENV)
+if not fn:
+    raise SystemExit(f"Missing function_name for env {ENV!r} for lambda {LAMBDA!r}")
+
+region = envs["environments"][ENV]["aws_region"]
+print(fn, region)
+'
+)
+
+echo "Deploying ${LAMBDA} -> ${FUNCTION_NAME} (env=${ENV_NAME}, region=${AWS_REGION})"
+
+echo "Using durable artifact: s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
+aws lambda update-function-code \
+  --region "${AWS_REGION}" \
+  --function-name "${FUNCTION_NAME}" \
+  --s3-bucket "${ARTIFACT_BUCKET}" \
+  --s3-key "${ARTIFACT_KEY}"
+
+echo "Waiting for function update to complete..."
+aws lambda wait function-updated \
+  --region "${AWS_REGION}" \
+  --function-name "${FUNCTION_NAME}"
+
+ALIAS_ERR="$(aws lambda get-alias \
+  --region "${AWS_REGION}" \
+  --function-name "${FUNCTION_NAME}" \
+  --name live 2>&1 >/dev/null)" && ALIAS_RC=0 || ALIAS_RC=$?
+
+if [[ "${ALIAS_RC}" -ne 0 ]] && ! grep -q "ResourceNotFoundException" <<< "${ALIAS_ERR}"; then
+  echo "ERROR: unable to query alias 'live' for ${FUNCTION_NAME}:" >&2
+  echo "${ALIAS_ERR}" >&2
+  exit 1
+fi
+
+if [[ "${ALIAS_RC}" -eq 0 ]]; then
+
+  echo "Alias live found. Publishing new version..."
+
+  VERSION="$(aws lambda publish-version \
+    --region "${AWS_REGION}" \
+    --function-name "${FUNCTION_NAME}" \
+    --query Version \
+    --output text)"
+
+  echo "Published version ${VERSION}. Waiting for it to become Active..."
+
+  aws lambda wait published-version-active \
+    --region "${AWS_REGION}" \
+    --function-name "${FUNCTION_NAME}" \
+    --qualifier "${VERSION}"
+
+  echo "Updating alias live -> version ${VERSION}..."
+
+  for attempt in 1 2 3 4 5; do
+    if ! ALIAS_JSON="$(aws lambda get-alias \
       --region "${AWS_REGION}" \
       --function-name "${FUNCTION_NAME}" \
-      --name live \
-      --query FunctionVersion \
-      --output text)"
-Files reviewed: 4/4 changed files
-Comments generated: 1
-Review effort level: Lite
-scripts/deploy_lambda.sh
-Comment on lines +81 to +97
-    CURRENT="$(aws lambda get-alias \
-      --region "${AWS_REGION}" \
-      --function-name "${FUNCTION_NAME}" \
-      --name live \
-      --query FunctionVersion \
-      --output text)"
+      --name live 2>/dev/null)"; then
+      if [[ "${attempt}" -eq 5 ]]; then
+        echo "ERROR: unable to read alias 'live' after 5 attempts" >&2
+        exit 1
+      fi
+      echo "get-alias attempt ${attempt} failed; retrying in 10s..."
+      sleep 10
+      continue
+    fi
+
+    CURRENT="$(jq -r '.FunctionVersion' <<< "${ALIAS_JSON}")"
+    REVISION="$(jq -r '.RevisionId' <<< "${ALIAS_JSON}")"
 
     if [[ "${CURRENT}" -gt "${VERSION}" ]]; then
       echo "Alias live already at version ${CURRENT} (newer than ${VERSION}); leaving it alone."
@@ -37,14 +103,27 @@ Comment on lines +81 to +97
       --region "${AWS_REGION}" \
       --function-name "${FUNCTION_NAME}" \
       --name live \
-      --function-version "${VERSION}"; then
-Copilot commented 1 minute ago
-Copilot
-Copilot
-AI
-1m ago
-High
-The get-alias check and update-alias call are separate requests, so a concurrent deployment can advance live after line 86 and this update can still move it back to the older ${VERSION}. The CURRENT > VERSION check does not close that race; read the alias RevisionId and pass it as --revision-id to make the update conditional (or serialize deployments).
+      --function-version "${VERSION}" \
+      --revision-id "${REVISION}"; then
+      echo "Alias live now points to version ${VERSION}."
+      break
+    fi
 
-Suggested changeset 1 (1)
-scripts/deploy_lambda.sh
+    if [[ "${attempt}" -eq 5 ]]; then
+      echo "ERROR: update-alias failed after 5 attempts for ${FUNCTION_NAME}" >&2
+      exit 1
+    fi
+
+    echo "update-alias attempt ${attempt} failed; retrying in 10s..."
+    sleep 10
+  done
+
+else
+  echo "No live alias for ${FUNCTION_NAME}; skipping publish and alias update."
+fi
+
+echo "Deployed."
+
+
+
+
