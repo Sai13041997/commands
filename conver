@@ -1,94 +1,35 @@
-name: Deploy
+name: PR
 
 on:
-  push:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: "Environment to deploy"
-        required: true
-        type: choice
-        options:
-          - dev
-          - perf
-          - staging
-          - prod
-
-permissions:
-  id-token: write
-  contents: read
-  deployments: read
+  pull_request:
 
 jobs:
-  detect-changes:
+  build-matrix:
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.matrix.outputs.matrix }}
-      env: ${{ steps.env.outputs.env }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - id: env
-        name: Determine environment
-        shell: bash
-        run: |
-          set -euo pipefail
-
-          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
-           echo "env=${{ inputs.environment }}" >> "$GITHUB_OUTPUT"
-
-          elif [[ "${{ github.ref_name }}" == "release/initial-release" ]]; then
-           echo "env=perf" >> "$GITHUB_OUTPUT"
-
-          else
-           echo "env=dev" >> "$GITHUB_OUTPUT"
-          fi
 
       - id: matrix
-        name: Detect changed lambdas and build matrix
+        name: Enumerate all lambdas
         shell: bash
         run: |
           set -euo pipefail
-
-          REPO="${{ github.repository }}"
-          TARGET_ENV="${{ steps.env.outputs.env }}"
-
-          # Always deploy all lambdas. Change detection was removed because
-          # deployment tooling changes (deploy_lambda.sh, config files) were
-          # not picked up, causing merged changes to never execute.
-          CHANGED_LINES="$(find lambdas -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort || true)"
-
-          if [[ -z "${CHANGED_LINES}" ]]; then
-            echo "No lambdas found under ./lambdas."
-            echo 'matrix=[]' >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
           json='[]'
-          while IFS= read -r line; do
-            [[ -z "${line}" ]] && continue
-            json="$(jq -c --arg v "${line}" '. + [$v]' <<< "${json}")"
-          done <<< "${CHANGED_LINES}"
-
-          echo "Matrix JSON: ${json}"
+          while IFS= read -r name; do
+            [[ -z "${name}" ]] && continue
+            json="$(jq -c --arg v "${name}" '. + [$v]' <<< "${json}")"
+          done < <(find lambdas -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort)
           echo "matrix=${json}" >> "$GITHUB_OUTPUT"
 
-  deploy:
+  package:
     runs-on: ubuntu-latest
-    needs: detect-changes
-    if: ${{ needs.detect-changes.outputs.matrix != '[]' }}
-    environment: ${{ needs.detect-changes.outputs.env }}
-    env:
-      ARTIFACT_BUCKET: ${{ vars.ARTIFACT_BUCKET_NAME }}
-      ARTIFACT_ROLE_ARN: ${{ secrets.ARTIFACT_ROLE }}
-
+    needs: build-matrix
     strategy:
       fail-fast: false
       matrix:
-        lambda: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
-
+        lambda: ${{ fromJSON(needs.build-matrix.outputs.matrix) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -106,36 +47,9 @@ jobs:
           chmod +x scripts/package_lambda.sh
           ./scripts/package_lambda.sh "${{ matrix.lambda }}"
 
-      - name: Configure AWS credentials for artifact upload (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
         with:
-          role-to-assume: ${{ env.ARTIFACT_ROLE_ARN }}
-          aws-region: us-east-1
-
-      - name: Upload lambda artifact to durable storage
-        run: |
-          set -euo pipefail
-
-          if [[ -z "${ARTIFACT_BUCKET:-}" || -z "${ARTIFACT_ROLE_ARN:-}" ]]; then
-            echo "ARTIFACT_BUCKET_NAME and ARTIFACT_ROLE org vars are required." >&2
-            exit 1
-          fi
-
-          ARTIFACT_KEY="${{ github.event.repository.name }}/${{ needs.detect-changes.outputs.env }}/${{ matrix.lambda }}/Build${{ github.run_number }}/${{ matrix.lambda }}.zip"
-          LOCAL_ZIP=".artifacts/${{ matrix.lambda }}.zip"
-
-          aws s3 cp "${LOCAL_ZIP}" "s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
-
-          echo "ARTIFACT_KEY=${ARTIFACT_KEY}" >> "$GITHUB_ENV"
-          echo "Uploaded durable artifact: s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
-
-      - name: Configure AWS credentials for lambda deploy (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: us-east-1
-
-      - name: Deploy lambda code
-        run: |
-          chmod +x scripts/deploy_lambda.sh
-          ./scripts/deploy_lambda.sh "${{ needs.detect-changes.outputs.env }}" "${{ matrix.lambda }}" "${ARTIFACT_BUCKET}" "${ARTIFACT_KEY}"
+          name: ${{ matrix.lambda }}
+          path: .artifacts/${{ matrix.lambda }}.zip
+          if-no-files-found: error
