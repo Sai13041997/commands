@@ -1,1 +1,1 @@
-Praneeth, Sai There's a certificate checked into the repo.  Should that not be put into a certificate manager instead?
+Thanks Amanda. ACM won't work here — API Gateway requires the mTLS truststore as an S3 object, and ACM doesn't let you read a certificate body back out to push it anywhere. It's a CA public cert with no private key, so nothing secret is in the repo
