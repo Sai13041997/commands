@@ -1,2 +1,1 @@
-    # Intentionally excludes main: deploys to main must be triggered
-    # manually via workflow_dispatch, not automatically on push or merge.
+README update is out of scope for this PR; the exclusion is documented inline in the workflow.
