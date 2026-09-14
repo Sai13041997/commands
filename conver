@@ -1,103 +1,141 @@
-#!/usr/bin/env bash
-set -euo pipefail
+name: Deploy
 
-ENV_NAME="${1:?env required (e.g. dev/perf)}"
-LAMBDA="${2:?lambda folder name required}"
-ARTIFACT_BUCKET="${3:?artifact bucket required}"
-ARTIFACT_KEY="${4:?artifact key required}"
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Environment to deploy"
+        required: true
+        type: choice
+        options:
+          - dev
+          - perf
+          - staging
+          - prod
 
-ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-CONFIG_LAMBDAS="${ROOT}/config/lambdas.yml"
-CONFIG_ENVS="${ROOT}/config/environments.yml"
+permissions:
+  id-token: write
+  contents: read
+  deployments: read
 
-read -r FUNCTION_NAME AWS_REGION < <(
-  python3 -c '
-import yaml
-from pathlib import Path
+jobs:
+  detect-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+      env: ${{ steps.env.outputs.env }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-LAMBDA = "'"${LAMBDA}"'"
-ENV = "'"${ENV_NAME}"'"
+      - id: env
+        name: Determine environment
+        shell: bash
+        run: |
+          set -euo pipefail
 
-lambdas = yaml.safe_load(Path("'"${CONFIG_LAMBDAS}"'").read_text())
-envs = yaml.safe_load(Path("'"${CONFIG_ENVS}"'").read_text())
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" ]]; then
+           echo "env=${{ inputs.environment }}" >> "$GITHUB_OUTPUT"
 
-if LAMBDA not in lambdas["lambdas"]:
-    raise SystemExit(f"Lambda {LAMBDA!r} not found in config/lambdas.yml")
+          elif [[ "${{ github.ref_name }}" == "release/initial-release" ]]; then
+           echo "env=perf" >> "$GITHUB_OUTPUT"
 
-fn = lambdas["lambdas"][LAMBDA]["function_name"].get(ENV)
-if not fn:
-    raise SystemExit(f"Missing function_name for env {ENV!r} for lambda {LAMBDA!r}")
+          else
+           echo "env=dev" >> "$GITHUB_OUTPUT"
+          fi
 
-region = envs["environments"][ENV]["aws_region"]
-print(fn, region)
-'
-)
+      - id: matrix
+        name: Detect changed lambdas and build matrix
+        shell: bash
+        run: |
+          set -euo pipefail
 
-echo "Deploying ${LAMBDA} -> ${FUNCTION_NAME} (env=${ENV_NAME}, region=${AWS_REGION})"
+          REPO="${{ github.repository }}"
+          TARGET_ENV="${{ steps.env.outputs.env }}"
 
-echo "Using durable artifact: s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
-aws lambda update-function-code \
-  --region "${AWS_REGION}" \
-  --function-name "${FUNCTION_NAME}" \
-  --s3-bucket "${ARTIFACT_BUCKET}" \
-  --s3-key "${ARTIFACT_KEY}"
+          # Always deploy all lambdas. Change detection was removed because
+          # deployment tooling changes (deploy_lambda.sh, config files) were
+          # not picked up, causing merged changes to never execute.
+          CHANGED_LINES="$(find lambdas -mindepth 1 -maxdepth 1 -type d -printf '%f\n' | sort || true)"
 
-echo "Waiting for function update to complete..."
-aws lambda wait function-updated \
-  --region "${AWS_REGION}" \
-  --function-name "${FUNCTION_NAME}"
+          if [[ -z "${CHANGED_LINES}" ]]; then
+            echo "No lambdas found under ./lambdas."
+            echo 'matrix=[]' >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
 
-ALIAS_ERR="$(aws lambda get-alias \
-  --region "${AWS_REGION}" \
-  --function-name "${FUNCTION_NAME}" \
-  --name live 2>&1 >/dev/null)" && ALIAS_RC=0 || ALIAS_RC=$?
+          json='[]'
+          while IFS= read -r line; do
+            [[ -z "${line}" ]] && continue
+            json="$(jq -c --arg v "${line}" '. + [$v]' <<< "${json}")"
+          done <<< "${CHANGED_LINES}"
 
-if [[ "${ALIAS_RC}" -ne 0 ]] && ! grep -q "ResourceNotFoundException" <<< "${ALIAS_ERR}"; then
-  echo "ERROR: unable to query alias 'live' for ${FUNCTION_NAME}:" >&2
-  echo "${ALIAS_ERR}" >&2
-  exit 1
-fi
+          echo "Matrix JSON: ${json}"
+          echo "matrix=${json}" >> "$GITHUB_OUTPUT"
 
-if [[ "${ALIAS_RC}" -eq 0 ]]; then
+  deploy:
+    runs-on: ubuntu-latest
+    needs: detect-changes
+    if: ${{ needs.detect-changes.outputs.matrix != '[]' }}
+    environment: ${{ needs.detect-changes.outputs.env }}
+    env:
+      ARTIFACT_BUCKET: ${{ vars.ARTIFACT_BUCKET_NAME }}
+      ARTIFACT_ROLE_ARN: ${{ secrets.ARTIFACT_ROLE }}
 
-  echo "Alias live found. Publishing new version..."
+    strategy:
+      fail-fast: false
+      matrix:
+        lambda: ${{ fromJSON(needs.detect-changes.outputs.matrix) }}
 
-  VERSION="$(aws lambda publish-version \
-    --region "${AWS_REGION}" \
-    --function-name "${FUNCTION_NAME}" \
-    --query Version \
-    --output text)"
+    steps:
+      - uses: actions/checkout@v4
 
-  echo "Published version ${VERSION}. Waiting for it to become Active..."
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
 
-  aws lambda wait published-version-active \
-    --region "${AWS_REGION}" \
-    --function-name "${FUNCTION_NAME}" \
-    --qualifier "${VERSION}"
+      - name: Install tooling
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install pyyaml
 
-  echo "Updating alias live -> version ${VERSION}..."
+      - name: Package lambda
+        run: |
+          chmod +x scripts/package_lambda.sh
+          ./scripts/package_lambda.sh "${{ matrix.lambda }}"
 
-  for attempt in 1 2 3 4 5; do
-    if aws lambda update-alias \
-      --region "${AWS_REGION}" \
-      --function-name "${FUNCTION_NAME}" \
-      --name live \
-      --function-version "${VERSION}"; then
-      echo "Alias live now points to version ${VERSION}."
-      break
-    fi
+      - name: Configure AWS credentials for artifact upload (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ env.ARTIFACT_ROLE_ARN }}
+          aws-region: us-east-1
 
-    if [[ "${attempt}" -eq 5 ]]; then
-      echo "ERROR: update-alias failed after 5 attempts for ${FUNCTION_NAME}" >&2
-      exit 1
-    fi
+      - name: Upload lambda artifact to durable storage
+        run: |
+          set -euo pipefail
 
-    echo "update-alias attempt ${attempt} failed; retrying in 10s..."
-    sleep 10
-  done
+          if [[ -z "${ARTIFACT_BUCKET:-}" || -z "${ARTIFACT_ROLE_ARN:-}" ]]; then
+            echo "ARTIFACT_BUCKET_NAME and ARTIFACT_ROLE org vars are required." >&2
+            exit 1
+          fi
 
-else
-  echo "No live alias for ${FUNCTION_NAME}; skipping publish and alias update."
-fi
+          ARTIFACT_KEY="${{ github.event.repository.name }}/${{ needs.detect-changes.outputs.env }}/${{ matrix.lambda }}/Build${{ github.run_number }}/${{ matrix.lambda }}.zip"
+          LOCAL_ZIP=".artifacts/${{ matrix.lambda }}.zip"
 
-echo "Deployed."
+          aws s3 cp "${LOCAL_ZIP}" "s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
+
+          echo "ARTIFACT_KEY=${ARTIFACT_KEY}" >> "$GITHUB_ENV"
+          echo "Uploaded durable artifact: s3://${ARTIFACT_BUCKET}/${ARTIFACT_KEY}"
+
+      - name: Configure AWS credentials for lambda deploy (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: us-east-1
+
+      - name: Deploy lambda code
+        run: |
+          chmod +x scripts/deploy_lambda.sh
+          ./scripts/deploy_lambda.sh "${{ needs.detect-changes.outputs.env }}" "${{ matrix.lambda }}" "${ARTIFACT_BUCKET}" "${ARTIFACT_KEY}"
