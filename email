@@ -1,9 +1,1 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Select-String -Path "*.tf" -Pattern "ref="
-
-lambda.tf:2:  source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.4.0"
-lambda.tf:33:  source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.4.0"
-rest_api.tf:2:  source = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.3.0"
-soap_api.tf:2:  source        = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.3.0"
-
-
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
+Verified across all workspaces. tofu state list in dev, perf, and staging returns only data.terraform_remote_state.aurora, which is a read-only data source — no aws_rds_cluster, subnet group, or security group resources exist in state. There is nothing scheduled for destruction. Aurora is owned by the centralized tf-aws-aurorapostgres-infra repo, and the migration predates this branch. No prod workspace exists yet.
