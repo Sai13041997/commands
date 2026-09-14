@@ -68,15 +68,34 @@ if [[ "${ALIAS_RC}" -eq 0 ]]; then
     --query Version \
     --output text)"
 
-  echo "Published version ${VERSION}. Updating alias live..."
+  echo "Published version ${VERSION}. Waiting for it to become Active..."
 
-  aws lambda update-alias \
+  aws lambda wait published-version-active \
     --region "${AWS_REGION}" \
     --function-name "${FUNCTION_NAME}" \
-    --name live \
-    --function-version "${VERSION}"
+    --qualifier "${VERSION}"
 
-  echo "Alias live now points to version ${VERSION}."
+  echo "Updating alias live -> version ${VERSION}..."
+
+  for attempt in 1 2 3 4 5; do
+    if aws lambda update-alias \
+      --region "${AWS_REGION}" \
+      --function-name "${FUNCTION_NAME}" \
+      --name live \
+      --function-version "${VERSION}"; then
+      echo "Alias live now points to version ${VERSION}."
+      break
+    fi
+
+    if [[ "${attempt}" -eq 5 ]]; then
+      echo "ERROR: update-alias failed after 5 attempts for ${FUNCTION_NAME}" >&2
+      exit 1
+    fi
+
+    echo "update-alias attempt ${attempt} failed; retrying in 10s..."
+    sleep 10
+  done
+
 else
   echo "No live alias for ${FUNCTION_NAME}; skipping publish and alias update."
 fi
