@@ -1,1 +1,1 @@
-Verified across all workspaces. tofu state list in dev, perf, and staging returns only data.terraform_remote_state.aurora, which is a read-only data source — no aws_rds_cluster, subnet group, or security group resources exist in state. There is nothing scheduled for destruction. Aurora is owned by the centralized tf-aws-aurorapostgres-infra repo, and the migration predates this branch. No prod workspace exists yet.
+Praneeth, Sai There's a certificate checked into the repo.  Should that not be put into a certificate manager instead?
