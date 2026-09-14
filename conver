@@ -1,21 +1,2 @@
-  for attempt in 1 2 3 4 5; do
-    CURRENT="$(aws lambda get-alias \
-      --region "${AWS_REGION}" \
-      --function-name "${FUNCTION_NAME}" \
-      --name live \
-      --query FunctionVersion \
-      --output text)"
-
-    if [[ "${CURRENT}" -gt "${VERSION}" ]]; then
-      echo "Alias live already at version ${CURRENT} (newer than ${VERSION}); leaving it alone."
-      break
-    fi
-
-    if aws lambda update-alias \
-      --region "${AWS_REGION}" \
-      --function-name "${FUNCTION_NAME}" \
-      --name live \
-      --function-version "${VERSION}"; then
-      echo "Alias live now points to version ${VERSION}."
-      break
-    fi
+    # Intentionally excludes main: deploys to main must be triggered
+    # manually via workflow_dispatch, not automatically on push or merge.
