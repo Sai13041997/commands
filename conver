@@ -1,2 +1,1 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Select-String -Path "*.tf","*.tfvars" -Pattern "application_name"
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+Get-ChildItem -Recurse -Include *.tf,*.tfvars | Select-String -Pattern "application_name" | Select-Object Path,LineNumber,Line
