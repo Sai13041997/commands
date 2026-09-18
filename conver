@@ -1,1 +1,22 @@
-Planning to add the prod app-user secret via the module-creates-the-secret approach rather than the external ARN method dev uses, so prod lands on the target state directly. Two things worth your input: CG sent the password in plaintext over chat, so I'd rather have Terraform generate it with random_password than reuse an exposed one — and what naming convention do you want for the secret so the wildcard IAM read works? Any other thoughts before I start?
+I would have the secret always contain the literal app name that is the name of the aurora folder
+ 
+so make sure "realtimeinsruance" is always in the secret name for this app
+ 
+And then just give the lambda permissions to read any secret with "*realtimeinsurance*"
+ 
+Basically secret always has literal app name, all apps always have access to read their secrets
+ 
+That's something we could include in lambda module default permissions tbh
+ 
+An application's compute can always by default read secrets specifically created for it
+ 
+That way the design works by default and does not always need special accommodations, yet is still least priveledge
+ 
+It's basically exactly what we do in our EC2 instance profile module and secret design framework
+ 
+Hopefully that makes sense
+ 
+Also, just deploy the secret empty and then we populate it
+ 
+I don't think we ever want to auto populate secret values unless it's something actually managed automatically by aurora or whatever, I might be misunderstandingthat part of your question though
+ 
