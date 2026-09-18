@@ -1,4 +1,2 @@
-tofu fmt -recursive
-
-
-tofu fmt -check -recursive
+# Enable after dev proves the empty-secret flow and CG confirms grants on the user
+# rds_proxy_application_username = "pgsp_aps04703014"
