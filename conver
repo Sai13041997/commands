@@ -1,33 +1,10 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Get-Content apps\realtimeinsurance\main.tf | Select-Object -Last 30
-  rds_proxy_security_group_description = var.rds_proxy_security_group_description
+git pull --rebase
 
-  engine_version  = var.engine_version
-  master_username = var.master_username
 
-  # Must match the existing cluster's current value exactly - changing it
-  # forces replacement of the whole cluster.
-  storage_encrypted = var.storage_encrypted
-
-  db_engine_mode        = var.db_engine_mode
-  instance_class        = var.instance_class
-  replicas              = var.replicas
-  serverless_v2_min_acu = var.serverless_v2_min_acu
-  serverless_v2_max_acu = var.serverless_v2_max_acu
-
-  # Adopted from real-time-insurance-infra: it previously ran its own proxy
-  # against a custom secret/db-user, now consolidated onto this module's
-  # proxy, which authenticates as var.master_username via the cluster's
-  # auto-managed master user secret.
-  enable_rds_proxy = true
-
-<<<<<<< HEAD
-  rds_proxy_application_auth = var.rds_proxy_application_secret_arn == null ? null : {
-    username   = "pgsi_ans04703015"
-    secret_arn = var.rds_proxy_application_secret_arn
-  }
-=======
   rds_proxy_application_username = var.rds_proxy_application_username
->>>>>>> c48e802 (Create RDS proxy application secret in module)
 }
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git rebase --abort
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+
+
+git add apps/realtimeinsurance/main.tf
+git rebase --continue
+git push
