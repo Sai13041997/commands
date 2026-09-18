@@ -1,1 +1,45 @@
-Select-String -Path "modules\aurora-postgres\*.tf" -Pattern "security_group_description" -Context 3,6
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Select-String -Path "modules\aurora-postgres\*.tf" -Pattern "security_group_description" -Context 3,6
+
+  modules\aurora-postgres\main.tf:22:module "aurora_security_group" {
+  modules\aurora-postgres\main.tf:23:  source      = "git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0"
+  modules\aurora-postgres\main.tf:24:  name        = "${var.application_name}-${var.env_tier}-aurora-sg"
+> modules\aurora-postgres\main.tf:25:  description = coalesce(var.aurora_security_group_description, "Allows access to ${var.application_name} Aurora on port ${var.aurora_port} from 
+allowed CIDRs")
+  modules\aurora-postgres\main.tf:26:  vpc_id      = var.vpc_id
+  modules\aurora-postgres\main.tf:27:
+  modules\aurora-postgres\main.tf:28:  inbound_rules  = local.aurora_inbound_rules
+  modules\aurora-postgres\main.tf:29:  outbound_rules = var.security_group_outbound_rules
+  modules\aurora-postgres\main.tf:30:}
+  modules\aurora-postgres\main.tf:31:
+  modules\aurora-postgres\rds_proxy.tf:13:
+  modules\aurora-postgres\rds_proxy.tf:14:  source      = "git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0"
+  modules\aurora-postgres\rds_proxy.tf:15:  name        = "${var.application_name}-${var.env_tier}-rds-proxy-sg"
+> modules\aurora-postgres\rds_proxy.tf:16:  description = coalesce(var.rds_proxy_security_group_description, "RDS Proxy for ${var.application_name}: inbound from allowed_cidrs, 
+outbound to Aurora")
+  modules\aurora-postgres\rds_proxy.tf:17:  vpc_id      = var.vpc_id
+  modules\aurora-postgres\rds_proxy.tf:18:
+  modules\aurora-postgres\rds_proxy.tf:19:  inbound_rules  = local.aurora_inbound_rules
+  modules\aurora-postgres\rds_proxy.tf:20:  outbound_rules = var.security_group_outbound_rules
+  modules\aurora-postgres\rds_proxy.tf:21:}
+  modules\aurora-postgres\rds_proxy.tf:22:
+  modules\aurora-postgres\variables.tf:99:  default     = null
+  modules\aurora-postgres\variables.tf:100:}
+  modules\aurora-postgres\variables.tf:101:
+> modules\aurora-postgres\variables.tf:102:variable "aurora_security_group_description" {
+  modules\aurora-postgres\variables.tf:103:  description = "Override the Aurora security group's description. \"description\" is ForceNew on aws_security_group, so when adopting an 
+existing SG, set this to its current description exactly to avoid a forced replacement."
+  modules\aurora-postgres\variables.tf:104:  type        = string
+  modules\aurora-postgres\variables.tf:105:  default     = null
+  modules\aurora-postgres\variables.tf:106:}
+  modules\aurora-postgres\variables.tf:107:
+> modules\aurora-postgres\variables.tf:108:variable "rds_proxy_security_group_description" {
+  modules\aurora-postgres\variables.tf:109:  description = "Override the RDS Proxy security group's description. \"description\" is ForceNew on aws_security_group, so when adopting 
+an existing SG, set this to its current description exactly to avoid a forced replacement."
+  modules\aurora-postgres\variables.tf:110:  type        = string
+  modules\aurora-postgres\variables.tf:111:  default     = null
+  modules\aurora-postgres\variables.tf:112:}
+  modules\aurora-postgres\variables.tf:113:
+  modules\aurora-postgres\variables.tf:114:variable "allowed_cidrs" {
+
+
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
