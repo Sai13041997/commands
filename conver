@@ -1,1 +1,1 @@
-So if a user id uses pgsp it uses a password and if it uses pgsi it is iam
+That's useful, thanks. So for prod I'd need pgsi_-prefixed rather than pgsp_? Our proxy is set to iam_auth = REQUIRED on all auth blocks, so a password-only user won't authenticate. Is there a pgsi_ equivalent for prod, or should we create one?
