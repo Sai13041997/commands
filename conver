@@ -1,39 +1,5 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws secretsmanager list-secrets `
->>   --query "SecretList[].[Name,ARN]" --output table
-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------   
-|                                                                                    ListSecrets                                                                                   |
-+----------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+
-|  /CrowdStrike/CSPM/SensorManagement/FalconAPICredentials |  arn:aws:secretsmanager:us-east-1:058264370150:secret:/CrowdStrike/CSPM/SensorManagement/FalconAPICredentials-ORRgWn  |
-|  fbco-s3-transfer-credentials                            |  arn:aws:secretsmanager:us-east-1:058264370150:secret:fbco-s3-transfer-credentials-TFoP2W                             |
-|  kfb-agencygoals-l2-dev-ldap-secret                      |  arn:aws:secretsmanager:us-east-1:058264370150:secret:kfb-agencygoals-l2-dev-ldap-secret-oVLi5Q                       |
-|  kfb-agencygoals-l2-dev-db-secret                        |  arn:aws:secretsmanager:us-east-1:058264370150:secret:kfb-agencygoals-l2-dev-db-secret-JCI6II                         |
-|  kfb-agencygoals-l2-dev-sso-secret                       |  arn:aws:secretsmanager:us-east-1:058264370150:secret:kfb-agencygoals-l2-dev-sso-secret-2yiIyE                        |
-|  dev-AgencyGoals-DB                                      |  arn:aws:secretsmanager:us-east-1:058264370150:secret:dev-AgencyGoals-DB-L2DWBG                                       |
-|  dev-AgencyGoals-DB-2                                    |  arn:aws:secretsmanager:us-east-1:058264370150:secret:dev-AgencyGoals-DB-2-UR5u0Q                                     |
-|  Dev2-DSDocMgmt-DB                                       |  arn:aws:secretsmanager:us-east-1:058264370150:secret:Dev2-DSDocMgmt-DB-H0EmiE                                        |
-|  testKeyValue                                            |  arn:aws:secretsmanager:us-east-1:058264370150:secret:testKeyValue-nElktN                                             |
-|  doc-sso-secret-np-docservice-use1                       |  arn:aws:secretsmanager:us-east-1:058264370150:secret:doc-sso-secret-np-docservice-use1-BGLM5Q                        |
-|  bil-gw-secret-np-arms-use1                              |  arn:aws:secretsmanager:us-east-1:058264370150:secret:bil-gw-secret-np-arms-use1-PPy5fE                               |
-|  rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf        |  arn:aws:secretsmanager:us-east-1:058264370150:secret:rds!cluster-de1d9261-65ef-4198-9ae6-73dcb0b25daf-rnMglh         |
-                     |                                                                                                                                                                 
-7-mngyfv         |                                                                                                                                                                     
-6-csocln         |                                                                                                                                                                     
-vs-use1-kxUmjF   |                                                                                                                                                                     
-s-use1-MlLk1l    |                                                                                                                                                                     
-+----------------------------------------------------------+-----------------------------------------------------------------------------------------------------------------------+   
-                                                                                                                                                                                       
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws sts get-caller-identity
-{                                                                                                                                                                                      
-    "UserId": "AROAQ3EGTXPTFPAA33AOX:T012SP@kyfb.com",
-    "Account": "058264370150",
-    "Arn": "arn:aws:sts::058264370150:assumed-role/AWSReservedSSO_Cloud-Ops-Admin_715e8133d1c66ed2/T012SP@kyfb.com"
-}
+aws secretsmanager list-secrets `
+  --query "SecretList[?contains(Name,'realtimeinsurance')].[Name,ARN]" --output json
 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+
+Select-String -Path "apps\realtimeinsurance\*.tfvars" -Pattern "rds_proxy_application_secret_arn"
