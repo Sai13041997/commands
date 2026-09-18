@@ -1,1 +1,2 @@
-Priv service is the privilege/permission and with method is rds_iam
+aws rds describe-db-proxies --db-proxy-name realtimeinsurance-prod-aurora-proxy `
+  --query "DBProxies[].Status" --profile L2-Prod
