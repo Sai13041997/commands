@@ -2,3 +2,7 @@ tofu fmt -recursive
 git add -A
 git commit -m "Enable RDS proxy application user for prod"
 git push
+
+
+cd apps\realtimeinsurance
+tofu workspace list
