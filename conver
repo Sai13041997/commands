@@ -1,6 +1,14 @@
-variable "rds_proxy_application_username" {
-  description = "Database username for the application user on the RDS Proxy. When set, the module creates an empty Secrets Manager secret for it and attaches a second auth block to the proxy. The secret value must be populated out-of-band before the app user can connect."
-  type        = string
-  default     = null
-  nullable    = true
+locals {
+  app_auth_enabled = var.enable_rds_proxy && var.rds_proxy_application_username != null
+}
+
+resource "aws_secretsmanager_secret" "rds_proxy_application" {
+  count = local.app_auth_enabled ? 1 : 0
+
+  name        = "${var.application_name}-${var.env_tier}-rds-proxy-app-user"
+  description = "RDS Proxy application user credentials for ${var.application_name} ${var.env_tier}. Created empty by Terraform; value populated out-of-band."
+
+  tags = merge(var.tags, {
+    Name = "${var.application_name}-${var.env_tier}-rds-proxy-app-user"
+  })
 }
