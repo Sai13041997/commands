@@ -1,3 +1,11 @@
-aws ec2 describe-security-groups `
-  --group-ids sg-00a8eb105425378be sg-042f0af6c6b545810 `
-  --query "SecurityGroups[].[GroupId,GroupName,Description]" --output table
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws ec2 describe-security-groups `
+>>   --group-ids sg-00a8eb105425378be sg-042f0af6c6b545810 `
+>>   --query "SecurityGroups[].[GroupId,GroupName,Description]" --output table
+----------------------------------------------------------------------------------------------------------------------------------------------------                                   
+|                                                              DescribeSecurityGroups                                                              |
++----------------------+---------------------------------------+-----------------------------------------------------------------------------------+
+|  sg-042f0af6c6b545810|  realtimeinsurance-prod-rds-proxy-sg  |  RDS Proxy for realtimeinsurance: inbound from allowed_cidrs, outbound to Aurora  |
+|  sg-00a8eb105425378be|  realtimeinsurance-prod-aurora-sg     |  Allows access to realtimeinsurance Aurora on port 5432 from allowed CIDRs        |
++----------------------+---------------------------------------+-----------------------------------------------------------------------------------+
+
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
