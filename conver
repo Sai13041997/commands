@@ -81,8 +81,8 @@ data "aws_iam_policy_document" "rds_proxy_secret_access" {
 
     resources = concat(
       [aws_rds_cluster.aurora.master_user_secret[0].secret_arn],
-      var.rds_proxy_application_auth != null ? [
-        var.rds_proxy_application_auth.secret_arn
+      local.app_auth_enabled ? [
+        aws_secretsmanager_secret.rds_proxy_application[0].arn
       ] : []
     )
   }
@@ -95,8 +95,8 @@ data "aws_iam_policy_document" "rds_proxy_secret_access" {
       [
         "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.master_username}"
       ],
-      var.rds_proxy_application_auth != null ? [
-        "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.rds_proxy_application_auth.username}"
+      local.app_auth_enabled ? [
+        "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.rds_proxy_application_username}"
       ] : []
     )
   }
@@ -129,12 +129,12 @@ resource "aws_db_proxy" "aurora" {
   }
 
   dynamic "auth" {
-    for_each = var.rds_proxy_application_auth != null ? [var.rds_proxy_application_auth] : []
+    for_each = local.app_auth_enabled ? [1] : []
 
     content {
       auth_scheme = "SECRETS"
       iam_auth    = "REQUIRED"
-      secret_arn  = auth.value.secret_arn
+      secret_arn  = aws_secretsmanager_secret.rds_proxy_application[0].arn
     }
   }
 
