@@ -1,1 +1,10 @@
-Get-Content apps\realtimeinsurance\variables.tf | Select-Object -First 8
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Get-Content apps\realtimeinsurance\variables.tf | Select-Object -First 8
+variable "application_name" {
+  description = "Name of application."
+  type        = string
+  default     = "realtimeinsurance"
+}
+
+variable "env_tier" {
+  description = "dev, qa, uat, perf, prod, etc."
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>Get-Content apps\realtimeinsurance\variables.tf | Select-Object -First 8
