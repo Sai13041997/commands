@@ -1,2 +1,21 @@
-git log --oneline -5 -- envs/dev.tfvars
-git diff origin/main -- envs/dev.tfvars
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> git log --oneline -5 -- envs/dev.tfvars
+3b62e21 (HEAD -> feature/T012SP/CPE-250-perf-output-fix, origin/feature/T012SP/CPE-250-perf-output-fix) Make RDS proxy application secret environment specific
+f396471 Format realtimeinsurance dev tfvars
+dd517b2 Convert realtimeinsurance dev Aurora cluster to serverless
+428fd06 tofu fmt
+5f8777f changes to enable the migration of reatime cluster and actual migration as well
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> git diff origin/main -- envs/dev.tfvars
+diff --git a/apps/realtimeinsurance/envs/dev.tfvars b/apps/realtimeinsurance/envs/dev.tfvars
+index cbbe1ed..ec153e2 100644
+--- a/apps/realtimeinsurance/envs/dev.tfvars
++++ b/apps/realtimeinsurance/envs/dev.tfvars
+@@ -17,6 +17,8 @@ requested_by                         = "PMOGroup@kyfb.com"
+ storage_encrypted                    = false
+ aurora_security_group_description    = "Allows access for developers and applications to connect"
+ rds_proxy_security_group_description = "RDS Proxy: inbound from Lambda, outbound to Aurora"
++rds_proxy_application_secret_arn     = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
++rds_proxy_application_username       = "pgsi_ans04703015"
+ # Must match the live security groups' descriptions exactly - changing these
+ # forces destroy+recreate of the real SGs (description is ForceNew).
+ 
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> 
