@@ -1,15 +1,1 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Get-ChildItem modules\aurora-postgres\*.tf
-
-
-    Directory: C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\modules\aurora-postgres
-
-
-Mode                 LastWriteTime         Length Name                                                                                                                      
-----                 -------------         ------ ----                                                                                                                      
--a----         8/19/2026   9:59 AM           3692 main.tf                                                                                                                   
--a----         9/18/2026  10:34 AM           1945 outputs.tf                                                                                                                
--a----         9/18/2026  10:33 AM           5868 rds_proxy.tf                                                                                                              
--a----         9/18/2026  10:29 AM           5892 variables.tf                                                                                                              
-
-
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+Select-String -Path "modules\aurora-postgres\outputs.tf" -Pattern "rds_proxy_application_secret_arn" -Context 2,4
