@@ -1,6 +1,15 @@
-output "rds_proxy_application_secret_arn" {
-  description = "ARN of the RDS Proxy application user secret, for callers granting read access. Null when no application user is configured."
-  value       = local.app_auth_enabled ? aws_secretsmanager_secret.rds_proxy_application[0].arn : null
-}
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Get-ChildItem modules\aurora-postgres\*.tf
 
-Get-ChildItem modules\aurora-postgres\*.tf
+
+    Directory: C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\modules\aurora-postgres
+
+
+Mode                 LastWriteTime         Length Name                                                                                                                      
+----                 -------------         ------ ----                                                                                                                      
+-a----         8/19/2026   9:59 AM           3692 main.tf                                                                                                                   
+-a----         9/18/2026  10:34 AM           1945 outputs.tf                                                                                                                
+-a----         9/18/2026  10:33 AM           5868 rds_proxy.tf                                                                                                              
+-a----         9/18/2026  10:29 AM           5892 variables.tf                                                                                                              
+
+
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
