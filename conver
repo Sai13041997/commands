@@ -1,1 +1,2 @@
-Makes sense — app name in the secret, module creates it empty, Lambda gets *realtimeinsurance* read by default. Deploying empty solves the password question better than generating one. Two things I'll check: whether RDS Proxy rejects the auth config before the secret is populated, and making sure Terraform doesn't overwrite the value on later applies.
+$env:AWS_PROFILE = "L2-Development"
+aws secretsmanager describe-secret --secret-id realtimeinsurance-NNrdwU
