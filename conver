@@ -1,7 +1,17 @@
-aws rds describe-db-clusters `
-  --db-cluster-identifier pol-db-rds-cluster-prod-realtimeins-pg `
-  --query "DBClusters[].VpcSecurityGroups[].VpcSecurityGroupId" --output text
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws rds describe-db-clusters `
+>>   --db-cluster-identifier pol-db-rds-cluster-prod-realtimeins-pg `
+>>   --query "DBClusters[].VpcSecurityGroups[].VpcSecurityGroupId" --output text
+sg-00a8eb105425378be                                                                                                                                                                   
 
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws rds describe-db-proxies `
+>>   --query "DBProxies[].[DBProxyName,VpcSecurityGroupIds]" --output json
+[                                                                                                                                                                                      
+    [
+        "realtimeinsurance-prod-aurora-proxy",
+        [
+            "sg-042f0af6c6b545810"
+        ]
+    ]
+]
 
-aws rds describe-db-proxies `
-  --query "DBProxies[].[DBProxyName,VpcSecurityGroupIds]" --output json
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
