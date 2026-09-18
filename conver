@@ -1,1 +1,3 @@
-Can you confirm pgsi_ans04703015 (dev) and pgsp_aps04703014 (prod) exist with rds_iam granted, and share their passwords somewhere other than chat? Terraform has created empty secrets for both — realtimeinsurance-dev-rds-proxy-app-user and realtimeinsurance-prod-rds-proxy-app-user — and they need populating before the app user can connect through the proxy.
+Hi CG — quick heads up: Terraform now creates the app-user secrets automatically per environment (realtimeinsurance-dev-rds-proxy-app-user and realtimeinsurance-prod-rds-proxy-app-user). They're created empty and populated separately, so credentials don't go through code or chat. Both are in place and attached to the proxies now.
+
+Two things I need: confirmation that pgsi_ans04703015 (dev) and pgsp_aps04703014 (prod) have rds_iam granted — the proxy uses IAM auth, so it won't connect without it — and the passwords, ideally not over chat. If you have console access you could drop them straight into the secrets.
