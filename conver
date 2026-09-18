@@ -1,2 +1,7 @@
-pgsi_aps04703014
- 
+rds_proxy_application_username = "pgsi_aps04703014"
+
+
+tofu fmt -recursive
+git add -A
+git commit -m "Use pgsi IAM auth user for prod RDS proxy"
+git push
