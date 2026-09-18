@@ -1,12 +1,7 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> $env:AWS_PROFILE = "L2-Prod"   
->> aws sts get-caller-identity
-{                                                                                                                                                                                      
-    "UserId": "AROAU6GDUO5VEFM2PCRM4:T012SP@kyfb.com",
-    "Account": "339712702314",
-    "Arn": "arn:aws:sts::339712702314:assumed-role/AWSReservedSSO_Cloud-Ops-Production_13a171a7be78d14a/T012SP@kyfb.com"
-}
+aws rds describe-db-clusters `
+  --db-cluster-identifier pol-db-rds-cluster-prod-realtimeins-pg `
+  --query "DBClusters[].VpcSecurityGroups[].VpcSecurityGroupId" --output text
 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws ec2 describe-security-groups `
->>   --filters "Name=tag:Name,Values=*realtimeins*" `
->>   --query "SecurityGroups[].[GroupId,GroupName,Description]" --output table
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
+
+aws rds describe-db-proxies `
+  --query "DBProxies[].[DBProxyName,VpcSecurityGroupIds]" --output json
