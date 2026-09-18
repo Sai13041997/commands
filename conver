@@ -1,1 +1,12 @@
-Select-String -Path "modules\aurora-postgres\outputs.tf" -Pattern "rds_proxy_application_secret_arn" -Context 2,4
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Select-String -Path "modules\aurora-postgres\outputs.tf" -Pattern "rds_proxy_application_secret_arn" -Context 2,4
+
+  modules\aurora-postgres\outputs.tf:49:}
+  modules\aurora-postgres\outputs.tf:50:
+> modules\aurora-postgres\outputs.tf:51:output "rds_proxy_application_secret_arn" {
+  modules\aurora-postgres\outputs.tf:52:  description = "ARN of the RDS Proxy application user secret, for callers granting read access. Null when no application user is 
+configured."
+  modules\aurora-postgres\outputs.tf:53:  value       = local.app_auth_enabled ? aws_secretsmanager_secret.rds_proxy_application[0].arn : null
+  modules\aurora-postgres\outputs.tf:54:}
+
+
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
