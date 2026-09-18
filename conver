@@ -1,3 +1,4 @@
-pps\realtimeinsurance\envs\dev.tfvars
-apps\realtimeinsurance\envs\prod.tfvars
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+tofu fmt -recursive
+
+
+tofu fmt -check -recursive
