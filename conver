@@ -1,11 +1,1 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws secretsmanager list-secrets `
->>   --query "SecretList[?contains(Name,'realtimeinsurance')].[Name,ARN]" --output json
-[                                                                                                                                                                                      
-    [
-        "realtimeinsurance",
-        "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
-    ]
-]
-
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Select-String -Path "apps\realtimeinsurance\*.tfvars" -Pattern "rds_proxy_application_secret_arn"
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+Get-ChildItem -Recurse -Include *.tfvars,*.tf | Select-String -Pattern "rds_proxy_application_secret_arn" | Select-Object Path,LineNumber,Line
