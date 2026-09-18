@@ -1,3 +1,29 @@
-git status
-git log --oneline -5
-git branch --show-current
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git status                                                                   
+>> git log --oneline -20
+>> git branch --show-current
+On branch feature/T012SP/CPE-250-perf-output-fix
+Your branch is up to date with 'origin/feature/T012SP/CPE-250-perf-output-fix'.
+
+nothing to commit, working tree clean
+3b62e21 (HEAD -> feature/T012SP/CPE-250-perf-output-fix, origin/feature/T012SP/CPE-250-perf-output-fix) Make RDS proxy application secret environment specific
+00ee133 Merge branch 'main' of https://github.com/kfbmic/tf-aws-aurorapostgres-infra into feature/T012SP/CPE-250-perf-output-fix
+47cb0fc Update RDS proxy application user to new naming convention
+f084cca (origin/main, origin/HEAD) Merge pull request #20 from kfbmic/fix/realtimeinsurance-prod-network
+de7e5da Resolve merge conflict and correct reader count
+ac95473 Merge pull request #18 from kfbmic/fix/realtimeinsurance-reader-count
+4672b26 Reduce realtimeinsurance reader instance count to 1
+d71eca7 Reduce realtimeinsurance reader instance count to 1
+a1617d6 Merge pull request #17 from kfbmic/feature/realtimeinsurance-prod-backup-clean
+4f63374 Move backup variable declarations to variables.tf
+e1fd4e0 Restore example-app files
+cb1eae8 Fix backup configuration and formatting
+209bdad Format Terraform files
+7436941 Restore realtimeinsurance variables and backup settings
+63efd0c Add description for air_gapped_min_retention_days variable
+27702d5 Enable IAM Access Analyzer for realtimeinsurance backup
+57593d1 Add description for backup_start_window_minutes variable
+69907ac fix: add description for logically air-gapped vault variable
+697fc17 fix: add AWS Access Analyzer for backup IAM setup
+1825b9c Add missing description for air_gapped_max_retention_days
+feature/T012SP/CPE-250-perf-output-fix
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
