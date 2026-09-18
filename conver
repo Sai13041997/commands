@@ -1,3 +1,23 @@
-$env:AWS_PROFILE = "L2-Prod"
-aws rds describe-db-proxies --db-proxy-name realtimeinsurance-prod-aurora-proxy `
-  --query "DBProxies[].[Status,Auth]" --output json
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> $env:AWS_PROFILE = "L2-Prod"
+>> 
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> aws rds describe-db-proxies --db-proxy-name realtimeinsurance-prod-aurora-proxy `
+>>   --query "DBProxies[].[Status,Auth]" --output json
+[                                                                                                                                                                           
+    [
+        "available",
+        [
+            {
+                "AuthScheme": "SECRETS",
+                "SecretArn": "arn:aws:secretsmanager:us-east-1:339712702314:secret:realtimeinsurance-prod-rds-proxy-app-user-wzEB4k",
+                "IAMAuth": "REQUIRED"
+            },
+            {
+                "AuthScheme": "SECRETS",
+                "SecretArn": "arn:aws:secretsmanager:us-east-1:339712702314:secret:rds!cluster-e5340f93-8659-4df1-a844-c8f31ac13984-HRAHUs",
+                "IAMAuth": "REQUIRED"
+            }
+        ]
+    ]
+]
+
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance>
