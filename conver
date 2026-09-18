@@ -1,3 +1,3 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git log --all --oneline --grep="ternary" 
->> git log --all --oneline -S "== null ? null" -- apps/realtimeinsurance/main.tf
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+can you confirm whether pgsp_aps04703014 actually exists in the prod cluster with the right grants?
+
+Get-Content modules\aurora-postgres\rds_proxy.tf
