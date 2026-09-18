@@ -1,5 +1,4 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> $env:AWS_PROFILE = "L2-Development"
->> aws secretsmanager describe-secret --secret-id realtimeinsurance-NNrdwU
+aws secretsmanager list-secrets `
+  --query "SecretList[].[Name,ARN]" --output table
 
-An error occurred (ResourceNotFoundException) when calling the DescribeSecret operation: Secrets Manager can't find the specified secret.
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+aws sts get-caller-identity
