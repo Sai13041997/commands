@@ -1,1 +1,15 @@
-Get-Content apps\realtimeinsurance\main.tf | Select-Object -Skip 70 -First 25
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Get-Content apps\realtimeinsurance\main.tf | Select-Object -Skip 70 -First 25
+  serverless_v2_max_acu = var.serverless_v2_max_acu
+
+  # Adopted from real-time-insurance-infra: it previously ran its own proxy
+  # against a custom secret/db-user, now consolidated onto this module's
+  # proxy, which authenticates as var.master_username via the cluster's
+  # auto-managed master user secret.
+  enable_rds_proxy = true
+
+  rds_proxy_application_auth = {
+    username   = "pgsi_ans04703015"
+    secret_arn = var.rds_proxy_application_secret_arn
+  }
+}
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
