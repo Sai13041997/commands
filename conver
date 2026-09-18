@@ -1,3 +1,112 @@
-$env:AWS_PROFILE = "TFRepository"
-tofu workspace select prod
-tofu plan -var-file="envs/prod.tfvars"
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> $env:AWS_PROFILE = "TFRepository"
+>> tofu workspace select prod
+>> tofu plan -var-file="envs/prod.tfvars"
+module.aurora.data.aws_iam_policy_document.rds_proxy_assume[0]: Reading...
+aws_accessanalyzer_analyzer.backup[0]: Refreshing state... [id=realtimeinsurance-prod-backup-access-analyzer]
+aws_backup_vault.primary[0]: Refreshing state... [id=realtimeinsurance-prod-primary-backup-vault]
+data.aws_iam_policy_document.aws_backup_assume_role: Reading...
+module.aurora.data.aws_region.current: Reading...
+module.aurora.data.aws_caller_identity.current: Reading...
+aws_backup_logically_air_gapped_vault.air_gapped[0]: Refreshing state... [id=realtimeinsurance-prod-airgapped-vault]
+module.aurora.aws_secretsmanager_secret.rds_proxy_application[0]: Refreshing state... [id=arn:aws:secretsmanager:us-east-1:339712702314:secret:realtimeinsurance-prod-rds-proxy-app-user-wzEB4k]
+module.aurora.module.rds_proxy_security_group[0].aws_security_group.this: Refreshing state... [id=sg-042f0af6c6b545810]
+data.aws_iam_policy_document.aws_backup_assume_role: Read complete after 0s [id=2062047698]
+module.aurora.module.aurora_security_group.aws_security_group.this: Refreshing state... [id=sg-00a8eb105425378be]
+module.aurora.data.aws_iam_policy_document.rds_proxy_assume[0]: Read complete after 0s [id=2562693050]
+module.aurora.aws_db_subnet_group.aurora: Refreshing state... [id=realtimeinsurance-prod-db-subnet-group]
+module.aurora.data.aws_region.current: Read complete after 0s [id=us-east-1]
+aws_iam_role.aws_backup[0]: Refreshing state... [id=realtimeinsurance-prod-aws-backup-role]
+module.aurora.aws_iam_role.rds_proxy[0]: Refreshing state... [id=realtimeinsurance-prod-rds-proxy-role]
+module.aurora.data.aws_caller_identity.current: Read complete after 0s [id=339712702314]
+aws_backup_plan.aurora[0]: Refreshing state... [id=22329383-e0ef-400a-af0a-7671a40667e9]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.236.1.0/24-5432"]: Refreshing state... [id=sgr-05efceb3c3de3d0ce]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.235.1.0/24-5432"]: Refreshing state... [id=sgr-041cad26747f390c1]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_egress_rule.this["realtimeinsurance-prod-rds-proxy-sg-egress-0.0.0.0/0-all"]: Refreshing state... [id=sgr-0799747375b595139]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.217.3.0/24-5432"]: Refreshing state... [id=sgr-0c78435305f1a11b1]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.212.0.0/16-5432"]: Refreshing state... [id=sgr-0b5019ed19645dbe0]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.218.12.0/24-5432"]: Refreshing state... [id=sgr-0a7b0552154bc05d1]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.218.17.0/24-5432"]: Refreshing state... [id=sgr-038a3acf7e10c43d1]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.214.0.0/16-5432"]: Refreshing state... [id=sgr-007d502acc92b98d5]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.225.0.0/16-5432"]: Refreshing state... [id=sgr-09ce54e58eb6f334e]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.238.1.0/24-5432"]: Refreshing state... [id=sgr-0974a858a3a926d1d]
+module.aurora.module.rds_proxy_security_group[0].aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-rds-proxy-sg-ingress-10.215.0.0/16-5432"]: Refreshing state... [id=sgr-06d464fa9e71a0cc2]
+aws_iam_role_policy_attachment.aws_backup_service_policy[0]: Refreshing state... [id=realtimeinsurance-prod-aws-backup-role/arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForBackup]
+aws_iam_role_policy_attachment.aws_backup_restore_policy[0]: Refreshing state... [id=realtimeinsurance-prod-aws-backup-role/arn:aws:iam::aws:policy/service-role/AWSBackupServiceRolePolicyForRestores]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_egress_rule.this["realtimeinsurance-prod-aurora-sg-egress-0.0.0.0/0-all"]: Refreshing state... [id=sgr-09a0e42b1d451b3fd]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.214.0.0/16-5432"]: Refreshing state... [id=sgr-055ba2d1a76036678]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.225.0.0/16-5432"]: Refreshing state... [id=sgr-06d0ed35c7f058851]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.212.0.0/16-5432"]: Refreshing state... [id=sgr-0b44864661acfd912]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.217.3.0/24-5432"]: Refreshing state... [id=sgr-0b1698efe0752bc90]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.218.17.0/24-5432"]: Refreshing state... [id=sgr-069f764d259fd46a8]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.235.1.0/24-5432"]: Refreshing state... [id=sgr-0a755c6fc9a2a5437]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.236.1.0/24-5432"]: Refreshing state... [id=sgr-0a4ecad5b68b2b4ee]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.238.1.0/24-5432"]: Refreshing state... [id=sgr-058372d4d0c2169b8]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.218.12.0/24-5432"]: Refreshing state... [id=sgr-02895eb78666b82aa]
+module.aurora.module.aurora_security_group.aws_vpc_security_group_ingress_rule.this["realtimeinsurance-prod-aurora-sg-ingress-10.215.0.0/16-5432"]: Refreshing state... [id=sgr-0babe9cbbc4d52fdd]
+module.aurora.aws_rds_cluster.aurora: Refreshing state... [id=pol-db-rds-cluster-prod-realtimeins-pg]
+aws_backup_selection.aurora[0]: Refreshing state... [id=f03026ca-ef04-4578-ae08-1e43d4e95196]
+module.aurora.aws_vpc_security_group_ingress_rule.aurora_from_proxy[0]: Refreshing state... [id=sgr-0184d3872c261e888]
+module.aurora.aws_rds_cluster_instance.writer: Refreshing state... [id=pol-db-rds-cluster-prod-realtimeins-pg-wr]
+module.aurora.aws_rds_cluster_instance.reader[0]: Refreshing state... [id=pol-db-rds-cluster-prod-realtimeins-pg-rd-1]
+module.aurora.data.aws_iam_policy_document.rds_proxy_secret_access[0]: Reading...
+module.aurora.aws_db_proxy.aurora[0]: Refreshing state... [id=realtimeinsurance-prod-aurora-proxy]
+module.aurora.data.aws_iam_policy_document.rds_proxy_secret_access[0]: Read complete after 0s [id=3358392871]
+module.aurora.aws_iam_role_policy.rds_proxy_secret_access[0]: Refreshing state... [id=realtimeinsurance-prod-rds-proxy-role:realtimeinsurance-prod-rds-proxy-secret-access]
+module.aurora.aws_db_proxy_default_target_group.aurora[0]: Refreshing state... [id=realtimeinsurance-prod-aurora-proxy]
+module.aurora.aws_db_proxy_endpoint.aurora_reader[0]: Refreshing state... [id=realtimeinsurance-prod-aurora-proxy/realtimeinsurance-prod-aurora-proxy-reader]
+module.aurora.aws_db_proxy_target.aurora[0]: Refreshing state... [id=realtimeinsurance-prod-aurora-proxy/default/TRACKED_CLUSTER/pol-db-rds-cluster-prod-realtimeins-pg]
+
+OpenTofu used the selected providers to generate the following execution plan. Resource actions are indicated with the following symbols:
+  ~ update in-place (current -> planned)
+
+OpenTofu will perform the following actions:
+
+  # module.aurora.aws_iam_role_policy.rds_proxy_secret_access[0] will be updated in-place
+  ~ resource "aws_iam_role_policy" "rds_proxy_secret_access" {
+        id     = "realtimeinsurance-prod-rds-proxy-role:realtimeinsurance-prod-rds-proxy-secret-access"
+        name   = "realtimeinsurance-prod-rds-proxy-secret-access"
+      ~ policy = jsonencode(
+          ~ {
+              ~ Statement = [
+                    {
+                        Action   = [
+                            "secretsmanager:GetSecretValue",
+                            "secretsmanager:DescribeSecret",
+                        ]
+                        Effect   = "Allow"
+                        Resource = [
+                            "arn:aws:secretsmanager:us-east-1:339712702314:secret:realtimeinsurance-prod-rds-proxy-app-user-wzEB4k",
+                            "arn:aws:secretsmanager:us-east-1:339712702314:secret:rds!cluster-e5340f93-8659-4df1-a844-c8f31ac13984-HRAHUs",
+                        ]
+                    },
+                  ~ {
+                      ~ Resource = [
+                          - "arn:aws:rds-db:us-east-1:339712702314:dbuser:cluster-DC4ZPPM6BL5ACRRACUHDMW3SXA/pgsp_aps04703014",
+                          + "arn:aws:rds-db:us-east-1:339712702314:dbuser:cluster-DC4ZPPM6BL5ACRRACUHDMW3SXA/pgsi_aps04703014",
+                            "arn:aws:rds-db:us-east-1:339712702314:dbuser:cluster-DC4ZPPM6BL5ACRRACUHDMW3SXA/kfb_aurora_admin",
+                        ]
+                        # (2 unchanged attributes hidden)
+                    },
+                ]
+                # (1 unchanged attribute hidden)
+            }
+        )
+        # (1 unchanged attribute hidden)
+    }
+
+Plan: 0 to add, 1 to change, 0 to destroy.
+╷
+│ Warning: Deprecated attribute
+│ 
+│   on ..\..\modules\aurora-postgres\rds_proxy.tf line 96, in data "aws_iam_policy_document" "rds_proxy_secret_access":
+│   96:         "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.master_username}"
+│ 
+│ The attribute "name" is deprecated. Refer to the provider documentation for details.
+│ 
+│ (and 3 more similar warnings elsewhere)
+╵
+
+────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+Note: You didn't use the -out option to save this plan, so OpenTofu can't guarantee to take exactly these actions if you run "tofu apply" now.
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> 
