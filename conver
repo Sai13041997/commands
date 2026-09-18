@@ -1,5 +1,32 @@
-$env:AWS_PROFILE = "TFRepository"
-cd apps\realtimeinsurance
-tofu init
-tofu workspace select dev
-tofu plan -var-file=envs/dev.tfvars
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> $env:AWS_PROFILE = "TFRepository"
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> cd apps\realtimeinsurance
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> tofu init
+
+Initializing the backend...
+Initializing modules...
+
+Initializing provider plugins...
+- Reusing previous version of hashicorp/aws from the dependency lock file
+- Using previously-installed hashicorp/aws v6.60.0
+
+OpenTofu has been successfully initialized!
+
+You may now begin working with OpenTofu. Try running "tofu plan" to see
+any changes that are required for your infrastructure. All OpenTofu commands
+should now work.
+
+If you ever set or change modules or backend configuration for OpenTofu,
+rerun this command to reinitialize your working directory. If you forget, other
+commands will detect it and remind you to do so if necessary.
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> tofu workspace select dev
+Switched to workspace "dev".
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> tofu plan -var-file=envs/dev.tfvars
+╷
+│ Error: Too many command line arguments
+│ 
+│ To specify a working directory for the plan, use the global -chdir flag.
+╵
+
+For more help on using this command, run:
+  tofu plan -help
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> 
