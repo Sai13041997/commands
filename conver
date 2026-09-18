@@ -1,7 +1,30 @@
-rds_proxy_application_username = "pgsi_aps04703014"
-
-
-tofu fmt -recursive
-git add -A
-git commit -m "Use pgsi IAM auth user for prod RDS proxy"
-git push
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> git diff
+diff --git a/apps/realtimeinsurance/envs/prod.tfvars b/apps/realtimeinsurance/envs/prod.tfvars
+index 5d1633e..35d6c92 100644
+--- a/apps/realtimeinsurance/envs/prod.tfvars
++++ b/apps/realtimeinsurance/envs/prod.tfvars
+@@ -12,7 +12,7 @@ cluster_identifier     = "pol-db-rds-cluster-prod-realtimeins-pg"
+ business_ops_category  = "POL"
+ requested_by           = "HC-78251"
+ # Enable after dev proves the empty-secret flow and CG confirms grants on the user
+-rds_proxy_application_username = "pgsp_aps04703014"
++rds_proxy_application_username = "pgsi_aps04703014"
+ 
+ ##backup configurations
+ 
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> tofu fmt -recursive
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> git add -A
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> git commit -m "Use pgsi IAM auth user for prod RDS proxy"
+[feature/T012SP/CPE-250-perf-output-fix e758de9] Use pgsi IAM auth user for prod RDS proxy
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> git push
+Enumerating objects: 11, done.
+Counting objects: 100% (11/11), done.
+Delta compression using up to 4 threads
+Compressing objects: 100% (6/6), done.
+Writing objects: 100% (6/6), 503 bytes | 125.00 KiB/s, done.
+Total 6 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
+remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
+To https://github.com/kfbmic/tf-aws-aurorapostgres-infra.git
+   7fe2db7..e758de9  feature/T012SP/CPE-250-perf-output-fix -> feature/T012SP/CPE-250-perf-output-fix
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance>
