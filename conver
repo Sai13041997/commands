@@ -1,20 +1,2 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> tofu fmt -check -recursive
-apps\realtimeinsurance\envs\prod.tfvars
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> tofu fmt -recursive
-apps\realtimeinsurance\envs\prod.tfvars
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git add -A
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git commit -m "Format prod tfvars"
-[feature/T012SP/CPE-250-perf-output-fix 0dce739] Format prod tfvars
- 1 file changed, 12 insertions(+), 12 deletions(-)
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git push
-Enumerating objects: 11, done.
-Counting objects: 100% (11/11), done.
-Delta compression using up to 4 threads
-Compressing objects: 100% (6/6), done.
-Writing objects: 100% (6/6), 513 bytes | 256.00 KiB/s, done.
-Total 6 (delta 5), reused 0 (delta 0), pack-reused 0 (from 0)
-remote: Resolving deltas: 100% (5/5), completed with 5 local objects.
-To https://github.com/kfbmic/tf-aws-aurorapostgres-infra.git
-   1a8ecff..0dce739  feature/T012SP/CPE-250-perf-output-fix -> feature/T012SP/CPE-250-perf-output-fix
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> tofu fmt -check -recursive        
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+$env:AWS_PROFILE = "L2-Development"
+aws secretsmanager get-secret-value --secret-id realtimeinsurance --query SecretString --output text
