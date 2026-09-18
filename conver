@@ -1,1 +1,2 @@
-Would you be able to create that one? It's the last thing blocking the prod proxy from working end to end — everything else is applied and healthy, the secret's in place, it just needs a user it can actually authenticate. Dev's already working the same way with pgsi_ans04703015, so it'd be the prod equivalent with the same grants plus rds_iam.
+pgsi_aps04703014
+ 
