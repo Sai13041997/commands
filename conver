@@ -1,2 +1,1 @@
-I don't believe there is currently a pgsi_ equivalent for prod, so i'll need to create one and grant the appropriate permissions and rds_iam role.
- 
+Would you be able to create that one? It's the last thing blocking the prod proxy from working end to end — everything else is applied and healthy, the secret's in place, it just needs a user it can actually authenticate. Dev's already working the same way with pgsi_ans04703015, so it'd be the prod equivalent with the same grants plus rds_iam.
