@@ -1,15 +1,6 @@
-variable "rds_proxy_application_username" {
-  description = "Database username for the RDS Proxy application user. Null disables the application auth block for this environment."
-  type        = string
-  default     = null
-  nullable    = true
-}
+cd "C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra"
+git diff
 
 
-
-  rds_proxy_application_username = var.rds_proxy_application_username
-
-rds_proxy_application_username = "pgsi_ans04703015"
-
-
-rds_proxy_application_username = "pgsp_aps04703014"
+tofu fmt -check -recursive
+tofu validate
