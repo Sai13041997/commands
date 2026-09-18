@@ -1,6 +1,6 @@
-What permissions does it need
- 
-That’s the rds proxy?
- 
-It was created in the production cluster, are you having issues?
- 
+variable "rds_proxy_application_username" {
+  description = "Database username for the application user on the RDS Proxy. When set, the module creates an empty Secrets Manager secret for it and attaches a second auth block to the proxy. The secret value must be populated out-of-band before the app user can connect."
+  type        = string
+  default     = null
+  nullable    = true
+}
