@@ -1,4 +1,16 @@
-Get-Content apps\realtimeinsurance\main.tf | Select-Object -Last 12
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Get-Content apps\realtimeinsurance\main.tf | Select-Object -Last 12
+  replicas              = var.replicas
+  serverless_v2_min_acu = var.serverless_v2_min_acu
+  serverless_v2_max_acu = var.serverless_v2_max_acu
 
+  # Adopted from real-time-insurance-infra: it previously ran its own proxy
+  # against a custom secret/db-user, now consolidated onto this module's
+  # proxy, which authenticates as var.master_username via the cluster's
+  # auto-managed master user secret.
+  enable_rds_proxy = true
 
-tofu fmt -check -recursive
+  rds_proxy_application_username = var.rds_proxy_application_username
+}
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> tofu fmt -check -recursive
+apps\realtimeinsurance\envs\prod.tfvars
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
