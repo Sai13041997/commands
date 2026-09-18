@@ -1,2 +1,32 @@
-git show 3b62e21 --stat
-git show 3b62e21 -- apps/realtimeinsurance/main.tf
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git show 3b62e21 --stat
+>> git show 3b62e21 -- apps/realtimeinsurance/main.tf
+commit 3b62e21054a315a115eac287f9a7d30f11342c32 (HEAD -> feature/T012SP/CPE-250-perf-output-fix, origin/feature/T012SP/CPE-250-perf-output-fix)
+Author: t012sp <sai.praneeth@kyfb.com>
+Date:   Thu Sep 17 14:05:24 2026 -0400
+
+    Make RDS proxy application secret environment specific
+
+ apps/realtimeinsurance/envs/dev.tfvars | 1 +
+ apps/realtimeinsurance/main.tf         | 2 +-
+ apps/realtimeinsurance/variables.tf    | 6 ++++++
+ 3 files changed, 8 insertions(+), 1 deletion(-)
+commit 3b62e21054a315a115eac287f9a7d30f11342c32 (HEAD -> feature/T012SP/CPE-250-perf-output-fix, origin/feature/T012SP/CPE-250-perf-output-fix)
+Author: t012sp <sai.praneeth@kyfb.com>
+Date:   Thu Sep 17 14:05:24 2026 -0400
+
+    Make RDS proxy application secret environment specific
+
+diff --git a/apps/realtimeinsurance/main.tf b/apps/realtimeinsurance/main.tf
+index 6d612fc..b8b885d 100644
+--- a/apps/realtimeinsurance/main.tf
++++ b/apps/realtimeinsurance/main.tf
+@@ -78,6 +78,6 @@ module "aurora" {
+ 
+   rds_proxy_application_auth = {
+     username   = "pgsi_ans04703015"
+-    secret_arn = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
++    secret_arn = var.rds_proxy_application_secret_arn
+   }
+ }
+\ No newline at end of file
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
