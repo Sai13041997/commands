@@ -1,2 +1,3 @@
-git log --all --oneline --grep="ternary" 
-git log --all --oneline -S "== null ? null" -- apps/realtimeinsurance/main.tf
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git log --all --oneline --grep="ternary" 
+>> git log --all --oneline -S "== null ? null" -- apps/realtimeinsurance/main.tf
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
