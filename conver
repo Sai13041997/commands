@@ -1,5 +1,4 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> $env:AWS_PROFILE = "L2-Development"
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws secretsmanager get-secret-value --secret-id realtimeinsurance --query SecretString --output text
-{"username":"pgsi_ans00315015","password":"W{z/E783XuA%","engine":"postgres","host":"realtimeinsurance-dev-aurora-cluster.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com","port":5432,"dbClusterIdentifier":"realtimeinsurance-dev-aurora-cluster"}
-
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
+tofu fmt -recursive
+git add -A
+git commit -m "Enable RDS proxy application user for prod"
+git push
