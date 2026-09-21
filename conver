@@ -1,2 +1,35 @@
-aws rds describe-db-proxies --db-proxy-name realtimeinsurance-prod-aurora-proxy `
-  --query "DBProxies[].Status" --profile L2-Prod
+Me:
+Hey Zach, just checking are you talking about the lambda logs or API logs? 
+Zach 
+Lamba
+ 
+Should be an env var
+ Me:
+debug_logging is already true on both Lambdas. Logs should already be there.
+ Zach:
+I don’t think it’s set to true
+ Me:
+Checked prod live.  debug_logging is already "true" on both Lambdas
+ Zach:
+Interesting
+ Me:
+What specifically are you expecting to see that isn’t there?
+ 
+Verified end to end. debug_logging is "true" on both prod Lambdas, main.py reads it, and it sets the log level to DEBUG via dictConfig. Debug logging is already active in prod
+ Zach
+I’ll need to check
+ Me:
+Yeah sure let me know 
+ 
+Good morning, Zach. Will Kentucky IVS be testing the SOAP call?
+ Zach:
+Data Migration wasnt completed properly 
+ Me:
+Got it
+Zach:
+can you make sure the logging is set up properly
+ 
+Idk how that flow works, but we should be seeing some debug level logs 
+ Me:
+I will take a look into that
+ 
