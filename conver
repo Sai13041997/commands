@@ -1,49 +1,6 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws logs tail /aws/lambda/realtimeinsurance-prod-soap-verification-lambda `
->>   --since 2d --profile L2-Prod | Select-String "DEBUG"
-PS C:\Users\T012sp\Git repo\real-time-insurance-src> aws logs tail /aws/lambda/realtimeinsurance-prod-soap-verification-lambda `
->>   --since 2d --profile L2-Prod
-2026-09-19T17:05:29.257000+00:00 2026/09/19/[3]ebe777f7ca4b4d98b98fa029b8b092fa INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-19T17:05:32.478000+00:00 2026/09/19/[3]ebe777f7ca4b4d98b98fa029b8b092fa INIT_REPORT Init Duration: 3220.82 ms
-2026-09-19T19:21:53.405000+00:00 2026/09/19/[3]1c798ebd105f4c959f2e7328b87e9e0b INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-19T19:21:56.621000+00:00 2026/09/19/[3]1c798ebd105f4c959f2e7328b87e9e0b INIT_REPORT Init Duration: 3215.45 ms
-2026-09-19T21:20:41.438000+00:00 2026/09/19/[3]9f8f1e71366f40aa88b79e53d326273d INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-19T21:20:44.702000+00:00 2026/09/19/[3]9f8f1e71366f40aa88b79e53d326273d INIT_REPORT Init Duration: 3263.78 ms
-2026-09-19T23:19:29.615000+00:00 2026/09/19/[3]08d7669223614062b464198dee4c583d INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-19T23:19:32.911000+00:00 2026/09/19/[3]08d7669223614062b464198dee4c583d INIT_REPORT Init Duration: 3295.81 ms
-2026-09-20T01:33:41.446000+00:00 2026/09/20/[3]cb3784f234cd4a83984054ba3f6fb787 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T01:33:44.722000+00:00 2026/09/20/[3]cb3784f234cd4a83984054ba3f6fb787 INIT_REPORT Init Duration: 3276.42 ms
-2026-09-20T03:39:05.100000+00:00 2026/09/20/[3]2f4e5dd5ceae44cd8387d2b770bfc9c8 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T03:39:08.386000+00:00 2026/09/20/[3]2f4e5dd5ceae44cd8387d2b770bfc9c8 INIT_REPORT Init Duration: 3285.95 ms
-2026-09-20T05:35:41.023000+00:00 2026/09/20/[3]ac9db80aaead4d829031b8f3b744dab1 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T05:35:44.063000+00:00 2026/09/20/[3]ac9db80aaead4d829031b8f3b744dab1 INIT_REPORT Init Duration: 3039.62 ms
-2026-09-20T08:00:52.842000+00:00 2026/09/20/[3]8d7b9a026bfb4343bbf4710d5c05bfa0 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T08:00:55.840000+00:00 2026/09/20/[3]8d7b9a026bfb4343bbf4710d5c05bfa0 INIT_REPORT Init Duration: 2997.30 ms
-2026-09-20T10:12:52.802000+00:00 2026/09/20/[3]c11edeed89754d2f9a7839b6280f6dde INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T10:12:55.832000+00:00 2026/09/20/[3]c11edeed89754d2f9a7839b6280f6dde INIT_REPORT Init Duration: 3030.49 ms
-2026-09-20T12:11:40.404000+00:00 2026/09/20/[3]59412258688f4562b92dea3a55b12417 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T12:11:43.689000+00:00 2026/09/20/[3]59412258688f4562b92dea3a55b12417 INIT_REPORT Init Duration: 3285.03 ms
-2026-09-20T14:30:16.406000+00:00 2026/09/20/[3]149a93a1664d4ff88f96733a8eb4b097 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T14:30:19.750000+00:00 2026/09/20/[3]149a93a1664d4ff88f96733a8eb4b097 INIT_REPORT Init Duration: 3344.90 ms
-2026-09-20T16:22:28.363000+00:00 2026/09/20/[3]952578fab97a4e73929d5b5105cb4957 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T16:22:31.678000+00:00 2026/09/20/[3]952578fab97a4e73929d5b5105cb4957 INIT_REPORT Init Duration: 3314.72 ms
-2026-09-20T18:32:15.976000+00:00 2026/09/20/[3]651fae1bf6314adfa4e685bf8b0c11f5 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T18:32:19.305000+00:00 2026/09/20/[3]651fae1bf6314adfa4e685bf8b0c11f5 INIT_REPORT Init Duration: 3329.70 ms
-2026-09-20T20:50:05.604000+00:00 2026/09/20/[3]31d9da1599124fc0a146a85f0533f0a8 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T20:50:08.718000+00:00 2026/09/20/[3]31d9da1599124fc0a146a85f0533f0a8 INIT_REPORT Init Duration: 3114.81 ms
-2026-09-20T22:54:33.009000+00:00 2026/09/20/[3]faaa5884834440f081a2a3c7d10494f5 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-20T22:54:36.260000+00:00 2026/09/20/[3]faaa5884834440f081a2a3c7d10494f5 INIT_REPORT Init Duration: 3251.49 ms
-2026-09-21T00:54:38.945000+00:00 2026/09/21/[3]da4a3b3ee1dd4bbeb8f78d415d33d879 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-21T00:54:41.858000+00:00 2026/09/21/[3]da4a3b3ee1dd4bbeb8f78d415d33d879 INIT_REPORT Init Duration: 2913.51 ms
-2026-09-21T03:12:48.244000+00:00 2026/09/21/[3]ac6f3130466248448a105e3cbaa7a38d INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-21T03:12:51.522000+00:00 2026/09/21/[3]ac6f3130466248448a105e3cbaa7a38d INIT_REPORT Init Duration: 3278.12 ms
-2026-09-21T05:27:00.448000+00:00 2026/09/21/[3]dee993c38a474aa4918da2a4c06fb4ce INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-21T05:27:03.600000+00:00 2026/09/21/[3]dee993c38a474aa4918da2a4c06fb4ce INIT_REPORT Init Duration: 3152.22 ms
-2026-09-21T07:39:00.320000+00:00 2026/09/21/[3]3637efbe72724f8baf07c607e2cab5b6 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-21T07:39:03.439000+00:00 2026/09/21/[3]3637efbe72724f8baf07c607e2cab5b6 INIT_REPORT Init Duration: 3119.01 ms
-2026-09-21T09:44:24.284000+00:00 2026/09/21/[3]f11151c5da2143128265fae047e01f89 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-21T09:44:27.358000+00:00 2026/09/21/[3]f11151c5da2143128265fae047e01f89 INIT_REPORT Init Duration: 3073.94 ms
-2026-09-21T12:03:55.098000+00:00 2026/09/21/[3]2d2ddfa86c0b4e5bab0e854fbcbd80a8 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-21T12:03:58.289000+00:00 2026/09/21/[3]2d2ddfa86c0b4e5bab0e854fbcbd80a8 INIT_REPORT Init Duration: 3190.92 ms
-2026-09-21T14:05:08.949000+00:00 2026/09/21/[3]ed7ce9cb1c2e441bb256cffd7360cf13 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-21T14:05:12.307000+00:00 2026/09/21/[3]ed7ce9cb1c2e441bb256cffd7360cf13 INIT_REPORT Init Duration: 3358.85 ms
-PS C:\Users\T012sp\Git repo\real-time-insurance-src>
+aws logs tail /aws/lambda/realtimeinsurance-prod-policy-graph-ingest-lambda `
+  --since 2d --profile L2-Prod | Select-String "DEBUG"
+
+
+aws logs tail /aws/lambda/realtimeinsurance-prod-policy-graph-ingest-lambda `
+  --since 2d --profile L2-Prod
