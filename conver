@@ -1,3 +1,13 @@
-Correct. These are one-time imports for the four existing environments, where Lambda already auto-created the log groups. I'll remove the file once dev, perf, staging and prod are all applied, so a new environment isn't blocked. Adding a note to the file to that effect.
-
-Manages the Lambda log groups in Terraform (create_log_group = true), importing the existing auto-created groups so the apply doesn't fail. Note this sets retention to 30 days, where it was previously unlimited.
+Alex:
+Can we avoid import block for something this small scale
+ 
+And just do cli import
+ 
+Saw your PR
+ 
+I don't like imports because they get left sitting in repos when they are really only needed for one execution
+ 
+import blocks I mean
+ 
+I import stuff on command line all the time
+ 
