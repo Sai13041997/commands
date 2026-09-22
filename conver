@@ -1,11 +1,8 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git log --oneline origin/feature/T012SP/CPE-250..Head
-6de1de3 (HEAD -> feature/T012SP/CPE-250, origin/main, origin/HEAD) Merge pull request #19 from kfbmic/release/initial-FINAL
-3848a21 (origin/release/initial-FINAL) turn on concurrency and auto log group
-02ba2c3 (main) Merge pull request #18 from kfbmic/feature/aschoborg/CPE-250
-220b35c (origin/feature/aschoborg/CPE-250) alias to function
-bf365dc turn on opa validation, concurrency 0
-a435bcb Merge pull request #17 from kfbmic/feature/aschoborg/CPE-250
-91c6b4b bucket names
-05ab16d update entra audience for prod
-3e35154 add s3 bucket to code, switch CI to use tf-action-tooling
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
+locals {
+  # rds_iam app user from the Aurora state when configured,
+  # otherwise the master user (perf and staging until their users exist).
+  db_app_user = coalesce(
+    try(data.terraform_remote_state.aurora.outputs.rds_proxy_application_username, null),
+    data.terraform_remote_state.aurora.outputs.master_username
+  )
+}
