@@ -1,21 +1,7 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Get-ChildItem *.tf
-
-
-    Directory: C:\Users\T012sp\Git repo\real-time-insurance-infra
-
-
-Mode                 LastWriteTime         Length Name                                                                                                                      
-----                 -------------         ------ ----                                                                                                                      
--a----         9/15/2026   3:36 PM            486 aurora.tf                                                                                                                 
--a----         9/15/2026   3:36 PM            135 data.tf                                                                                                                   
--a----         9/16/2026  12:34 PM           2690 lambda.tf                                                                                                                 
--a----         9/15/2026   3:36 PM            273 locals.tf                                                                                                                 
--a----         9/15/2026   3:36 PM           1494 main.tf                                                                                                                   
--a----         9/15/2026   3:36 PM            736 rest_api.tf                                                                                                               
--a----         9/15/2026   3:37 PM            835 s3.tf                                                                                                                     
--a----         9/16/2026  12:34 PM           1378 soap_api.tf                                                                                                               
--a----         9/15/2026   3:36 PM           3527 soap_mtls.tf                                                                                                              
--a----         9/15/2026   3:37 PM           1455 variables.tf                                                                                                              
-
-
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Get-Content locals.tf
+locals {
+  soap_api_fqdn         = var.soap_api_domain_name
+  soap_api_domain_parts = split(".", local.soap_api_fqdn)
+  soap_api_base_domain  = join(".", slice(local.soap_api_domain_parts, length(local.soap_api_domain_parts) - 2, length(local.soap_api_domain_parts)))
+}
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
