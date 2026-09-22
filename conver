@@ -1,4 +1,2 @@
-aws rds describe-db-clusters `
-  --db-cluster-identifier realtimeinsurance-dev-aurora-cluster `
-  --query "DBClusters[].IAMDatabaseAuthenticationEnabled" `
-  --profile L2-Development
+aws logs tail /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy `
+  --since 1h --profile L2-Development | Select-String "pgsi|fail|denied|IAM|error"
