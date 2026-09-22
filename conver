@@ -1,2 +1,38 @@
-cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
-Select-String -Path "*.tf" -Pattern "db_user|rds-db:connect|dbuser" -Context 2,4
+PS C:\Users\T012sp\Git repo\real-time-insurance-src> cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
+>> Select-String -Path "*.tf" -Pattern "db_user|rds-db:connect|dbuser" -Context 2,4
+
+  lambda.tf:13:  environment_variables = {
+  lambda.tf:14:    db_endpoint   = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
+> lambda.tf:15:    db_user       = data.terraform_remote_state.aurora.outputs.master_username
+  lambda.tf:16:    db_region     = "us-east-1"
+  lambda.tf:17:    db_name       = "${var.application_name}_${var.env_tier}"
+  lambda.tf:18:    debug_logging = "true"
+  lambda.tf:19:    enable_commercial_auto = "true"
+  lambda.tf:22:    {
+  lambda.tf:23:      Effect   = "Allow"
+> lambda.tf:24:      Action   = ["rds-db:connect"]
+> lambda.tf:25:      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", 
+data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_state.aurora.outputs.master_username}"]
+  lambda.tf:26:    }
+  lambda.tf:27:  ]
+  lambda.tf:28:
+  lambda.tf:29:  tags = {}
+  lambda.tf:44:  environment_variables = {
+  lambda.tf:45:    db_endpoint            = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
+> lambda.tf:46:    db_user                = data.terraform_remote_state.aurora.outputs.master_username
+  lambda.tf:47:    db_region              = "us-east-1"
+  lambda.tf:48:    db_name                = "${var.application_name}_${var.env_tier}"
+  lambda.tf:49:    debug_logging          = "true"
+  lambda.tf:50:    NAIC                   = "22993"
+  lambda.tf:54:    {
+  lambda.tf:55:      Effect   = "Allow"
+> lambda.tf:56:      Action   = ["rds-db:connect"]
+> lambda.tf:57:      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", 
+data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_state.aurora.outputs.master_username}"]
+  lambda.tf:58:    }
+  lambda.tf:59:  ]
+  lambda.tf:60:  provisioned_concurrency = 1
+  lambda.tf:61:
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra>
