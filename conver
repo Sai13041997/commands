@@ -1,12 +1,22 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> cd "C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra"
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git fetch origin
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git log --oneline origin/main -8
-504e654 (origin/main, origin/HEAD) Merge pull request #29 from kfbmic/fix/realtimeinsurance-tfvars-format
-5967503 (origin/fix/realtimeinsurance-tfvars-format) Format realtimeinsurance dev tfvars
-f1c7607 Merge pull request #28 from kfbmic/copilot/fix-plan-on-push-job-again
-072c587 Remove stray conflict marker from realtimeinsurance dev tfvars
-7cfc9fc Initial plan
-6f1b389 Merge pull request #27 from kfbmic/feature/realtimeinsurance-dev-serverless-clean
-a17606e Configure Realtime Insurance dev Aurora cluster for Serverless v2
-5324bb5 Merge pull request #24 from kfbmic/u/aschoborg/prodRealtimeSG
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git merge origin/main
+Auto-merging apps/realtimeinsurance/envs/dev.tfvars
+Auto-merging apps/realtimeinsurance/envs/prod.tfvars
+CONFLICT (content): Merge conflict in apps/realtimeinsurance/envs/prod.tfvars
+Automatic merge failed; fix conflicts and then commit the result.
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git status
+On branch feature/T012SP/CPE-250-perf-output-fix
+Your branch is up to date with 'origin/feature/T012SP/CPE-250-perf-output-fix'.
+
+You have unmerged paths.
+  (fix conflicts and run "git commit")
+  (use "git merge --abort" to abort the merge)
+
+Changes to be committed:
+        modified:   README.md
+        modified:   apps/realtimeinsurance/envs/dev.tfvars
+
+Unmerged paths:
+  (use "git add <file>..." to mark resolution)
+        both modified:   apps/realtimeinsurance/envs/prod.tfvars
+
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra>
