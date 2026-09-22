@@ -1,46 +1,7 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> cd "C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra"
->> Get-Content apps\realtimeinsurance\outputs.tf
-output "cluster_identifier" {
-  value = module.aurora.cluster_identifier
+output "rds_proxy_application_username" {
+  value = module.aurora.rds_proxy_application_username
 }
 
-output "cluster_endpoint" {
-  value = module.aurora.cluster_endpoint
-}
-
-output "reader_endpoint" {
-  value = module.aurora.reader_endpoint
-}
-
-output "cluster_resource_id" {
-  value = module.aurora.cluster_resource_id
-}
-
-output "security_group_id" {
-  value = module.aurora.security_group_id
-}
-
-output "db_subnet_group_name" {
-  value = module.aurora.db_subnet_group_name
-}
-
-output "rds_proxy_endpoint" {
-  value = module.aurora.rds_proxy_endpoint
-}
-
-output "rds_proxy_reader_endpoint" {
-  value = module.aurora.rds_proxy_reader_endpoint
-}
-
-output "rds_proxy_security_group_id" {
-  value = module.aurora.rds_proxy_security_group_id
-}
-
-output "rds_proxy_arn" {
-  value = module.aurora.rds_proxy_arn
-}
-
-output "master_username" {
-  value = module.aurora.master_username
-}
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
+tofu fmt -recursive
+cd apps\realtimeinsurance
+tofu validate
