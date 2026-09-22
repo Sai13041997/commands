@@ -1,1 +1,6 @@
-Hi Zach, found the cause of the 502 KIVS got on the prod SOAP endpoint. The SOAP verification Lambda's coverage query fails because the table or view insurer_active_or_not_active doesn't exist in the ods schema of the realtimeinsurance_prod database, on the prod cluster pol-db-rds-cluster-prod-realtimeins-pg. The error is relation "ods.insurer_active_or_not_active" does not exist, at 13:56:39 and 13:56:44 UTC today.
+Zach:
+Bulule, Ntwenhle did you add this view in prod?
+looks like Kentucky IVS isnt even using the data I provided them as well
+ CG:
+it is there
+ 
