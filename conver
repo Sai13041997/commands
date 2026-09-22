@@ -34,3 +34,25 @@ aws secretsmanager put-secret-value `
   --secret-id realtimeinsurance-prod-rds-proxy-app-user `
   --secret-string file://$env:TEMP/secret.json `
   --profile L2-Prod
+
+
+Me:
+CG, could you share the passwords for pgsi_ans04703015 (dev) and pgsi_aps04703014 (prod) when you have a moment?
+ CG:
+alright will do
+ Me:
+Much appreciated 
+
+Cg:
+Bulule, Ntwenhle
+userid: pgsp_aps04703014   pw:  ajfoNYl5gJ4d
+this is for prod
+ 
+pgsi_ans04703015  that one is for the lambda and is rds_iam
+ 
+Bulule, Ntwenhle
+this is for prod
+please save this password
+ Me:
+Thanks
+ 
