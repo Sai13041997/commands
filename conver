@@ -1,5 +1,23 @@
-git restore apps/realtimeinsurance/outputs.tf modules/aurora-postgres/outputs.tf
-
-git checkout feature/T012SP/CPE-250-perf-output-fix
-git pull
-git log --oneline -3
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git restore apps/realtimeinsurance/outputs.tf modules/aurora-postgres/outputs.tf
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git checkout feature/T012SP/CPE-250-perf-output-fix
+>> git pull
+>> git log --oneline -3
+Switched to branch 'feature/T012SP/CPE-250-perf-output-fix'
+Your branch is up to date with 'origin/feature/T012SP/CPE-250-perf-output-fix'.
+remote: Enumerating objects: 49, done.
+remote: Counting objects: 100% (49/49), done.
+remote: Compressing objects: 100% (32/32), done.
+remote: Total 49 (delta 24), reused 36 (delta 16), pack-reused 0 (from 0)
+Unpacking objects: 100% (49/49), 10.11 KiB | 24.00 KiB/s, done.
+From https://github.com/kfbmic/tf-aws-aurorapostgres-infra
+ * [new branch]      copilot/fix-plan-on-push-job-again -> origin/copilot/fix-plan-on-push-job-again
+   dd517b2..6a4cae5  feature/realtimeinsurance-dev-serverless -> origin/feature/realtimeinsurance-dev-serverless
+ * [new branch]      feature/realtimeinsurance-dev-serverless-clean -> origin/feature/realtimeinsurance-dev-serverless-clean
+ * [new branch]      feature/rename-arms20-to-crm -> origin/feature/rename-arms20-to-crm
+ * [new branch]      fix/realtimeinsurance-tfvars-format -> origin/fix/realtimeinsurance-tfvars-format
+   b8c57bd..504e654  main       -> origin/main
+Already up to date.
+e758de9 (HEAD -> feature/T012SP/CPE-250-perf-output-fix, origin/feature/T012SP/CPE-250-perf-output-fix) Use pgsi IAM auth user for prod RDS proxy
+7fe2db7 Enable RDS proxy application user for prod
+0dce739 Format prod tfvars
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
