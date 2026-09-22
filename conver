@@ -1,19 +1,16 @@
-C:\Users\T012sp\Git repo\real-time-insurance-infra\locals.tf
-
-
 locals {
   soap_api_fqdn         = var.soap_api_domain_name
   soap_api_domain_parts = split(".", local.soap_api_fqdn)
   soap_api_base_domain  = join(".", slice(local.soap_api_domain_parts, length(local.soap_api_domain_parts) - 2, length(local.soap_api_domain_parts)))
 
+  # TEMPORARY: back on the master user until CG grants CONNECT to the pgsi_ users.
+  # Restore the version below once grants are in place.
+  db_app_user = data.terraform_remote_state.aurora.outputs.master_username
+
   # DB user for the Lambdas: the rds_iam app user from the Aurora state when
   # configured, otherwise the master user (perf and staging until their users exist).
-  #db_app_user = coalesce(
-   # try(data.terraform_remote_state.aurora.outputs.rds_proxy_application_username, null),
-    #data.terraform_remote_state.aurora.outputs.master_username
-
-    # TEMPORARY: back on the master user until grants CONNECT to the pgsi_ users.
-  # Restore the coalesce(try(...)) version once grants are in place.
-  db_app_user = data.terraform_remote_state.aurora.outputs.master_username
-  )
+  # db_app_user = coalesce(
+  #   try(data.terraform_remote_state.aurora.outputs.rds_proxy_application_username, null),
+  #   data.terraform_remote_state.aurora.outputs.master_username
+  # )
 }
