@@ -1,5 +1,37 @@
-git diff --cached --stat
-git diff --cached envs/prod.tfvars
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git diff --cached --stat
+ envs/dev.tfvars     | 16 ++++++++--------
+ envs/perf.tfvars    | 12 ++++++------
+ envs/prod.tfvars    | 12 ++++++------
+ envs/staging.tfvars | 14 +++++++-------
+ soap_api.tf         |  2 +-
+ 5 files changed, 28 insertions(+), 28 deletions(-)
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git diff --cached envs/prod.tfvars
+diff --git a/envs/prod.tfvars b/envs/prod.tfvars
+index d8e9384..1fcb64e 100644
+--- a/envs/prod.tfvars
++++ b/envs/prod.tfvars
+@@ -1,13 +1,13 @@
+-entra_audience = "api://50afc5aa-3c9a-462d-a458-8aab971c1b0b"
+-env_tier = "prod"
++entra_audience         = "api://50afc5aa-3c9a-462d-a458-8aab971c1b0b"
++env_tier               = "prod"
+ destination_account_id = "339712702314"
+-vpc_id = "vpc-06b8f5d3a23692d80"
++vpc_id                 = "vpc-06b8f5d3a23692d80"
+ lambda_subnet_ids = [
+   "subnet-0de61d7d6eb3a80c3", # l2-production-private-a
+   "subnet-0ef16a807f2ac9df9", # l2-production-private-b
+   "subnet-02a006b00db2a1a4d"  # l2-production-private-c
+ ]
+-soap_api_domain_name = "realtimeinsurance-soap-api.kyfb.com"
+-soap_disable_execute_api_endpoint = true
+-postgre_extracts_bucket_name = "kfbmic-edr-p-l2-prod-postgre-extracts"
++soap_api_domain_name                = "realtimeinsurance-soap-api.kyfb.com"
++soap_disable_execute_api_endpoint   = true
++postgre_extracts_bucket_name        = "kfbmic-edr-p-l2-prod-postgre-extracts"
+ postgre_extracts_matillion_role_arn = "arn:aws:iam::970423649404:role/kfbmic-infra-matillion-ETL-snowflake--MatillionRole-7Xb2BAG1xsfS"
+\ No newline at end of file
+(END)
 
 git restore --staged envs/dev.tfvars envs/perf.tfvars envs/prod.tfvars envs/staging.tfvars soap_api.tf
 git restore envs/dev.tfvars envs/perf.tfvars envs/prod.tfvars envs/staging.tfvars soap_api.tf
