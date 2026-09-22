@@ -1,26 +1,6 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> cd "C:\Users\T012sp\Downloads\Testing"
-PS C:\Users\T012sp\Downloads\Testing> 
-PS C:\Users\T012sp\Downloads\Testing> $r = aws lambda invoke `
->>   --function-name realtimeinsurance-dev-policy-graph-ingest-lambda `
->>   --payload fileb://graph_event.json `
->>   --log-type Tail --query LogResult --output text `
->>   --profile L2-Development out.json
->> [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($r))
-FFb0xpWEJ3Q3drSTdTNS10UDdHNXAzTkJZSDN6WFB1dWdBQSIsInhtc19zdWJfZmN0IjoiMyA5IiwieG1zX3RjZHQiOjE0MzIwNjY1MTcsInhtc190bnRfZmN0IjoiMyA4In0.ltJnQWT11tZz3Gl8B1w_T8r2UkIAFqJWeuszixz9kOqa29T_RTz6R4pZpfwq9wUShWUA4-uDl8ld9_q6mpXJSra3hracTiXIa9gNOZAEPiIXdeQhMt_-ucKoFsG3ZR-UNqSWXfql-tpBi-inS_FmXs3FmFIMhFnBxc-fYuqMoqWShQ1QedPLLQPbeZfaBZhXWX3_nyBAAFGjCRjIKZPD5ea91zxug-pIWTUo0eU_Wn5h0XjGFtlQMZEWXEmwY6OmOjwNwrsuW80ifxr_5OfRrTTtmeFvowE7D30LelFdBZqyy46kaVsxFopYDsUuymOuXTiLwM3LOdl_eXWRO_Uo_A", "type": "TOKEN"}"}
-{"timestamp": "2026-09-22 17:37:52,606", "logger": "main", "level": "INFO", "message": "Policy graph ingest started. request_id=9d4e0be6-e23a-4013-b17d-5f301f962fe7"}
-{"timestamp": "2026-09-22 17:37:52,606", "logger": "main", "level": "DEBUG", "message": "Incoming event keys=['methodArn', 'authorizationToken', 'type']"}
-{"timestamp": "2026-09-22 17:37:52,606", "logger": "payload_handler", "level": "INFO", "message": "Payload parsed. policy_number=None job_number=None"}
-{"timestamp": "2026-09-22 17:37:52,606", "logger": "payload_handler", "level": "DEBUG", "message": "Full policy graph payload: {"methodArn": "arn:aws:execute-api:us-east-1:058264370150:6h5fz78wz0/default/POST/policy-graph-ingest", "authorizationToken": "Bearer eyJ0eXAiOiJKV1QiLCJub25jZSI6IjdFOUFuSHpwVkozaFFPSGNKSDZYeGx5c3Q4LVB3emdDZWEzVnphVGlsZU0iLCJhbGciOiJSUzI1NiIsIng1dCI6ImZFdHFyaEtUMWJYQUdhZlNkUW9OMXZYVFJwSSIsImtpZCI6ImZFdHFyaEtUMWJYQUdhZlNkUW9OMXZYVFJwSSJ9.eyJhdWQiOiJodHRwczovL2dyYXBoLm1pY3Jvc29mdC5jb20iLCJpc3MiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC81MGJiMWQ5ZS03MTc0LTRlMDYtYWVjZC1lODdiMWI4YzIxMWQvIiwiaWF0IjoxNzg2MTA1Njc3LCJuYmYiOjE3ODYxMDU2NzcsImV4cCI6MTc4NjEwOTU3NywiYWNycyI6WyJwZmRyIl0sImFpbyI6ImsyRmdZRGhuY2JGR3ZXSlc1U3QzWngvenJkMHpicXgzbDIvWHU4ekxaZkF5c09IanpkMEEiLCJhcHBfZGlzcGxheW5hbWUiOiJSZWFsVGltZUluc3VyYW5jZS1Ob25Qcm9kIiwiYXBwaWQiOiI1ODVmM2E5NS04YmY1LTRkZjQtYjgwYi01ODVjYTVjYTIwNzEiLCJhcHBpZGFjciI6IjEiLCJpZHAiOiJodHRwczovL3N0cy53aW5kb3dzLm5ldC81MGJiMWQ5ZS03MTc0LTRlMDYtYWVjZC1lODdiMWI4YzIxMWQvIiwiaWR0eXAiOiJhcHAiLCJvaWQiOiIzZDMyOGUzYy1kYjg0LTQwNTYtOGI3ZS01Njc5OTIyOThkNjMiLCJyaCI6IjEuQVVZQW5oMjdVSFJ4Qms2dXplaDdHNHdoSFFNQUFBQUFBQUFBd0FBQUFBQUFBQUFBQUFCR0FBLiIsInN1YiI6IjNkMzI4ZTNjLWRiODQtNDA1Ni04YjdlLTU2Nzk5MjI5OGQ2MyIsInRlbmFudF9yZWdpb25fc2NvcGUiOiJOQSIsInRpZCI6IjUwYmIxZDllLTcxNzQtNGUwNi1hZWNkLWU4N2IxYjhjMjExZCIsInV0aSI6IlpDTGFOR3V0b1VHc1pIZ3lSM2tzQUEiLCJ2ZXIiOiIxLjAiLCJ3aWRzIjpbIjA5OTdhMWQwLTBkMWQtNGFjYi1iNDA4LWQ1Y2E3MzEyMWU5MCJdLCJ4bXNfYWNkIjoxNzc0NTI0NDg3LCJ4bXNfYWN0X2ZjdCI6IjMgOSIsInhtc19mdGQiOiJ2V2RTR3l4WEo2elFXc0t1MVpfMnhoNDFVU1V4RTRRMzVFWGp4dFluRG1FQmRYTmxZWE4wTFdSemJYTSIsInhtc19pZHJlbCI6IjI0IDciLCJ4bXNfcGZ0ZXhwIjoxNzg2MTk1OTc3LCJ4bXNfcmQiOiIwLjQyTGxZQkppZEJNUzRXQVhFbGh5MWVuMDE5QWRmbE43Zl9adVNKUzFGQkxoNEJRU2tQUFhGdTBJT3Vpd2Nsbm1sWGZpUEx4Q0lod2NRZ0xNREJCd0FFb0xpWEJ3Q3drSTdTNS10UDdHNXAzTkJZSDN6WFB1dWdBQSIsInhtc19zdWJfZmN0IjoiMyA5IiwieG1zX3RjZHQiOjE0MzIwNjY1MTcsInhtc190bnRfZmN0IjoiMyA4In0.ltJnQWT11tZz3Gl8B1w_T8r2UkIAFqJWeuszixz9kOqa29T_RTz6R4pZpfwq9wUShWUA4-uDl8ld9_q6mpXJSra3hracTiXIa9gNOZAEPiIXdeQhMt_-ucKoFsG3ZR-UNqSWXfql-tpBi-inS_FmXs3FmFIMhFnBxc-fYuqMoqWShQ1QedPLLQPbeZfaBZhXWX3_nyBAAFGjCRjIKZPD5ea91zxug-pIWTUo0eU_Wn5h0XjGFtlQMZEWXEmwY6OmOjwNwrsuW80ifxr_5OfRrTTtmeFvowE7D30LelFdBZqyy46kaVsxFopYDsUuymOuXTiLwM3LOdl_eXWRO_Uo_A", "type": "TOKEN"}"}
-{"timestamp": "2026-09-22 17:37:52,606", "logger": "main", "level": "ERROR", "message": "Policy graph ingest failed. request_id=9d4e0be6-e23a-4013-b17d-5f301f962fe7"}
-Traceback (most recent call last):
-File "/var/task/main.py", line 53, in lambda_handler
-records = payload_handler.handle_payload(event)
-File "/var/task/payload_handler.py", line 18, in handle_payload
-records = save_payload(data)
-File "/var/task/mapper/mapper.py", line 27, in save_payload
-raise ValueError("Payload does not contain a supported line. lines=%s" % sorted(lines))
-ValueError: Payload does not contain a supported line. lines=[]
-END RequestId: 9d4e0be6-e23a-4013-b17d-5f301f962fe7
-REPORT RequestId: 9d4e0be6-e23a-4013-b17d-5f301f962fe7  Duration: 32.67 ms      Billed Duration: 8029 ms        Memory Size: 128 MB     Max Memory Used: 106 MB Init Duration: 7996.19 ms
-
-PS C:\Users\T012sp\Downloads\Testing> 
+$r = aws lambda invoke `
+  --function-name realtimeinsurance-dev-policy-graph-ingest-lambda `
+  --payload fileb://payload_clean.json `
+  --log-type Tail --query LogResult --output text `
+  --profile L2-Development out.json
+[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($r))
