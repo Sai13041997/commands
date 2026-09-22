@@ -1,37 +1,5 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> cd "C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra"
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git branch --show-current
-u/aschoborg/prodRealtimeSG
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git branch 
-  feature/T012SP/CPE-250-perf-output-fix
-  feature/aurorapostgrespreprod
-  main
-* u/aschoborg/prodRealtimeSG
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git checkout feature/T012SP/CPE-250-perf-output-fix
-error: Your local changes to the following files would be overwritten by checkout:
-        modules/aurora-postgres/outputs.tf
-Please commit your changes or stash them before you switch branches.
-Aborting
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git status
-On branch u/aschoborg/prodRealtimeSG
-Your branch is up to date with 'origin/u/aschoborg/prodRealtimeSG'.
+git restore apps/realtimeinsurance/outputs.tf modules/aurora-postgres/outputs.tf
 
-Changes not staged for commit:
-  (use "git add <file>..." to update what will be committed)
-  (use "git restore <file>..." to discard changes in working directory)
-        modified:   apps/realtimeinsurance/outputs.tf
-        modified:   modules/aurora-postgres/outputs.tf
-
-no changes added to commit (use "git add" and/or "git commit -a")
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git log --oneline -8
-1acda98 (HEAD -> u/aschoborg/prodRealtimeSG, origin/u/aschoborg/prodRealtimeSG) tofu fmt
-cbc1819 update prod SG for realtime to allow proper CIDRS
-b8c57bd (origin/main, origin/HEAD) Merge pull request #23 from kfbmic/feature/T012SP/CPE-250-perf-output-fix
-ce5ab75 Update RDS proxy application auth configuration
-3b62e21 Make RDS proxy application secret environment specific
-5296081 Merge pull request #22 from kfbmic/fix/realtimeinsurance-prod-network
-c73cde3 (origin/fix/realtimeinsurance-prod-network) Add production air-gapped backup documentation
-00ee133 Merge branch 'main' of https://github.com/kfbmic/tf-aws-aurorapostgres-infra into feature/T012SP/CPE-250-perf-output-fix
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
-
-
-I want to use   feature/T012SP/CPE-250-perf-output-fix branch
+git checkout feature/T012SP/CPE-250-perf-output-fix
+git pull
+git log --oneline -3
