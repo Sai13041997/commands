@@ -1,41 +1,12 @@
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git show d0a6af1 --stat
-commit d0a6af18b0a7a7882c1d564829b252a47cc929bd
-Author: t012sp <sai.praneeth@kyfb.com>
-Date:   Tue Sep 22 11:20:37 2026 -0400
+# One-time imports: Lambda auto-created these log groups on first run, so
+# Terraform adopts them instead of failing to create them.
+# Remove once dev, perf, staging and prod have all been applied.
+import {
+  to = module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0]
+  id = "/aws/lambda/${var.application_name}-${var.env_tier}-policy-graph-ingest-lambda"
+}
 
-    Update Create log group
-
- lambda.tf | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git show d0a6af1 --lambda.tf
-fatal: unrecognized argument: --lambda.tf
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git show d0a6af1 -- lambda.tf
-commit d0a6af18b0a7a7882c1d564829b252a47cc929bd
-Author: t012sp <sai.praneeth@kyfb.com>
-Date:   Tue Sep 22 11:20:37 2026 -0400
-
-    Update Create log group
-
-diff --git a/lambda.tf b/lambda.tf
-index a1df238..f0f64cc 100644
---- a/lambda.tf
-+++ b/lambda.tf
-@@ -6,7 +6,7 @@ module "policy_graph_ingest_lambda" {
-   timeout                = 10
-   memory_size            = 128
-   code_managed_elsewhere = true
--  create_log_group       = true
-+  create_log_group       = false
-   vpc_enabled            = true
-   vpc_id                 = var.vpc_id
-   subnet_ids             = var.lambda_subnet_ids
-@@ -37,7 +37,7 @@ module "soap_verification_lambda" {
-   timeout                = 10
-   memory_size            = 512
-   code_managed_elsewhere = true
--  create_log_group       = true
-+  create_log_group       = false
-   vpc_enabled            = true
-   vpc_id                 = var.vpc_id
-   subnet_ids             = var.lambda_subnet_ids
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
+import {
+  to = module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]
+  id = "/aws/lambda/${var.application_name}-${var.env_tier}-soap-verification-lambda"
+}
