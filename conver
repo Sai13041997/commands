@@ -1,2 +1,12 @@
-aws logs tail /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy `
-  --since 1h --profile L2-Development | Select-String "pgsi|fail|denied|IAM|error"
+PS C:\Users\T012sp\Downloads\Testing> aws logs tail /aws/rds/proxy/realtimeinsurance-dev-aurora-proxy `
+>>   --since 1h --profile L2-Development | Select-String "pgsi|fail|denied|IAM|error" 
+
+2026-09-22T16:03:04.574000+00:00 realtimeinsurance-dev-aurora-proxy 2026-09-22T16:03:04.477Z [INFO] [dbConnection=2296493743] The new database connection using IAM authentication 
+failed. Error code: [XX000]. Message: Request returned an error: permission denied for database "realtimeinsurance_dev". Detail: User does not have CONNECT privilege.
+2026-09-22T16:03:04.574000+00:00 realtimeinsurance-dev-aurora-proxy 2026-09-22T16:03:04.553Z [INFO] [proxyEndpoint=default] [clientConnection=1712242876] The client connection 
+closed. Reason: The database connection borrowed from the connection pool returned an error.
+2026-09-22T16:03:09.488000+00:00 realtimeinsurance-dev-aurora-proxy 2026-09-22T16:03:04.558Z [INFO] [dbConnection=1222496705] The new database connection using IAM authentication 
+failed. Error code: [XX000]. Message: Request returned an error: permission denied for database "realtimeinsurance_dev". Detail: User does not have CONNECT privilege.
+
+
+PS C:\Users\T012sp\Downloads\Testing> 
