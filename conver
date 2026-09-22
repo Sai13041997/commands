@@ -1,5 +1,14 @@
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> aws logs describe-log-groups `
+>>   --log-group-name-prefix /aws/lambda/realtimeinsurance-dev `
+>>   --query "logGroups[].[logGroupName,retentionInDays]" --output table `
+>>   --profile L2-Development
+--------------------------------------------------------------------------------                                                                                                       
+|                               DescribeLogGroups                              |
++----------------------------------------------------------------------+-------+
+|  /aws/lambda/realtimeinsurance-dev-api-gateway-entra-jwt-authorizer  |  None |
+|  /aws/lambda/realtimeinsurance-dev-hello-lambda                      |  None |
+|  /aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda        |  None |
+|  /aws/lambda/realtimeinsurance-dev-soap-verification-lambda          |  None |
++----------------------------------------------------------------------+-------+
 
-aws logs describe-log-groups `
-  --log-group-name-prefix /aws/lambda/realtimeinsurance-dev `
-  --query "logGroups[].[logGroupName,retentionInDays]" --output table `
-  --profile L2-Development
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
