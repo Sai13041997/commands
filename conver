@@ -1,13 +1,2 @@
-Alex:
-Can we avoid import block for something this small scale
- 
-And just do cli import
- 
-Saw your PR
- 
-I don't like imports because they get left sitting in repos when they are really only needed for one execution
- 
-import blocks I mean
- 
-I import stuff on command line all the time
- 
+tofu import 'module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0]' /aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda
+tofu import 'module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]' /aws/lambda/realtimeinsurance-dev-soap-verification-lambda
