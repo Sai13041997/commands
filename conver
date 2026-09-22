@@ -167,39 +167,4 @@ o end with IAM. No secret is needed."
    type        = string
    default     = null
    nullable    = true
-(END)variable "rds_proxy_application_auth" {
-  description = "Optional application database user authentication for RDS Proxy"
-  type = object({
-    username   = string
-    secret_arn = string
-  })
-
-  default  = null
-  nullable = true
-}
-
-variable "rds_proxy_application_username" {
-  description = "Optional rds_iam application database user for the RDS Proxy. When set, the proxy role is granted rds-db:connect for this user so it can authenticate end to end with IAM. No secret is needed."
-  type        = string
-  default     = null
-  nullable    = true
-}
-
-variable "rds_proxy_application_secret_arn" {
-  description = "Secrets Manager ARN for the RDS Proxy application user."
-  type        = string
-  default     = null
-}
-
-
-
-variable "rds_proxy_application_username" {
-  description = "rds_iam application database user for the RDS Proxy. Null means only the master user is granted IAM access."
-  type        = string
-  default     = null
-  nullable    = true
-}
-
-
-rds_proxy_application_secret_arn     = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
-
+(END)
