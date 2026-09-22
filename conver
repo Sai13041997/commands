@@ -1,12 +1,15 @@
-output "rds_proxy_application_username" {
-  description = "Application DB username for IAM auth through the RDS Proxy. Null when no application user is configured."
-  value       = local.app_auth_enabled ? var.rds_proxy_application_username : null
-}
-
-output "rds_proxy_application_username" {
-  value = module.aurora.rds_proxy_application_username
-}
-
-tofu fmt -recursive
-cd apps\realtimeinsurance
-tofu validate
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> tofu fmt -recursive
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> cd apps\realtimeinsurance
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> tofu validate
+╷
+│ Warning: Deprecated attribute
+│ 
+│   on ..\..\modules\aurora-postgres\rds_proxy.tf line 96, in data "aws_iam_policy_document" "rds_proxy_secret_access":
+│   96:         "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.master_username}"
+│ 
+│ The attribute "name" is deprecated. Refer to the provider documentation for details.
+│ 
+│ (and one more similar warning elsewhere)
+╵
+Success! The configuration is valid, but there were some validation warnings as shown above.
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance>
