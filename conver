@@ -11,18 +11,18 @@ module "policy_graph_ingest_lambda" {
   vpc_id                 = var.vpc_id
   subnet_ids             = var.lambda_subnet_ids
   environment_variables = {
-    db_endpoint   = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
-    db_user       = data.terraform_remote_state.aurora.outputs.master_username
-    db_region     = "us-east-1"
-    db_name       = "${var.application_name}_${var.env_tier}"
-    debug_logging = "true"
+    db_endpoint            = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
+    db_user                = local.db_app_user
+    db_region              = "us-east-1"
+    db_name                = "${var.application_name}_${var.env_tier}"
+    debug_logging          = "true"
     enable_commercial_auto = "true"
   }
   extra_policy_statements = [
     {
       Effect   = "Allow"
       Action   = ["rds-db:connect"]
-      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_state.aurora.outputs.master_username}"]
+      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"]
     }
   ]
 
@@ -43,7 +43,7 @@ module "soap_verification_lambda" {
   subnet_ids             = var.lambda_subnet_ids
   environment_variables = {
     db_endpoint            = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
-    db_user                = data.terraform_remote_state.aurora.outputs.master_username
+    db_user                = local.db_app_user
     db_region              = "us-east-1"
     db_name                = "${var.application_name}_${var.env_tier}"
     debug_logging          = "true"
@@ -54,7 +54,7 @@ module "soap_verification_lambda" {
     {
       Effect   = "Allow"
       Action   = ["rds-db:connect"]
-      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_state.aurora.outputs.master_username}"]
+      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"]
     }
   ]
   provisioned_concurrency = 1
