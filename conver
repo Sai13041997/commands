@@ -1,53 +1,36 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> Select-String -Path "modules\aurora-postgres\variables.tf","apps\realtimeinsurance\variables.tf","apps\realtimeinsurance\envs\*.tfvars" `
->>   -Pattern "rds_proxy_application_auth|rds_proxy_application_secret_arn|rds_proxy_application_username" -Context 1,8
+variable "rds_proxy_application_auth" {
+  description = "Optional application database user authentication for RDS Proxy"
+  type = object({
+    username   = string
+    secret_arn = string
+  })
 
-  modules\aurora-postgres\variables.tf:155:
-> modules\aurora-postgres\variables.tf:156:variable "rds_proxy_application_auth" {
-  modules\aurora-postgres\variables.tf:157:  description = "Optional application database user authentication for RDS Proxy"
-  modules\aurora-postgres\variables.tf:158:  type = object({
-  modules\aurora-postgres\variables.tf:159:    username   = string
-  modules\aurora-postgres\variables.tf:160:    secret_arn = string
-  modules\aurora-postgres\variables.tf:161:  })
-  modules\aurora-postgres\variables.tf:162:
-  modules\aurora-postgres\variables.tf:163:  default  = null
-  modules\aurora-postgres\variables.tf:164:  nullable = true
-  modules\aurora-postgres\variables.tf:166:
-> modules\aurora-postgres\variables.tf:167:variable "rds_proxy_application_username" {
-  modules\aurora-postgres\variables.tf:168:  description = "Database username for the application user on the RDS Proxy. When set, the module creates an empty Secrets 
-Manager secret for it and attaches a second auth block to the proxy. The secret value must be populated out-of-band before the app user can connect."
-  modules\aurora-postgres\variables.tf:169:  type        = string
-  modules\aurora-postgres\variables.tf:170:  default     = null
-  modules\aurora-postgres\variables.tf:171:  nullable    = true
-  modules\aurora-postgres\variables.tf:172:}
-  apps\realtimeinsurance\variables.tf:185:
-> apps\realtimeinsurance\variables.tf:186:variable "rds_proxy_application_secret_arn" {
-  apps\realtimeinsurance\variables.tf:187:  description = "Secrets Manager ARN for the RDS Proxy application user."
-  apps\realtimeinsurance\variables.tf:188:  type        = string
-  apps\realtimeinsurance\variables.tf:189:  default     = null
-  apps\realtimeinsurance\variables.tf:190:}
-  apps\realtimeinsurance\variables.tf:191:
-> apps\realtimeinsurance\variables.tf:192:variable "rds_proxy_application_username" {
-  apps\realtimeinsurance\variables.tf:193:  description = "Database username for the RDS Proxy application user. Null disables the application auth block for this 
-environment."
-  apps\realtimeinsurance\variables.tf:194:  type        = string
-  apps\realtimeinsurance\variables.tf:195:  default     = null
-  apps\realtimeinsurance\variables.tf:196:  nullable    = true
-  apps\realtimeinsurance\variables.tf:197:}
-  apps\realtimeinsurance\envs\dev.tfvars:17:rds_proxy_security_group_description = "RDS Proxy: inbound from Lambda, outbound to Aurora"
-> apps\realtimeinsurance\envs\dev.tfvars:18:rds_proxy_application_secret_arn     = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
-> apps\realtimeinsurance\envs\dev.tfvars:19:rds_proxy_application_username       = "pgsi_ans04703015"
-  apps\realtimeinsurance\envs\dev.tfvars:20:# Must match the live security groups' descriptions exactly - changing these
-  apps\realtimeinsurance\envs\dev.tfvars:21:# forces destroy+recreate of the real SGs (description is ForceNew).
-  apps\realtimeinsurance\envs\prod.tfvars:32:# IAM-only app user (rds_iam) for the RDS Proxy
-> apps\realtimeinsurance\envs\prod.tfvars:33:rds_proxy_application_username = "pgsi_aps04703014"
-  apps\realtimeinsurance\envs\prod.tfvars:34:
-  apps\realtimeinsurance\envs\prod.tfvars:35:##backup configurations
-  apps\realtimeinsurance\envs\prod.tfvars:36:
-  apps\realtimeinsurance\envs\prod.tfvars:37:enable_logically_air_gapped_backup = true
-  apps\realtimeinsurance\envs\prod.tfvars:38:
-  apps\realtimeinsurance\envs\prod.tfvars:39:logically_air_gapped_vault_name = "realtimeinsurance-prod-airgapped-vault"
-  apps\realtimeinsurance\envs\prod.tfvars:40:
-  apps\realtimeinsurance\envs\prod.tfvars:41:air_gapped_min_retention_days = 7
+  default  = null
+  nullable = true
+}
+
+variable "rds_proxy_application_username" {
+  description = "Optional rds_iam application database user for the RDS Proxy. When set, the proxy role is granted rds-db:connect for this user so it can authenticate end to end with IAM. No secret is needed."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
+variable "rds_proxy_application_secret_arn" {
+  description = "Secrets Manager ARN for the RDS Proxy application user."
+  type        = string
+  default     = null
+}
 
 
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
+
+variable "rds_proxy_application_username" {
+  description = "rds_iam application database user for the RDS Proxy. Null means only the master user is granted IAM access."
+  type        = string
+  default     = null
+  nullable    = true
+}
+
+
+rds_proxy_application_secret_arn     = "arn:aws:secretsmanager:us-east-1:058264370150:secret:realtimeinsurance-NNrdwU"
+
