@@ -1,8 +1,14 @@
-locals {
-  # rds_iam app user from the Aurora state when configured,
-  # otherwise the master user (perf and staging until their users exist).
-  db_app_user = coalesce(
-    try(data.terraform_remote_state.aurora.outputs.rds_proxy_application_username, null),
-    data.terraform_remote_state.aurora.outputs.master_username
-  )
+C:\Users\T012sp\Git repo\real-time-insurance-infra\aurora.tf
+
+# The Aurora cluster, subnet group and its security group are now managed in
+# tf-aws-aurorapostgres-infra (apps/realtimeinsurance). This repo reads their
+# outputs via remote state instead of owning the resources directly.
+data "terraform_remote_state" "aurora" {
+  backend = "s3"
+
+  config = {
+    bucket = "kfb-github-terraform-state"
+    key    = "env:/${var.env_tier}/tf-aws-aurorapostgres-infra/apps/realtimeinsurance/terraform.tfstate"
+    region = "us-east-1"
+  }
 }
