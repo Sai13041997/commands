@@ -1,152 +1,89 @@
-# RDS Proxy for Aurora, gated behind var.enable_rds_proxy.
-#
-# End-to-end IAM auth: clients connect to the proxy with IAM tokens, and the
-# proxy connects to Aurora with IAM using its role's rds-db:connect grants.
-# The master user authenticates via the cluster's auto-managed master user
-# secret. The optional application user (var.rds_proxy_application_username)
-# is an rds_iam user and needs no secret.
-
-data "aws_caller_identity" "current" {}
-data "aws_region" "current" {}
-
-locals {
-  app_auth_enabled = var.enable_rds_proxy && var.rds_proxy_application_username != null
-}
-
-module "rds_proxy_security_group" {
-  count = var.enable_rds_proxy ? 1 : 0
-
-  source      = "git::https://github.com/kfbmic/tf-module-vpc-security-group.git?ref=v1.0.0"
-  name        = "${var.application_name}-${var.env_tier}-rds-proxy-sg"
-  description = coalesce(var.rds_proxy_security_group_description, "RDS Proxy for ${var.application_name}: inbound from allowed_cidrs, outbound to Aurora")
-  vpc_id      = var.vpc_id
-
-  inbound_rules  = local.aurora_inbound_rules
-  outbound_rules = var.security_group_outbound_rules
-}
-
-# SG-to-SG: allow the proxy to reach the Aurora cluster.
-resource "aws_vpc_security_group_ingress_rule" "aurora_from_proxy" {
-  count = var.enable_rds_proxy ? 1 : 0
-
-  security_group_id            = module.aurora_security_group.sg_id
-  referenced_security_group_id = module.rds_proxy_security_group[0].sg_id
-  ip_protocol                  = "tcp"
-  from_port                    = var.aurora_port
-  to_port                      = var.aurora_port
-  description                  = "Allow RDS Proxy to reach Aurora"
-}
-
-data "aws_iam_policy_document" "rds_proxy_assume" {
-  count = var.enable_rds_proxy ? 1 : 0
-
-  statement {
-    effect = "Allow"
-
-    principals {
-      type        = "Service"
-      identifiers = ["rds.amazonaws.com"]
-    }
-
-    actions = ["sts:AssumeRole"]
-  }
-}
-
-resource "aws_iam_role" "rds_proxy" {
-  count              = var.enable_rds_proxy ? 1 : 0
-  name               = "${var.application_name}-${var.env_tier}-rds-proxy-role"
-  assume_role_policy = data.aws_iam_policy_document.rds_proxy_assume[0].json
-}
-
-data "aws_iam_policy_document" "rds_proxy_secret_access" {
-  count = var.enable_rds_proxy ? 1 : 0
-
-  statement {
-    effect = "Allow"
-
-    actions = [
-      "secretsmanager:GetSecretValue",
-      "secretsmanager:DescribeSecret"
-    ]
-
-    resources = [aws_rds_cluster.aurora.master_user_secret[0].secret_arn]
-  }
-
-  statement {
-    effect  = "Allow"
-    actions = ["rds-db:connect"]
-
-    resources = concat(
-      [
-        "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.master_username}"
-      ],
-      local.app_auth_enabled ? [
-        "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.rds_proxy_application_username}"
-      ] : []
-    )
-  }
-}
-
-resource "aws_iam_role_policy" "rds_proxy_secret_access" {
-  count  = var.enable_rds_proxy ? 1 : 0
-  name   = "${var.application_name}-${var.env_tier}-rds-proxy-secret-access"
-  role   = aws_iam_role.rds_proxy[0].id
-  policy = data.aws_iam_policy_document.rds_proxy_secret_access[0].json
-}
-
-resource "aws_db_proxy" "aurora" {
-  count = var.enable_rds_proxy ? 1 : 0
-
-  name                   = "${var.application_name}-${var.env_tier}-aurora-proxy"
-  engine_family          = "POSTGRESQL"
-  role_arn               = aws_iam_role.rds_proxy[0].arn
-  vpc_subnet_ids         = var.aurora_subnet_ids
-  vpc_security_group_ids = [module.rds_proxy_security_group[0].sg_id]
-  require_tls            = true
-  idle_client_timeout    = 1800
-
-  default_auth_scheme = "IAM_AUTH"
-
-  auth {
-    auth_scheme = "SECRETS"
-    iam_auth    = "REQUIRED"
-    secret_arn  = aws_rds_cluster.aurora.master_user_secret[0].secret_arn
-  }
-
-  tags = merge(var.tags, {
-    Name = "${var.application_name}-${var.env_tier}-aurora-proxy"
-  })
-}
-
-resource "aws_db_proxy_default_target_group" "aurora" {
-  count = var.enable_rds_proxy ? 1 : 0
-
-  db_proxy_name = aws_db_proxy.aurora[0].name
-
-  connection_pool_config {
-    max_connections_percent      = 100
-    max_idle_connections_percent = 50
-    connection_borrow_timeout    = 120
-  }
-}
-
-resource "aws_db_proxy_target" "aurora" {
-  count = var.enable_rds_proxy ? 1 : 0
-
-  db_proxy_name         = aws_db_proxy.aurora[0].name
-  target_group_name     = aws_db_proxy_default_target_group.aurora[0].name
-  db_cluster_identifier = aws_rds_cluster.aurora.cluster_identifier
-}
-
-resource "aws_db_proxy_endpoint" "aurora_reader" {
-  count = var.enable_rds_proxy ? 1 : 0
-
-  db_proxy_name          = aws_db_proxy.aurora[0].name
-  db_proxy_endpoint_name = "${var.application_name}-${var.env_tier}-aurora-proxy-reader"
-  vpc_subnet_ids         = var.aurora_subnet_ids
-  vpc_security_group_ids = [module.rds_proxy_security_group[0].sg_id]
-  target_role            = "READ_ONLY"
-}
-
-modules/aurora-postgres/outputs.tf, delete the rds_proxy_application_secret_arn output block, since it references the secret you just removed. Keep the rds_proxy_application_username output.
-Then run tofu fmt -recursive and tofu validate,
+S C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> tofu fmt -recursive
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> tofu validate
+Success! The configuration is valid.
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> git diff
+diff --git a/modules/aurora-postgres/outputs.tf b/modules/aurora-postgres/outputs.tf
+index d36a732..947ebea 100644
+--- a/modules/aurora-postgres/outputs.tf
++++ b/modules/aurora-postgres/outputs.tf
+@@ -48,11 +48,6 @@ output "master_username" {
+   value       = var.master_username
+ }
+ 
+-output "rds_proxy_application_secret_arn" {
+-  description = "ARN of the RDS Proxy application user secret, for callers granting read access. Null when no application user is configured."
+-  value       = local.app_auth_enabled ? aws_secretsmanager_secret.rds_proxy_application[0].arn : null
+-}
+-
+ output "rds_proxy_application_username" {
+   description = "Application DB username for IAM auth through the RDS Proxy. Null when no application user is configured."
+   value       = local.app_auth_enabled ? var.rds_proxy_application_username : null
+diff --git a/modules/aurora-postgres/rds_proxy.tf b/modules/aurora-postgres/rds_proxy.tf
+index 2059512..c76445b 100644
+--- a/modules/aurora-postgres/rds_proxy.tf
++++ b/modules/aurora-postgres/rds_proxy.tf
+@@ -1,9 +1,10 @@
+ # RDS Proxy for Aurora, gated behind var.enable_rds_proxy.
+ #
+-# Mirrors real-time-insurance-infra's rds_proxy.tf: end-to-end IAM auth from
+-# proxy to Aurora, backed by the cluster's auto-managed master user secret
+-# (no separate secret ARN input needed since manage_master_user_password
+-# is always on for this module).
++# End-to-end IAM auth: clients connect to the proxy with IAM tokens, and the
++# proxy connects to Aurora with IAM using its role's rds-db:connect grants.
++# The master user authenticates via the cluster's auto-managed master user
++# secret. The optional application user (var.rds_proxy_application_username)
++# is an rds_iam user and needs no secret.
+ 
+ data "aws_caller_identity" "current" {}
+ data "aws_region" "current" {}
+@@ -12,17 +13,6 @@ locals {
+   app_auth_enabled = var.enable_rds_proxy && var.rds_proxy_application_username != null
+ }
+ 
+-resource "aws_secretsmanager_secret" "rds_proxy_application" {
+-  count = local.app_auth_enabled ? 1 : 0
+-
+-  name        = "${var.application_name}-${var.env_tier}-rds-proxy-app-user"
+-  description = "RDS Proxy application user credentials for ${var.application_name} ${var.env_tier}. Created empty by Terraform; value populated out-of-band."
+-
+-  tags = merge(var.tags, {
+-    Name = "${var.application_name}-${var.env_tier}-rds-proxy-app-user"
+-  })
+-}
+-
+ module "rds_proxy_security_group" {
+   count = var.enable_rds_proxy ? 1 : 0
+ 
+@@ -79,12 +69,7 @@ data "aws_iam_policy_document" "rds_proxy_secret_access" {
+       "secretsmanager:DescribeSecret"
+     ]
+ 
+-    resources = concat(
+-      [aws_rds_cluster.aurora.master_user_secret[0].secret_arn],
+-      local.app_auth_enabled ? [
+-        aws_secretsmanager_secret.rds_proxy_application[0].arn
+-      ] : []
+-    )
++    resources = [aws_rds_cluster.aurora.master_user_secret[0].secret_arn]
+   }
+ 
+   statement {
+@@ -128,16 +113,6 @@ resource "aws_db_proxy" "aurora" {
+     secret_arn  = aws_rds_cluster.aurora.master_user_secret[0].secret_arn
+   }
+ 
+-  dynamic "auth" {
+-    for_each = local.app_auth_enabled ? [1] : []
+-
+-    content {
+-      auth_scheme = "SECRETS"
+-      iam_auth    = "REQUIRED"
+-      secret_arn  = aws_secretsmanager_secret.rds_proxy_application[0].arn
+-    }
+-  }
+-
+   tags = merge(var.tags, {
+     Name = "${var.application_name}-${var.env_tier}-aurora-proxy"
+   })
+(END)
