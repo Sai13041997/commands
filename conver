@@ -1,1 +1,3 @@
-Hi CG, the IAM login works now, but pgsi_ans04703015 can't connect to the database. The proxy log shows: permission denied for database "realtimeinsurance_dev". User does not have CONNECT privilege. Could you grant it CONNECT on realtimeinsurance_dev, plus access to the ods schema and tables? Please do the same for pgsi_ans04703015 on realtimeinsurance_perf and realtimeinsurance_staging, and for pgsi_aps04703014 on realtimeinsurance_prod.
+# TEMPORARY: back on the master user until CG grants CONNECT to the pgsi_ users.
+  # Restore the coalesce(try(...)) version once grants are in place.
+  db_app_user = data.terraform_remote_state.aurora.outputs.master_username
