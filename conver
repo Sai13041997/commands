@@ -1,31 +1,4 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> tofu fmt -recursive
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> cd apps\realtimeinsurance
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> tofu validate
-╷
-│ Warning: Deprecated attribute
-│ 
-│   on ..\..\modules\aurora-postgres\rds_proxy.tf line 81, in data "aws_iam_policy_document" "rds_proxy_secret_access":
-│   81:         "arn:aws:rds-db:${data.aws_region.current.name}:${data.aws_caller_identity.current.account_id}:dbuser:${aws_rds_cluster.aurora.cluster_resource_id}/${var.master_username}"
-│ 
-│ The attribute "name" is deprecated. Refer to the provider documentation for details.
-│ 
-│ (and one more similar warning elsewhere)
-╵
-╷
-│ Error: Reference to undeclared local value
-│ 
-│   on ..\..\modules\aurora-postgres\outputs.tf line 53, in output "rds_proxy_application_username":
-│   53:   value       = local.app_auth_enabled ? var.rds_proxy_application_username : null
-│ 
-│ A local value with the name "app_auth_enabled" has not been declared.
-╵
-╷
-│ Error: Reference to undeclared input variable
-│ 
-│   on ..\..\modules\aurora-postgres\outputs.tf line 53, in output "rds_proxy_application_username":
-│   53:   value       = local.app_auth_enabled ? var.rds_proxy_application_username : null
-│ 
-│ An input variable with the name "rds_proxy_application_username" has not been declared. This variable can be declared with a variable "rds_proxy_application_username" {}
-│ block.
-╵
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra\apps\realtimeinsurance> 
+cd "C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra"
+git branch --show-current
+git status
+git log --oneline -8
