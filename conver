@@ -1,6 +1,8 @@
-# One-time imports: Lambda auto-created these log groups on first run, so
-# Terraform adopts them instead of failing to create them.
-# Remove once dev, perf, staging and prod have all been applied.
+# Lambda auto-creates its log group on first invocation, so the groups already
+# exist for the current environments. These imports let Terraform adopt the
+# existing group instead of failing with ResourceAlreadyExistsException.
+# Harmless once imported, and a no-op for environments where Terraform creates
+# the group itself.
 import {
   to = module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0]
   id = "/aws/lambda/${var.application_name}-${var.env_tier}-policy-graph-ingest-lambda"
@@ -10,3 +12,8 @@ import {
   to = module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]
   id = "/aws/lambda/${var.application_name}-${var.env_tier}-soap-verification-lambda"
 }
+
+tofu fmt imports.tf lambda.tf
+git add imports.tf lambda.tf
+git commit -m "Manage Lambda log groups in Terraform"
+git push
