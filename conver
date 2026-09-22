@@ -1,4 +1,17 @@
-cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
+PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git branch --show-current
+feature/T012SP/CPE-250
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git status
+On branch feature/T012SP/CPE-250
+Your branch is up to date with 'origin/feature/T012SP/CPE-250'.
+
+nothing to commit, working tree clean
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git log --oneline origin/main..HEAD
+6cd8af0 (HEAD -> feature/T012SP/CPE-250, origin/feature/T012SP/CPE-250) Restore rds_iam app user for Lambdas
+5398e6f Temporarily use master DB user for Lambdas
+d0a6af1 Update Create log group
+f6af96e Use rds_iam app user for lambda DB access
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
 git branch --show-current
 git status
 git log --oneline origin/main..HEAD
