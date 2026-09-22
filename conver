@@ -1,12 +1,21 @@
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu fmt
 lambda.tf
-soap_api.tf
 PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git diff
 diff --git a/lambda.tf b/lambda.tf
-index afb7d4b..1b9c89c 100644
+index afb7d4b..a1df238 100644
 --- a/lambda.tf
 +++ b/lambda.tf
-@@ -11,19 +11,18 @@ module "policy_graph_ingest_lambda" {
+@@ -11,18 +11,18 @@ module "policy_graph_ingest_lambda" {
+   vpc_id                 = var.vpc_id
+   subnet_ids             = var.lambda_subnet_ids
+   environment_variables = {
+-    db_endpoint   = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
+:...skipping...
+diff --git a/lambda.tf b/lambda.tf
+index afb7d4b..a1df238 100644
+--- a/lambda.tf
++++ b/lambda.tf
+@@ -11,18 +11,18 @@ module "policy_graph_ingest_lambda" {
    vpc_id                 = var.vpc_id
    subnet_ids             = var.lambda_subnet_ids
    environment_variables = {
@@ -24,17 +33,14 @@ index afb7d4b..1b9c89c 100644
    }
    extra_policy_statements = [
      {
--      Effect   = "Allow"
--      Action   = ["rds-db:connect"]
+       Effect   = "Allow"
+       Action   = ["rds-db:connect"]
 -      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_state.aurora.outputs.master_username}"]
--    }
-+      Effect = "Allow"
-+      Action = ["rds-db:connect"]
-+    Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"] }
++      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"]
+     }
    ]
  
-   tags = {}
-@@ -43,7 +42,7 @@ module "soap_verification_lambda" {
+@@ -43,7 +43,7 @@ module "soap_verification_lambda" {
    subnet_ids             = var.lambda_subnet_ids
    environment_variables = {
      db_endpoint            = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
@@ -43,21 +49,16 @@ index afb7d4b..1b9c89c 100644
      db_region              = "us-east-1"
      db_name                = "${var.application_name}_${var.env_tier}"
      debug_logging          = "true"
-@@ -52,10 +51,9 @@ module "soap_verification_lambda" {
-   }
-   extra_policy_statements = [
+@@ -54,7 +54,7 @@ module "soap_verification_lambda" {
      {
--      Effect   = "Allow"
--      Action   = ["rds-db:connect"]
+       Effect   = "Allow"
+       Action   = ["rds-db:connect"]
 -      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_sta
 te.aurora.outputs.master_username}"]
--    }
-+      Effect = "Allow"
-+      Action = ["rds-db:connect"]
-+    Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"] }
++      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"]
+     }
    ]
    provisioned_concurrency = 1
- 
 diff --git a/locals.tf b/locals.tf
 index cc1d958..aef7633 100644
 --- a/locals.tf
