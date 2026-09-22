@@ -1,14 +1,21 @@
-C:\Users\T012sp\Git repo\real-time-insurance-infra\aurora.tf
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> Get-ChildItem *.tf
 
-# The Aurora cluster, subnet group and its security group are now managed in
-# tf-aws-aurorapostgres-infra (apps/realtimeinsurance). This repo reads their
-# outputs via remote state instead of owning the resources directly.
-data "terraform_remote_state" "aurora" {
-  backend = "s3"
 
-  config = {
-    bucket = "kfb-github-terraform-state"
-    key    = "env:/${var.env_tier}/tf-aws-aurorapostgres-infra/apps/realtimeinsurance/terraform.tfstate"
-    region = "us-east-1"
-  }
-}
+    Directory: C:\Users\T012sp\Git repo\real-time-insurance-infra
+
+
+Mode                 LastWriteTime         Length Name                                                                                                                      
+----                 -------------         ------ ----                                                                                                                      
+-a----         9/15/2026   3:36 PM            486 aurora.tf                                                                                                                 
+-a----         9/15/2026   3:36 PM            135 data.tf                                                                                                                   
+-a----         9/16/2026  12:34 PM           2690 lambda.tf                                                                                                                 
+-a----         9/15/2026   3:36 PM            273 locals.tf                                                                                                                 
+-a----         9/15/2026   3:36 PM           1494 main.tf                                                                                                                   
+-a----         9/15/2026   3:36 PM            736 rest_api.tf                                                                                                               
+-a----         9/15/2026   3:37 PM            835 s3.tf                                                                                                                     
+-a----         9/16/2026  12:34 PM           1378 soap_api.tf                                                                                                               
+-a----         9/15/2026   3:36 PM           3527 soap_mtls.tf                                                                                                              
+-a----         9/15/2026   3:37 PM           1455 variables.tf                                                                                                              
+
+
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
