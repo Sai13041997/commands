@@ -1,16 +1,40 @@
-locals {
-  soap_api_fqdn         = var.soap_api_domain_name
-  soap_api_domain_parts = split(".", local.soap_api_fqdn)
-  soap_api_base_domain  = join(".", slice(local.soap_api_domain_parts, length(local.soap_api_domain_parts) - 2, length(local.soap_api_domain_parts)))
-
-  # TEMPORARY: back on the master user until CG grants CONNECT to the pgsi_ users.
-  # Restore the version below once grants are in place.
-  db_app_user = data.terraform_remote_state.aurora.outputs.master_username
-
-  # DB user for the Lambdas: the rds_iam app user from the Aurora state when
-  # configured, otherwise the master user (perf and staging until their users exist).
-  # db_app_user = coalesce(
-  #   try(data.terraform_remote_state.aurora.outputs.rds_proxy_application_username, null),
-  #   data.terraform_remote_state.aurora.outputs.master_username
-  # )
-}
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu fmt
+soap_api.tf
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu validate
+╷
+│ Error: Module source has changed
+│ 
+│   on lambda.tf line 2, in module "policy_graph_ingest_lambda":
+│    2:   source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.4.0"
+│ 
+│ The source address was changed from "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=feature/T012SP/CPE-240" to
+│ "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.4.0" since this module was installed. Run "tofu init" to install all modules required by this configuration.
+╵
+╷
+│ Error: Module source has changed
+│ 
+│   on lambda.tf line 33, in module "soap_verification_lambda":
+│   33:   source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.4.0"
+│ 
+│ The source address was changed from "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=feature/T012SP/CPE-240" to
+│ "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.4.0" since this module was installed. Run "tofu init" to install all modules required by this configuration.
+╵
+╷
+│ Error: Module source has changed
+│ 
+│   on rest_api.tf line 2, in module "api_gateway":
+│    2:   source = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.3.0"
+│ 
+│ The source address was changed from "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178" to
+│ "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.3.0" since this module was installed. Run "tofu init" to install all modules required by this configuration.
+╵
+╷
+│ Error: Module source has changed
+│ 
+│   on soap_api.tf line 2, in module "soap_api_gateway":
+│    2:   source        = "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.3.0"
+│ 
+│ The source address was changed from "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=feature/T012SP/CPE-178" to
+│ "git::https://github.com/kfbmic/tf-module-api-gateway.git?ref=v1.3.0" since this module was installed. Run "tofu init" to install all modules required by this configuration.
+╵
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
