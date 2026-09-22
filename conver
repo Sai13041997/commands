@@ -1,3 +1,36 @@
-Policy graph ingest: debug logging is working. DEBUG lines show up from main and mapper.personal_auto_mapper. In the console, filter the log group with { $.level = "DEBUG" } and set the time range to cover Sept 20.
+{
+  "username": "pgsi_ans04703015",
+  "password": "<password from CG>",
+  "engine": "postgres",
+  "host": "realtimeinsurance-dev-aurora-cluster.cluster-cx08iswmk3mr.us-east-1.rds.amazonaws.com",
+  "port": 5432,
+  "dbClusterIdentifier": "realtimeinsurance-dev-aurora-cluster"
+}
 
-SOAP verification: no invocations in the last two days. The logs only show the provisioned concurrency warm-up entries, so there's nothing to log yet. Debug lines should show up once IVS starts sending calls.
+
+notepad $env:TEMP\secret.json
+
+
+aws secretsmanager put-secret-value `
+  --secret-id realtimeinsurance-dev-rds-proxy-app-user `
+  --secret-string file://$env:TEMP/secret.json `
+  --profile L2-Development
+
+Remove-Item $env:TEMP\secret.json
+
+
+
+{
+  "username": "pgsi_aps04703014",
+  "password": "<prod password from CG>",
+  "engine": "postgres",
+  "host": "pol-db-rds-cluster-prod-realtimeins-pg.cluster-cx6eqoq0cghu.us-east-1.rds.amazonaws.com",
+  "port": 5432,
+  "dbClusterIdentifier": "pol-db-rds-cluster-prod-realtimeins-pg"
+}
+
+
+aws secretsmanager put-secret-value `
+  --secret-id realtimeinsurance-prod-rds-proxy-app-user `
+  --secret-string file://$env:TEMP/secret.json `
+  --profile L2-Prod
