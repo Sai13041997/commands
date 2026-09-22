@@ -1,68 +1,10 @@
-PS C:\Users\T012sp\Downloads\Testing> $r = aws lambda invoke `
->>   --function-name realtimeinsurance-dev-soap-verification-lambda `
->>   --payload fileb://event.json `
->>   --log-type Tail --query LogResult --output text `
->>   --profile L2-Development out.json
->> [Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($r))
-created. duration_ms=0.0"}
-{"timestamp": "2026-09-22 18:15:19,904", "logger": "database_handler", "level": "DEBUG", "message": "Executing query. vin=1C4RJFCT2CC174202 verification_date=2025-05-01T00:00:00Z"}
-{"timestamp": "2026-09-22 18:15:19,983", "logger": "database_handler", "level": "ERROR", "message": "Database query failed. vin=1C4RJFCT2CC174202 verification_date=2025-05-01T00:00:00Z"}
-Traceback (most recent call last):
-File "/var/task/pg8000/legacy.py", line 256, in execute
-self._context = self._c.execute_unnamed(
-~~~~~~~~~~~~~~~~~~~~~~~^
-statement, vals=vals, oids=self._input_oids, stream=stream
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-)
-^
-File "/var/task/pg8000/core.py", line 704, in execute_unnamed
-self.handle_messages(context)
-~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-File "/var/task/pg8000/core.py", line 844, in handle_messages
-raise context.error
-pg8000.exceptions.DatabaseError: {'S': 'ERROR', 'V': 'ERROR', 'C': '42P01', 'M': 'relation "ods.vw_insurer_active_or_not_active" does not exist', 'P': '112', 'F': 'parse_relation.c', 'L': '1472', 'R': 'parserOpenTable'}
-During handling of the above exception, another exception occurred:
-Traceback (most recent call last):
-File "/var/task/database_handler.py", line 72, in query_policy_info_by_vin
-cursor.execute(query, (vin_number, verification_date))
-~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-File "/var/task/pg8000/legacy.py", line 283, in execute
-raise cls(msg)
-pg8000.dbapi.ProgrammingError: {'S': 'ERROR', 'V': 'ERROR', 'C': '42P01', 'M': 'relation "ods.vw_insurer_active_or_not_active" does not exist', 'P': '112', 'F': 'parse_relation.c', 'L': '1472', 'R': 'parserOpenTable'}
-{"timestamp": "2026-09-22 18:15:19,986", "logger": "main", "level": "ERROR", "message": "SOAP verification request failed. request_id=21cc6a0b-054e-4058-8ec5-fda491a7cb0d"}
-Traceback (most recent call last):
-File "/var/task/pg8000/legacy.py", line 256, in execute
-self._context = self._c.execute_unnamed(
-~~~~~~~~~~~~~~~~~~~~~~~^
-statement, vals=vals, oids=self._input_oids, stream=stream
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-)
-^
-File "/var/task/pg8000/core.py", line 704, in execute_unnamed
-self.handle_messages(context)
-~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
-File "/var/task/pg8000/core.py", line 844, in handle_messages
-raise context.error
-pg8000.exceptions.DatabaseError: {'S': 'ERROR', 'V': 'ERROR', 'C': '42P01', 'M': 'relation "ods.vw_insurer_active_or_not_active" does not exist', 'P': '112', 'F': 'parse_relation.c', 'L': '1472', 'R': 'parserOpenTable'}
-During handling of the above exception, another exception occurred:
-Traceback (most recent call last):
-File "/var/task/main.py", line 59, in lambda_handler
-unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
-File "/var/task/database_handler.py", line 72, in query_policy_info_by_vin
-cursor.execute(query, (vin_number, verification_date))
-~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-File "/var/task/pg8000/legacy.py", line 283, in execute
-raise cls(msg)
-pg8000.dbapi.ProgrammingError: {'S': 'ERROR', 'V': 'ERROR', 'C': '42P01', 'M': 'relation "ods.vw_insurer_active_or_not_active" does not exist', 'P': '112', 'F': 'parse_relation.c', 'L': '1472', 'R': 'parserOpenTable'}
-[ERROR] ProgrammingError: {'S': 'ERROR', 'V': 'ERROR', 'C': '42P01', 'M': 'relation "ods.vw_insurer_active_or_not_active" does not exist', 'P': '112', 'F': 'parse_relation.c', 'L': '1472', 'R': 'parserOpenTable'}
-Traceback (most recent call last):
-  File "/var/task/main.py", line 59, in lambda_handler
-    unit_info = database_handler.query_policy_info_by_vin(vin, verification_date)
-  File "/var/task/database_handler.py", line 72, in query_policy_info_by_vin
-    cursor.execute(query, (vin_number, verification_date))
-  File "/var/task/pg8000/legacy.py", line 283, in execute
-    raise cls(msg)
-END RequestId: 21cc6a0b-054e-4058-8ec5-fda491a7cb0d
-REPORT RequestId: 21cc6a0b-054e-4058-8ec5-fda491a7cb0d  Duration: 767.21 ms     Billed Duration: 1467 ms        Memory Size: 512 MB     Max Memory Used: 96 MB  Init Duration: 699.59 ms
+cd "C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra"
+git branch --show-current
 
-PS C:\Users\T012sp\Downloads\Testing> 
+# IAM-only app user (rds_iam) for the RDS Proxy
+rds_proxy_application_username = "pgsi_ans04703015"
+
+tofu fmt -recursive
+git add apps/realtimeinsurance/envs/perf.tfvars apps/realtimeinsurance/envs/staging.tfvars
+git commit -m "Add app user for perf and staging"
+git push
