@@ -1,5 +1,5 @@
-$env:AWS_PROFILE = "TFRepository"
-tofu workspace select dev
-tofu plan -var-file="envs/dev.tfvars"
 
-+ rds_proxy_application_username = "pgsi_ans04703015"
+cd "C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra"
+git add -A
+git commit -m "Output RDS proxy application username"
+git push
