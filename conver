@@ -1,17 +1,41 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git branch --show-current
-feature/T012SP/CPE-250
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git status
-On branch feature/T012SP/CPE-250
-Your branch is up to date with 'origin/feature/T012SP/CPE-250'.
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git show d0a6af1 --stat
+commit d0a6af18b0a7a7882c1d564829b252a47cc929bd
+Author: t012sp <sai.praneeth@kyfb.com>
+Date:   Tue Sep 22 11:20:37 2026 -0400
 
-nothing to commit, working tree clean
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git log --oneline origin/main..HEAD
-6cd8af0 (HEAD -> feature/T012SP/CPE-250, origin/feature/T012SP/CPE-250) Restore rds_iam app user for Lambdas
-5398e6f Temporarily use master DB user for Lambdas
-d0a6af1 Update Create log group
-f6af96e Use rds_iam app user for lambda DB access
-PS C:\Users\T012sp\Git repo\real-time-insurance-infra> cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
-git branch --show-current
-git status
-git log --oneline origin/main..HEAD
+    Update Create log group
+
+ lambda.tf | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git show d0a6af1 --lambda.tf
+fatal: unrecognized argument: --lambda.tf
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git show d0a6af1 -- lambda.tf
+commit d0a6af18b0a7a7882c1d564829b252a47cc929bd
+Author: t012sp <sai.praneeth@kyfb.com>
+Date:   Tue Sep 22 11:20:37 2026 -0400
+
+    Update Create log group
+
+diff --git a/lambda.tf b/lambda.tf
+index a1df238..f0f64cc 100644
+--- a/lambda.tf
++++ b/lambda.tf
+@@ -6,7 +6,7 @@ module "policy_graph_ingest_lambda" {
+   timeout                = 10
+   memory_size            = 128
+   code_managed_elsewhere = true
+-  create_log_group       = true
++  create_log_group       = false
+   vpc_enabled            = true
+   vpc_id                 = var.vpc_id
+   subnet_ids             = var.lambda_subnet_ids
+@@ -37,7 +37,7 @@ module "soap_verification_lambda" {
+   timeout                = 10
+   memory_size            = 512
+   code_managed_elsewhere = true
+-  create_log_group       = true
++  create_log_group       = false
+   vpc_enabled            = true
+   vpc_id                 = var.vpc_id
+   subnet_ids             = var.lambda_subnet_ids
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
