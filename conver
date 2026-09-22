@@ -1,3 +1,9 @@
-cd "C:\Users\T012sp\Git repo\real-time-insurance-infra"
-git branch --show-current
-git status
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git branch --show-current
+feature/T012SP/CPE-250
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git status
+On branch feature/T012SP/CPE-250
+Your branch is ahead of 'origin/feature/T012SP/CPE-250' by 9 commits.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> 
