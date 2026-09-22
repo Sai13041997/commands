@@ -1,63 +1,91 @@
-module "policy_graph_ingest_lambda" {
-  source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.4.0"
-  name                   = "${var.application_name}-${var.env_tier}-policy-graph-ingest-lambda"
-  runtime                = "python3.13"
-  handler                = "main.lambda_handler"
-  timeout                = 10
-  memory_size            = 128
-  code_managed_elsewhere = true
-  create_log_group       = true
-  vpc_enabled            = true
-  vpc_id                 = var.vpc_id
-  subnet_ids             = var.lambda_subnet_ids
-  environment_variables = {
-    db_endpoint            = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
-    db_user                = local.db_app_user
-    db_region              = "us-east-1"
-    db_name                = "${var.application_name}_${var.env_tier}"
-    debug_logging          = "true"
-    enable_commercial_auto = "true"
-  }
-  extra_policy_statements = [
-    {
-      Effect   = "Allow"
-      Action   = ["rds-db:connect"]
-      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"]
-    }
-  ]
-
-  tags = {}
-}
-
-module "soap_verification_lambda" {
-  source                 = "git::https://github.com/kfbmic/tf-module-lambda-function.git?ref=v1.4.0"
-  name                   = "${var.application_name}-${var.env_tier}-soap-verification-lambda"
-  runtime                = "python3.13"
-  handler                = "main.lambda_handler"
-  timeout                = 10
-  memory_size            = 512
-  code_managed_elsewhere = true
-  create_log_group       = true
-  vpc_enabled            = true
-  vpc_id                 = var.vpc_id
-  subnet_ids             = var.lambda_subnet_ids
-  environment_variables = {
-    db_endpoint            = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
-    db_user                = local.db_app_user
-    db_region              = "us-east-1"
-    db_name                = "${var.application_name}_${var.env_tier}"
-    debug_logging          = "true"
-    NAIC                   = "22993"
-    enable_commercial_auto = "true"
-  }
-  extra_policy_statements = [
-    {
-      Effect   = "Allow"
-      Action   = ["rds-db:connect"]
-      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"]
-    }
-  ]
-  provisioned_concurrency = 1
-
-  tags = {}
-}
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> tofu fmt
+lambda.tf
+soap_api.tf
+PS C:\Users\T012sp\Git repo\real-time-insurance-infra> git diff
+diff --git a/lambda.tf b/lambda.tf
+index afb7d4b..1b9c89c 100644
+--- a/lambda.tf
++++ b/lambda.tf
+@@ -11,19 +11,18 @@ module "policy_graph_ingest_lambda" {
+   vpc_id                 = var.vpc_id
+   subnet_ids             = var.lambda_subnet_ids
+   environment_variables = {
+-    db_endpoint   = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
+-    db_user       = data.terraform_remote_state.aurora.outputs.master_username
+-    db_region     = "us-east-1"
+-    db_name       = "${var.application_name}_${var.env_tier}"
+-    debug_logging = "true"
++    db_endpoint            = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
++    db_user                = local.db_app_user
++    db_region              = "us-east-1"
++    db_name                = "${var.application_name}_${var.env_tier}"
++    debug_logging          = "true"
+     enable_commercial_auto = "true"
+   }
+   extra_policy_statements = [
+     {
+-      Effect   = "Allow"
+-      Action   = ["rds-db:connect"]
+-      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_state.aurora.outputs.master_username}"]
+-    }
++      Effect = "Allow"
++      Action = ["rds-db:connect"]
++    Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"] }
+   ]
+ 
+   tags = {}
+@@ -43,7 +42,7 @@ module "soap_verification_lambda" {
+   subnet_ids             = var.lambda_subnet_ids
+   environment_variables = {
+     db_endpoint            = data.terraform_remote_state.aurora.outputs.rds_proxy_endpoint
+-    db_user                = data.terraform_remote_state.aurora.outputs.master_username
++    db_user                = local.db_app_user
+     db_region              = "us-east-1"
+     db_name                = "${var.application_name}_${var.env_tier}"
+     debug_logging          = "true"
+@@ -52,10 +51,9 @@ module "soap_verification_lambda" {
+   }
+   extra_policy_statements = [
+     {
+-      Effect   = "Allow"
+-      Action   = ["rds-db:connect"]
+-      Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${data.terraform_remote_sta
+te.aurora.outputs.master_username}"]
+-    }
++      Effect = "Allow"
++      Action = ["rds-db:connect"]
++    Resource = ["arn:aws:rds-db:us-east-1:${var.destination_account_id}:dbuser:${split(":", data.terraform_remote_state.aurora.outputs.rds_proxy_arn)[6]}/${local.db_app_user}"] }
+   ]
+   provisioned_concurrency = 1
+ 
+diff --git a/locals.tf b/locals.tf
+index cc1d958..aef7633 100644
+--- a/locals.tf
++++ b/locals.tf
+@@ -2,4 +2,11 @@ locals {
+   soap_api_fqdn         = var.soap_api_domain_name
+   soap_api_domain_parts = split(".", local.soap_api_fqdn)
+   soap_api_base_domain  = join(".", slice(local.soap_api_domain_parts, length(local.soap_api_domain_parts) - 2, length(local.soap_api_domain_parts)))
++
++  # DB user for the Lambdas: the rds_iam app user from the Aurora state when
++  # configured, otherwise the master user (perf and staging until their users exist).
++  db_app_user = coalesce(
++    try(data.terraform_remote_state.aurora.outputs.rds_proxy_application_username, null),
++    data.terraform_remote_state.aurora.outputs.master_username
++  )
+ }
+\ No newline at end of file
+diff --git a/soap_api.tf b/soap_api.tf
+index 8270116..2325bbe 100644
+--- a/soap_api.tf
++++ b/soap_api.tf
+@@ -3,7 +3,7 @@ module "soap_api_gateway" {
+   name          = "${var.application_name}-${var.env_tier}-soap-api-gateway"
+   is_production = false
+   jwt_audience  = null #["${var.entra_audience}"]
+-  
++
+   enable_stage_logging = true
+ 
+   disable_execute_api_endpoint = var.soap_disable_execute_api_endpoint
+(END)
