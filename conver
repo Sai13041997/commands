@@ -1,179 +1,230 @@
-module.policy_graph_ingest_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d45fea12-bb88-13e9-8d6b-68d9d50c648c]
-module.soap_verification_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d4e60f49-2b04-3487-e1df-f43069235eaf]
-data.terraform_remote_state.aurora: Reading...
-data.aws_route53_zone.kyfb: Reading...
-module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Reading...
-module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Reading...
-module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
-module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
-data.aws_route53_zone.kyfb: Read complete after 0s [id=Z07550863D5AYI2X1ZLBW]
-data.terraform_remote_state.aurora: Read complete after 1s
-aws_s3_bucket.postgre_extracts: Refreshing state... [id=kfbmic-edr-np-l2-dev-postgre-extracts]
-aws_s3_bucket.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
-module.soap_verification_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role]
-aws_acm_certificate.soap_api: Refreshing state... [id=arn:aws:acm:us-east-1:058264370150:certificate/23e1a0c5-3f4b-4838-a089-d530e8ae0127]
-module.policy_graph_ingest_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role]
-module.soap_api_gateway.data.aws_caller_identity.current: Reading...
-module.api_gateway.data.aws_region.current: Reading...
-module.policy_graph_ingest_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-0afa63e12b463c669]
-module.api_gateway.data.aws_caller_identity.current: Reading...
-module.api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
-module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
-module.soap_api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=q51dqcsrw5]
-module.soap_api_gateway.aws_cloudwatch_log_group.access_logs[0]: Refreshing state... [id=/aws/apigateway/realtimeinsurance-dev-soap-api-gateway/default]
-module.soap_api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
-module.soap_api_gateway.data.aws_region.current: Reading...
-module.soap_api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
-module.api_gateway.aws_cloudwatch_log_group.access_logs[0]: Refreshing state... [id=/aws/apigateway/realtimeinsurance-dev-api-gateway/default]
-module.api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
-module.soap_verification_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-04d42cff2e98a040b]
-module.api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=6h5fz78wz0]
-module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
-module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
-module.api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role]
-module.soap_api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role]
-aws_route53_record.cert_validation["realtimeinsurance-soap-api-dev.devkyfb.com"]: Refreshing state... [id=Z07550863D5AYI2X1ZLBW__18b0dbad95674ebd940a1b0394b92c22.realtimeinsurance-soap-api-dev.devkyfb.com._CNAME]
-module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
-module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=1654620405]
-module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
-module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=2893287088]
-module.soap_api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=q51dqcsrw5]
-aws_acm_certificate_validation.cert: Refreshing state... [id=2026-05-20 16:05:01.989 +0000 UTC]
-module.api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=6h5fz78wz0]
-module.policy_graph_ingest_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.policy_graph_ingest_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role:realtimeinsurance-dev-policy-graph-ingest-lambda-extra]
-module.policy_graph_ingest_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda]
-module.policy_graph_ingest_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role:realtimeinsurance-dev-policy-graph-ingest-lambda-vpc-networking]
-module.soap_verification_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda]
-module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
-module.soap_verification_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-vpc-networking]
-module.soap_api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.api_gateway.aws_lambda_function.jwt_authorizer[0]: Refreshing state... [id=realtimeinsurance-dev-api-gateway-entra-jwt-authorizer]
-module.api_gateway.aws_api_gateway_authorizer.jwt[0]: Refreshing state... [id=h8jtyg]
-module.api_gateway.aws_lambda_permission.allow_apigw_invoke_authorizer[0]: Refreshing state... [id=AllowAPIGatewayInvokeAuthorizer]
-module.api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /policy-graph-ingest"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__policy-graph-ingest]
-module.api_gateway.aws_api_gateway_resource.path_level_1["/policy-graph-ingest"]: Refreshing state... [id=gase28]
-aws_s3_bucket_policy.postgre_extracts: Refreshing state... [id=kfbmic-edr-np-l2-dev-postgre-extracts]
-aws_s3_bucket_public_access_block.postgre_extracts: Refreshing state... [id=kfbmic-edr-np-l2-dev-postgre-extracts]
-aws_s3_bucket_public_access_block.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-aws_s3_bucket_versioning.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-module.api_gateway.aws_api_gateway_method.this["POST /policy-graph-ingest"]: Refreshing state... [id=agm-6h5fz78wz0-gase28-POST]
-module.api_gateway.aws_api_gateway_integration.this["POST /policy-graph-ingest"]: Refreshing state... [id=agi-6h5fz78wz0-gase28-POST]
-module.soap_verification_lambda.aws_lambda_alias.live[0]: Refreshing state... [id=arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda:live]
-module.soap_verification_lambda.aws_lambda_provisioned_concurrency_config.this[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda,live]
-module.api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=zfa8ha]
-module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__soap]
-module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"]: Refreshing state... [id=lknkms]
-module.soap_api_gateway.aws_api_gateway_method.this["POST /soap"]: Refreshing state... [id=agm-q51dqcsrw5-lknkms-POST]
-module.api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-6h5fz78wz0-default]
-module.soap_api_gateway.aws_api_gateway_integration.this["POST /soap"]: Refreshing state... [id=agi-q51dqcsrw5-lknkms-POST]
-module.api_gateway.aws_api_gateway_method_settings.this[0]: Refreshing state... [id=6h5fz78wz0-default-*/*]
-module.soap_api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=awy3jc]
-module.soap_api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-q51dqcsrw5-default]
-module.soap_api_gateway.aws_api_gateway_method_settings.this[0]: Refreshing state... [id=q51dqcsrw5-default-*/*]
-aws_s3_object.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore/soap-truststore/truststore.pem]
-module.soap_api_gateway.aws_api_gateway_domain_name.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com]
-module.soap_api_gateway.aws_api_gateway_base_path_mapping.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com/]
-aws_route53_record.soap_api_dns: Refreshing state... [id=Z07550863D5AYI2X1ZLBW_realtimeinsurance-soap-api-dev.devkyfb.com_CNAME]
-OpenTofu used the selected providers to generate the following execution
-plan. Resource actions are indicated with the following symbols:
-  ~ update in-place (current -> planned)
--/+ destroy and then create replacement
-OpenTofu will perform the following actions:
-  # module.policy_graph_ingest_lambda.aws_iam_role_policy.extra[0] will be updated in-place
-  ~ resource "aws_iam_role_policy" "extra" {
-        id     = "realtimeinsurance-dev-policy-graph-ingest-lambda-role:realtimeinsurance-dev-policy-graph-ingest-lambda-extra"
-        name   = "realtimeinsurance-dev-policy-graph-ingest-lambda-extra"
-      ~ policy = jsonencode(
-          ~ {
-              ~ Statement = [
-                  ~ {
-                      ~ Resource = [
-                          - "arn:aws:rds-db:us-east-1:058264370150:dbuser:prx-05af88b21156e01ae/pgsi_ans04703015",
-                          + "arn:aws:rds-db:us-east-1:058264370150:dbuser:prx-05af88b21156e01ae/kfb_aurora_admin",
-                        ]
-                        # (2 unchanged attributes hidden)
-                    },
-                ]
-                # (1 unchanged attribute hidden)
-            }
-        )
-        # (1 unchanged attribute hidden)
-    }
-  # module.policy_graph_ingest_lambda.aws_lambda_function.placeholder[0] will be updated in-place
-  ~ resource "aws_lambda_function" "placeholder" {
-        id                             = "realtimeinsurance-dev-policy-graph-ingest-lambda"
-        tags                           = {}
-        # (25 unchanged attributes hidden)
-      ~ environment {
-          ~ variables = {
-              ~ "db_user"                = "pgsi_ans04703015" -> "kfb_aurora_admin"
-                # (5 unchanged elements hidden)
-            }
-        }
-        # (4 unchanged blocks hidden)
-    }
-  # module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"] must be replaced
--/+ resource "aws_lambda_permission" "allow_apigw_invoke_backend" {
-      ~ function_name       = "arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda" -> "arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda:live" # forces replacement
-      ~ id                  = "AllowAPIGatewayInvoke-POST__soap" -> (known after apply)
-      - qualifier           = "live" -> null # forces replacement
-      + statement_id_prefix = (known after apply)
-        # (5 unchanged attributes hidden)
-    }
-  # module.soap_verification_lambda.aws_iam_role_policy.extra[0] will be updated in-place
-  ~ resource "aws_iam_role_policy" "extra" {
-        id     = "realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra"
-        name   = "realtimeinsurance-dev-soap-verification-lambda-extra"
-      ~ policy = jsonencode(
-          ~ {
-              ~ Statement = [
-                  ~ {
-                      ~ Resource = [
-                          - "arn:aws:rds-db:us-east-1:058264370150:dbuser:prx-05af88b21156e01ae/pgsi_ans04703015",
-                          + "arn:aws:rds-db:us-east-1:058264370150:dbuser:prx-05af88b21156e01ae/kfb_aurora_admin",
-                        ]
-                        # (2 unchanged attributes hidden)
-                    },
-                ]
-                # (1 unchanged attribute hidden)
-            }
-        )
-        # (1 unchanged attribute hidden)
-    }
-  # module.soap_verification_lambda.aws_lambda_function.placeholder[0] will be updated in-place
-  ~ resource "aws_lambda_function" "placeholder" {
-        id                             = "realtimeinsurance-dev-soap-verification-lambda"
-      ~ qualified_invoke_arn           = "arn:aws:apigateway:us-east-1:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda:33/invocations" -> (known after apply)
-        tags                           = {}
-        # (24 unchanged attributes hidden)
-      ~ environment {
-          ~ variables = {
-              ~ "db_user"                = "pgsi_ans04703015" -> "kfb_aurora_admin"
-                # (6 unchanged elements hidden)
-            }
-        }
-        # (4 unchanged blocks hidden)
-    }
-Plan: 1 to add, 4 to change, 1 to destroy.
-Warning: Value derived from a deprecated source
-  with module.api_gateway.aws_api_gateway_authorizer.jwt,
-  on .terraform/modules/api_gateway/main.tf line 190, in resource "aws_api_gateway_authorizer" "jwt":
- 190:   type            = "TOKEN"
-This value is derived from data.aws_region.current.name, which is deprecated
-with the following message:
-name is deprecated. Use region instead.
-Warning: Redundant ignore_changes element
-  on .terraform/modules/policy_graph_ingest_lambda/main.tf line 185, in resource "aws_lambda_function" "placeholder":
- 185: resource "aws_lambda_function" "placeholder" {
-Adding an attribute name to ignore_changes tells OpenTofu to ignore future
-changes to the argument in configuration after the object has been created,
-retaining the value originally configured.
-The attribute last_modified is decided by the provider alone and therefore
-there can be no configured value to compare with. Including this attribute in
-ignore_changes has no effect. Remove the attribute from ignore_changes to
-quiet this warning.
-(and 5 more similar warnings elsewhere)
+Skip to content
+GitHub Enterprise
+Users managed by Kentucky Farm Bureau
+kfbmic
+tf-aws-aurorapostgres-infra
+Repository navigation
+Code
+Issues
+Pull requests
+2
+ (2)
+Agents
+Actions
+Wiki
+Security and quality
+Insights
+Settings
+Feature/t012 sp/cpe 250 perf output fix- #31
+#31
+Open
+Praneeth, Sai (T012SP_kyfb)
+wants to merge 7 commits into
+main
+from
+feature/T012SP/CPE-250-perf-output-fix
++35
+-41
+Lines changed: 35 additions & 41 deletions
+Conversation0 (0)
+Commits7 (7)
+Checks0 (0)
+Files changed8 (8)
+Conversation
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb)
+commented
+4 minutes ago
+This pull request updates how the RDS Proxy application user is configured for Aurora PostgreSQL clusters. The main change is to switch from using a Secrets Manager secret for the application user to using an IAM-only database user (rds_iam). This simplifies configuration and removes the need to manage a separate secret for the application user. The changes also update variable and output names to reflect this new approach.
+
+RDS Proxy Application User Refactor
+
+Replaced the rds_proxy_application_secret_arn variable with rds_proxy_application_username throughout the configuration, making the application user IAM-only and removing the need for a Secrets Manager secret. [1] [2] [3]
+Updated the RDS Proxy module logic to use the new rds_proxy_application_username variable, and removed all references to the previous secret-based authentication. This includes simplifying IAM policy grants and removing the dynamic auth block for the application user. [1] [2] [3] [4]
+Updated environment variable files (dev.tfvars, prod.tfvars) to provide the new rds_proxy_application_username value instead of a secret ARN. [1] [2]
+Outputs and Documentation
+
+Added a new output rds_proxy_application_username to both the main and module outputs, making the IAM-only application user visible to consumers. [1] [2]
+Improved documentation and comments to clarify the new IAM-only authentication flow for the RDS Proxy application user.
+These changes make the RDS Proxy application user configuration more secure and easier to manage by leveraging IAM authentication without requiring additional secrets.
+
+Mention @copilot in a comment to make changes to this pull request.
+Praneeth, Sai (T012SP_kyfb) added 7 commits 4 days ago
+@T012SP_kyfb
+Create RDS proxy application secret in module
+1a8ecff
+@T012SP_kyfb
+Format prod tfvars
+0dce739
+@T012SP_kyfb
+Enable RDS proxy application user for prod
+7fe2db7
+@T012SP_kyfb
+Use pgsi IAM auth user for prod RDS proxy
+e758de9
+@T012SP_kyfb
+Output RDS proxy application username
+ae40480
+@T012SP_kyfb
+Merge main into T012SP/CPE-250 branch
+11efcdf
+@T012SP_kyfb
+Switch RDS proxy app user to IAM-only, remove app-user secret
+9929d60
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb) requested a review from Copilot 4 minutes ago
+orca-security-us[bot]
+orca-security-us Bot reviewed 3 minutes ago
+apps/realtimeinsurance/outputs.tf
+  value = module.aurora.master_username
+}
+
+output "rds_proxy_application_username" {
+@orca-security-us
+orca-security-us Bot
+3 minutes ago
+⚪️ [INFO] Terraform Output Without Description
+Details:
+Terraform outputs without descriptions reduce code maintainability and make it
+difficult for users to understand the purpose and usage of exported values.
+Documentation gaps impede collaboration and increase misconfiguration risk.
+Define descriptions for all output values to improve clarity.
+
+Recommendation:
+'description' should be defined and not null
+
+@T012SP_kyfb	Reply...
+Copilot started reviewing on behalf of Praneeth, Sai (T012SP_kyfb) 3 minutes ago
+orca-security-us[bot]
+orca-security-us Bot reviewed 3 minutes ago
+modules/aurora-postgres/rds_proxy.tf
+@orca-security-us
+orca-security-us Bot
+3 minutes ago
+modules/aurora-postgres/rds_proxy.tf:29
+
+⚪️ [INFO] IAM Access Analyzer Is Not Enabled
+Details:
+IAM Access Analyzer continuously monitors resource policies to identify
+unintended external access to AWS resources. Without it, overly permissive
+policies may grant unauthorized access to S3 buckets, IAM roles, or other
+resources. Enable an analyzer to detect and remediate external access risks.
+
+Recommendation:
+'aws_accessanalyzer_analyzer' should be set
+
+@T012SP_kyfb	Reply...
+orca-security-us[bot]
+orca-security-us Bot reviewed 3 minutes ago
+orca-security-us Bot
+left a comment
+Orca Security Scan Summary
+Status	Check	Issues by priority	
+Passed Passed	Infrastructure as Code	high 0   medium 0   low 0   info 2	View in Orca
+Passed Passed	OSS Licenses	high 0   medium 0   low 0   info 0	View in Orca
+Passed Passed	SAST	high 0   medium 0   low 0   info 0	View in Orca
+Passed Passed	Secrets	high 0   medium 0   low 0   info 0	View in Orca
+Passed Passed	Vulnerabilities	high 0   medium 0   low 0   info 0	View in Orca
+🛡️ The following IaC misconfigurations have been detected
+Copilot AI reviewed 1 minute ago
+Copilot AI
+left a comment
+Copilot review overview
+🔵 Needs a closer look
+The IAM authentication refactor affects database access, proxy authorization, and environment configuration, warranting final human validation.
+
+Review effort: Lite
+Findings: None
+
+What changed in this PR
+Refactors the Aurora PostgreSQL RDS Proxy application user from Secrets Manager authentication to IAM-only authentication.
+
+Changes:
+
+Replaces the application secret ARN with an IAM username.
+Updates proxy IAM grants and removes secret-based authentication.
+Updates application variables, outputs, and environment configuration.
+File	Summary
+modules/​aurora-postgres/​variables.tf	Defines the IAM application username input.
+modules/​aurora-postgres/​rds_proxy.tf	Updates proxy IAM authorization and removes secret authentication.
+modules/​aurora-postgres/​outputs.tf	Exposes the application username.
+apps/​realtimeinsurance/​variables.tf	Renames the application input variable.
+apps/​realtimeinsurance/​outputs.tf	Exposes the application username.
+apps/​realtimeinsurance/​main.tf	Passes the username to Aurora.
+apps/​realtimeinsurance/​envs/​prod.tfvars	Configures the production IAM user.
+apps/​realtimeinsurance/​envs/​dev.tfvars	Configures the development IAM user.
+💡 Add a code-review agent skill or configure MCP servers for context-aware, tailored reviews. Learn more in the docs.
+
+This branch was successfully deployed
+2 active deployments
+Merge info
+All checks have passed
+5 successful checks
+
+
+successful checks
+Orca Security - Infrastructure as Code
+Orca Security - Infrastructure as CodeSuccessful in 41s — Orca Security Scan Summary
+Orca Security - OSS Licenses
+Orca Security - OSS LicensesSuccessful in 29s — Orca Security Scan Summary
+Orca Security - SAST
+Orca Security - SASTSuccessful in 42s — Orca Security Scan Summary
+Orca Security - Secrets
+Orca Security - SecretsSuccessful in 30s — Orca Security Scan Summary
+Orca Security - Vulnerabilities
+Orca Security - VulnerabilitiesSuccessful in 28s — Orca Security Scan Summary
+Merging is blocked
+A conversation must be resolved before this pull request can be merged.
+You can also merge this with the command line. 
+Still in progress?
+@T012SP_kyfb
+
+
+Add a comment
+Comment
+ 
+
+Add your comment here...
+Remember, contributions to this repository should follow our GitHub Community Guidelines.
+ ProTip! Add .patch or .diff to the end of URLs for Git’s plaintext views.
+Reviewers
+@orca-security-us
+orca-security-us[bot]
+Copilot code review
+Copilot
+Copilot review effort, defaults to Lite
+At least 2 approving reviews are required to merge this pull request.
+
+Still in progress?
+Assignees
+No one—
+Labels
+None yet
+Projects
+None yet
+Milestone
+No milestone
+Development
+Successfully merging this pull request may close these issues.
+
+None yet
+
+
+Notifications
+Customize
+You’re receiving notifications because you authored the thread.
+1 participant
+@T012SP_kyfb
+ Archive pull request
+Footer
+© 2026 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Community
+Docs
+Contact
+Manage cookies
+Do not share my personal information
