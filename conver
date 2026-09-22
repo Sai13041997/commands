@@ -48,11 +48,5 @@ Bulule, Ntwenhle
 userid: pgsp_aps04703014   pw:  ajfoNYl5gJ4d
 this is for prod
  
-pgsi_ans04703015  that one is for the lambda and is rds_iam
- 
-Bulule, Ntwenhle
-this is for prod
-please save this password
- Me:
-Thanks
- 
+
+ Quick update on the RDS proxy app user: CG confirmed the pgsi_ users I set up are rds_iam, so they're IAM-only and have no passwords. The only password she sent is for the pgsp_ password-based user. Since our proxy already uses IAM auth end to end, I think the pgsi_ users can connect without storing any password, which means the empty secret wouldn't be needed. I'll confirm that with a test connection in dev first. Are you good with going IAM-only, or would you rather prod use the pgsp_ user with a password?
