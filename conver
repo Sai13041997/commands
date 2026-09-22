@@ -1,160 +1,221 @@
-data.terraform_remote_state.aurora: Reading...
-module.policy_graph_ingest_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d45fea12-bb88-13e9-8d6b-68d9d50c648c]
-module.soap_verification_lambda.terraform_data.validate_single_code_mode: Refreshing state... [id=d4e60f49-2b04-3487-e1df-f43069235eaf]
-module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Reading...
-module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Reading...
-module.policy_graph_ingest_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
-module.soap_verification_lambda.data.archive_file.placeholder_zip[0]: Read complete after 0s [id=6498451b123a749979755b5788e432f3f5837856]
-data.terraform_remote_state.aurora: Read complete after 1s
-data.aws_route53_zone.kyfb: Reading...
-data.aws_route53_zone.kyfb: Read complete after 0s [id=Z07550863D5AYI2X1ZLBW]
-module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0]: Preparing import... [id=/aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda]
-module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
-module.api_gateway.data.aws_caller_identity.current: Reading...
-module.api_gateway.data.aws_region.current: Reading...
-module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0]: Refreshing state... [id=/aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda]
-module.api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=6h5fz78wz0]
-module.soap_api_gateway.data.aws_caller_identity.current: Reading...
-module.soap_api_gateway.aws_api_gateway_rest_api.this: Refreshing state... [id=q51dqcsrw5]
-module.soap_verification_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-04d42cff2e98a040b]
-module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Reading...
-aws_s3_bucket.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-module.api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
-module.soap_api_gateway.data.aws_iam_policy_document.authorizer_assume_role: Read complete after 0s [id=2690255455]
-module.api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
-module.soap_api_gateway.data.aws_region.current: Reading...
-module.soap_api_gateway.aws_cloudwatch_log_group.access_logs[0]: Refreshing state... [id=/aws/apigateway/realtimeinsurance-dev-soap-api-gateway/default]
-aws_s3_bucket.postgre_extracts: Refreshing state... [id=kfbmic-edr-np-l2-dev-postgre-extracts]
-module.soap_api_gateway.data.aws_region.current: Read complete after 0s [id=us-east-1]
-module.api_gateway.aws_cloudwatch_log_group.access_logs[0]: Refreshing state... [id=/aws/apigateway/realtimeinsurance-dev-api-gateway/default]
-module.api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
-module.soap_verification_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role]
-module.soap_api_gateway.data.aws_caller_identity.current: Read complete after 0s [id=058264370150]
-module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]: Preparing import... [id=/aws/lambda/realtimeinsurance-dev-soap-verification-lambda]
-module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]: Refreshing state... [id=/aws/lambda/realtimeinsurance-dev-soap-verification-lambda]
-aws_acm_certificate.soap_api: Refreshing state... [id=arn:aws:acm:us-east-1:058264370150:certificate/23e1a0c5-3f4b-4838-a089-d530e8ae0127]
-module.policy_graph_ingest_lambda.aws_iam_role.this: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role]
-module.policy_graph_ingest_lambda.aws_security_group.this[0]: Refreshing state... [id=sg-0afa63e12b463c669]
-module.api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role]
-module.soap_api_gateway.aws_iam_role.authorizer_role: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role]
-module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
-module.api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=2893287088]
-module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Reading...
-module.soap_api_gateway.data.aws_iam_policy_document.rest_api_policy: Read complete after 0s [id=1654620405]
-module.api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=6h5fz78wz0]
-module.soap_api_gateway.aws_api_gateway_rest_api_policy.this: Refreshing state... [id=q51dqcsrw5]
-aws_route53_record.cert_validation["realtimeinsurance-soap-api-dev.devkyfb.com"]: Refreshing state... [id=Z07550863D5AYI2X1ZLBW__18b0dbad95674ebd940a1b0394b92c22.realtimeinsurance-soap-api-dev.devkyfb.com._CNAME]
-module.api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.api_gateway.aws_lambda_function.jwt_authorizer[0]: Refreshing state... [id=realtimeinsurance-dev-api-gateway-entra-jwt-authorizer]
-module.soap_api_gateway.aws_iam_role_policy_attachment.authorizer_basic: Refreshing state... [id=realtimeinsurance-dev-soap-api-gateway-authorizer-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.soap_verification_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-extra]
-module.soap_verification_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.soap_verification_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda]
-module.soap_verification_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda-role:realtimeinsurance-dev-soap-verification-lambda-vpc-networking]
-aws_acm_certificate_validation.cert: Refreshing state... [id=2026-05-20 16:05:01.989 +0000 UTC]
-module.policy_graph_ingest_lambda.aws_iam_role_policy.extra[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role:realtimeinsurance-dev-policy-graph-ingest-lambda-extra]
-module.policy_graph_ingest_lambda.aws_iam_role_policy_attachment.basic_execution: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
-module.policy_graph_ingest_lambda.aws_iam_role_policy.vpc_networking[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda-role:realtimeinsurance-dev-policy-graph-ingest-lambda-vpc-networking]
-module.policy_graph_ingest_lambda.aws_lambda_function.placeholder[0]: Refreshing state... [id=realtimeinsurance-dev-policy-graph-ingest-lambda]
-module.api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /policy-graph-ingest"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__policy-graph-ingest]
-module.api_gateway.aws_api_gateway_resource.path_level_1["/policy-graph-ingest"]: Refreshing state... [id=gase28]
-module.api_gateway.aws_lambda_permission.allow_apigw_invoke_authorizer[0]: Refreshing state... [id=AllowAPIGatewayInvokeAuthorizer]
-module.api_gateway.aws_api_gateway_authorizer.jwt[0]: Refreshing state... [id=h8jtyg]
-aws_s3_bucket_versioning.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-aws_s3_bucket_public_access_block.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore]
-aws_s3_bucket_public_access_block.postgre_extracts: Refreshing state... [id=kfbmic-edr-np-l2-dev-postgre-extracts]
-aws_s3_bucket_policy.postgre_extracts: Refreshing state... [id=kfbmic-edr-np-l2-dev-postgre-extracts]
-module.api_gateway.aws_api_gateway_method.this["POST /policy-graph-ingest"]: Refreshing state... [id=agm-6h5fz78wz0-gase28-POST]
-module.api_gateway.aws_api_gateway_integration.this["POST /policy-graph-ingest"]: Refreshing state... [id=agi-6h5fz78wz0-gase28-POST]
-module.api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=zfa8ha]
-module.api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-6h5fz78wz0-default]
-module.soap_verification_lambda.aws_lambda_alias.live[0]: Refreshing state... [id=arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda:live]
-module.api_gateway.aws_api_gateway_method_settings.this[0]: Refreshing state... [id=6h5fz78wz0-default-*/*]
-module.soap_verification_lambda.aws_lambda_provisioned_concurrency_config.this[0]: Refreshing state... [id=realtimeinsurance-dev-soap-verification-lambda,live]
-module.soap_api_gateway.aws_api_gateway_resource.path_level_1["/soap"]: Refreshing state... [id=lknkms]
-module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"]: Refreshing state... [id=AllowAPIGatewayInvoke-POST__soap]
-module.soap_api_gateway.aws_api_gateway_method.this["POST /soap"]: Refreshing state... [id=agm-q51dqcsrw5-lknkms-POST]
-module.soap_api_gateway.aws_api_gateway_integration.this["POST /soap"]: Refreshing state... [id=agi-q51dqcsrw5-lknkms-POST]
-module.soap_api_gateway.aws_api_gateway_deployment.this: Refreshing state... [id=awy3jc]
-module.soap_api_gateway.aws_api_gateway_stage.this: Refreshing state... [id=ags-q51dqcsrw5-default]
-module.soap_api_gateway.aws_api_gateway_method_settings.this[0]: Refreshing state... [id=q51dqcsrw5-default-*/*]
-aws_s3_object.soap_api_truststore: Refreshing state... [id=realtimeinsurance-dev-soap-api-truststore/soap-truststore/truststore.pem]
-module.soap_api_gateway.aws_api_gateway_domain_name.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com]
-module.soap_api_gateway.aws_api_gateway_base_path_mapping.this[0]: Refreshing state... [id=realtimeinsurance-soap-api-dev.devkyfb.com/]
-aws_route53_record.soap_api_dns: Refreshing state... [id=Z07550863D5AYI2X1ZLBW_realtimeinsurance-soap-api-dev.devkyfb.com_CNAME]
-OpenTofu used the selected providers to generate the following execution
-plan. Resource actions are indicated with the following symbols:
-  ~ update in-place (current -> planned)
--/+ destroy and then create replacement
-OpenTofu will perform the following actions:
-  # module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0] will be updated in-place
-  # (imported from "/aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda")
-  ~ resource "aws_cloudwatch_log_group" "this" {
-        arn                         = "arn:aws:logs:us-east-1:058264370150:log-group:/aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda"
-        deletion_protection_enabled = false
-        id                          = "/aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda"
-        log_group_class             = "STANDARD"
-        name                        = "/aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda"
-        region                      = "us-east-1"
-      ~ retention_in_days           = 0 -> 30
-        skip_destroy                = false
-        tags                        = {}
-      ~ tags_all                    = {
-          + "application_name"      = "realtimeinsurance"
-          + "business_ops_category" = "POL"
-          + "created_by"            = "PlatformEngineering@kyfb.com"
-          + "owned_by"              = "CloudOps@kyfb.com"
-          + "requested_by"          = "PMOGroup@kyfb.com"
-          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
-          + "terraform"             = "true"
-        }
-    }
-  # module.soap_api_gateway.aws_lambda_permission.allow_apigw_invoke_backend["POST /soap"] must be replaced
--/+ resource "aws_lambda_permission" "allow_apigw_invoke_backend" {
-      ~ function_name       = "arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda" -> "arn:aws:lambda:us-east-1:058264370150:function:realtimeinsurance-dev-soap-verification-lambda:live" # forces replacement
-      ~ id                  = "AllowAPIGatewayInvoke-POST__soap" -> (known after apply)
-      - qualifier           = "live" -> null # forces replacement
-      + statement_id_prefix = (known after apply)
-        # (5 unchanged attributes hidden)
-    }
-  # module.soap_verification_lambda.aws_cloudwatch_log_group.this[0] will be updated in-place
-  # (imported from "/aws/lambda/realtimeinsurance-dev-soap-verification-lambda")
-  ~ resource "aws_cloudwatch_log_group" "this" {
-        arn                         = "arn:aws:logs:us-east-1:058264370150:log-group:/aws/lambda/realtimeinsurance-dev-soap-verification-lambda"
-        deletion_protection_enabled = false
-        id                          = "/aws/lambda/realtimeinsurance-dev-soap-verification-lambda"
-        log_group_class             = "STANDARD"
-        name                        = "/aws/lambda/realtimeinsurance-dev-soap-verification-lambda"
-        region                      = "us-east-1"
-      ~ retention_in_days           = 0 -> 30
-        skip_destroy                = false
-        tags                        = {}
-      ~ tags_all                    = {
-          + "application_name"      = "realtimeinsurance"
-          + "business_ops_category" = "POL"
-          + "created_by"            = "PlatformEngineering@kyfb.com"
-          + "owned_by"              = "CloudOps@kyfb.com"
-          + "requested_by"          = "PMOGroup@kyfb.com"
-          + "source"                = "github.com/kfbmic/real-time-insurance-infra"
-          + "terraform"             = "true"
-        }
-    }
-Plan: 2 to import, 1 to add, 2 to change, 1 to destroy.
-Warning: Value derived from a deprecated source
-  with module.api_gateway.aws_api_gateway_authorizer.jwt,
-  on .terraform/modules/api_gateway/main.tf line 190, in resource "aws_api_gateway_authorizer" "jwt":
- 190:   type            = "TOKEN"
-This value is derived from data.aws_region.current.name, which is deprecated
-with the following message:
-name is deprecated. Use region instead.
-Warning: Redundant ignore_changes element
-  on .terraform/modules/policy_graph_ingest_lambda/main.tf line 185, in resource "aws_lambda_function" "placeholder":
- 185: resource "aws_lambda_function" "placeholder" {
-Adding an attribute name to ignore_changes tells OpenTofu to ignore future
-changes to the argument in configuration after the object has been created,
-retaining the value originally configured.
-The attribute last_modified is decided by the provider alone and therefore
-there can be no configured value to compare with. Including this attribute in
-ignore_changes has no effect. Remove the attribute from ignore_changes to
-quiet this warning.
-(and 5 more similar warnings elsewhere)
+Skip to content
+GitHub Enterprise
+Users managed by Kentucky Farm Bureau
+kfbmic
+real-time-insurance-infra
+Repository navigation
+Code
+Pull requests
+1
+ (1)
+Agents
+Actions
+Wiki
+Security and quality
+Insights
+Settings
+Feature/t012 sp/cpe 250- #20
+#20
+Open
+Praneeth, Sai (T012SP_kyfb)
+wants to merge 5 commits into
+main
+from
+feature/T012SP/CPE-250
++29
+-8
+Lines changed: 29 additions & 8 deletions
+Conversation6 (6)
+Commits5 (5)
+Checks7 (7)
+Files changed3 (3)
+Open
+Feature/t012 sp/cpe 250
+#20
+Praneeth, Sai (T012SP_kyfb)
+wants to merge 5 commits into
+main
+from
+feature/T012SP/CPE-250
+Conversation
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb)
+commented
+45 minutes ago
+This pull request updates the Lambda configuration to use a dedicated application database user (db_app_user) instead of the master database user, and disables automatic log group creation for the Lambdas. The changes improve security by following the principle of least privilege and prepare the infrastructure for environments where a dedicated DB user is available.
+
+Database user improvements:
+
+Added a new local variable db_app_user in locals.tf that selects the application DB user from Aurora state if available, falling back to the master username otherwise.
+Updated both policy_graph_ingest_lambda and soap_verification_lambda modules in lambda.tf to use local.db_app_user for the db_user environment variable and in RDS IAM policy resource ARNs, replacing the previous use of the master username. [1] [2] [3] [4]
+Lambda logging configuration:
+
+Changed create_log_group to false for both Lambda modules, indicating that log group creation is now managed elsewhere. [1] [2]
+Mention @copilot in a comment to make changes to this pull request.
+Praneeth, Sai (T012SP_kyfb) added 4 commits 5 hours ago
+@T012SP_kyfb
+Use rds_iam app user for lambda DB access
+f6af96e
+@T012SP_kyfb
+Update Create log group
+d0a6af1
+@T012SP_kyfb
+Temporarily use master DB user for Lambdas
+5398e6f
+@T012SP_kyfb
+Restore rds_iam app user for Lambdas
+6cd8af0
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb) requested a lite review from Copilot 45 minutes ago
+orca-security-us[bot]
+orca-security-us Bot reviewed 44 minutes ago
+orca-security-us Bot
+left a comment
+• 
+Orca Security Scan Summary
+Status	Check	Issues by priority	
+Passed Passed	Infrastructure as Code	high 0   medium 0   low 0   info 0	View in Orca
+Passed Passed	OSS Licenses	high 0   medium 0   low 0   info 0	View in Orca
+Passed Passed	SAST	high 0   medium 0   low 0   info 0	View in Orca
+Passed Passed	Secrets	high 0   medium 0   low 0   info 0	View in Orca
+Passed Passed	Vulnerabilities	high 0   medium 0   low 0   info 0	View in Orca
+Copilot started reviewing on behalf of Praneeth, Sai (T012SP_kyfb) 44 minutes ago
+Copilot AI reviewed 42 minutes ago
+Copilot AI
+left a comment
+Copilot review overview
+🟡 Changes recommended
+Provision or import the Lambda log groups and complete the state handoff before applying.
+
+Get a fresh assessment by requesting another Copilot review.
+
+Review effort: Lite
+Findings: 1 Medium severity
+
+Open (1)
+Medium severity Disabling management can destroy existing log groups and retained history · New
+What changed in this PR
+💡 Add a code-review agent skill or configure MCP servers for context-aware, tailored reviews. Learn more in the docs.
+
+lambda.tf
+Outdated
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb) had a problem deploying to prod 25 minutes ago — with  GitHub Actions Failure
+@T012SP_kyfb
+Manage Lambda log groups in Terraform
+27915d1
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb) deployed to dev 6 minutes ago — with  GitHub Actions Active
+@T012SP_kyfb
+Praneeth, Sai (T012SP_kyfb) requested a lite review from Copilot 3 minutes ago
+Copilot started reviewing on behalf of Praneeth, Sai (T012SP_kyfb) 3 minutes ago
+Copilot AI reviewed now
+Copilot AI
+left a comment
+Copilot review overview
+🟡 Changes recommended
+Unconditional imports may fail in fresh environments and conflict with the current create_log_group settings.
+
+Get a fresh assessment by requesting another Copilot review.
+
+Review effort: Lite
+Findings: 1 Medium severity · 1 Low severity
+
+Open (2)
+Medium severity Unconditional imports fail when log groups do not exist · New
+Low severity Log group imports conflict with Terraform-managed creation · New
+Resolved since last review (1)
+imports.tf
+Comment on lines +6 to +8
+import {
+  to = module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0]
+  id = "/aws/lambda/${var.application_name}-${var.env_tier}-policy-graph-ingest-lambda"
+Copilot commented now
+Copilot
+Copilot
+AI
+1m ago
+Medium
+Unconditional imports fail when log groups do not exist
+An import block is not a no-op when the remote object is absent: OpenTofu will fail planning if this log group has not already been created, before the create_log_group = true resource can create it. Because these blocks run unconditionally for every workspace, a fresh environment or a Lambda that has not yet been invoked cannot deploy; use one-time imports for known existing groups or make the import behavior conditional.
+
+Copilot uses AI. Check for mistakes.
+@T012SP_kyfb	Reply...
+imports.tf
+Comment on lines +6 to +8
+import {
+  to = module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0]
+  id = "/aws/lambda/${var.application_name}-${var.env_tier}-policy-graph-ingest-lambda"
+Copilot commented now
+Copilot
+Copilot
+AI
+1m ago
+Low
+Log group imports conflict with Terraform-managed creation
+These imports do not disable log-group creation: both Lambda modules still set create_log_group = true in lambda.tf:9 and lambda.tf:40, so Terraform continues to own/adopt the groups. As written, the implementation contradicts the PR's stated logging change; either disable the module resources and remove these imports if another system owns the groups, or update the description/comments to describe Terraform adoption.
+
+Copilot uses AI. Check for mistakes.
+@T012SP_kyfb	Reply...
+This branch had an error being deployed
+1 failed (outdated) and 1 active deployments
+Merge info
+All checks have passed
+7 successful checks
+
+
+Merging is blocked
+A conversation must be resolved before this pull request can be merged.
+You can also merge this with the command line. 
+Still in progress?
+@T012SP_kyfb
+
+
+Add a comment
+Comment
+ 
+
+Add your comment here...
+Remember, contributions to this repository should follow our GitHub Community Guidelines.
+ ProTip! Add .patch or .diff to the end of URLs for Git’s plaintext views.
+Reviewers
+@orca-security-us
+orca-security-us[bot]
+Copilot code review
+Copilot
+Copilot review effort, defaults to Lite
+At least 2 approving reviews are required to merge this pull request.
+
+Still in progress?
+Assignees
+No one—
+Labels
+None yet
+Projects
+None yet
+Milestone
+No milestone
+Development
+Successfully merging this pull request may close these issues.
+
+None yet
+
+
+Notifications
+Customize
+You’re receiving notifications because you authored the thread.
+2 participants
+@T012SP_kyfb
+ Archive pull request
+Footer
+© 2026 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Community
+Docs
+Contact
+Manage cookies
+Do not share my personal information
