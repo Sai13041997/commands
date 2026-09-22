@@ -1,1 +1,9 @@
-Get-ChildItem -Recurse -File -Exclude *.zip | Select-String -Pattern "insurer" | Select-Object Path,LineNumber,Line
+cd "C:\Users\T012sp\Downloads\Testing"
+$r = aws lambda invoke `
+  --function-name realtimeinsurance-dev-policy-graph-ingest-lambda `
+  --payload fileb://graph_event.json `
+  --log-type Tail --query LogResult --output text `
+  --profile L2-Development out.json
+[Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($r))
+
+
