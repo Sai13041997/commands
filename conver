@@ -1,2 +1,20 @@
 tofu import 'module.policy_graph_ingest_lambda.aws_cloudwatch_log_group.this[0]' /aws/lambda/realtimeinsurance-dev-policy-graph-ingest-lambda
 tofu import 'module.soap_verification_lambda.aws_cloudwatch_log_group.this[0]' /aws/lambda/realtimeinsurance-dev-soap-verification-lambda
+
+
+Alex:
+Can we find some time to review/talk through the state of RDS proxy, and auth in the realtime project I'm hoping to undersatndhow everything works better
+ Me:
+Yeah, definitely 
+Would you like to discuss how I set it up or the best approach for moving forward?
+ Alex:
+Oh just how it's setup now
+ 
+I just don't think I completely understand what's in place
+
+Like I understand RDS proxy is authenticating to DB via IAM
+ 
+But what auth constraints are on proxy itself how does that work
+ Me: 
+Let’s find some time today or tomorrow to discuss that.
+ 
