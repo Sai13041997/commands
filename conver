@@ -1,3 +1,7 @@
+Hello,
+ 
+We are able to connect to your webservice but is timing out before we could read the response. Please make sure the web service is responding within  2s as specified in the implementation guide. 
+
 Here is the log
 2026-09-24 09:37:54.902       Connecting to https://realtimeinsurance-soap-api.kyfb.com/soap...
 2026-09-24 09:37:54.902       CACHE: [0] 3.90.74.213 5 1790169604741 [1] 3.232.90.132 5 1790169607913 [2] 54.83.227.96 5 1790257072407 
