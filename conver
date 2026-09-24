@@ -1,52 +1,5 @@
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> aws logs tail /aws/lambda/realtimeinsurance-prod-soap-verification-lambda `
->>   --since 2h --profile L2-Prod | Select-String "START|REPORT|INIT|duration_ms"
+Got the timing from the KIVS timeout. The request takes about 5.5 seconds, well past their 2-second limit. The breakdown: IAM token 0.5-1s, DB connect 0.2s, and the query itself 4.7s. So the query is the bottleneck, not cold start. Both requests were the same, and one was already warm.
 
-2026-09-24T12:01:55.475000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: 
-arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-24T12:01:58.645000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 INIT_REPORT Init Duration: 3170.03 ms
-2026-09-24T13:37:50.470000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 START RequestId: 01c4f73b-1211-4eae-a703-895eae47a4c4 Version: 4
-2026-09-24T13:37:50.492000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 {"timestamp": "2026-09-24 13:37:50,471", "logger": "main", "level": "INFO", "message": "SOAP verification request started. 
-request_id=01c4f73b-1211-4eae-a703-895eae47a4c4"}
-2026-09-24T13:37:50.492000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 {"timestamp": "2026-09-24 13:37:50,472", "logger": "database_handler", "level": "DEBUG", "message": "Starting database 
-connection"}
-2026-09-24T13:37:51.432000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 {"timestamp": "2026-09-24 13:37:51,432", "logger": "rds_iam_auth", "level": "DEBUG", "message": "IAM auth token generated. 
-duration_ms=960.0"}
-2026-09-24T13:37:51.619000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 {"timestamp": "2026-09-24 13:37:51,619", "logger": "rds_iam_auth", "level": "DEBUG", "message": "Database connection 
-established. duration_ms=187.4"}
-2026-09-24T13:37:51.620000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 {"timestamp": "2026-09-24 13:37:51,620", "logger": "database_handler", "level": "DEBUG", "message": "Database connection 
-established. duration_ms=1148.0"}
-2026-09-24T13:37:51.620000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 {"timestamp": "2026-09-24 13:37:51,620", "logger": "database_handler", "level": "DEBUG", "message": "Database cursor 
-created. duration_ms=0.0"}
-2026-09-24T13:37:55.478000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: 
-arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-24T13:37:56.303000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 {"timestamp": "2026-09-24 13:37:56,303", "logger": "database_handler", "level": "DEBUG", "message": "Query executed. 
-duration_ms=4683.1"}
-2026-09-24T13:37:56.303000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 {"timestamp": "2026-09-24 13:37:56,303", "logger": "database_handler", "level": "DEBUG", "message": "Query result fetched. 
-duration_ms=0.0"}
-2026-09-24T13:37:56.312000+00:00 2026/09/24/[4]8010c6b46301430989715b006be4f4b6 REPORT RequestId: 01c4f73b-1211-4eae-a703-895eae47a4c4  Duration: 5838.11 ms    Billed Duration: 5839 ms        Memory Size: 512 MB   Max 
-Memory Used: 96 MB
-2026-09-24T13:37:56.363000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab START RequestId: b0d3b3be-d0de-4d52-800e-0fcfa5e72cd9 Version: 4
-2026-09-24T13:37:56.364000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab {"timestamp": "2026-09-24 13:37:56,364", "logger": "main", "level": "INFO", "message": "SOAP verification request started. 
-request_id=b0d3b3be-d0de-4d52-800e-0fcfa5e72cd9"}
-2026-09-24T13:37:56.365000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab {"timestamp": "2026-09-24 13:37:56,365", "logger": "database_handler", "level": "DEBUG", "message": "Starting database 
-connection"}
-2026-09-24T13:37:56.887000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab {"timestamp": "2026-09-24 13:37:56,887", "logger": "rds_iam_auth", "level": "DEBUG", "message": "IAM auth token generated. 
-duration_ms=522.5"}
-2026-09-24T13:37:57.102000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab {"timestamp": "2026-09-24 13:37:57,102", "logger": "rds_iam_auth", "level": "DEBUG", "message": "Database connection 
-established. duration_ms=214.3"}
-2026-09-24T13:37:57.102000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab {"timestamp": "2026-09-24 13:37:57,102", "logger": "database_handler", "level": "DEBUG", "message": "Database connection 
-established. duration_ms=737.5"}
-2026-09-24T13:37:57.102000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab {"timestamp": "2026-09-24 13:37:57,102", "logger": "database_handler", "level": "DEBUG", "message": "Database cursor 
-created. duration_ms=0.0"}
-2026-09-24T13:38:01.323000+00:00 2026/09/24/[4]e13e363160a84ef9802fb87b228bc2bd INIT_START Runtime Version: python:3.13.mainlinev2.v43  Runtime Version ARN: 
-arn:aws:lambda:us-east-1::runtime:a0627e8616c4eaf447133f427c7419e5ce3a39ea2bc648ccb6d03d5b7f4d96e7
-2026-09-24T13:38:01.825000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab {"timestamp": "2026-09-24 13:38:01,825", "logger": "database_handler", "level": "DEBUG", "message": "Query executed. 
-duration_ms=4722.9"}
-2026-09-24T13:38:01.825000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab {"timestamp": "2026-09-24 13:38:01,825", "logger": "database_handler", "level": "DEBUG", "message": "Query result fetched. 
-duration_ms=0.0"}
-2026-09-24T13:38:01.830000+00:00 2026/09/24/[4]9f6942e41be747ff917366674de7c6ab REPORT RequestId: b0d3b3be-d0de-4d52-800e-0fcfa5e72cd9  Duration: 5466.70 ms    Billed Duration: 6348 ms        Memory Size: 512 MB   Max 
-Memory Used: 96 MB      Init Duration: 881.09 ms
-2026-09-24T13:38:04.637000+00:00 2026/09/24/[4]e13e363160a84ef9802fb87b228bc2bd INIT_REPORT Init Duration: 3314.03 ms
+Probably worth an EXPLAIN ANALYZE on the coverage query. If v_insurer_active_or_not_active is doing heavy joins or there's no index on the VIN, that would explain it.
 
-
-PS C:\Users\T012sp\Git repo\tf-aws-aurorapostgres-infra> 
+Separately, we generate a fresh IAM auth token on every request, which costs another 0.5-1s. Caching it for its 15-minute lifetime would claw that back.
